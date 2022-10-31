@@ -2328,3 +2328,23 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     spawn_default_star(targetX, targetY, targetZ);
     o->oPosY = objectPosY;
 }
+
+Gfx *geo_set_global_fog(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx) {
+    static u32 curUpdateFrame = 0;
+    struct GraphNodeGenerated *currentGraphNode;
+    Gfx *dlStart, *dlHead;
+    dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        if (currentGraphNode->parameter != 0) SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, currentGraphNode->parameter & 0xFF);
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+        gDPSetFogColor(dlHead++, gGlobalFog.r, gGlobalFog.g, gGlobalFog.b, gGlobalFog.a);
+        gSPFogPosition(dlHead++, gGlobalFog.low, gGlobalFog.high);
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}

@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "config/config_world.h"
+#include "render_fog.h"
 
 #include <point_lights.h>
 
@@ -54,6 +55,16 @@ s16 gMatStackIndex = 0;
 ALIGNED16 Mat4 gMatStack[32];
 ALIGNED16 Mtx *gMatStackFixed[32];
 f32 sAspectRatio;
+
+struct GlobalFog gGlobalFog = {
+    0xA1,
+    0x78,
+    0x91,
+    0xFF,
+    950,
+    1010
+};
+s32 gCameraIsUnderwater = FALSE;
 
 /**
  * Animation nodes have state in global variables, so this struct captures
@@ -305,6 +316,10 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
                                                      mode2List->modes[currLayer]);
             }
 #endif
+
+            gDPSetFogColor(gDisplayListHead++, gGlobalFog.r, gGlobalFog.g, gGlobalFog.b, gGlobalFog.a);
+            gSPFogPosition(gDisplayListHead++, gGlobalFog.low, gGlobalFog.high);
+            
             // Iterate through all the displaylists on the current layer.
             while (currList != NULL) {
                 // Add the display list's transformation to the master list.
@@ -813,6 +828,15 @@ void geo_process_camera(struct GraphNodeCamera *node) {
     Vec3f probePos;
     s32 i;
     Mtx *viewMtx = alloc_display_list(sizeof(Mtx));
+
+    s16 checkingTemp = gCollisionFlags;
+
+    if (gCamera) {
+        gCollisionFlags |= COLLISION_FLAG_CAMERA;
+        gCameraIsUnderwater = find_water_level(gCamera->pos[0], gCamera->pos[2]) > gCamera->pos[1];
+        gCollisionFlags = checkingTemp;
+        update_global_fog();
+    }
 
     if (node->fnNode.func != NULL) {
         node->fnNode.func(GEO_CONTEXT_RENDER, &node->fnNode.node, gMatStack[gMatStackIndex]);
