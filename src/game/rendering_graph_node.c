@@ -317,8 +317,8 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
             }
 #endif
 
-            gDPSetFogColor(gDisplayListHead++, gGlobalFog.r, gGlobalFog.g, gGlobalFog.b, gGlobalFog.a);
-            gSPFogPosition(gDisplayListHead++, gGlobalFog.low, gGlobalFog.high);
+            gDPSetFogColor(tempGfxHead++, gGlobalFog.r, gGlobalFog.g, gGlobalFog.b, gGlobalFog.a);
+            gSPFogPosition(tempGfxHead++, gGlobalFog.low, gGlobalFog.high);
             
             // Iterate through all the displaylists on the current layer.
             while (currList != NULL) {
