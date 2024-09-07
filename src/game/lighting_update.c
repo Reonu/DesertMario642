@@ -220,6 +220,27 @@ void update_lighting(void) {
       
 }
 
+void bhv_sun_loop(void) {
+
+    if (!BPARAM1) {
+        if (gUnpausedTimer > DAY_END || gUnpausedTimer < DAY_START) {
+            cur_obj_hide();
+        } else {
+            cur_obj_unhide();
+        }
+    } else {
+         if (gUnpausedTimer > DAY_END || gUnpausedTimer < DAY_START) {
+            cur_obj_unhide();
+        } else {
+            cur_obj_hide();
+        }       
+    }
+
+    o->oPosX = gCamera->pos[0] + (gLightDirection[0] * 10000);
+    o->oPosY = gCamera->pos[1] + (gLightDirection[1] * 10000);
+    o->oPosZ = gCamera->pos[2] + (gLightDirection[2] * 10000);
+}
+
 
     /*if (
            gDayConfigs[curDayConfig].fog->r != gDayConfigs[nextDayConfig].fog->r

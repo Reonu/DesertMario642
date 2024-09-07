@@ -390,6 +390,17 @@ enum BehaviorCommands {
 #define SPAWN_WATER_DROPLET(dropletParams) \
     BC_BPTR(BHV_CMD_SPAWN_WATER_DROPLET, dropletParams)
 
+
+/* fast64 object exports get inserted here */
+const BehaviorScript bhvSun[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SCALE(/*Unused*/ 0, /*Field*/ 125),
+	BEGIN_LOOP(),
+		CALL_NATIVE(bhv_sun_loop),
+	END_LOOP(),
+};
+
 // Advanced lighting Engine
 // Sets an object's light color
 #define SET_LIGHT_COLOR(r, g, b) \

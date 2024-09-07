@@ -16,3 +16,6 @@
 #include "water_splash/geo.inc.c"
 #include "sparkle_animation/geo.inc.c"
 #include "mario/geo.inc.c"
+
+#include "sun/geo.inc.c"
+#include "moon/geo.inc.c"
