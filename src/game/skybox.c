@@ -11,6 +11,7 @@
 #include "sm64.h"
 #include "geo_commands.h"
 #include "color_presets.h"
+#include "game_init.h"
 
 /**
  * @file skybox.c
@@ -193,14 +194,14 @@ Vtx *make_skybox_rect(s32 tileIndex, s8 colorIndex) {
     s16 y = SKYBOX_HEIGHT - tileIndex / SKYBOX_COLS * SKYBOX_TILE_HEIGHT;
 
     if (verts != NULL) {
-        make_vertex(verts, 0, x, y, -1, 0, 0, sSkyboxColors[colorIndex][0], sSkyboxColors[colorIndex][1],
-                    sSkyboxColors[colorIndex][2], 255);
-        make_vertex(verts, 1, x, y - SKYBOX_TILE_HEIGHT, -1, 0, 31 << 5, sSkyboxColors[colorIndex][0], sSkyboxColors[colorIndex][1],
-                    sSkyboxColors[colorIndex][2], 255);
-        make_vertex(verts, 2, x + SKYBOX_TILE_WIDTH, y - SKYBOX_TILE_HEIGHT, -1, 31 << 5, 31 << 5, sSkyboxColors[colorIndex][0],
-                    sSkyboxColors[colorIndex][1], sSkyboxColors[colorIndex][2], 255);
-        make_vertex(verts, 3, x + SKYBOX_TILE_WIDTH, y, -1, 31 << 5, 0, sSkyboxColors[colorIndex][0], sSkyboxColors[colorIndex][1],
-                    sSkyboxColors[colorIndex][2], 255);
+        make_vertex(verts, 0, x, y, -1, 0, 0, gAmbientR, gAmbientG,
+                    gAmbientB, 255);
+        make_vertex(verts, 1, x, y - SKYBOX_TILE_HEIGHT, -1, 0, 31 << 5, gAmbientR, gAmbientG,
+                    gAmbientB, 255);
+        make_vertex(verts, 2, x + SKYBOX_TILE_WIDTH, y - SKYBOX_TILE_HEIGHT, -1, 31 << 5, 31 << 5, gAmbientR,
+                    gAmbientG, gAmbientB, 255);
+        make_vertex(verts, 3, x + SKYBOX_TILE_WIDTH, y, -1, 31 << 5, 0, gAmbientR, gAmbientG,
+                    gAmbientB, 255);
     }
     return verts;
 }

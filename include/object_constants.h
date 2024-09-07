@@ -2711,4 +2711,10 @@ enum gCutsceneObjSpawns {
     CUTSCENE_OBJ_2_END_BIRDS_1
 };
 
+#define SECOND 30
+#define MINUTE (SECOND * 60)
+#define HOUR (MINUTE * 60)
+#define DAY (HOUR * 24)
+#define DAY_START HOUR + (HOUR * 6)
+#define DAY_END HOUR + (HOUR * 18)
 #endif // OBJECT_CONSTANTS_H

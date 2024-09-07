@@ -77,8 +77,16 @@ struct DmaHandlerList gDemoInputsBuf;
 
 // General timer that runs as the game starts
 u32 gGlobalTimer = 0;
+s32 gUnpausedTimer = 0;
+u32 gDayTime;
+Vec3f gLightDirection = {0,0,0};
 u8 *gAreaSkyboxStart[AREA_COUNT];
 u8 *gAreaSkyboxEnd[AREA_COUNT];
+u8 gAmbientR;
+u8 gAmbientG;
+u8 gAmbientB;
+u8 gLow;
+u8 gHigh;
 
 // Framebuffer rendering values (max 3)
 u16 sRenderedFramebuffer = 0;

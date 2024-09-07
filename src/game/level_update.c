@@ -32,6 +32,8 @@
 #include "level_commands.h"
 #include "debug.h"
 
+#include "lighting_update.h"
+
 #include "config.h"
 
 // TODO: Make these ifdefs better
@@ -1015,7 +1017,14 @@ s32 play_mode_normal(void) {
         }
     }
 #endif
+    if (!(gTimeStopState & TIME_STOP_ENABLED)) {
+        gUnpausedTimer += MINUTE;
+        if (gUnpausedTimer >= DAY) {
+            gUnpausedTimer = gUnpausedTimer - DAY;
+        }
+    }
 
+    update_lighting();
     warp_area();
     check_instant_warp();
 

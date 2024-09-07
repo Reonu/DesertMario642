@@ -1,6 +1,6 @@
 #pragma once
 
-void update_global_fog_override(
+extern void update_global_fog_override(
     u8 r,
     u8 g,
     u8 b,

@@ -53,6 +53,11 @@ extern u8 gCustomDebugMode;
 #endif
 extern u8 *gAreaSkyboxStart[AREA_COUNT];
 extern u8 *gAreaSkyboxEnd[AREA_COUNT];
+extern u8 gAmbientR;
+extern u8 gAmbientG;
+extern u8 gAmbientB;
+extern u8 gLow;
+extern u8 gHigh;
 #ifdef EEP
 extern s8 gEepromProbe;
 #endif
@@ -79,6 +84,9 @@ extern u8 gDemoInputs[];
 
 extern u16 sRenderingFramebuffer;
 extern u32 gGlobalTimer;
+extern s32 gUnpausedTimer;
+extern u32 gDayTime;
+extern Vec3f gLightDirection;
 
 void setup_game_memory(void);
 void thread5_game_loop(UNUSED void *arg);

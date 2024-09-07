@@ -472,5 +472,14 @@ struct GlobalFog
     /*0x04*/ s16 high;
 };
 
+struct DayConfig
+{
+    s32 timeStart;
+    struct GlobalFog *fog;
+    u8 dirR;
+    u8 dirG;
+    u8 dirB;
+};
+
 
 #endif // TYPES_H
