@@ -200,6 +200,7 @@ void obj_translate_xz_random(struct Object *obj, f32 rangeLength);
 void cur_obj_set_pos_via_transform(void);
 void cur_obj_spawn_particles(struct SpawnParticlesInfo *info);
 s32 cur_obj_reflect_move_angle_off_wall(void);
+Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]);
 
 #define WAYPOINT_FLAGS_END -1
 #define WAYPOINT_FLAGS_NONE 0
@@ -279,5 +280,8 @@ void cur_obj_spawn_loot_blue_coin(void);
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);
 
 Gfx *geo_set_global_fog(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx);
+
+Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context);
+Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // OBJECT_HELPERS_H

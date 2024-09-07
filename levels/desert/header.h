@@ -8,4 +8,8 @@ extern const LevelScript level_desert_entry[];
 
 
 #include "levels/desert/header.inc.h"
+#include "levels/desert/night_bg/header.h"
+
+#include "levels/desert/day_bg/header.h"
+
 #endif

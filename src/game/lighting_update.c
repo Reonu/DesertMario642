@@ -53,8 +53,8 @@ struct GlobalFog sDawnFog = {
 };
 
 struct GlobalFog sDayFog = {
-    .r = 180/3,
-    .g = 180/3,
+    .r = 0,
+    .g = 120/3,
     .b = 230/3,
     .a = 255,
     .low = 880,
@@ -62,9 +62,9 @@ struct GlobalFog sDayFog = {
 };
 
 struct GlobalFog sDuskFog = {
-    .r = 219/3,
-    .g = 91/3,
-    .b = 80/3,
+    .r = 220/3,
+    .g = 92/3,
+    .b = 81/3,
     .a = 255,
     .low = 880,
     .high = 995,
@@ -106,7 +106,7 @@ struct DayConfig gDayConfigs[] = {
     },
     // Dusk start. DAY_END. Still day lighting.
     {
-        .timeStart = DAY_END,
+        .timeStart = DAY_END - (HOUR * 1),
         .fog = &sDayFog,
         .dirR = 230,
         .dirG = 230,
@@ -114,7 +114,7 @@ struct DayConfig gDayConfigs[] = {
     },
     // Peak dusk. DAY_END+30min. Peak dusk lighting.
     {
-        .timeStart = DAY_END + (MINUTE * 30),
+        .timeStart = DAY_END - (MINUTE * 30),
         .fog = &sDuskFog,
         .dirR = 160,
         .dirG = 160,
@@ -122,7 +122,7 @@ struct DayConfig gDayConfigs[] = {
     },
     // Night start. DAY_END+1 hour. Night lighting.
     {
-        .timeStart = DAY_END + (HOUR * 1),
+        .timeStart = DAY_END + (MINUTE * 15),
         .fog = &sNightFog,
         .dirR = 30,
         .dirG = 30,

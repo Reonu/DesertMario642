@@ -26,6 +26,8 @@
 #include "rendering_graph_node.h"
 #include "spawn_object.h"
 #include "spawn_sound.h"
+#include "levels/desert/header.h"
+#include "print.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -2346,5 +2348,127 @@ Gfx *geo_set_global_fog(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx
         gSPEndDisplayList(dlHead);
     }
 
+    return dlStart;
+}
+
+extern struct AllocOnlyPool *gDisplayListHeap;
+extern void geo_append_display_list(void *displayList, s16 layer);
+extern s16 gMatStackIndex;
+extern Mat4 gMatStack[32];
+extern Mtx *gMatStackFixed[32];
+//extern u32 gMoveSpeed;
+Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) {
+    Mat4 mat;
+    Mtx *mtx = alloc_display_list(sizeof(*mtx));
+    s32 i;
+    f32 pos[3];
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    currentGraphNode = (struct GraphNodeGenerated *) node;
+    objectGraphNode = (struct Object *) gCurGraphNodeObject; 
+    u8 mesh = currentGraphNode->parameter;
+    static Vec3s rotation = { 0, 0, 0 };
+    if (mesh != 1) {
+        rotation[1] += DEGREES(0.01f);
+    }
+    
+    if (callContext == GEO_CONTEXT_RENDER) {
+#define FARAWAYNESS .95f // the closer to 1 the further away
+
+        for (i = 0; i < 3; i++) {
+            pos[i] = gCurGraphNodeCamera->pos[i] * FARAWAYNESS;
+        }
+        if (mesh == 1) {
+            mtxf_translate(mat,pos);
+        } else {
+            mtxf_rotate_zxy_and_translate(mat, pos, rotation);
+        }
+        
+        
+        mtxf_mul(gMatStack[gMatStackIndex + 1], mat, gMatStack[gMatStackIndex]);
+        gMatStackIndex++;
+        mtxf_to_mtx(mtx, gMatStack[gMatStackIndex]);
+        gMatStackFixed[gMatStackIndex] = mtx;
+        if (mesh == 1) {
+            geo_append_display_list(night_bg_a_night_old_mesh, 0); // DL pointer
+        } else {
+            geo_append_display_list(day_bg_b_clouds_mesh, 0); // DL pointer
+        }   
+        
+        
+        gMatStackIndex--;
+    }
+    return 0;
+}
+
+Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    u8 remap_alpha;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+
+        if (gUnpausedTimer > (DAY_END - (MINUTE * 30)) && gUnpausedTimer < (DAY_END + (MINUTE * 30))) {
+            remap_alpha = remap(gUnpausedTimer,(DAY_END - (MINUTE * 30)),(DAY_END + (MINUTE * 30)),0,255);
+        } else if (gUnpausedTimer > DAY_END || gUnpausedTimer < DAY_START) {
+            remap_alpha = 255;
+        } else if ((gUnpausedTimer >= DAY_START) && (gUnpausedTimer < (DAY_START + (MINUTE * 30)))) {
+            remap_alpha = remap(gUnpausedTimer,(DAY_START),(DAY_START + (MINUTE * 30)),255,0);
+        } else {
+            remap_alpha = 0;
+        }
+        print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
+
+        s32 r = gAmbientR;
+        s32 g = gAmbientG;
+        s32 b = gAmbientB;
+        gDPSetPrimColor(dlHead++, 0, 0, 255, 255, 255, remap_alpha);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;
+}
+
+Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    u8 remap_alpha;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        //if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        //}
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+
+        remap_alpha = 255;
+        //print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
+
+        s32 r = gAmbientR * 3;
+        s32 g = gAmbientG * 3;
+        s32 b = gAmbientB * 3;
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, remap_alpha);
+        gSPEndDisplayList(dlHead);
+    }
     return dlStart;
 }

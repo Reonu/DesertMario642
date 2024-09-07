@@ -12,3 +12,5 @@
 
 
 #include "levels/desert/leveldata.inc.c"
+#include "levels/desert/night_bg/model.inc.c"
+#include "levels/desert/day_bg/model.inc.c"
