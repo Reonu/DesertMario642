@@ -39,7 +39,7 @@ struct GlobalFog sNightFog = {
     .g = 5,
     .b = 30,
     .a = 255,
-    .low = 880,
+    .low = 960,
     .high = 995,
 };
 
@@ -48,7 +48,7 @@ struct GlobalFog sDawnFog = {
     .g = 148/3,
     .b = 58/3,
     .a = 255,
-    .low = 880,
+    .low = 960,
     .high = 995,
 };
 
@@ -57,7 +57,7 @@ struct GlobalFog sDayFog = {
     .g = 120/3,
     .b = 230/3,
     .a = 255,
-    .low = 880,
+    .low = 960,
     .high = 995,
 };
 
@@ -66,7 +66,7 @@ struct GlobalFog sDuskFog = {
     .g = 92/3,
     .b = 81/3,
     .a = 255,
-    .low = 880,
+    .low = 960,
     .high = 995,
 };
 
@@ -183,6 +183,9 @@ void set_light_color(void) {
     u8 dirR;
     u8 dirG;
     u8 dirB;
+    static u16 fogHigh;
+    static u16 fogLow;
+    static u8 fogOverride;
 
     curDayConfig = find_day_config();
 
@@ -202,10 +205,38 @@ void set_light_color(void) {
 
     set_ambient_light(gAmbientR, gAmbientG, gAmbientB);
     set_directional_light(gLightDirection,dirR,dirG,dirB);
-    update_global_fog_override(gAmbientR, gAmbientG, gAmbientB, 255, gLow, gHigh);
+    
 
-    print_text_fmt_int(20, 40, "DAYCONFIG %d",curDayConfig);
-    print_text_fmt_int(20, 60, "NEXTDAY %d",nextDayConfig);
+    print_text_fmt_int(20,40,"GLOW %d", gLow);
+    print_text_fmt_int(20,60,"GHIGH %d", gHigh);
+
+    //print_text_fmt_int(20, 40, "DAYCONFIG %d",curDayConfig);
+    //print_text_fmt_int(20, 60, "NEXTDAY %d",nextDayConfig);
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        fogOverride ^= 1;
+    }
+
+    if (fogOverride) {
+        if (gPlayer1Controller->buttonDown & L_JPAD) {
+            fogHigh--;
+        } else if (gPlayer1Controller->buttonDown & R_JPAD) {
+            fogHigh++;
+        } else if (gPlayer1Controller->buttonDown & D_JPAD) {
+            fogLow--;
+        } else if (gPlayer1Controller->buttonDown & U_JPAD) {
+            fogLow++;
+        }
+
+        update_global_fog_override(gAmbientR, gAmbientG, gAmbientB, 255, fogLow, fogHigh);
+
+        print_text_fmt_int(20,20,"LOW %d",fogLow);
+        print_text_fmt_int(20,40,"HIGH %d",fogHigh);
+
+
+    } else {
+        update_global_fog_override(gAmbientR, gAmbientG, gAmbientB, 255, gLow, gHigh);
+    }
 
 }
 
@@ -236,9 +267,14 @@ void bhv_sun_loop(void) {
         }       
     }
 
-    o->oPosX = gCamera->pos[0] + (gLightDirection[0] * 10000);
-    o->oPosY = gCamera->pos[1] + (gLightDirection[1] * 10000);
-    o->oPosZ = gCamera->pos[2] + (gLightDirection[2] * 10000);
+    o->oPosX = gCamera->pos[0] + (gLightDirection[0] * 15000);
+    o->oPosY = gCamera->pos[1] + (gLightDirection[1] * 15000);
+    o->oPosZ = gCamera->pos[2] + (gLightDirection[2] * 15000);
+
+    // Avoid the sun or moon suddenly snapping when mario gets instant warped
+    if (gInstantWarpDisplacement) {
+        o->oPosZ += gInstantWarpDisplacement;
+    }
 }
 
 

@@ -85,8 +85,9 @@ u8 *gAreaSkyboxEnd[AREA_COUNT];
 u8 gAmbientR;
 u8 gAmbientG;
 u8 gAmbientB;
-u8 gLow;
-u8 gHigh;
+s32 gInstantWarpDisplacement;
+u16 gLow;
+u16 gHigh;
 
 // Framebuffer rendering values (max 3)
 u16 sRenderedFramebuffer = 0;
