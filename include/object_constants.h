@@ -2717,4 +2717,6 @@ enum gCutsceneObjSpawns {
 #define DAY (HOUR * 24)
 #define DAY_START HOUR + (HOUR * 6)
 #define DAY_END HOUR + (HOUR * 18)
+
+#define AMBIENT_LIGHT_MODIFIER 2.6f
 #endif // OBJECT_CONSTANTS_H

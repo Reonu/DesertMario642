@@ -34,6 +34,8 @@
 #include "render_fog.h"
 #include "print.h"
 
+
+
 struct GlobalFog sNightFog = {
     .r = 5,
     .g = 5,
@@ -44,27 +46,27 @@ struct GlobalFog sNightFog = {
 };
 
 struct GlobalFog sDawnFog = {
-    .r = 255/3,
-    .g = 148/3,
-    .b = 58/3,
+    .r = 255 / AMBIENT_LIGHT_MODIFIER,
+    .g = 148 / AMBIENT_LIGHT_MODIFIER,
+    .b = 58 / AMBIENT_LIGHT_MODIFIER,
     .a = 255,
     .low = 960,
     .high = 995,
 };
 
 struct GlobalFog sDayFog = {
-    .r = 0,
-    .g = 120/3,
-    .b = 230/3,
+    .r = 200 / AMBIENT_LIGHT_MODIFIER,
+    .g = 130 / AMBIENT_LIGHT_MODIFIER,
+    .b = 100 / AMBIENT_LIGHT_MODIFIER,
     .a = 255,
     .low = 960,
     .high = 995,
 };
 
 struct GlobalFog sDuskFog = {
-    .r = 220/3,
-    .g = 92/3,
-    .b = 81/3,
+    .r = 220 / AMBIENT_LIGHT_MODIFIER,
+    .g = 92 / AMBIENT_LIGHT_MODIFIER,
+    .b = 81 / AMBIENT_LIGHT_MODIFIER,
     .a = 255,
     .low = 960,
     .high = 995,
@@ -267,9 +269,9 @@ void bhv_sun_loop(void) {
         }       
     }
 
-    o->oPosX = gCamera->pos[0] + (gLightDirection[0] * 15000);
-    o->oPosY = gCamera->pos[1] + (gLightDirection[1] * 15000);
-    o->oPosZ = gCamera->pos[2] + (gLightDirection[2] * 15000);
+    o->oPosX = gCamera->pos[0] + (gLightDirection[0] * 20000);
+    o->oPosY = gCamera->pos[1] + (gLightDirection[1] * 20000);
+    o->oPosZ = gCamera->pos[2] + (gLightDirection[2] * 20000);
 
     // Avoid the sun or moon suddenly snapping when mario gets instant warped
     if (gInstantWarpDisplacement) {

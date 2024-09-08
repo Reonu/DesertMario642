@@ -2356,7 +2356,7 @@ extern void geo_append_display_list(void *displayList, s16 layer);
 extern s16 gMatStackIndex;
 extern Mat4 gMatStack[32];
 extern Mtx *gMatStackFixed[32];
-//extern u32 gMoveSpeed;
+#define DISTANCE .95f // the closer to 1 the further away
 Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) {
     Mat4 mat;
     Mtx *mtx = alloc_display_list(sizeof(*mtx));
@@ -2373,10 +2373,9 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
     }
     
     if (callContext == GEO_CONTEXT_RENDER) {
-#define FARAWAYNESS .95f // the closer to 1 the further away
 
         for (i = 0; i < 3; i++) {
-            pos[i] = gCurGraphNodeCamera->pos[i] * FARAWAYNESS;
+            pos[i] = gCurGraphNodeCamera->pos[i]; //* DISTANCE;
         }
         if (mesh == 1) {
             mtxf_translate(mat,pos);
@@ -2394,8 +2393,7 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
         } else {
             geo_append_display_list(day_bg_b_clouds_mesh, 0); // DL pointer
         }   
-        
-        
+    
         gMatStackIndex--;
     }
     return 0;
@@ -2464,9 +2462,9 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
         remap_alpha = 255;
         //print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
 
-        s32 r = gAmbientR * 3;
-        s32 g = gAmbientG * 3;
-        s32 b = gAmbientB * 3;
+        s32 r = gAmbientR * AMBIENT_LIGHT_MODIFIER;
+        s32 g = gAmbientG * AMBIENT_LIGHT_MODIFIER;
+        s32 b = gAmbientB * AMBIENT_LIGHT_MODIFIER;
         gDPSetPrimColor(dlHead++, 0, 0, r, g, b, remap_alpha);
         gSPEndDisplayList(dlHead);
     }
