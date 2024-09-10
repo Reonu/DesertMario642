@@ -278,15 +278,3 @@ void bhv_sun_loop(void) {
         o->oPosZ += gInstantWarpDisplacement;
     }
 }
-
-
-    /*if (
-           gDayConfigs[curDayConfig].fog->r != gDayConfigs[nextDayConfig].fog->r
-        || gDayConfigs[curDayConfig].fog->g != gDayConfigs[nextDayConfig].fog->g
-        || gDayConfigs[curDayConfig].fog->b != gDayConfigs[nextDayConfig].fog->b
-        || gDayConfigs[curDayConfig].fog->high != gDayConfigs[nextDayConfig].fog->high
-        || gDayConfigs[curDayConfig].fog->low != gDayConfigs[nextDayConfig].fog->low
-        ) {
-
-        }
-    */

@@ -967,8 +967,8 @@ void cur_obj_update(void) {
         // If the object has a render distance, check if it should be shown.
         if (distanceFromMario > o->oDrawingDistance) {
             // Out of render distance, hide the object.
-            o->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
-            o->activeFlags |= ACTIVE_FLAG_FAR_AWAY;
+            o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;
+            o->activeFlags &= ~ACTIVE_FLAG_FAR_AWAY;
         } else if (o->oHeldState == HELD_FREE) {
             // In render distance (and not being held), show the object.
             o->header.gfx.node.flags |= GRAPH_RENDER_ACTIVE;

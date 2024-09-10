@@ -2470,3 +2470,15 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
     }
     return dlStart;
 }
+
+void warp_desert_object(struct Object *obj) {
+    if (obj->oTimer != 0) {
+        if (gInstantWarpDisplacement) {
+            if ((gInstantWarpDisplacement + obj->oPosZ) > 32768) {
+                mark_obj_for_deletion(obj);
+            } else {
+                obj->oPosZ += gInstantWarpDisplacement;
+            }
+        }
+    }    
+}

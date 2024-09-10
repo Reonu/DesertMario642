@@ -6103,4 +6103,12 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
+extern void bhv_desert_spawner_loop(void);
 
+const BehaviorScript bhvDesertSpawner[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_desert_spawner_loop),
+    END_LOOP(),
+};

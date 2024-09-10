@@ -1,4 +1,6 @@
 
+#include "src/game/game_init.h"
+#include "game/print.h"
 /**
  * Behavior for bhvGoomba and bhvGoombaTripletSpawner,
  * Goombas can either be spawned individually, or spawned by a triplet spawner.
@@ -115,7 +117,7 @@ void bhv_goomba_init(void) {
 
     obj_set_hitbox(o, &sGoombaHitbox);
 
-    o->oDrawingDistance = sGoombaProperties[o->oGoombaSize].drawDistance;
+    o->oDrawingDistance = 30000;
     o->oDamageOrCoinValue = sGoombaProperties[o->oGoombaSize].damage;
 
     o->oGravity = -8.0f / 3.0f * o->oGoombaScale;
@@ -319,7 +321,7 @@ void bhv_goomba_update(void) {
         // If this goomba has a spawner and mario moved away from the spawner, unload
         if (o->parentObj != o) {
             if (o->parentObj->oAction == GOOMBA_TRIPLET_SPAWNER_ACT_UNLOADED) {
-                obj_mark_for_deletion(o);
+                //obj_mark_for_deletion(o);
             }
         }
 
@@ -372,5 +374,7 @@ void bhv_goomba_update(void) {
             o->oAnimState += FLOOMBA_ANIM_STATE_EYES_OPEN;
         }
 #endif
+
     }
+    warp_desert_object(o);
 }

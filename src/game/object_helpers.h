@@ -284,4 +284,6 @@ Gfx *geo_set_global_fog(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx
 Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
+void warp_desert_object(struct Object *obj);
+
 #endif // OBJECT_HELPERS_H
