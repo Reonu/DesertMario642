@@ -21,8 +21,11 @@ const LevelScript level_desert_entry[] = {
 	INIT_LEVEL(),
 	LOAD_YAY0(0x7, _desert_segment_7SegmentRomStart, _desert_segment_7SegmentRomEnd), 
 	LOAD_YAY0(0xa, _water_skybox_yay0SegmentRomStart, _water_skybox_yay0SegmentRomEnd), 
+	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
+	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_1), 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
@@ -33,6 +36,7 @@ const LevelScript level_desert_entry[] = {
 		INSTANT_WARP(0x00, 0x01, 0, 0, 9236),
 		MARIO_POS(0x01, 0, 0, 0, 0),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
+		OBJECT(MODEL_NONE, -75, 0, 2030, 0, 0, 0, 0x00000000, bhvDesertSpawner),
 		OBJECT(MODEL_MOON, 0, 0, 0, 0, 0, 0, (1 << 24), bhvSun),
 		OBJECT(MODEL_SUN, 0, 0, 0, 0, 0, 0, 0x00000000, bhvSun),
 		TERRAIN(desert_area_1_collision),
