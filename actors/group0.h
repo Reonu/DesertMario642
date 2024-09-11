@@ -337,4 +337,8 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "moon/geo_header.h"
 
+#include "electrical_pole/collision_header.h"
+
+#include "electrical_pole/geo_header.h"
+
 #endif

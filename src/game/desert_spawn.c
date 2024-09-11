@@ -35,19 +35,62 @@
 #include "print.h"
 #include "mtwister.h"
 #include "behavior_data.h"
- 
+#include "types.h"
 
+struct DesertSpawnCoords LeftSide = {
+    .x = -3500,
+    .y = 0,
+    .z = -18472,
+};
 
+struct DesertSpawnCoords RightSide = {
+    .x = 3500,
+    .y = 0,
+    .z = -18472,
+};
 
-void bhv_desert_spawner_loop (void) {
-MTRand newSeed = seedRand(gInstantWarpCounter);
+struct DesertSpawnCoords Road = {
+    .x = 0,
+    .y = 0,
+    .z = -18472,
+};
 
-if (gInstantWarpDisplacement) {
-    if (genRand(&newSeed) < 0.8f) {
-        spawn_object_relative(0,0,250,0,gCurrentObject,MODEL_GOOMBA,bhvGoomba);
-        print_text(20,140,"TEST2");
-    }
-    print_text(20,120,"TEST");
+void spawn_electrical_poles(void) {
+    spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
+    spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0);
 }
 
+void spawn_bushes(MTRand *rand) {
+    u32 bushX = (s32)random_in_range(rand, 501) - 250;
+    u32 bushZ = (s32)random_in_range(rand, 501) - 250;
+}
+
+f32 decorationChance;
+f32 enemyChance;
+
+f32 electricalPoleChance = 0.3f;
+f32 goombaChance = 0.3f;
+f32 bushChance = 0.3f;
+
+#define GOOMBA_CHANCE 0.25f
+#define ELECTRICAL_POLE_CHANCE 0.25f
+#define BUSH_CHANCE 0.25f
+
+void bhv_desert_spawner_loop(void) {
+    MTRand newSeed = seedRand(gInstantWarpCounter);
+    f32 chanceStorage = genRand(&newSeed);
+    if (gInstantWarpDisplacement) {
+        chanceStorage -= GOOMBA_CHANCE;
+        if (chanceStorage < 0) {
+            spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA, bhvGoomba, Road.x,Road.y,Road.z,0,0,0);
+        }
+        chanceStorage -= ELECTRICAL_POLE_CHANCE;
+        if (chanceStorage < 0) {
+            spawn_electrical_poles();
+        }
+    }
+}
+
+void bhv_desert_decor_loop(void) {
+    warp_desert_object(o);
 }

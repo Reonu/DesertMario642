@@ -33,3 +33,5 @@
 
 #include "sun/model.inc.c"
 #include "moon/model.inc.c"
+#include "electrical_pole/collision.inc.c"
+#include "electrical_pole/model.inc.c"

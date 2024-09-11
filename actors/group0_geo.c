@@ -19,3 +19,4 @@
 
 #include "sun/geo.inc.c"
 #include "moon/geo.inc.c"
+#include "electrical_pole/geo.inc.c"

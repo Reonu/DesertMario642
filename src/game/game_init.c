@@ -85,6 +85,7 @@ u8 *gAreaSkyboxEnd[AREA_COUNT];
 u8 gAmbientR;
 u8 gAmbientG;
 u8 gAmbientB;
+u8 gInstantWarpType;
 s32 gInstantWarpDisplacement;
 u16 gLow;
 u16 gHigh;

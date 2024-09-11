@@ -573,10 +573,17 @@ void check_instant_warp(void) {
 
                 gMarioState->area->camera->yaw = cameraAngle;
                 gInstantWarpDisplacement = warp->displacement[2];
-                gInstantWarpCounter++;
+                if (warp->displacement[2] > 0) {
+                    gInstantWarpCounter++;
+                    gInstantWarpType = INSTANT_WARP_FORWARDS;
+                } else {
+                    gInstantWarpCounter--;
+                    gInstantWarpType = INSTANT_WARP_BACKWARDS;
+                }
             }
         } else {
             gInstantWarpDisplacement = 0;
+            gInstantWarpType = 0;
         }
     }
 }

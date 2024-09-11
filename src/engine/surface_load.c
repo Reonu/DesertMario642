@@ -696,6 +696,8 @@ void load_object_collision_model(void) {
     if (o->oCollisionDistance > o->oDrawingDistance) {
         o->oDrawingDistance = o->oCollisionDistance;
     }
+
+    o->oDrawingDistance = 32768;
     
     s32 inColRadius = (
            (sqrLateralDist < sqr(o->oCollisionDistance))

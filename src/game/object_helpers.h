@@ -79,6 +79,9 @@ void obj_set_angle(struct Object *obj, s16 pitch, s16 yaw, s16 roll);
 struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, ModelID32 model,
                                          const BehaviorScript *behavior,
                                          s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll);
+struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
+                                         const BehaviorScript *behavior,
+                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll);                                         
 struct Object *spawn_object_rel_with_rot(struct Object *parent, ModelID32 model, const BehaviorScript *behavior,
                                          s16 xOff, s16 yOff, s16 zOff, s16 pitch, s16 yaw, s16 roll);
 struct Object *spawn_obj_with_transform_flags(struct Object *parent, ModelID32 model, const BehaviorScript *behavior);

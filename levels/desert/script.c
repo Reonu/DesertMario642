@@ -34,6 +34,7 @@ const LevelScript level_desert_entry[] = {
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		INSTANT_WARP(0x00, 0x01, 0, 0, 9236),
+		INSTANT_WARP(0x01, 0x01, 0, 0, -9236),
 		MARIO_POS(0x01, 0, 0, 0, 0),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -75, 0, 2030, 0, 0, 0, 0x00000000, bhvDesertSpawner),
@@ -42,7 +43,7 @@ const LevelScript level_desert_entry[] = {
 		TERRAIN(desert_area_1_collision),
 		MACRO_OBJECTS(desert_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
-		TERRAIN_TYPE(TERRAIN_GRASS),
+		TERRAIN_TYPE(TERRAIN_SAND),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),

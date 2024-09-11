@@ -57,6 +57,8 @@
 #include "make_const_nonconst.h"
 #include "behavior_data.h"
 
+#include "src/game/desert_spawn.h"
+
 #define BC_B(a) _SHIFTL(a, 24, 8)
 #define BC_BB(a, b) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8))
 #define BC_BBBB(a, b, c, d) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8) | _SHIFTL(c, 8, 8) | _SHIFTL(d, 0, 8))
@@ -392,6 +394,16 @@ enum BehaviorCommands {
 
 
 /* fast64 object exports get inserted here */
+const BehaviorScript bhvElectricalPole[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+	LOAD_COLLISION_DATA(electrical_pole_collision),
+	BEGIN_LOOP(),
+		CALL_NATIVE(load_object_collision_model),
+		CALL_NATIVE(bhv_desert_decor_loop),
+	END_LOOP(),
+};
+
 const BehaviorScript bhvSun[] = {
 	BEGIN(OBJ_LIST_SURFACE),
 	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
@@ -6103,7 +6115,7 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
-extern void bhv_desert_spawner_loop(void);
+//extern void bhv_desert_spawner_loop(void);
 
 const BehaviorScript bhvDesertSpawner[] = {
     BEGIN(OBJ_LIST_PUSHABLE),

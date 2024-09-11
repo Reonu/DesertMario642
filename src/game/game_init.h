@@ -56,6 +56,7 @@ extern u8 *gAreaSkyboxEnd[AREA_COUNT];
 extern u8 gAmbientR;
 extern u8 gAmbientG;
 extern u8 gAmbientB;
+extern u8 gInstantWarpType;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;
 extern u16 gHigh;

@@ -481,5 +481,12 @@ struct DayConfig
     u8 dirB;
 };
 
+struct DesertSpawnCoords
+{
+    s16 x;
+    s16 y;
+    s16 z;
+};
+
 
 #endif // TYPES_H

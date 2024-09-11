@@ -314,6 +314,25 @@ struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, 
     return newObj;
 }
 
+struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
+                                         const BehaviorScript *behavior,
+                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll) {
+    // 'uselessArg' is unused in the function spawn_object_at_origin()
+    struct Object *newObj = spawn_object_at_origin(parent, uselessArg, model, behavior);
+    if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
+        obj_set_pos(newObj, x, y, z * -1);
+        obj_update_gfx_pos_and_angle(newObj);
+
+    } else {
+        obj_set_pos(newObj, x, y, z);
+        obj_update_gfx_pos_and_angle(newObj);
+    }
+    
+    obj_set_angle(newObj, pitch, yaw, roll);
+
+    return newObj;
+}
+
 /*
  * Spawns an object relative to the parent with a specified angle.
  */
@@ -2474,7 +2493,7 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
 void warp_desert_object(struct Object *obj) {
     if (obj->oTimer != 0) {
         if (gInstantWarpDisplacement) {
-            if ((gInstantWarpDisplacement + obj->oPosZ) > 32768) {
+            if (((gInstantWarpDisplacement + obj->oPosZ) > 32768) || ((gInstantWarpDisplacement + obj->oPosZ) < -32768)) {
                 mark_obj_for_deletion(obj);
             } else {
                 obj->oPosZ += gInstantWarpDisplacement;

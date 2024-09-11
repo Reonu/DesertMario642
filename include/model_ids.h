@@ -3,6 +3,9 @@
 
 #define MODEL_NONE                             0x00
 
+/* fast64 object exports get inserted here */
+#define MODEL_ELECTRICAL_POLE             259
+
 /* Global models that are loaded for every level */
 
 #define MODEL_MARIO                            0x01        // mario_geo

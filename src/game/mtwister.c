@@ -15,6 +15,7 @@
 
 #include "mtwister.h"
 #include "types.h"
+#include "include/n64/PR/ultratypes.h"
 
 inline static void m_seedRand(MTRand* rand, unsigned long seed) {
   /* set initial seeds to mt[STATE_VECTOR_LENGTH] using the generator
@@ -77,7 +78,7 @@ float genRand(MTRand* rand) {
 }
 
 // Generates a random number in the range [0, max)
-u32 random_in_range(MTRand *twister, u32 max) {
+uint32_t random_in_range(MTRand *twister, uint32_t max) {
 
     // This will bias some numbers because they appear one extra time in the output, but the bias
     // should be sufficiently small because (free_position_count + new_position_count) is much smaller
@@ -88,10 +89,10 @@ u32 random_in_range(MTRand *twister, u32 max) {
     assert(max != 0, "random_in_range divide by 0!");
 #endif
 
-    u32 scale = 0xFFFFFFFF / max;
-    u32 range_excess = 0xFFFFFFFF % max;
-    u32 random_range = 0xFFFFFFFF - range_excess;
-    u32 ret;
+    uint32_t scale = 0xFFFFFFFF / max;
+    uint32_t range_excess = 0xFFFFFFFF % max;
+    uint32_t random_range = 0xFFFFFFFF - range_excess;
+    uint32_t ret;
     // Pick numbers until we get one in range
     do {
         ret = genRandLong(twister);
