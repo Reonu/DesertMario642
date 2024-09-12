@@ -1346,4 +1346,6 @@ os16112*/
 #define /*0x1A6*/ oLightLinearFalloff         OBJECT_FIELD_S16(0x47, 1)
 #define /*0x098*/ oLightConstantFalloff       OBJECT_FIELD_S16(0x04, 0)
 
+#define           oDesertTimer                OBJECT_FIELD_U32(0x50)
+
 #endif // OBJECT_FIELDS_H

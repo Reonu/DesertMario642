@@ -23,4 +23,6 @@ enum BhvProc {
 
 void cur_obj_update(void);
 
+void obj_update_gfx_pos_and_angle(struct Object *obj);
+
 #endif // BEHAVIOR_SCRIPT_H

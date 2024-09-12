@@ -61,33 +61,67 @@ void spawn_electrical_poles(void) {
 }
 
 void spawn_bushes(MTRand *rand) {
-    u32 bushX = (s32)random_in_range(rand, 501) - 250;
-    u32 bushZ = (s32)random_in_range(rand, 501) - 250;
+    u32 bushesAmount = random_in_range(rand, 5) + 3;
+    for (u32 i = 0; i < bushesAmount; i++) {
+        u32 bushX = (s32)random_in_range(rand, 501) - 250;
+        u32 bushZ = (s32)random_in_range(rand, 501) - 250;
+        u32 bushX2 = (s32)random_in_range(rand, 501) - 250;
+        u32 bushZ2 = (s32)random_in_range(rand, 501) - 250;
+        spawn_object_desert(gCurrentObject, 0, MODEL_BUSH, bhvDesertDecor, LeftSide.x + bushX,LeftSide.y,LeftSide.z + bushZ,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_BUSH, bhvDesertDecor, RightSide.x + bushX2,RightSide.y,RightSide.z + bushZ2,0,0,0);
+    }
 }
 
-f32 decorationChance;
-f32 enemyChance;
-
-f32 electricalPoleChance = 0.3f;
-f32 goombaChance = 0.3f;
-f32 bushChance = 0.3f;
 
 #define GOOMBA_CHANCE 0.25f
+#define POKEY_CHANCE 0.25f
+
 #define ELECTRICAL_POLE_CHANCE 0.25f
 #define BUSH_CHANCE 0.25f
 
+void spawn_big_decoration(MTRand *rand) {
+    f32 chanceStorage = genRand(rand);
+    print_text_fmt_int(20,20, "Chance: %d", (s32)(chanceStorage * 100));
+    chanceStorage -= ELECTRICAL_POLE_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_electrical_poles();
+        return;
+    }
+}
+
+void spawn_small_decoration(MTRand *rand) {
+    f32 chanceStorage = genRand(rand);
+    chanceStorage -= BUSH_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_bushes(rand);
+        return;
+    }    
+}
+
+void spawn_enemy(MTRand *rand) {
+    f32 chanceStorage = genRand(rand);
+    chanceStorage -= GOOMBA_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA, bhvGoomba, Road.x,Road.y,Road.z,0,0,0);
+        return;
+    }
+    chanceStorage -= POKEY_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_object_desert(gCurrentObject, 0, MODEL_POKEY_BODY_PART, bhvPokey, Road.x,Road.y,Road.z,0,0,0);
+        return;
+    }
+}
+
 void bhv_desert_spawner_loop(void) {
     MTRand newSeed = seedRand(gInstantWarpCounter);
-    f32 chanceStorage = genRand(&newSeed);
+    u32 numSmall = random_in_range(&newSeed, 5);
+
     if (gInstantWarpDisplacement) {
-        chanceStorage -= GOOMBA_CHANCE;
-        if (chanceStorage < 0) {
-            spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA, bhvGoomba, Road.x,Road.y,Road.z,0,0,0);
+        for (u32 i = 0; i < numSmall; i++) {
+            spawn_small_decoration(&newSeed);
         }
-        chanceStorage -= ELECTRICAL_POLE_CHANCE;
-        if (chanceStorage < 0) {
-            spawn_electrical_poles();
-        }
+        spawn_big_decoration(&newSeed);
+        spawn_enemy(&newSeed);
     }
 }
 

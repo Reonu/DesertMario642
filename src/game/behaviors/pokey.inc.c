@@ -1,4 +1,6 @@
-
+#include "src/game/game_init.h"
+#include "src/game/level_update.h"
+#include "src/game/object_helpers.h"
 /**
  * Behavior for bhvPokey and bhvPokeyBodyPart.
  * bhvPokey is responsible for the behavior of the pokey itself, as well as
@@ -178,13 +180,13 @@ static void pokey_act_wander(void) {
         o->oAction = POKEY_ACT_UNLOAD_PARTS;
         o->oForwardVel = 0.0f;
     } else {
-        treat_far_home_as_mario(1000.0f);
+        //treat_far_home_as_mario(1000.0f);
         cur_obj_update_floor_and_walls();
 
         if (o->oPokeyHeadWasKilled) {
             o->oForwardVel = 0.0f;
         } else {
-            o->oForwardVel = 5.0f;
+            o->oForwardVel = 15.0f;
 
             // If a body part is missing, replenish it after 100 frames
             if (o->oPokeyNumAliveBodyParts < POKEY_NUM_SEGMENTS) {
@@ -225,9 +227,9 @@ static void pokey_act_wander(void) {
                           obj_bounce_off_walls_edges_objects(&o->oPokeyTargetYaw))) {
                     if (o->oPokeyChangeTargetTimer != 0) {
                         o->oPokeyChangeTargetTimer--;
-                    } else if (o->oDistanceToMario > 2000.0f) {
-                        o->oPokeyTargetYaw = obj_random_fixed_turn(0x2000);
-                        o->oPokeyChangeTargetTimer = random_linear_offset(30, 50);
+                    //} else if (o->oDistanceToMario > 2000.0f) {
+                        //o->oPokeyTargetYaw = obj_random_fixed_turn(0x2000);
+                        //o->oPokeyChangeTargetTimer = random_linear_offset(30, 50);
                     } else {
                         // The goal of this computation is to make pokey approach
                         // mario directly if he is far away, but to shy away from
@@ -235,12 +237,12 @@ static void pokey_act_wander(void) {
 
                         // targetAngleOffset is 0 when distance to mario is >= 1838.4
                         // and 0x4000 when distance to mario is <= 200
-                        targetAngleOffset = (s32)(0x4000 - (o->oDistanceToMario - 200.0f) * 10.0f);
+                        /*targetAngleOffset = (s32)(0x4000 - (o->oDistanceToMario - 200.0f) * 10.0f);
                         if (targetAngleOffset < 0) {
                             targetAngleOffset = 0;
                         } else if (targetAngleOffset > 0x4000) {
                             targetAngleOffset = 0x4000;
-                        }
+                        }*/
 
                         // If we need to rotate CCW to get to mario, then negate
                         // the target angle offset
@@ -252,7 +254,7 @@ static void pokey_act_wander(void) {
                         // toward him directly. When mario is close,
                         // targetAngleOffset is 0x4000, so he turns 90 degrees
                         // away from mario
-                        o->oPokeyTargetYaw = o->oAngleToMario + targetAngleOffset;
+                        o->oPokeyTargetYaw = o->oAngleToMario;// + targetAngleOffset;
                     }
                 }
 
@@ -271,7 +273,7 @@ static void pokey_act_wander(void) {
  */
 static void pokey_act_unload_parts(void) {
     o->oAction = POKEY_ACT_UNINITIALIZED;
-    cur_obj_set_pos_to_home();
+    //cur_obj_set_pos_to_home();
 }
 
 /**
@@ -281,7 +283,7 @@ void bhv_pokey_update(void) {
     // PARTIAL_UPDATE
 
     o->oDeathSound = SOUND_OBJ_POKEY_DEATH;
-
+    o->oDrawingDistance = 999999.0f;
     switch (o->oAction) {
         case POKEY_ACT_UNINITIALIZED:
             pokey_act_uninitialized();
@@ -293,4 +295,9 @@ void bhv_pokey_update(void) {
             pokey_act_unload_parts();
             break;
     }
+    o->oDrawingDistance = 999999.0f;
+    copy_mario_x_position(o);
+    warp_desert_object(o);
+    print_text(20,20,"TEST");
 }
+

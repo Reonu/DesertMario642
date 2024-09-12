@@ -28,6 +28,7 @@
 #include "spawn_sound.h"
 #include "levels/desert/header.h"
 #include "print.h"
+#include "engine/behavior_script.h"
 
 static s32 clear_move_flag(u32 *bitSet, s32 flag);
 
@@ -329,6 +330,7 @@ struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelI
     }
     
     obj_set_angle(newObj, pitch, yaw, roll);
+    newObj->oDrawingDistance = 99999.0f;
 
     return newObj;
 }
@@ -2491,13 +2493,22 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
 }
 
 void warp_desert_object(struct Object *obj) {
-    if (obj->oTimer != 0) {
+    if (obj->oDesertTimer != 0) {
         if (gInstantWarpDisplacement) {
             if (((gInstantWarpDisplacement + obj->oPosZ) > 32768) || ((gInstantWarpDisplacement + obj->oPosZ) < -32768)) {
                 mark_obj_for_deletion(obj);
             } else {
                 obj->oPosZ += gInstantWarpDisplacement;
+                obj_update_gfx_pos_and_angle(obj);
             }
         }
     }    
+}
+
+#define COPY_POS_DISTANCE_THRESHOLD 1000.0f
+
+void copy_mario_x_position(struct Object *obj) {
+    if (gMarioObject->oPosZ > obj->oPosZ + COPY_POS_DISTANCE_THRESHOLD) {
+        obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
+    }
 }

@@ -893,6 +893,10 @@ void cur_obj_update(void) {
         o->oTimer++;
     }
 
+    if (o->oDesertTimer < 0x3FFFFFFF) {
+        o->oDesertTimer++;
+    }
+
     // If the object's action has changed, reset the action timer.
     if (o->oAction != o->oPrevAction) {
         o->oTimer = 0;

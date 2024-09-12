@@ -209,8 +209,8 @@ void set_light_color(void) {
     set_directional_light(gLightDirection,dirR,dirG,dirB);
     
 
-    print_text_fmt_int(20,40,"GLOW %d", gLow);
-    print_text_fmt_int(20,60,"GHIGH %d", gHigh);
+    //print_text_fmt_int(20,40,"GLOW %d", gLow);
+    //print_text_fmt_int(20,60,"GHIGH %d", gHigh);
 
     //print_text_fmt_int(20, 40, "DAYCONFIG %d",curDayConfig);
     //print_text_fmt_int(20, 60, "NEXTDAY %d",nextDayConfig);
@@ -232,8 +232,8 @@ void set_light_color(void) {
 
         update_global_fog_override(gAmbientR, gAmbientG, gAmbientB, 255, fogLow, fogHigh);
 
-        print_text_fmt_int(20,20,"LOW %d",fogLow);
-        print_text_fmt_int(20,40,"HIGH %d",fogHigh);
+        //print_text_fmt_int(20,20,"LOW %d",fogLow);
+        //print_text_fmt_int(20,40,"HIGH %d",fogHigh);
 
 
     } else {
@@ -246,7 +246,7 @@ void update_lighting(void) {
     int twentyfourhr = (gUnpausedTimer / HOUR);
     set_light_direction();
     set_light_color();
-    print_text_fmt_int(20,20, "TIME %d", twentyfourhr);  
+    //print_text_fmt_int(20,20, "TIME %d", twentyfourhr);  
     
     //set_directional_light(gLightDirection, gDayTime, gDayTime, gDayTime);
     //set_ambient_light(gDayTime/3, gDayTime/3, gDayTime/3);

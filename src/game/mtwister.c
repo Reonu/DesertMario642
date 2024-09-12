@@ -16,6 +16,7 @@
 #include "mtwister.h"
 #include "types.h"
 #include "include/n64/PR/ultratypes.h"
+#include "game/debug.h"
 
 inline static void m_seedRand(MTRand* rand, unsigned long seed) {
   /* set initial seeds to mt[STATE_VECTOR_LENGTH] using the generator

@@ -258,7 +258,7 @@ struct ObjectNode {
 
 // NOTE: Since ObjectNode is the first member of Object, it is difficult to determine
 // whether some of these pointers point to ObjectNode or Object.
-#define MAX_OBJECT_FIELDS 0x50
+#define MAX_OBJECT_FIELDS 0x51
 
 struct Object {
     /*0x000*/ struct ObjectNode header;

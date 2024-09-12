@@ -377,4 +377,5 @@ void bhv_goomba_update(void) {
 
     }
     warp_desert_object(o);
+    copy_mario_x_position(o);
 }
