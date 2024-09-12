@@ -394,6 +394,22 @@ enum BehaviorCommands {
 
 
 /* fast64 object exports get inserted here */
+const BehaviorScript bhvBush[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+	BEGIN_LOOP(),
+		CALL_NATIVE(bhv_desert_decor_loop),
+	END_LOOP(),
+};
+
+const BehaviorScript bhvDesertDecor[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+	BEGIN_LOOP(),
+		CALL_NATIVE(bhv_desert_decor_loop),
+	END_LOOP(),
+};
+
 const BehaviorScript bhvElectricalPole[] = {
 	BEGIN(OBJ_LIST_SURFACE),
 	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
