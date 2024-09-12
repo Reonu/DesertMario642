@@ -65,6 +65,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_COMMON1_GEO,   _common1_geoSegmentRomStart,  _common1_geoSegmentRomEnd, _common1_geoSegmentBssStart, _common1_geoSegmentBssEnd),
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_BEHAVIOR_DATA,    _behaviorSegmentRomStart,     _behaviorSegmentRomEnd,   _behaviorSegmentBssStart,     _behaviorSegmentBssEnd),
     ALLOC_LEVEL_POOL(),
+    LOAD_MODEL_FROM_GEO(MODEL_BUSH, bush_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
@@ -118,6 +119,8 @@ const LevelScript level_main_scripts_entry[] = {
 #endif
     LOAD_MODEL_FROM_GEO(MODEL_SUN,                     sun_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MOON,                    moon_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_POKEY_BODY_PART,         pokey_body_part_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_POKEY_HEAD,              pokey_head_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

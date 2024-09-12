@@ -331,6 +331,16 @@ extern const Gfx white_particle_small_dl_end[];
 extern const Gfx white_particle_small_dl[];
 extern const Gfx white_particle_small_unused_dl[];
 
+// pokey
+extern const GeoLayout pokey_head_geo[];
+extern const GeoLayout pokey_body_part_geo[];
+extern const Gfx pokey_seg5_dl_05012750[];
+extern const Gfx pokey_seg5_dl_05012798[];
+extern const Gfx pokey_seg5_dl_050127D8[];
+extern const Gfx pokey_seg5_dl_05012808[];
+extern const Gfx pokey_seg5_dl_05013078[];
+extern const Gfx pokey_seg5_dl_050130B0[];
+
 #include "mario/geo_header.h"
 
 #include "sun/geo_header.h"
@@ -340,5 +350,7 @@ extern const Gfx white_particle_small_unused_dl[];
 #include "electrical_pole/collision_header.h"
 
 #include "electrical_pole/geo_header.h"
+
+#include "bush/geo_header.h"
 
 #endif

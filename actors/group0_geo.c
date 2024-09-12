@@ -20,3 +20,5 @@
 #include "sun/geo.inc.c"
 #include "moon/geo.inc.c"
 #include "electrical_pole/geo.inc.c"
+#include "bush/geo.inc.c"
+#include "pokey/geo.inc.c"

@@ -35,3 +35,5 @@
 #include "moon/model.inc.c"
 #include "electrical_pole/collision.inc.c"
 #include "electrical_pole/model.inc.c"
+#include "bush/model.inc.c"
+#include "pokey/model.inc.c"

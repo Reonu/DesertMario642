@@ -4,7 +4,8 @@
 #define MODEL_NONE                             0x00
 
 /* fast64 object exports get inserted here */
-#define MODEL_ELECTRICAL_POLE             259
+#define MODEL_BUSH                        260
+#define MODEL_ELECTRICAL_POLE             261
 
 /* Global models that are loaded for every level */
 
@@ -12,6 +13,8 @@
 #define MODEL_LUIGI                            0x02        // unused
 #define MODEL_SUN                              0x100
 #define MODEL_MOON                             0x101
+#define MODEL_POKEY_HEAD                       262        // pokey_head_geo
+#define MODEL_POKEY_BODY_PART                  263        // pokey_body_part_geo
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
 
@@ -343,8 +346,7 @@
 #define MODEL_CLAM_SHELL                  0x58        // clam_shell_geo
 
 // group 5
-#define MODEL_POKEY_HEAD                  0x54        // pokey_head_geo
-#define MODEL_POKEY_BODY_PART             0x55        // pokey_body_part_geo
+
 #define MODEL_TWEESTER                    0x56        // tweester_geo
 #define MODEL_KLEPTO                      0x57        // klepto_geo
 #define MODEL_EYEROK_LEFT_HAND            0x58        // eyerok_left_hand_geo
