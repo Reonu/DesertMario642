@@ -69,8 +69,27 @@ void spawn_electrical_poles(void) {
     spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0);
 }
 
+#define TIER_2_THRESHOLD 20
+#define TIER_3_THRESHOLD 30
+#define TIER_4_THRESHOLD 40
+
+u16 decide_billboard_model_id(MTRand *rand) {
+    u16 maxTier;
+    if (gInstantWarpCounter > TIER_3_THRESHOLD) {
+        maxTier = MODEL_TIER_4_START - 1;
+    } else if (gInstantWarpCounter > TIER_2_THRESHOLD){
+        maxTier = MODEL_TIER_3_START - 1;
+    } else {
+        maxTier = MODEL_TIER_2_START - 1;
+    }
+    u16 randValue = random_in_range(rand, (maxTier - MODEL_BILLBOARD_START) + 1);
+    randValue = randValue + MODEL_BILLBOARD_START;
+    return randValue;
+}
+
 void spawn_billboard(MTRand *rand) {
     u8 isRight;
+    u16 modelID;
     u16 rot;
     struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
     isRight = (spawnCoords.x == RightSide.x);
@@ -81,7 +100,9 @@ void spawn_billboard(MTRand *rand) {
         rot = DEGREES(45);
     }
 
-    spawn_object_desert(gCurrentObject, 0, MODEL_SIGN_AMOGUS, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
+    modelID = decide_billboard_model_id(rand);
+
+    spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }
 
 void spawn_bushes(MTRand *rand) {
@@ -163,10 +184,25 @@ void bhv_desert_decor_loop(void) {
     if (o->behavior == segmented_to_virtual(bhvDesertSign)) {
         MTRand newSeed = seedRand(gUnpausedTimer);
         u8 intensity = random_in_range(&newSeed, 16) + 240;
-        Vec3f pos = {o->oPosX + 100, o->oPosY + 1150, o->oPosZ +100};
-        if (o->oTimer == 0) {
-            //spawn_object_abs_with_rot(o, 0, MODEL_GOOMBA, bhvStaticObject, pos[0], pos[1], pos[2], 0, 0, 0);
+        Vec3f pos = {0,0,0};
+        if (o->os16F4) {
+            pos[0] = o->oPosX - 150;
+            pos[1] = o->oPosY + 800;
+            pos[2] = o->oPosZ + 400;
+        } else {
+            pos[0] = o->oPosX + 150;
+            pos[1] = o->oPosY + 800;
+            pos[2] = o->oPosZ + 400;
         }
-        emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
+        
+        if (o->oTimer == 0) {
+            spawn_object_abs_with_rot(o, 0, MODEL_GOOMBA, bhvPointLightPreview, pos[0], pos[1], pos[2], 0, 0, 0);
+        }
+        print_text_fmt_int(20,40, "Intensity: %d", intensity);
+        emit_light(pos, intensity, intensity, intensity, 0, 0, 0, 0);
     }
+}
+
+void bhv_point_light_preview_loop(void) {
+    warp_desert_object(o);
 }

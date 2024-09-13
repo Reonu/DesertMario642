@@ -357,4 +357,16 @@ extern const Gfx pokey_seg5_dl_050130B0[];
 
 #include "sign_amogus/geo_header.h"
 
+#include "sign_cheezepin/geo_header.h"
+
+#include "sign_farm/geo_header.h"
+
+#include "sign_spoon/geo_header.h"
+
+#include "sign_joel/geo_header.h"
+
+#include "sign_simpleflips/geo_header.h"
+
+#include "sign_ass_impact/geo_header.h"
+
 #endif

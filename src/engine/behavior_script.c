@@ -993,7 +993,7 @@ void cur_obj_update(void) {
         if (gCurrentObject->oFlags & OBJ_FLAG_HITBOX_WAS_SET)
         {
             // Use the center of the hitbox as an offset so the light is approximately centered to the object
-            yOffset = (MIN(gCurrentObject->hitboxHeight, gCurrentObject->hurtboxHeight) / 2.0f) - gCurrentObject->hitboxDownOffset;
+            yOffset = 0.0f;
         }
         else
         {

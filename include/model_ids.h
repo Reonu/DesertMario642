@@ -3,10 +3,17 @@
 
 #define MODEL_NONE                             0x00
 
+#define MODEL_BILLBOARD_START 264
+#define MODEL_BILLBOARD_END 266
+
+#define MODEL_TIER_1_START 264
+#define MODEL_TIER_2_START 267
+#define MODEL_TIER_3_START 270
+#define MODEL_TIER_4_START 280
+
 /* fast64 object exports get inserted here */
-#define MODEL_SIGN_AMOGUS                 264
-#define MODEL_BUSH                        260
-#define MODEL_ELECTRICAL_POLE             261
+
+
 
 /* Global models that are loaded for every level */
 
@@ -16,6 +23,24 @@
 #define MODEL_MOON                             0x101
 #define MODEL_POKEY_HEAD                       262        // pokey_head_geo
 #define MODEL_POKEY_BODY_PART                  263        // pokey_body_part_geo
+#define MODEL_BUSH                        260
+#define MODEL_ELECTRICAL_POLE             261
+
+// TIER 1
+#define MODEL_SIGN_AMOGUS                 264
+#define MODEL_SIGN_CHEEZEPIN              265
+#define MODEL_SIGN_FARM                   266
+#define MODEL_SIGN_ASS_IMPACT             270
+
+// TIER 2
+#define MODEL_SIGN_SPOON                  267
+#define MODEL_SIGN_JOEL                   268
+#define MODEL_SIGN_SIMPLEFLIPS            269
+
+// TIER 3
+
+// TIER 4
+
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
 

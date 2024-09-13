@@ -331,6 +331,11 @@ struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelI
     
     obj_set_angle(newObj, pitch, yaw, roll);
     newObj->oDrawingDistance = 99999.0f;
+    if (newObj->behavior == segmented_to_virtual(bhvDesertSign)) {
+        if (newObj->oPosX > 0) {
+            newObj->os16F4 = 1; //is on right side
+        }
+    }
 
     return newObj;
 }
@@ -2511,4 +2516,8 @@ void copy_mario_x_position(struct Object *obj) {
     if (gMarioObject->oPosZ > obj->oPosZ + COPY_POS_DISTANCE_THRESHOLD) {
         obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
     }
+}
+
+void bhv_call_warp_desert_object(void) {
+    warp_desert_object(o);
 }

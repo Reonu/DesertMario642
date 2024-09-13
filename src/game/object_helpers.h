@@ -289,5 +289,6 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
 
 void warp_desert_object(struct Object *obj);
 void copy_mario_x_position(struct Object *obj);
+void bhv_call_warp_desert_object(void);
 
 #endif // OBJECT_HELPERS_H
