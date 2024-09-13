@@ -353,4 +353,8 @@ extern const Gfx pokey_seg5_dl_050130B0[];
 
 #include "bush/geo_header.h"
 
+#include "sign/collision_header.h"
+
+#include "sign_amogus/geo_header.h"
+
 #endif

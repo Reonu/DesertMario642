@@ -37,3 +37,5 @@
 #include "electrical_pole/model.inc.c"
 #include "bush/model.inc.c"
 #include "pokey/model.inc.c"
+#include "sign/collision.inc.c"
+#include "sign_amogus/model.inc.c"

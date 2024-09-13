@@ -22,3 +22,4 @@
 #include "electrical_pole/geo.inc.c"
 #include "bush/geo.inc.c"
 #include "pokey/geo.inc.c"
+#include "sign_amogus/geo.inc.c"

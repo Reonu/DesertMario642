@@ -923,7 +923,7 @@ void geo_process_camera(struct GraphNodeCamera *node) {
         vec3f_copy(probePos, node->pos);
     }
 
-    levelLightsDL = createPointLightsDl(probePos, 300.0f);
+    levelLightsDL = createPointLightsDl(gMarioState->pos, 300.0f);
     gSPDisplayList(setLightsDL++, levelLightsDL);
 
     // Terminate the point lighting DL

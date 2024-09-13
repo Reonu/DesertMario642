@@ -4,6 +4,7 @@
 #define MODEL_NONE                             0x00
 
 /* fast64 object exports get inserted here */
+#define MODEL_SIGN_AMOGUS                 264
 #define MODEL_BUSH                        260
 #define MODEL_ELECTRICAL_POLE             261
 

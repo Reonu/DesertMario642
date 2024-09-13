@@ -38,13 +38,13 @@
 #include "types.h"
 
 struct DesertSpawnCoords LeftSide = {
-    .x = -3500,
+    .x = -3000,
     .y = 0,
     .z = -18472,
 };
 
 struct DesertSpawnCoords RightSide = {
-    .x = 3500,
+    .x = 3000,
     .y = 0,
     .z = -18472,
 };
@@ -55,9 +55,33 @@ struct DesertSpawnCoords Road = {
     .z = -18472,
 };
 
+struct DesertSpawnCoords decide_left_or_right(MTRand *rand) {
+    f32 randValue = genRand(rand);
+    if (randValue < 0.5f) {
+        return LeftSide;
+    } else {
+        return RightSide;
+    }
+}
+
 void spawn_electrical_poles(void) {
     spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
     spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0);
+}
+
+void spawn_billboard(MTRand *rand) {
+    u8 isRight;
+    u16 rot;
+    struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
+    isRight = (spawnCoords.x == RightSide.x);
+
+    if (isRight) {
+        rot = DEGREES(-45);
+    } else {
+        rot = DEGREES(45);
+    }
+
+    spawn_object_desert(gCurrentObject, 0, MODEL_SIGN_AMOGUS, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }
 
 void spawn_bushes(MTRand *rand) {
@@ -78,6 +102,7 @@ void spawn_bushes(MTRand *rand) {
 
 #define ELECTRICAL_POLE_CHANCE 0.25f
 #define BUSH_CHANCE 0.25f
+#define BILLBOARD_CHANCE 0.25f
 
 void spawn_big_decoration(MTRand *rand) {
     f32 chanceStorage = genRand(rand);
@@ -85,6 +110,11 @@ void spawn_big_decoration(MTRand *rand) {
     chanceStorage -= ELECTRICAL_POLE_CHANCE;
     if (chanceStorage < 0) {
         spawn_electrical_poles();
+        return;
+    }
+    chanceStorage -= BILLBOARD_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_billboard(rand);
         return;
     }
 }
@@ -125,6 +155,18 @@ void bhv_desert_spawner_loop(void) {
     }
 }
 
+
+
 void bhv_desert_decor_loop(void) {
     warp_desert_object(o);
+
+    if (o->behavior == segmented_to_virtual(bhvDesertSign)) {
+        MTRand newSeed = seedRand(gUnpausedTimer);
+        u8 intensity = random_in_range(&newSeed, 16) + 240;
+        Vec3f pos = {o->oPosX + 100, o->oPosY + 1150, o->oPosZ +100};
+        if (o->oTimer == 0) {
+            //spawn_object_abs_with_rot(o, 0, MODEL_GOOMBA, bhvStaticObject, pos[0], pos[1], pos[2], 0, 0, 0);
+        }
+        emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
+    }
 }

@@ -132,7 +132,7 @@ void bhv_pokey_body_part_update(void) {
     } else {
         o->oAnimState = 1;
     }
-
+    warp_desert_object(o);
     o->oGraphYOffset = o->header.gfx.scale[1] * 22.0f;
 }
 
