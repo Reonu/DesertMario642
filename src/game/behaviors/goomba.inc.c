@@ -143,7 +143,7 @@ static void goomba_begin_jump(void) {
     cur_obj_play_sound_2(SOUND_OBJ_GOOMBA_ALERT);
 
     o->oAction = GOOMBA_ACT_JUMP;
-    o->oForwardVel = 0.0f;
+    //o->oForwardVel = 0.0f;
     o->oVelY = 50.0f / 3.0f * o->oGoombaScale;
 }
 
@@ -187,14 +187,14 @@ static void goomba_act_walk(void) {
         o->oGoombaTurningAwayFromWall = obj_resolve_collisions_and_turn(o->oGoombaTargetYaw, 0x200);
     } else {
         // If far from home, walk toward home.
-        if (o->oDistanceToMario >= 25000.0f) {
+        /*if (o->oDistanceToMario >= 25000.0f) {
             o->oGoombaTargetYaw = o->oAngleToMario;
             o->oGoombaWalkTimer = random_linear_offset(20, 30);
-        }
+        }*/
 
         if (!(o->oGoombaTurningAwayFromWall =
                   obj_bounce_off_walls_edges_objects(&o->oGoombaTargetYaw))) {
-            if (o->oDistanceToMario < 500.0f) {
+            if (1) {
                 // If close to mario, begin chasing him. If not already chasing
                 // him, jump first
 
@@ -202,7 +202,20 @@ static void goomba_act_walk(void) {
                     goomba_begin_jump();
                 }
 
-                o->oGoombaTargetYaw = o->oAngleToMario;
+                if (!gGoingBackwards) {
+                    o->oGoombaTargetYaw = DEGREES(0);
+                } else {
+                    o->oGoombaTargetYaw = DEGREES(180);
+                }
+                
+                if (calculate_z_pos_difference(o) < 500.f) {
+                    if (!o->oGoombaHasJumped) {
+                        goomba_begin_jump();
+                        o->oGoombaHasJumped = 1;
+                    }
+                } else {
+                    o->oGoombaHasJumped = 0;
+                }
                 o->oGoombaRelativeSpeed = 20.0f;
             } else {
                 // If mario is far away, walk at a normal pace, turning randomly
@@ -252,6 +265,10 @@ static void goomba_act_attacked_mario(void) {
  * Move until landing, and rotate toward target yaw.
  */
 static void goomba_act_jump(void) {
+    if (o->oGoombaHasJumped) {
+        o->oAction = GOOMBA_ACT_WALK;
+        return;
+    }
     obj_resolve_object_collisions(NULL);
 
     //! If we move outside the goomba's drawing radius the frame it enters the
@@ -306,7 +323,7 @@ static void floomba_act_startup(void) {
  * mario.
  */
 void huge_goomba_weakly_attacked(void) {
-    o->oAction = GOOMBA_ACT_ATTACKED_MARIO;
+    mark_goomba_as_dead();
 }
 
 /**
@@ -376,6 +393,6 @@ void bhv_goomba_update(void) {
 #endif
 
     }
-    warp_desert_object(o);
     copy_mario_x_position(o);
+    warp_desert_object(o);
 }

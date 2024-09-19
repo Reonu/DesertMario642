@@ -45,7 +45,7 @@ void bhv_pokey_body_part_update(void) {
     // PARTIAL_UPDATE
 
     if (obj_update_standard_actions(3.0f)) {
-        if (o->parentObj->oAction == POKEY_ACT_UNLOAD_PARTS) {
+        if (o->parentObj == NULL || o->parentObj->oAction == POKEY_ACT_UNLOAD_PARTS) {
             obj_mark_for_deletion(o);
         } else {
             cur_obj_update_floor_and_walls();

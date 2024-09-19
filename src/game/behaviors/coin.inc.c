@@ -98,6 +98,7 @@ void bhv_coin_loop(void) {
     cur_obj_update_floor_and_walls();
     cur_obj_if_hit_wall_bounce_away();
     cur_obj_move_standard(-62);
+    warp_desert_object(o);
 
     struct Surface *floor = o->oFloor;
 

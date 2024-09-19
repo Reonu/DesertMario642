@@ -2454,7 +2454,7 @@ Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED vo
         } else {
             remap_alpha = 0;
         }
-        print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
+        //print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
 
         s32 r = gAmbientR;
         s32 g = gAmbientG;
@@ -2502,7 +2502,7 @@ void warp_desert_object(struct Object *obj) {
         if (gInstantWarpDisplacement) {
             if (((gInstantWarpDisplacement + obj->oPosZ) > 32768) || ((gInstantWarpDisplacement + obj->oPosZ) < -32768)) {
                 mark_obj_for_deletion(obj);
-            } else {
+            } else if (obj->behavior != segmented_to_virtual(bhvPokeyBodyPart)) {
                 obj->oPosZ += gInstantWarpDisplacement;
                 obj_update_gfx_pos_and_angle(obj);
             }
@@ -2510,14 +2510,47 @@ void warp_desert_object(struct Object *obj) {
     }    
 }
 
-#define COPY_POS_DISTANCE_THRESHOLD 1000.0f
+#define COPY_POS_DISTANCE_THRESHOLD 600.0f
 
-void copy_mario_x_position(struct Object *obj) {
-    if (gMarioObject->oPosZ > obj->oPosZ + COPY_POS_DISTANCE_THRESHOLD) {
-        obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
+u8 copy_mario_x_position(struct Object *obj) {
+    if (!gGoingBackwards) {
+        if (gMarioObject->oPosZ > obj->oPosZ + COPY_POS_DISTANCE_THRESHOLD) {
+            obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } else {
+        if (gMarioObject->oPosZ < obj->oPosZ - COPY_POS_DISTANCE_THRESHOLD) {
+            obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+}
+
+u16 calculate_z_pos_difference(struct Object *obj) {
+    if (gGoingBackwards) {
+        print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
+        return obj->oPosZ - gMarioObject->oPosZ;
+    } else {
+        print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
+        return gMarioObject->oPosZ - obj->oPosZ;
     }
 }
 
 void bhv_call_warp_desert_object(void) {
     warp_desert_object(o);
+}
+
+u8 bhv_flip_desert_object(struct Object *obj, s16 offset) {
+    if (gGoingBackwards) {
+        obj->oFaceAngleYaw = DEGREES(180) - offset;
+        return TRUE;
+    } else {
+        obj->oFaceAngleYaw = 0 + offset;
+        return FALSE;
+    }
 }

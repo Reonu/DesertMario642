@@ -1784,6 +1784,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
         }
 
+        if (gPlayer1Controller->buttonPressed & L_TRIG) {
+            gGoingBackwards ^= 1;
+        }
+
         play_infinite_stairs_music();
         gMarioState->marioObj->oInteractStatus = INT_STATUS_NONE;
 #if ENABLE_RUMBLE

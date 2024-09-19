@@ -86,6 +86,7 @@ u8 gAmbientR;
 u8 gAmbientG;
 u8 gAmbientB;
 u8 gInstantWarpType;
+u8 gGoingBackwards;
 s32 gInstantWarpDisplacement;
 u16 gLow;
 u16 gHigh;

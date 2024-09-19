@@ -127,7 +127,7 @@ void spawn_bushes(MTRand *rand) {
 
 void spawn_big_decoration(MTRand *rand) {
     f32 chanceStorage = genRand(rand);
-    print_text_fmt_int(20,20, "Chance: %d", (s32)(chanceStorage * 100));
+    //print_text_fmt_int(20,20, "Chance: %d", (s32)(chanceStorage * 100));
     chanceStorage -= ELECTRICAL_POLE_CHANCE;
     if (chanceStorage < 0) {
         spawn_electrical_poles();
@@ -158,7 +158,7 @@ void spawn_enemy(MTRand *rand) {
     }
     chanceStorage -= POKEY_CHANCE;
     if (chanceStorage < 0) {
-        spawn_object_desert(gCurrentObject, 0, MODEL_POKEY_BODY_PART, bhvPokey, Road.x,Road.y,Road.z,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_NONE, bhvPokey, Road.x,Road.y,Road.z,0,0,0);
         return;
     }
 }
@@ -179,6 +179,21 @@ void bhv_desert_spawner_loop(void) {
 
 
 void bhv_desert_decor_loop(void) {
+    s16 offset;
+    u16 isRight;
+
+    if (o->oPosX > 0) {
+        isRight = 1;
+    } else {
+        isRight = 0;
+    }
+
+    if (isRight) {
+        offset = DEGREES(-45);
+    } else {
+        offset = DEGREES(45);
+    }
+
     warp_desert_object(o);
 
     if (o->behavior == segmented_to_virtual(bhvDesertSign)) {
@@ -188,19 +203,25 @@ void bhv_desert_decor_loop(void) {
         if (o->os16F4) {
             pos[0] = o->oPosX - 150;
             pos[1] = o->oPosY + 800;
-            pos[2] = o->oPosZ + 400;
+            if (bhv_flip_desert_object(o, offset) == TRUE) {
+                pos[2] = o->oPosZ - 400;
+            } else {
+                pos[2] = o->oPosZ + 400;
+            }
+            
         } else {
             pos[0] = o->oPosX + 150;
             pos[1] = o->oPosY + 800;
-            pos[2] = o->oPosZ + 400;
+            if (bhv_flip_desert_object(o, offset) == TRUE) {
+                pos[2] = o->oPosZ - 400;
+            } else {
+                pos[2] = o->oPosZ + 400;
+            }
         }
-        
-        if (o->oTimer == 0) {
-            spawn_object_abs_with_rot(o, 0, MODEL_GOOMBA, bhvPointLightPreview, pos[0], pos[1], pos[2], 0, 0, 0);
-        }
-        print_text_fmt_int(20,40, "Intensity: %d", intensity);
         emit_light(pos, intensity, intensity, intensity, 0, 0, 0, 0);
     }
+
+
 }
 
 void bhv_point_light_preview_loop(void) {
