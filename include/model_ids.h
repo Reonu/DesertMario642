@@ -7,11 +7,18 @@
 #define MODEL_BILLBOARD_END 266
 
 #define MODEL_TIER_1_START 264
-#define MODEL_TIER_2_START 267
-#define MODEL_TIER_3_START 270
+#define MODEL_TIER_2_START MODEL_SIGN_SPOON
+#define MODEL_TIER_3_START MODEL_SIGN_ASS_IMPACT
 #define MODEL_TIER_4_START 280
 
 /* fast64 object exports get inserted here */
+
+
+
+
+
+
+
 
 
 
@@ -21,8 +28,8 @@
 #define MODEL_LUIGI                            0x02        // unused
 #define MODEL_SUN                              0x100
 #define MODEL_MOON                             0x101
-#define MODEL_POKEY_HEAD                       262        // pokey_head_geo
-#define MODEL_POKEY_BODY_PART                  263        // pokey_body_part_geo
+#define MODEL_POKEY_HEAD                  262        // pokey_head_geo
+#define MODEL_POKEY_BODY_PART             263        // pokey_body_part_geo
 #define MODEL_BUSH                        260
 #define MODEL_ELECTRICAL_POLE             261
 
@@ -30,12 +37,23 @@
 #define MODEL_SIGN_AMOGUS                 264
 #define MODEL_SIGN_CHEEZEPIN              265
 #define MODEL_SIGN_FARM                   266
-#define MODEL_SIGN_ASS_IMPACT             270
+#define MODEL_SIGN_ROVERT                 267
+#define MODEL_SIGN_COMIT                  268
+#define MODEL_SIGN_MUSHROOM               269
+#define MODEL_SIGN_HACKERN64              270
+#define MODEL_SIGN_SYNERGY                271
 
 // TIER 2
-#define MODEL_SIGN_SPOON                  267
-#define MODEL_SIGN_JOEL                   268
-#define MODEL_SIGN_SIMPLEFLIPS            269
+#define MODEL_SIGN_SPOON                  272
+#define MODEL_SIGN_JOEL                   273
+#define MODEL_SIGN_SIMPLEFLIPS            274
+
+// TIER 3
+#define MODEL_SIGN_ASS_IMPACT             275
+#define MODEL_SIGN_MVC                    276
+#define MODEL_SIGN_MVH                    277
+
+// TIER 4
 
 // TIER 3
 
