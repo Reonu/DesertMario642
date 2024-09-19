@@ -6,7 +6,7 @@ extern u8 sign_amogus_fence_ci4_pal_rgba16[];
 extern Vtx sign_amogus_sign_amogus_mesh_layer_1_vtx_cull[8];
 extern Vtx sign_amogus_sign_amogus_mesh_layer_1_vtx_0[64];
 extern Vtx sign_amogus_sign_amogus_mesh_layer_1_vtx_1[44];
-extern Vtx sign_amogus_sign_amogus_mesh_layer_1_vtx_2[121];
+extern Vtx sign_amogus_sign_amogus_mesh_layer_1_vtx_2[263];
 extern Vtx sign_amogus_sign_amogus_mesh_layer_1_vtx_3[12];
 extern Vtx sign_amogus_sign_amogus_mesh_layer_4_vtx_cull[8];
 extern Vtx sign_amogus_sign_amogus_mesh_layer_4_vtx_0[16];

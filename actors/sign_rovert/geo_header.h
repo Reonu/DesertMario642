@@ -1,0 +1,14 @@
+extern const GeoLayout sign_rovert_geo[];
+extern u8 sign_rovert_metal_i8_i8[];
+extern u8 sign_rovert_fence_ci4_ci4[];
+extern u8 sign_rovert_fence_ci4_pal_rgba16[];
+extern u8 sign_rovert_rovert_rgba16[];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_1_vtx_0[44];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_1_vtx_1[265];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_1_vtx_2[12];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_1_vtx_3[64];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_rovert_sign_rovert_mesh_layer_4_vtx_0[16];
+extern Gfx sign_rovert_sign_rovert_mesh_layer_1[];
+extern Gfx sign_rovert_sign_rovert_mesh_layer_4[];

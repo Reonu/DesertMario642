@@ -369,4 +369,18 @@ extern const Gfx pokey_seg5_dl_050130B0[];
 
 #include "sign_ass_impact/geo_header.h"
 
+#include "sign_mvc/geo_header.h"
+
+#include "sign_rovert/geo_header.h"
+
+#include "sign_comit/geo_header.h"
+
+#include "sign_mushroom/geo_header.h"
+
+#include "sign_hackern64/geo_header.h"
+
+#include "sign_synergy/geo_header.h"
+
+#include "sign_mvh/geo_header.h"
+
 #endif

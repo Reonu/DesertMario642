@@ -1,0 +1,14 @@
+extern const GeoLayout sign_synergy_geo[];
+extern u8 sign_synergy_metal_i8_i8[];
+extern u8 sign_synergy_fence_ci4_ci4[];
+extern u8 sign_synergy_fence_ci4_pal_rgba16[];
+extern u8 sign_synergy_SYNERGY_rgba16[];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_1_vtx_0[44];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_1_vtx_1[263];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_1_vtx_2[12];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_1_vtx_3[64];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_synergy_sign_synergy_mesh_layer_4_vtx_0[16];
+extern Gfx sign_synergy_sign_synergy_mesh_layer_1[];
+extern Gfx sign_synergy_sign_synergy_mesh_layer_4[];
