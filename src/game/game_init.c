@@ -91,6 +91,7 @@ s32 gInstantWarpDisplacement;
 u16 gLow;
 u16 gHigh;
 u16 gInstantWarpCounter;
+u16 gLastBillboard;
 
 // Framebuffer rendering values (max 3)
 u16 sRenderedFramebuffer = 0;

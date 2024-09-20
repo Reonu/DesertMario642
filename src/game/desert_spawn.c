@@ -102,6 +102,12 @@ void spawn_billboard(MTRand *rand) {
 
     modelID = decide_billboard_model_id(rand);
 
+    while (modelID == gLastBillboard) {
+        modelID = decide_billboard_model_id(rand);
+    }
+
+    gLastBillboard = modelID;
+
     spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }
 

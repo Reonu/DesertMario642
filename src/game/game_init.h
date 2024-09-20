@@ -62,6 +62,7 @@ extern s32 gInstantWarpDisplacement;
 extern u16 gLow;
 extern u16 gHigh;
 extern u16 gInstantWarpCounter;
+extern u16 gLastBillboard;
 #ifdef EEP
 extern s8 gEepromProbe;
 #endif
