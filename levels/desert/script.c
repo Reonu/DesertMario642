@@ -38,7 +38,6 @@ const LevelScript level_desert_entry[] = {
 		MARIO_POS(0x01, 0, 0, 0, 0),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -75, 0, 2030, 0, 0, 0, 0x00000000, bhvDesertSpawner),
-		OBJECT(MODEL_GOOMBA, -75, 0, 2952, 0, 0, 0, 0x00000000, bhvGoomba),
 		OBJECT(MODEL_MOON, 0, 0, 0, 0, 0, 0, (1 << 24), bhvSun),
 		OBJECT(MODEL_SUN, 0, 0, 0, 0, 0, 0, 0x00000000, bhvSun),
 		TERRAIN(desert_area_1_collision),

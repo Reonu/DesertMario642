@@ -8,6 +8,10 @@ const GeoLayout desert_area_1_geo[] = {
 		GEO_ASM(0, geo_set_background_alpha),
 		GEO_ASM(1, geo_render_bg),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, desert_dl_desert_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -3000, 0, 2393, desert_dl_gas_station_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, desert_dl_gas_station_mesh_layer_2),
+		GEO_CLOSE_NODE(),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
