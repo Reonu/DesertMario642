@@ -123,6 +123,10 @@ void spawn_bushes(MTRand *rand) {
     }
 }
 
+void spawn_gas_station(MTRand *rand) {
+    spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
+}
+
 
 #define GOOMBA_CHANCE 0.25f
 #define POKEY_CHANCE 0.25f
@@ -174,11 +178,15 @@ void bhv_desert_spawner_loop(void) {
     u32 numSmall = random_in_range(&newSeed, 5);
 
     if (gInstantWarpDisplacement) {
-        for (u32 i = 0; i < numSmall; i++) {
-            spawn_small_decoration(&newSeed);
+        if (gInstantWarpCounter % 20 == 0) {
+            spawn_gas_station(&newSeed);
+        } else {
+            for (u32 i = 0; i < numSmall; i++) {
+                spawn_small_decoration(&newSeed);
+            }
+            spawn_big_decoration(&newSeed);
+            spawn_enemy(&newSeed);
         }
-        spawn_big_decoration(&newSeed);
-        spawn_enemy(&newSeed);
     }
 }
 

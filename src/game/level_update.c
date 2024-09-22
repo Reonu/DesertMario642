@@ -529,6 +529,18 @@ void warp_credits(void) {
     }
 }
 
+struct DesertSpawnCoords gasStationWarpCoords = {
+    .x = -18.995,
+    .y = 0,
+    .z = 7,
+};
+
+struct DesertSpawnCoords exitWarpCoords = {
+    .x = -3852,
+    .y = 0,
+    .z = 1062,
+};
+
 void check_instant_warp(void) {
     s16 cameraAngle;
     struct Surface *floor;
@@ -572,7 +584,9 @@ void check_instant_warp(void) {
                 warp_camera(warp->displacement[0], warp->displacement[1], warp->displacement[2]);
 
                 gMarioState->area->camera->yaw = cameraAngle;
-                gInstantWarpDisplacement = warp->displacement[2];
+                if (index < 2) {
+                    gInstantWarpDisplacement = warp->displacement[2];
+                }
                 if (warp->displacement[2] > 0) {
                     gInstantWarpCounter++;
                     gInstantWarpType = INSTANT_WARP_FORWARDS;

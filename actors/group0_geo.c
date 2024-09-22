@@ -36,3 +36,4 @@
 #include "sign_hackern64/geo.inc.c"
 #include "sign_synergy/geo.inc.c"
 #include "sign_mvh/geo.inc.c"
+#include "gas_station/geo.inc.c"

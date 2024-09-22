@@ -52,3 +52,5 @@
 #include "sign_hackern64/model.inc.c"
 #include "sign_synergy/model.inc.c"
 #include "sign_mvh/model.inc.c"
+#include "gas_station/collision.inc.c"
+#include "gas_station/model.inc.c"

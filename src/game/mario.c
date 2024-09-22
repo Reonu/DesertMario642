@@ -1788,6 +1788,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gGoingBackwards ^= 1;
         }
 
+        print_text_fmt_int(20, 100, "WARPS %d", gMarioCurrentRoom); 
+
         play_infinite_stairs_music();
         gMarioState->marioObj->oInteractStatus = INT_STATUS_NONE;
 #if ENABLE_RUMBLE

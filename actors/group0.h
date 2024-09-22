@@ -383,4 +383,8 @@ extern const Gfx pokey_seg5_dl_050130B0[];
 
 #include "sign_mvh/geo_header.h"
 
+#include "gas_station/collision_header.h"
+
+#include "gas_station/geo_header.h"
+
 #endif

@@ -394,6 +394,17 @@ enum BehaviorCommands {
 
 
 /* fast64 object exports get inserted here */
+const BehaviorScript bhvGasStation[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(gas_station_collision),
+    SET_FLOAT(oCollisionDistance, 6000),
+	BEGIN_LOOP(),
+		CALL_NATIVE(bhv_desert_decor_loop),
+		CALL_NATIVE(load_object_collision_model),
+	END_LOOP(),
+};
+
 const BehaviorScript bhvBush[] = {
 	BEGIN(OBJ_LIST_SURFACE),
 	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

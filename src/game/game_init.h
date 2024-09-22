@@ -58,6 +58,7 @@ extern u8 gAmbientG;
 extern u8 gAmbientB;
 extern u8 gInstantWarpType;
 extern u8 gGoingBackwards;
+extern u8 gJustExitedGasStation;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;
 extern u16 gHigh;

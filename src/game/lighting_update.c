@@ -185,6 +185,7 @@ void set_light_color(void) {
     u8 dirR;
     u8 dirG;
     u8 dirB;
+    Vec3f dirInside = {2,124,-4};
     static u16 fogHigh;
     static u16 fogLow;
     static u8 fogOverride;
@@ -205,8 +206,14 @@ void set_light_color(void) {
     dirG = lerpf(gDayConfigs[curDayConfig].dirG, gDayConfigs[nextDayConfig].dirG,remapTime);
     dirB = lerpf(gDayConfigs[curDayConfig].dirB, gDayConfigs[nextDayConfig].dirB,remapTime);
 
-    set_ambient_light(gAmbientR, gAmbientG, gAmbientB);
-    set_directional_light(gLightDirection,dirR,dirG,dirB);
+    if (gMarioCurrentRoom == 2) {
+        set_ambient_light(70, 70, 66);
+        set_directional_light(dirInside, 210, 210, 200);
+    } else {
+        set_ambient_light(gAmbientR, gAmbientG, gAmbientB);
+        set_directional_light(gLightDirection,dirR,dirG,dirB);
+    }
+
     
 
     //print_text_fmt_int(20,40,"GLOW %d", gLow);
