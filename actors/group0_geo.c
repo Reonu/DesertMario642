@@ -37,3 +37,4 @@
 #include "sign_synergy/geo.inc.c"
 #include "sign_mvh/geo.inc.c"
 #include "gas_station/geo.inc.c"
+#include "koopa_with_shell_custom/geo.inc.c"

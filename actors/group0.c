@@ -54,3 +54,7 @@
 #include "sign_mvh/model.inc.c"
 #include "gas_station/collision.inc.c"
 #include "gas_station/model.inc.c"
+#include "koopa_with_shell_custom/model.inc.c"
+
+#include "koopa/anims/data.inc.c"
+#include "koopa/anims/table.inc.c"

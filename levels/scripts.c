@@ -65,6 +65,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_COMMON1_GEO,   _common1_geoSegmentRomStart,  _common1_geoSegmentRomEnd, _common1_geoSegmentBssStart, _common1_geoSegmentBssEnd),
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_BEHAVIOR_DATA,    _behaviorSegmentRomStart,     _behaviorSegmentRomEnd,   _behaviorSegmentBssStart,     _behaviorSegmentBssEnd),
     ALLOC_LEVEL_POOL(),
+    LOAD_MODEL_FROM_GEO(MODEL_KOOPA_WITH_SHELL_CUSTOM, koopa_with_shell_custom_geo),
     LOAD_MODEL_FROM_GEO(MODEL_GAS_STATION, gas_station_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SIGN_MVH, sign_mvh_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SIGN_SYNERGY, sign_synergy_geo),

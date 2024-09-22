@@ -12,6 +12,7 @@
 #define MODEL_TIER_4_START 280
 
 /* fast64 object exports get inserted here */
+#define MODEL_KOOPA_WITH_SHELL_CUSTOM     302
 #define MODEL_GAS_STATION                 301
 
 

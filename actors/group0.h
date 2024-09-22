@@ -340,6 +340,7 @@ extern const Gfx pokey_seg5_dl_050127D8[];
 extern const Gfx pokey_seg5_dl_05012808[];
 extern const Gfx pokey_seg5_dl_05013078[];
 extern const Gfx pokey_seg5_dl_050130B0[];
+extern const struct Animation *const koopa_seg6_anims_06011364[];
 
 #include "mario/geo_header.h"
 
@@ -386,5 +387,7 @@ extern const Gfx pokey_seg5_dl_050130B0[];
 #include "gas_station/collision_header.h"
 
 #include "gas_station/geo_header.h"
+
+#include "koopa_with_shell_custom/geo_header.h"
 
 #endif
