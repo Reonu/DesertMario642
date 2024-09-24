@@ -59,10 +59,11 @@ extern u8 gAmbientB;
 extern u8 gInstantWarpType;
 extern u8 gGoingBackwards;
 extern u8 gJustExitedGasStation;
+extern u16 gVisitedAreas;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;
 extern u16 gHigh;
-extern u16 gInstantWarpCounter;
+extern s32 gInstantWarpCounter;
 extern u16 gLastBillboard;
 #ifdef EEP
 extern s8 gEepromProbe;

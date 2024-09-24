@@ -157,6 +157,10 @@ s32 act_punching(struct MarioState *m) {
         return set_mario_action(m, ACT_JUMP_KICK, 0);
     }
 
+    if (m->inRangeOfWaterSeller) {
+        return drop_and_set_mario_action(m, ACT_IDLE, 0);;
+    }
+
     m->actionState = ACT_STATE_PUNCHING_NO_JUMP_KICK;
     if (m->actionArg == 0) {
         m->actionTimer = 7;
@@ -166,7 +170,6 @@ s32 act_punching(struct MarioState *m) {
     if (m->actionTimer > 0) {
         m->actionTimer--;
     }
-
     mario_update_punch_sequence(m);
     perform_ground_step(m);
     return FALSE;

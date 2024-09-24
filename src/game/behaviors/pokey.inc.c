@@ -298,6 +298,5 @@ void bhv_pokey_update(void) {
     o->oDrawingDistance = 999999.0f;
     copy_mario_x_position(o);
     warp_desert_object(o);
-    print_text(20,20,"TEST");
 }
 

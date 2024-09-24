@@ -16,6 +16,8 @@
 #include "sound_init.h"
 #include "surface_terrains.h"
 #include "rumble_init.h"
+#include "game_init.h"
+#include "object_constants.h"
 
 s32 check_common_idle_cancels(struct MarioState *m) {
     mario_drop_held_object(m);
@@ -48,7 +50,7 @@ s32 check_common_idle_cancels(struct MarioState *m) {
         return set_mario_action(m, ACT_WALKING, 0);
     }
 
-    if (m->input & INPUT_B_PRESSED) {
+    if (m->input & INPUT_B_PRESSED && !gMarioState->inRangeOfWaterSeller) {
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -97,6 +99,10 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
 
     if (m->input & INPUT_Z_DOWN) {
         return drop_and_set_mario_action(m, ACT_START_CROUCHING, 0);
+    }
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        return drop_and_set_mario_action(m, ACT_DRINKING_WATER, 0);
     }
 
     return FALSE;
@@ -178,6 +184,37 @@ s32 act_idle(struct MarioState *m) {
     stationary_ground_step(m);
 
     return FALSE;
+}
+
+s32 act_drinking_water(struct MarioState *m) {
+    if (m->actionState == 0) {
+        set_custom_mario_animation(m, 0);
+        if (is_anim_at_end(m)) {
+            m->actionState = 1;
+            recover_hydration(HYDRATON_WATER_RECOVERY);
+            drop_and_set_mario_action(m, ACT_IDLE, 0);
+        }
+    } else {
+        if (m->actionTimer++ > 20) {
+            m->actionState = 0;
+            m->actionTimer = 0;
+        }
+    }
+}
+
+s32 act_drinking_water_fail(struct MarioState *m) {
+    if (m->actionState == 0) {
+        set_custom_mario_animation(m, 1);
+        if (is_anim_at_end(m)) {
+            m->actionState = 1;
+            drop_and_set_mario_action(m, ACT_IDLE, 0);
+        }
+    } else {
+        if (m->actionTimer++ > 20) {
+            m->actionState = 0;
+            m->actionTimer = 0;
+        }
+    }
 }
 
 void play_anim_sound(struct MarioState *m, u32 actionState, s32 animFrame, u32 sound) {
@@ -473,7 +510,7 @@ s32 act_standing_against_wall(struct MarioState *m) {
         return set_mario_action(m, ACT_FIRST_PERSON, 0);
     }
 
-    if (m->input & INPUT_B_PRESSED) {
+    if (m->input & INPUT_B_PRESSED && !gMarioState->inRangeOfWaterSeller) {
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -602,7 +639,7 @@ s32 act_braking_stop(struct MarioState *m) {
         return set_mario_action(m, ACT_FREEFALL, 0);
     }
 
-    if (m->input & INPUT_B_PRESSED) {
+    if (m->input & INPUT_B_PRESSED && !gMarioState->inRangeOfWaterSeller) {
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -830,7 +867,7 @@ s32 check_common_landing_cancels(struct MarioState *m, u32 action) {
         return check_common_action_exits(m);
     }
 
-    if (m->input & INPUT_B_PRESSED) {
+    if (m->input & INPUT_B_PRESSED && !gMarioState->inRangeOfWaterSeller) {
         return set_mario_action(m, ACT_PUNCHING, 0);
     }
 
@@ -1129,6 +1166,8 @@ s32 mario_execute_stationary_action(struct MarioState *m) {
         case ACT_BRAKING_STOP:            cancel = act_braking_stop(m);                     break;
         case ACT_BUTT_SLIDE_STOP:         cancel = act_butt_slide_stop(m);                  break;
         case ACT_HOLD_BUTT_SLIDE_STOP:    cancel = act_hold_butt_slide_stop(m);             break;
+        case ACT_DRINKING_WATER:          cancel = act_drinking_water(m);                   break;
+        case ACT_DRINKING_WATER_FAIL:     cancel = act_drinking_water_fail(m);              break;      
         default:                          cancel = TRUE;                                    break;
     }
     /* clang-format on */

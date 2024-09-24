@@ -452,6 +452,10 @@ Gfx *geo_switch_mario_hand(s32 callContext, struct GraphNode *node, UNUSED Mat4 
             }
         }
     }
+
+    if (gMarioState->action == ACT_DRINKING_WATER || gMarioState->action == ACT_DRINKING_WATER_FAIL) {
+        switchCase->selectedCase = 0x03;
+    }
     return NULL;
 }
 

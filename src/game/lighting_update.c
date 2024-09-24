@@ -222,9 +222,9 @@ void set_light_color(void) {
     //print_text_fmt_int(20, 40, "DAYCONFIG %d",curDayConfig);
     //print_text_fmt_int(20, 60, "NEXTDAY %d",nextDayConfig);
 
-    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+    /*if (gPlayer1Controller->buttonPressed & L_TRIG) {
         fogOverride ^= 1;
-    }
+    }*/
 
     if (fogOverride) {
         if (gPlayer1Controller->buttonDown & L_JPAD) {

@@ -95,6 +95,7 @@ const GeoLayout mario_RightHand_CAP_Armature[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -201,6 +202,7 @@ const GeoLayout mario_002_switch_opt0_001_switch_opt1_jump_mario_RightHand_CAP_A
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_5),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -456,6 +458,7 @@ const GeoLayout mario_002_switch_opt0_001_switch_opt2_jump_mario_RightHand_CAP_A
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_1_mat_override_metal_v4_0),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_5_mat_override_metal_v4_0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -655,6 +658,7 @@ const GeoLayout mario_002_switch_opt0_001_switch_opt3_jump_mario_RightHand_CAP_A
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_1_mat_override_metal_v4_0),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, mario_002_switch_option_RCAP_000_displaylist_003_RCAP_mesh_layer_5_mat_override_metal_v4_0),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

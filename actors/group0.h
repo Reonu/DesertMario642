@@ -390,4 +390,6 @@ extern const struct Animation *const koopa_seg6_anims_06011364[];
 
 #include "koopa_with_shell_custom/geo_header.h"
 
+#include "mario/anim_header.h"
+
 #endif

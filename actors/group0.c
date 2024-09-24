@@ -58,3 +58,8 @@
 
 #include "koopa/anims/data.inc.c"
 #include "koopa/anims/table.inc.c"
+#include "mario/anims/anim_drinking_water.inc.c"
+#include "mario/anims/anim_no_water_left.inc.c"
+#include "mario/anims/table.inc.c"
+
+#include "mario/anim_header.h"

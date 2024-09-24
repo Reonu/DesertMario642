@@ -88,11 +88,13 @@ u8 gAmbientB;
 u8 gInstantWarpType;
 u8 gGoingBackwards;
 u8 gJustExitedGasStation;
+u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;
 u16 gHigh;
-u16 gInstantWarpCounter;
 u16 gLastBillboard;
+s32 gInstantWarpCounter;
+
 
 // Framebuffer rendering values (max 3)
 u16 sRenderedFramebuffer = 0;

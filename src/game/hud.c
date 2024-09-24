@@ -17,6 +17,8 @@
 #include "engine/math_util.h"
 #include "puppycam2.h"
 #include "puppyprint.h"
+#include "src/game/cozy_print.h"
+#include "object_constants.h"
 
 #include "config.h"
 
@@ -409,6 +411,12 @@ void render_hud_mario_lives(void) {
     print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y, str);
 }
 
+void render_hud_water_left(void) {
+    char str[10];
+    sprintf(str, "☺×%d", gMarioState->waterLeft);
+    print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y, str);    
+}
+
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
 void render_debug_mode(void) {
     print_text(180, 40, "DEBUG MODE");
@@ -443,6 +451,43 @@ void render_hud_stars(void) {
         sprintf(str, "★%d", gHudDisplay.stars);
     }
     print_text(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_STARS_X), HUD_TOP_Y, str);
+}
+
+#define BAR_HEIGHT 8
+#define BAR_MARGIN 8
+#define BAR_RIGHT ((SCREEN_WIDTH / 3) - BAR_MARGIN)
+#define BAR_TOP (SCREEN_HEIGHT - (BAR_MARGIN + BAR_HEIGHT))
+
+void render_hud_hydration_meter(Gfx **head) {
+    Gfx *gfx = *head;
+    f32 hydrationPercent = ((f32)gMarioState->hydrationMeter / (f32)MAX_HYDRATION);
+    s32 r, g, b;
+    s32 xEnergyWidth = roundf(remap(gMarioState->hydrationMeter, 0, MAX_HYDRATION, 0, (SCREEN_WIDTH / 3) - BAR_MARGIN));
+
+    if (hydrationPercent < 0.30f) {
+        if (gMarioState->hydrationLowFirstTime == 0) {
+            gMarioState->hydrationLowFirstTime = 1;
+        }
+        r = CLAMP(255 * (hydrationPercent * 5.0f),0,255);
+        g = 0;
+        b = 0;
+    } else if (hydrationPercent < 0.5f) {
+        r = 255;
+        g = 255;
+        b = 127 * hydrationPercent;
+    } else if (hydrationPercent < 0.6f) {
+        r = 127 * hydrationPercent;
+        g = 255;
+        b = 0;
+    } else {
+        r = 50 * hydrationPercent;
+        g = 255;
+        b = 50 * hydrationPercent;
+    }    
+    render_rect(&gfx, BAR_MARGIN, BAR_TOP, xEnergyWidth, BAR_HEIGHT, r, g, b, TRUE);
+    render_rect_xlu(&gfx, xEnergyWidth + BAR_MARGIN, BAR_TOP, BAR_RIGHT - xEnergyWidth, BAR_HEIGHT, r, g, b, 50, TRUE);
+
+    *head = gfx;
 }
 
 /**
@@ -569,6 +614,7 @@ void render_hud(void) {
             render_hud_mario_lives();
         }
 #endif
+        render_hud_water_left();
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_COIN_COUNT) {
             render_hud_coins();

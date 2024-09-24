@@ -2496,18 +2496,21 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
     }
     return dlStart;
 }
-
+#define MAX_DISTANCE 5
 void warp_desert_object(struct Object *obj) {
     if (obj->oDesertTimer != 0) {
         if (gInstantWarpDisplacement) {
-            if (((gInstantWarpDisplacement + obj->oPosZ) > 32768) || ((gInstantWarpDisplacement + obj->oPosZ) < -32768)) {
-                mark_obj_for_deletion(obj);
-            } else if (obj->behavior != segmented_to_virtual(bhvPokeyBodyPart)) {
+            if (obj->behavior != segmented_to_virtual(bhvPokeyBodyPart)) {
                 obj->oPosZ += gInstantWarpDisplacement;
                 obj_update_gfx_pos_and_angle(obj);
             }
         }
-    }    
+        if (ABS(o->oInstantWarpSpawn - gInstantWarpCounter) > MAX_DISTANCE) {
+            mark_obj_for_deletion(obj);
+        }
+    } else {
+        o->oInstantWarpSpawn = gInstantWarpCounter;
+    }
 }
 
 #define COPY_POS_DISTANCE_THRESHOLD 600.0f
@@ -2533,10 +2536,10 @@ u8 copy_mario_x_position(struct Object *obj) {
 
 u16 calculate_z_pos_difference(struct Object *obj) {
     if (gGoingBackwards) {
-        print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
+        //print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
         return obj->oPosZ - gMarioObject->oPosZ;
     } else {
-        print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
+        //print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
         return gMarioObject->oPosZ - obj->oPosZ;
     }
 }

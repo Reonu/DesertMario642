@@ -5,7 +5,8 @@
 
 #include "macros.h"
 #include "types.h"
-
+s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID);
+s16 set_custom_mario_animation_accel(struct MarioState *m, s32 targetAnimID, s32 accel);
 s32 is_anim_at_end(struct MarioState *m);
 s32 is_anim_past_end(struct MarioState *m);
 s16 set_mario_animation(struct MarioState *m, s32 targetAnimID);
@@ -52,5 +53,6 @@ s32 set_water_plunge_action(struct MarioState *m);
 s32 execute_mario_action(UNUSED struct Object *obj);
 void init_mario(void);
 void init_mario_from_save_file(void);
-
+void deplete_hydration(s32 amt);
+void recover_hydration(s32 amt);
 #endif // MARIO_H

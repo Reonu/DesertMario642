@@ -32,6 +32,7 @@
 #include "save_file.h"
 #include "sound_init.h"
 #include "rumble_init.h"
+#include "actors/group0.h"
 
 
 /**************************************************
@@ -41,6 +42,56 @@
 /**
  * Checks if Mario's animation has reached its end point.
  */
+s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
+    struct Object *mObj = m->marioObj;
+    if (mObj->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+        mObj->header.gfx.animInfo.animID = targetAnimID;
+        mObj->header.gfx.animInfo.curAnim = targetAnim;
+        mObj->header.gfx.animInfo.animAccel = 0;
+        mObj->header.gfx.animInfo.animYTrans = m->animYTrans;
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            mObj->header.gfx.animInfo.animFrame = targetAnim->startFrame;
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                mObj->header.gfx.animInfo.animFrame = targetAnim->startFrame + 1;
+            } else {
+                mObj->header.gfx.animInfo.animFrame = targetAnim->startFrame - 1;
+            }
+        }
+    }
+    return mObj->header.gfx.animInfo.animFrame;
+}
+
+s16 set_custom_mario_animation_accel(struct MarioState *m, s32 targetAnimID, s32 accel) {
+    struct Object *mObj = m->marioObj;
+    if (mObj->header.gfx.animInfo.animID != targetAnimID) {
+        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
+        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+        mObj->header.gfx.animInfo.animID = targetAnimID;
+        mObj->header.gfx.animInfo.curAnim = targetAnim;
+        mObj->header.gfx.animInfo.animAccel = 0;
+        mObj->header.gfx.animInfo.animYTrans = m->animYTrans;
+        if (targetAnim->flags & ANIM_FLAG_NO_ACCEL) {
+            mObj->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10);
+        } else {
+            if (targetAnim->flags & ANIM_FLAG_FORWARD) {
+                mObj->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10) + accel;
+            } else {
+                mObj->header.gfx.animInfo.animFrameAccelAssist = (targetAnim->startFrame << 0x10) - accel;
+            }
+        }
+        mObj->header.gfx.animInfo.animFrame = (mObj->header.gfx.animInfo.animFrameAccelAssist >> 0x10);
+    }
+
+    mObj->header.gfx.animInfo.animAccel = accel;
+
+    return mObj->header.gfx.animInfo.animFrame;
+}
+
 s32 is_anim_at_end(struct MarioState *m) {
     struct Object *marioObj = m->marioObj;
 
@@ -1699,6 +1750,16 @@ void queue_rumble_particles(struct MarioState *m) {
 }
 #endif
 
+void deplete_hydration(s32 amt) {
+    gMarioState->hydrationMeter -= amt;
+    if (gMarioState->hydrationMeter < 0) gMarioState->hydrationMeter = 0;
+}
+
+void recover_hydration(s32 amt) {
+    gMarioState->hydrationMeter += amt;
+    if (gMarioState->hydrationMeter > MAX_HYDRATION) gMarioState->hydrationMeter = MAX_HYDRATION;
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1728,7 +1789,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             startedBenchmark = TRUE;
         }
 #endif
-
+        if ((gPlayer1Controller->buttonPressed & L_TRIG) && (gMarioState->action & ACT_FLAG_CAN_DRINK_WATER)) {
+            if (gMarioState->waterLeft) {
+                set_mario_action(gMarioState, ACT_DRINKING_WATER, 0);
+            } else {
+                set_mario_action(gMarioState, ACT_DRINKING_WATER_FAIL, 1);
+            }
+            
+        }
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         mario_reset_bodystate(gMarioState);
         update_mario_inputs(gMarioState);
@@ -1766,6 +1834,13 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         squish_mario_model(gMarioState);
         set_submerged_cam_preset_and_spawn_bubbles(gMarioState);
         update_mario_health(gMarioState);
+
+        deplete_hydration(HYDRATION_DRAIN_RATE);
+
+        if (gMarioCurrentRoom != 2) {
+            gMarioState->inRangeOfWaterSeller = FALSE;
+        }
+
 #ifdef BREATH_METER
         update_mario_breath(gMarioState);
 #endif
@@ -1784,11 +1859,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
         }
 
-        if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        /*if (gPlayer1Controller->buttonPressed & L_TRIG) {
             gGoingBackwards ^= 1;
-        }
+        }*/
 
-        print_text_fmt_int(20, 100, "WARPS %d", gMarioCurrentRoom); 
+        //print_text_fmt_int(20, 100, "WARPS %d", gMarioCurrentRoom); 
 
         play_infinite_stairs_music();
         gMarioState->marioObj->oInteractStatus = INT_STATUS_NONE;
@@ -1833,6 +1908,10 @@ void init_mario(void) {
     gMarioState->heldObj = NULL;
     gMarioState->riddenObj = NULL;
     gMarioState->usedObj = NULL;
+
+    gMarioState->hydrationMeter = MAX_HYDRATION / 5;
+
+    gMarioState->inRangeOfWaterSeller = FALSE;
 
     gMarioState->waterLevel = find_water_level(gMarioSpawnInfo->startPos[0], gMarioSpawnInfo->startPos[2]);
 

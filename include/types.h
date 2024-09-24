@@ -258,7 +258,7 @@ struct ObjectNode {
 
 // NOTE: Since ObjectNode is the first member of Object, it is difficult to determine
 // whether some of these pointers point to ObjectNode or Object.
-#define MAX_OBJECT_FIELDS 0x51
+#define MAX_OBJECT_FIELDS 0x52
 
 struct Object {
     /*0x000*/ struct ObjectNode header;
@@ -460,6 +460,10 @@ struct MarioState {
              s16 ceilYaw;
              s16 wallYaw;
     // -- HackerSM64 MarioState fields end --
+             u8 waterLeft;
+             u8 hydrationLowFirstTime;
+             u8 inRangeOfWaterSeller;
+             s32 hydrationMeter;
 };
 
 struct GlobalFog

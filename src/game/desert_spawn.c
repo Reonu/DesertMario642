@@ -123,13 +123,14 @@ void spawn_bushes(MTRand *rand) {
     }
 }
 
-void spawn_gas_station(MTRand *rand) {
+void spawn_gas_station(void) {
     spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
 }
 
 
 #define GOOMBA_CHANCE 0.25f
 #define POKEY_CHANCE 0.25f
+#define SUN_CHANCE 0.10f
 
 #define ELECTRICAL_POLE_CHANCE 0.25f
 #define BUSH_CHANCE 0.25f
@@ -175,17 +176,27 @@ void spawn_enemy(MTRand *rand) {
 
 void bhv_desert_spawner_loop(void) {
     MTRand newSeed = seedRand(gInstantWarpCounter);
-    u32 numSmall = random_in_range(&newSeed, 5);
-
+     
     if (gInstantWarpDisplacement) {
-        if (gInstantWarpCounter % 20 == 0) {
-            spawn_gas_station(&newSeed);
+        if (gInstantWarpType == INSTANT_WARP_FORWARDS) {
+            gVisitedAreas = (gVisitedAreas << 1) & 0b111111111;
+        } else if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
+            gVisitedAreas = (gVisitedAreas >> 1) & 0b111111111;
         } else {
-            for (u32 i = 0; i < numSmall; i++) {
-                spawn_small_decoration(&newSeed);
+            print_text(20,20,"TEST");
+        }
+        if (!(gVisitedAreas & 0b000010000)) {
+            u32 numSmall = random_in_range(&newSeed, 5);
+            if (gInstantWarpCounter % 20 == 0) {
+                spawn_gas_station();
+            } else {
+                for (u32 i = 0; i < numSmall; i++) {
+                    spawn_small_decoration(&newSeed);
+                }
+                spawn_big_decoration(&newSeed);
+                spawn_enemy(&newSeed);
             }
-            spawn_big_decoration(&newSeed);
-            spawn_enemy(&newSeed);
+            gVisitedAreas |= 0b000010000;
         }
     }
 }
@@ -238,6 +249,82 @@ void bhv_desert_decor_loop(void) {
 
 }
 
+
 void bhv_point_light_preview_loop(void) {
     warp_desert_object(o);
+}
+
+enum KoopaWaterSellerAction {
+    KOOPA_WATER_SELLER_IDLE,
+    KOOPA_WATER_SELLER_OFFER_WATER,
+    KOOPA_WATER_SELLER_THANK_YOU,
+    KOOPA_WATER_SELLER_WATER_FULL
+};
+
+#define WATER_TEXT_X_POS 20
+#define WATER_TEXT_Y_POS 180
+
+void bhv_koopa_water_seller_update_mario_status(void) {
+    if (gMarioCurrentRoom == 2) {
+        if (o->oDistanceToMario < 500.f) {
+            gMarioState->inRangeOfWaterSeller = TRUE;
+        } else {
+            gMarioState->inRangeOfWaterSeller = FALSE;
+        }
+    } else {
+        gMarioState->inRangeOfWaterSeller = FALSE;
+    }
+
+}   
+
+void bhv_koopa_water_seller_idle(void) {
+    if (o->oDistanceToMario < 500.f) {
+        if (gMarioState->waterLeft < MAX_WATER) {
+            o->oAction = KOOPA_WATER_SELLER_OFFER_WATER;
+        } else {
+            o->oAction = KOOPA_WATER_SELLER_WATER_FULL;
+        }
+    }
+}
+
+void bhv_koopa_water_seller_offer_water(void) {
+    print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+        gMarioState->waterLeft = MAX_WATER;
+        o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+    }
+}
+
+void bhv_koopa_water_seller_thank_you(void) {
+    if (o->oDistanceToMario < 500.f) {
+        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Thank you for your business!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    } else {
+        o->oAction = KOOPA_WATER_SELLER_IDLE;
+    }
+}
+
+void bhv_koopa_water_seller_water_full(void) {
+    if (o->oDistanceToMario < 500.f) {
+        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "You can't carry any more water!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    } else {
+        o->oAction = KOOPA_WATER_SELLER_IDLE;
+    }
+}
+
+void bhv_koopa_water_seller_loop(void) {
+    switch (o->oAction) {
+        case KOOPA_WATER_SELLER_IDLE:
+            bhv_koopa_water_seller_idle();
+            break;
+        case KOOPA_WATER_SELLER_OFFER_WATER:
+            bhv_koopa_water_seller_offer_water();
+            break;
+        case KOOPA_WATER_SELLER_THANK_YOU:
+            bhv_koopa_water_seller_thank_you();
+            break;
+        case KOOPA_WATER_SELLER_WATER_FULL:
+            bhv_koopa_water_seller_water_full();
+            break;
+    }
+    bhv_koopa_water_seller_update_mario_status();
 }

@@ -377,11 +377,7 @@ void bhv_goomba_update(void) {
                 break;
 #endif
         }
-        if (obj_handle_attacks(&sGoombaHitbox, GOOMBA_ACT_ATTACKED_MARIO,
-                               sGoombaAttackHandlers[o->oGoombaSize & 0x1])
-                               && (o->oAction != GOOMBA_ACT_ATTACKED_MARIO)) {
-            mark_goomba_as_dead();
-        }
+
 
         cur_obj_move_standard(-78);
     } else {
@@ -392,6 +388,11 @@ void bhv_goomba_update(void) {
         }
 #endif
 
+    }
+    if (obj_handle_attacks(&sGoombaHitbox, GOOMBA_ACT_ATTACKED_MARIO,
+                            sGoombaAttackHandlers[o->oGoombaSize & 0x1])
+                            && (o->oAction != GOOMBA_ACT_ATTACKED_MARIO)) {
+        mark_goomba_as_dead();
     }
     copy_mario_x_position(o);
     warp_desert_object(o);
