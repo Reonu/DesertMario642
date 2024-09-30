@@ -1149,6 +1149,10 @@ void mode_8_directions_camera(struct Camera *c) {
         s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
     }
 #endif
+    if (gMarioCurrentRoom != 2) {
+        s8DirModeYawOffset++;
+    }
+    
 
     lakitu_zoom(400.f, 0x900);
     c->nextYaw = update_8_directions_camera(c, c->focus, pos);
@@ -2880,7 +2884,7 @@ void update_camera(struct Camera *c) {
 #endif
         && gCurrentArea->camera->mode != CAMERA_MODE_INSIDE_CANNON) {
         // Only process R_TRIG if 'fixed' is not selected in the menu
-        if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO) {
+        /*if (cam_select_alt_mode(CAM_SELECTION_NONE) == CAM_SELECTION_MARIO) {
             if (gPlayer1Controller->buttonPressed & R_TRIG) {
                 if (set_cam_angle(0) == CAM_ANGLE_LAKITU) {
                     set_cam_angle(CAM_ANGLE_MARIO);
@@ -2888,7 +2892,7 @@ void update_camera(struct Camera *c) {
                     set_cam_angle(CAM_ANGLE_LAKITU);
                 }
             }
-        }
+        }*/
         play_sound_if_cam_switched_to_lakitu_or_mario();
     }
 

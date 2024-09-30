@@ -1,6 +1,4 @@
 extern const GeoLayout gas_station_geo[];
-extern Lights1 gas_station_gas_machine_front_lights;
-extern Lights1 gas_station_window_layer2_lights;
 extern u8 gas_station_concrete2_i8[];
 extern u8 gas_station_gas_machine_front_ci4[];
 extern u8 gas_station_gas_machine_front_pal_rgba16[];

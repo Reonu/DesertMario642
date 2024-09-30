@@ -3041,7 +3041,7 @@ typedef union {
 #define	gSPClearGeometryMode(pkt, word)	gSPGeometryMode((pkt),(word),0)
 #define	gsSPClearGeometryMode(word)	gsSPGeometryMode((word),0)
 #define	gSPLoadGeometryMode(pkt, word)	gSPGeometryMode((pkt),-1,(word))
-#define	gsSPLoadGeometryMode(word)	gsSPGeometryMode(-1,(word))
+#define    gsSPLoadGeometryMode(word)    gsSPGeometryMode(-1,(word) | G_LIGHTING_POSITIONAL)
 #define gsSPGeometryModeSetFirst(c, s)	gsSPGeometryMode(c, s)
 #else	/* F3DEX_GBI_2 */
 #define	gSPSetGeometryMode(pkt, word)					\

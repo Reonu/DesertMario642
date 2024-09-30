@@ -414,7 +414,7 @@ void render_hud_mario_lives(void) {
 void render_hud_water_left(void) {
     char str[10];
     sprintf(str, "☺×%d", gMarioState->waterLeft);
-    print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y, str);    
+    print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 209, str);    
 }
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
@@ -488,6 +488,14 @@ void render_hud_hydration_meter(Gfx **head) {
     render_rect_xlu(&gfx, xEnergyWidth + BAR_MARGIN, BAR_TOP, BAR_RIGHT - xEnergyWidth, BAR_HEIGHT, r, g, b, 50, TRUE);
 
     *head = gfx;
+}
+
+void render_hud_battery_meter(s8 alpha) {
+    char batteryStr[20];
+    s32 batteryPercent = (gMarioState->batteryMeter * 100) / MAX_BATTERIES;
+    print_set_envcolour(255, 255, 255, alpha);
+    sprintf(batteryStr, "BATTERY: %d%%", batteryPercent);
+    print_small_text_buffered(10, 205, batteryStr, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
 }
 
 /**
@@ -577,6 +585,7 @@ void render_hud_camera_status(void) {
  */
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
+    static s8 alpha;
 
     if (hudDisplayFlags == HUD_DISPLAY_NONE) {
         sPowerMeterHUD.animation = POWER_METER_HIDDEN;
@@ -615,6 +624,18 @@ void render_hud(void) {
         }
 #endif
         render_hud_water_left();
+        if (gMarioState->flashlightOn) {
+            render_hud_battery_meter(alpha);
+            alpha = (alpha + 20) % 255;
+        } else {
+            if (alpha > 0) {
+                render_hud_battery_meter(alpha);
+                alpha -= 20;
+                if (alpha < 0) {
+                    alpha = 0;
+                }
+            }
+        }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_COIN_COUNT) {
             render_hud_coins();

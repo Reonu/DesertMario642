@@ -254,9 +254,6 @@ void update_lighting(void) {
     set_light_direction();
     set_light_color();
     //print_text_fmt_int(20,20, "TIME %d", twentyfourhr);  
-    
-    //set_directional_light(gLightDirection, gDayTime, gDayTime, gDayTime);
-    //set_ambient_light(gDayTime/3, gDayTime/3, gDayTime/3);
       
 }
 

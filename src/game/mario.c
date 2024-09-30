@@ -1760,6 +1760,16 @@ void recover_hydration(s32 amt) {
     if (gMarioState->hydrationMeter > MAX_HYDRATION) gMarioState->hydrationMeter = MAX_HYDRATION;
 }
 
+void deplete_battery(s32 amt) {
+    gMarioState->batteryMeter -= amt;
+    if (gMarioState->batteryMeter < 0) gMarioState->batteryMeter = 0;
+}
+
+void recover_battery(s32 amt) {
+    gMarioState->batteryMeter += amt;
+    if (gMarioState->batteryMeter > MAX_BATTERIES) gMarioState->batteryMeter = MAX_BATTERIES;
+}
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1770,7 +1780,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     vec3f_get_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_get_lateral_dist(gMarioState->prevPos, gMarioState->pos, &gMarioState->lateralSpeed);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
-
     if (gMarioState->action) {
 #ifdef ENABLE_DEBUG_FREE_MOVE
         if (
@@ -1789,14 +1798,52 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             startedBenchmark = TRUE;
         }
 #endif
-        if ((gPlayer1Controller->buttonPressed & L_TRIG) && (gMarioState->action & ACT_FLAG_CAN_DRINK_WATER)) {
+        if ((gPlayer1Controller->buttonPressed & R_TRIG) && (gMarioState->action & ACT_FLAG_CAN_DRINK_WATER)) {
             if (gMarioState->waterLeft) {
                 set_mario_action(gMarioState, ACT_DRINKING_WATER, 0);
             } else {
                 set_mario_action(gMarioState, ACT_DRINKING_WATER_FAIL, 1);
             }
-            
         }
+
+        if ((gPlayer1Controller-> buttonPressed & L_TRIG) && (gMarioState->action != ACT_DRINKING_WATER) && (gMarioState->action != ACT_DRINKING_WATER_FAIL)) {
+            if (gMarioState->batteryMeter > 0) {
+                gMarioState->flashlightOn ^= 1;
+            } else {
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+            }
+        }
+
+        if (gMarioState->flashlightOn) {
+            deplete_battery(1);
+            if (gMarioState->batteryMeter <= 0) {
+                gMarioState->flashlightOn = FALSE;
+            }
+        }
+
+        if (gPlayer1Controller->buttonPressed & U_JPAD) {
+            cur_obj_hide();
+        }
+
+        if (gMarioState->flashlightOn) {
+            f32 angleX = sins(gMarioState->faceAngle[1]) * 400.0f;
+            f32 angleZ = coss(gMarioState->faceAngle[1]) * 400.0f;
+            f32 flashLightPosX = gMarioState->pos[0] + angleX;
+            f32 flashLightPosZ = gMarioState->pos[2] + angleZ;
+            Vec3f flashLightPos = {flashLightPosX, gMarioState->pos[1] + 250.0f, flashLightPosZ};
+            u8 lightIntensity;
+
+            if (gMarioState->batteryMeter >= (MAX_BATTERIES / 2)) {
+                lightIntensity = 255;
+            } else {
+                lightIntensity = remap(gMarioState->batteryMeter, 0, (MAX_BATTERIES / 2), 0, 255);
+            }
+
+            emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 4, 30, 8, 0);
+
+
+        }
+
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         mario_reset_bodystate(gMarioState);
         update_mario_inputs(gMarioState);

@@ -243,7 +243,7 @@ void bhv_desert_decor_loop(void) {
                 pos[2] = o->oPosZ + 400;
             }
         }
-        emit_light(pos, intensity, intensity, intensity, 0, 0, 0, 0);
+        emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
     }
 
 
@@ -258,40 +258,72 @@ enum KoopaWaterSellerAction {
     KOOPA_WATER_SELLER_IDLE,
     KOOPA_WATER_SELLER_OFFER_WATER,
     KOOPA_WATER_SELLER_THANK_YOU,
-    KOOPA_WATER_SELLER_WATER_FULL
+    KOOPA_WATER_SELLER_WATER_FULL,
+    KOOPA_BATTERY_SELLER_OFFER_BATTERY,
+    KOOPA_BATTERY_SELLER_BATTERY_FULL,
+    KOOPA_SELLER_THANK_YOU
 };
 
 #define WATER_TEXT_X_POS 20
 #define WATER_TEXT_Y_POS 180
 
-void bhv_koopa_water_seller_update_mario_status(void) {
+#define SELLS_WATER 0 
+#define SELLS_BATTERIES 1
+
+#define SELLER_MAX_DISTANCE 400.f
+
+u8 bhv_koopa_water_seller_update_range(void) {
     if (gMarioCurrentRoom == 2) {
-        if (o->oDistanceToMario < 500.f) {
-            gMarioState->inRangeOfWaterSeller = TRUE;
+        if (o->oDistanceToMario < SELLER_MAX_DISTANCE) {
+            return TRUE;
         } else {
-            gMarioState->inRangeOfWaterSeller = FALSE;
+            return FALSE;
         }
     } else {
-        gMarioState->inRangeOfWaterSeller = FALSE;
+        return FALSE;
     }
 
 }   
 
 void bhv_koopa_water_seller_idle(void) {
-    if (o->oDistanceToMario < 500.f) {
-        if (gMarioState->waterLeft < MAX_WATER) {
-            o->oAction = KOOPA_WATER_SELLER_OFFER_WATER;
+    if (o->oDistanceToMario < SELLER_MAX_DISTANCE) {
+        if (BPARAM4 == SELLS_WATER) {
+            if (gMarioState->waterLeft < MAX_WATER) {
+                o->oAction = KOOPA_WATER_SELLER_OFFER_WATER;
+            } else {
+                o->oAction = KOOPA_WATER_SELLER_WATER_FULL;
+            }
         } else {
-            o->oAction = KOOPA_WATER_SELLER_WATER_FULL;
+            if (gMarioState->batteryMeter < MAX_BATTERIES) {
+                o->oAction = KOOPA_BATTERY_SELLER_OFFER_BATTERY;
+            } else {
+                o->oAction = KOOPA_BATTERY_SELLER_BATTERY_FULL;
+            }
         }
-    }
+    } 
 }
 
 void bhv_koopa_water_seller_offer_water(void) {
-    print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-    if (gPlayer1Controller->buttonPressed & B_BUTTON) {
-        gMarioState->waterLeft = MAX_WATER;
-        o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+    if (bhv_koopa_water_seller_update_range() == TRUE) {
+        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            gMarioState->waterLeft = MAX_WATER;
+            o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+        }
+    } else {
+        o->oAction = KOOPA_WATER_SELLER_IDLE;
+    }
+}
+
+void bhv_koopa_water_seller_offer_battery(void) {
+    if (bhv_koopa_water_seller_update_range() == TRUE) {
+        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            gMarioState->batteryMeter = MAX_BATTERIES;
+            o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+        }
+    } else {
+        o->oAction = KOOPA_WATER_SELLER_IDLE;
     }
 }
 
@@ -311,7 +343,16 @@ void bhv_koopa_water_seller_water_full(void) {
     }
 }
 
+void bhv_koopa_water_seller_battery_full(void) {
+    if (o->oDistanceToMario < 500.f) {
+        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Your batteries are maxed out!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    } else {
+        o->oAction = KOOPA_WATER_SELLER_IDLE;
+    }
+}
+
 void bhv_koopa_water_seller_loop(void) {
+
     switch (o->oAction) {
         case KOOPA_WATER_SELLER_IDLE:
             bhv_koopa_water_seller_idle();
@@ -325,6 +366,19 @@ void bhv_koopa_water_seller_loop(void) {
         case KOOPA_WATER_SELLER_WATER_FULL:
             bhv_koopa_water_seller_water_full();
             break;
+        case KOOPA_BATTERY_SELLER_OFFER_BATTERY:
+            bhv_koopa_water_seller_offer_battery();
+            break;
+        case KOOPA_BATTERY_SELLER_BATTERY_FULL:
+            bhv_koopa_water_seller_battery_full();
+            break;
     }
-    bhv_koopa_water_seller_update_mario_status();
+
+    gMarioState->inRangeOfWaterSeller = bhv_koopa_water_seller_update_range();
+    if (gMarioCurrentRoom == 2) {
+        cur_obj_unhide();
+    } else {
+        cur_obj_hide();
+    }
+    
 }

@@ -1,5 +1,3 @@
-
-
 Gfx gas_station_concrete2_i8_aligner[] = {gsSPEndDisplayList()};
 u8 gas_station_concrete2_i8[] = {
 	0xc1, 0xbf, 0xbe, 0xb7, 0xb3, 0xaf, 0xb6, 0xb5, 
@@ -1938,8 +1936,6 @@ Gfx mat_revert_gas_station_f3dlite_material_001_layer1[] = {
 };
 
 Gfx mat_gas_station_gas_machine_front[] = {
-    gsSPLightColor(LIGHT_1, 0xffffffff),
-    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsDPSetAlphaDither(G_AD_NOISE),
@@ -1964,8 +1960,6 @@ Gfx mat_revert_gas_station_gas_machine_front[] = {
 };
 
 Gfx mat_gas_station_window_layer2[] = {
-    gsSPLightColor(LIGHT_1, 0xffffffff),
-    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),

@@ -702,47 +702,7 @@ Gfx* createPointLightsDl(Vec3f pos, f32 yOffset)
     // Add the gSPLights to the display list
     for (i = 0; i < numLightsPicked; i++)
     {
-        if (gPointLightCompatibilityMode)
-        {
-            Light *curLight = alloc_display_list(sizeof(Light));
-            u8 color[3];
-            f32 lightDist;
-            f32 lightScale;
-
-            bzero(curLight, sizeof(Light));
-
-            color[0] = lights[i]->l.pl.col[0];
-            color[1] = lights[i]->l.pl.col[1];
-            color[2] = lights[i]->l.pl.col[2];
-
-            dir[0] = lights[i]->worldPos[0] - pos[0];
-            dir[1] = lights[i]->worldPos[1] - pos[1];
-            dir[2] = lights[i]->worldPos[2] - pos[2];
-
-            lightDist = sqrtf(distancesSq[i]);
-            lightScale = 1.0f / ((1.0f / 65536.0f) * (
-                0.25f * lights[i]->l.pl.constant_attenuation +
-                2.0f * lightDist * lights[i]->l.pl.linear_attenuation +
-                0.3f * lightDist * lightDist * lights[i]->l.pl.quadratic_attenuation) + 1.0f);
-
-            curLight->l.col[0] = curLight->l.colc[0] = (u8)(color[0] * lightScale + 0.5f);
-            curLight->l.col[1] = curLight->l.colc[1] = (u8)(color[1] * lightScale + 0.5f);
-            curLight->l.col[2] = curLight->l.colc[2] = (u8)(color[2] * lightScale + 0.5f);
-            
-            dir[0] *= 120.0f / (lightDist);
-            dir[1] *= 120.0f / (lightDist);
-            dir[2] *= 120.0f / (lightDist);
-
-            curLight->l.dir[0] = (s8)(dir[0]);
-            curLight->l.dir[1] = (s8)(dir[1]);
-            curLight->l.dir[2] = (s8)(dir[2]);
-
-            gSPLight(pointLightsDl++, curLight, LIGHT_2 + i);
-        }
-        else
-        {
-            gSPLight(pointLightsDl++, &lights[i]->l, LIGHT_2 + i);
-        }
+        gSPLight(pointLightsDl++, &lights[i]->l, LIGHT_2 + i);
     }
 
     if (gPointLightCount)
@@ -1505,7 +1465,7 @@ void geo_process_scene_light(struct GraphNodeSceneLight *node)
             if (!gOverrideDirectionalLight)
             {
                 // Set the directional light color
-                gCurDirectionalLight->l->l.colc[0] = gCurDirectionalLight->l->l.col[0] = node->color[0];
+                gCurDirectionalLight->l->l.colc[0] = 255;
                 gCurDirectionalLight->l->l.colc[1] = gCurDirectionalLight->l->l.col[1] = node->color[1];
                 gCurDirectionalLight->l->l.colc[2] = gCurDirectionalLight->l->l.col[2] = node->color[2];
 
