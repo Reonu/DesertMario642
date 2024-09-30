@@ -160,11 +160,19 @@ void spawn_small_decoration(MTRand *rand) {
     }    
 }
 
+void spawn_goomba(MTRand *rand) {
+    f32 random = genRand(rand);
+    struct Object *obj = spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA_CUSTOM_MESH, bhvGoomba, Road.x,Road.y,Road.z,0,0,0);
+    if (random < 0.1f) {
+        obj->oIsFloomba = TRUE;
+    }
+}
+
 void spawn_enemy(MTRand *rand) {
     f32 chanceStorage = genRand(rand);
     chanceStorage -= GOOMBA_CHANCE;
     if (chanceStorage < 0) {
-        spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA, bhvGoomba, Road.x,Road.y,Road.z,0,0,0);
+        spawn_goomba(rand);
         return;
     }
     chanceStorage -= POKEY_CHANCE;

@@ -12,6 +12,7 @@
 #define MODEL_TIER_4_START 280
 
 /* fast64 object exports get inserted here */
+#define MODEL_GOOMBA_CUSTOM_MESH          304
 #define MODEL_POKEY_HEAD_CUSTOM_MESH      303
 #define MODEL_POKEY_BODY_CUSTOM           302
 #define MODEL_KOOPA_WITH_SHELL_CUSTOM     302

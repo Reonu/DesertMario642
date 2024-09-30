@@ -40,3 +40,4 @@
 #include "koopa_with_shell_custom/geo.inc.c"
 #include "pokey_body_custom/geo.inc.c"
 #include "pokey_head_custom_mesh/geo.inc.c"
+#include "goomba_custom_mesh/geo.inc.c"

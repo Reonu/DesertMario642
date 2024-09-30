@@ -396,4 +396,6 @@ extern const struct Animation *const koopa_seg6_anims_06011364[];
 
 #include "pokey_head_custom_mesh/geo_header.h"
 
+#include "goomba_custom_mesh/geo_header.h"
+
 #endif
