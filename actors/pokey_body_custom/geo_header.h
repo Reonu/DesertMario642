@@ -1,0 +1,7 @@
+extern const GeoLayout pokey_body_custom_geo[];
+extern u8 pokey_body_custom_pokey_body_rgba16_rgba16[];
+extern Vtx pokey_body_custom_000_displaylist_mesh_layer_4_vtx_0[4];
+extern Gfx pokey_body_custom_000_displaylist_mesh_layer_4_tri_0[];
+extern Gfx mat_pokey_body_custom_pokey_body_custom_layer4[];
+extern Gfx mat_revert_pokey_body_custom_pokey_body_custom_layer4[];
+extern Gfx pokey_body_custom_000_displaylist_mesh_layer_4[];

@@ -137,6 +137,8 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MOON,                    moon_geo),
     LOAD_MODEL_FROM_GEO(MODEL_POKEY_BODY_PART,         pokey_body_part_geo),
     LOAD_MODEL_FROM_GEO(MODEL_POKEY_HEAD,              pokey_head_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_POKEY_HEAD_CUSTOM_MESH, pokey_head_custom_mesh_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_POKEY_BODY_CUSTOM, pokey_body_custom_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

@@ -392,4 +392,8 @@ extern const struct Animation *const koopa_seg6_anims_06011364[];
 
 #include "mario/anim_header.h"
 
+#include "pokey_body_custom/geo_header.h"
+
+#include "pokey_head_custom_mesh/geo_header.h"
+
 #endif

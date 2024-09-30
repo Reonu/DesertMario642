@@ -63,3 +63,6 @@
 #include "mario/anims/table.inc.c"
 
 #include "mario/anim_header.h"
+
+#include "pokey_body_custom/model.inc.c"
+#include "pokey_head_custom_mesh/model.inc.c"

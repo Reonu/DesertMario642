@@ -38,3 +38,5 @@
 #include "sign_mvh/geo.inc.c"
 #include "gas_station/geo.inc.c"
 #include "koopa_with_shell_custom/geo.inc.c"
+#include "pokey_body_custom/geo.inc.c"
+#include "pokey_head_custom_mesh/geo.inc.c"
