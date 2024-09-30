@@ -67,3 +67,7 @@
 #include "pokey_body_custom/model.inc.c"
 #include "pokey_head_custom_mesh/model.inc.c"
 #include "goomba_custom_mesh/model.inc.c"
+
+#include "klepto/model.inc.c"
+#include "klepto/anims/data.inc.c"
+#include "klepto/anims/table.inc.c"

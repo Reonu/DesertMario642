@@ -130,6 +130,7 @@ void spawn_gas_station(void) {
 
 #define GOOMBA_CHANCE 0.25f
 #define POKEY_CHANCE 0.25f
+#define KLEPTO_CHANCE 0.10f
 #define SUN_CHANCE 0.10f
 
 #define ELECTRICAL_POLE_CHANCE 0.25f
@@ -178,6 +179,11 @@ void spawn_enemy(MTRand *rand) {
     chanceStorage -= POKEY_CHANCE;
     if (chanceStorage < 0) {
         spawn_object_desert(gCurrentObject, 0, MODEL_NONE, bhvPokey, Road.x,Road.y,Road.z,0,0,0);
+        return;
+    }
+    chanceStorage -= KLEPTO_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_object_desert(gCurrentObject, 0, MODEL_KLEPTO, bhvKlepto, Road.x,Road.y,Road.z,0,0,0);
         return;
     }
 }

@@ -12,11 +12,12 @@
 #define MODEL_TIER_4_START 280
 
 /* fast64 object exports get inserted here */
-#define MODEL_GOOMBA_CUSTOM_MESH          304
-#define MODEL_POKEY_HEAD_CUSTOM_MESH      303
-#define MODEL_POKEY_BODY_CUSTOM           302
-#define MODEL_KOOPA_WITH_SHELL_CUSTOM     302
-#define MODEL_GAS_STATION                 301
+#define MODEL_GOOMBA_CUSTOM_MESH          301
+#define MODEL_POKEY_HEAD_CUSTOM_MESH      302
+#define MODEL_POKEY_BODY_CUSTOM           303
+#define MODEL_KOOPA_WITH_SHELL_CUSTOM     304
+#define MODEL_GAS_STATION                 305
+#define MODEL_KLEPTO                      306
 
 
 
@@ -397,7 +398,6 @@
 // group 5
 
 #define MODEL_TWEESTER                    0x56        // tweester_geo
-#define MODEL_KLEPTO                      0x57        // klepto_geo
 #define MODEL_EYEROK_LEFT_HAND            0x58        // eyerok_left_hand_geo
 #define MODEL_EYEROK_RIGHT_HAND           0x59        // eyerok_right_hand_geo
 

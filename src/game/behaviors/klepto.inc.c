@@ -384,4 +384,5 @@ void bhv_klepto_update(void) {
 
     obj_roll_to_match_yaw_turn(o->oKleptoYawToTarget, 0x3000, 600);
     cur_obj_move_standard(78);
+    warp_desert_object(o);
 }
