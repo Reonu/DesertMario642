@@ -43,3 +43,4 @@
 #include "goomba_custom_mesh/geo.inc.c"
 #include "klepto/geo.inc.c"
 #include "sign_idiot/geo.inc.c"
+#include "ufo_visual/geo.inc.c"

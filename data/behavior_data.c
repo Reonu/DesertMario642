@@ -394,6 +394,16 @@ enum BehaviorCommands {
 
 
 /* fast64 object exports get inserted here */
+const BehaviorScript bhvUfo[] = {
+	BEGIN(OBJ_LIST_SURFACE),
+	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_COLLISION_DATA(ufo_collision),
+	BEGIN_LOOP(),
+		CALL_NATIVE(bhv_desert_decor_loop),
+		CALL_NATIVE(load_object_collision_model),
+	END_LOOP(),
+};
+
 const BehaviorScript bhvGasStation[] = {
 	BEGIN(OBJ_LIST_SURFACE),
 	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

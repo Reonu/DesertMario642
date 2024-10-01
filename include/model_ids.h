@@ -12,6 +12,7 @@
 #define MODEL_TIER_4_START 280
 
 /* fast64 object exports get inserted here */
+#define MODEL_UFO_VISUAL                  308
 #define MODEL_GOOMBA_CUSTOM_MESH          301
 #define MODEL_POKEY_HEAD_CUSTOM_MESH      302
 #define MODEL_POKEY_BODY_CUSTOM           303

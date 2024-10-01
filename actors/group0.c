@@ -72,3 +72,5 @@
 #include "klepto/anims/data.inc.c"
 #include "klepto/anims/table.inc.c"
 #include "sign_idiot/model.inc.c"
+#include "ufo/collision.inc.c"
+#include "ufo_visual/model.inc.c"

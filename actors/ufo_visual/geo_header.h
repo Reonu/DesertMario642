@@ -1,0 +1,13 @@
+extern const GeoLayout ufo_visual_geo[];
+extern u8 ufo_visual_ufo_mask_i8[];
+extern u8 ufo_visual_ufo_metal_lights_rgba16[];
+extern u8 ufo_visual_ufo_metal_normal_rgba16[];
+extern u8 ufo_visual_crash_site_ia4[];
+extern Vtx ufo_visual_ufo_visual_mesh_layer_1_vtx_cull[8];
+extern Vtx ufo_visual_ufo_visual_mesh_layer_1_vtx_0[40];
+extern Vtx ufo_visual_ufo_visual_mesh_layer_1_vtx_1[118];
+extern Vtx ufo_visual_ufo_visual_mesh_layer_1_vtx_2[44];
+extern Vtx ufo_visual_ufo_visual_mesh_layer_6_vtx_cull[8];
+extern Vtx ufo_visual_ufo_visual_mesh_layer_6_vtx_0[4];
+extern Gfx ufo_visual_ufo_visual_mesh_layer_1[];
+extern Gfx ufo_visual_ufo_visual_mesh_layer_6[];

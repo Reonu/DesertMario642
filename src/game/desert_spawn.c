@@ -118,6 +118,19 @@ void spawn_billboard(MTRand *rand) {
     spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }
 
+void spawn_ufo(MTRand *rand) {
+    u8 isRight;
+    struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
+
+    isRight = (spawnCoords.x == RightSide.x);
+
+    if (isRight) {
+        spawn_object_desert(gCurrentObject, 0, MODEL_UFO_VISUAL, bhvUfo, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,0,0);
+    } else {
+        spawn_object_desert(gCurrentObject, 0, MODEL_UFO_VISUAL, bhvUfo, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,0,0);
+    }
+}
+
 void spawn_bushes(MTRand *rand) {
     u32 bushesAmount = random_in_range(rand, 5) + 3;
     for (u32 i = 0; i < bushesAmount; i++) {
@@ -140,9 +153,10 @@ void spawn_gas_station(void) {
 #define KLEPTO_CHANCE 0.10f
 #define SUN_CHANCE 0.10f
 
-#define ELECTRICAL_POLE_CHANCE 0.25f
+#define ELECTRICAL_POLE_CHANCE 0.05f
 #define BUSH_CHANCE 0.25f
-#define BILLBOARD_CHANCE 0.25f
+#define BILLBOARD_CHANCE 0.05f
+#define UFO_CHANCE 0.01f
 
 void spawn_big_decoration(MTRand *rand) {
     f32 chanceStorage = genRand(rand);
@@ -155,6 +169,11 @@ void spawn_big_decoration(MTRand *rand) {
     chanceStorage -= BILLBOARD_CHANCE;
     if (chanceStorage < 0) {
         spawn_billboard(rand);
+        return;
+    }
+    chanceStorage -= UFO_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_ufo(rand);
         return;
     }
 }

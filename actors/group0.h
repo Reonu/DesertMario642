@@ -439,4 +439,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "sign_idiot/geo_header.h"
 
+#include "ufo/collision_header.h"
+
+#include "ufo_visual/geo_header.h"
+
 #endif
