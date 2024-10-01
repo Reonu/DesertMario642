@@ -1898,8 +1898,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->inRangeOfWaterSeller = FALSE;
         }
 
-        print_text(20, 60, username);
-
 #ifdef BREATH_METER
         update_mario_breath(gMarioState);
 #endif

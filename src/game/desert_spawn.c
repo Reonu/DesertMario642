@@ -103,17 +103,17 @@ void spawn_billboard(MTRand *rand) {
         rot = DEGREES(45);
     }
 
-    modelID = MODEL_SIGN_IDIOT;
+    modelID = decide_billboard_model_id(rand);
 
     if (modelID ==  MODEL_SIGN_IDIOT && gUsernameSuccess != 0 && gEmulator & EMU_PARALLELN64) {
         bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
 
-    //while (modelID == gLastBillboard) {
-        //modelID = decide_billboard_model_id(rand);
-    //}
+    while (modelID == gLastBillboard) {
+        modelID = decide_billboard_model_id(rand);
+    }
 
-    //gLastBillboard = modelID;
+    gLastBillboard = modelID;
 
     spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }
