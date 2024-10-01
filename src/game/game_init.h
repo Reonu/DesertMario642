@@ -88,6 +88,7 @@ extern struct DmaHandlerList gDemoInputsBuf;
 
 extern u8 gMarioAnims[];
 extern u8 gDemoInputs[];
+extern u8 rhdc_avatar[2048];
 
 extern u16 sRenderingFramebuffer;
 extern u32 gGlobalTimer;
