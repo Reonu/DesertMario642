@@ -435,4 +435,6 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "goomba_custom_mesh/geo_header.h"
 
+#include "klepto/geo_header.h"
+
 #endif
