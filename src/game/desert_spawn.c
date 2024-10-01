@@ -38,6 +38,7 @@
 #include "types.h"
 #include "include/n64/PR/os_libc.h"
 #include "actors/sign_idiot/geo_header.h"
+#include "game/emutest.h"
 
 struct DesertSpawnCoords LeftSide = {
     .x = -3000,
@@ -104,7 +105,7 @@ void spawn_billboard(MTRand *rand) {
 
     modelID = MODEL_SIGN_IDIOT;
 
-    if (modelID ==  MODEL_SIGN_IDIOT && gUsernameSuccess != 0) {
+    if (modelID ==  MODEL_SIGN_IDIOT && gUsernameSuccess != 0 && gEmulator & EMU_PARALLELN64) {
         bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
 
