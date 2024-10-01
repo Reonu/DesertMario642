@@ -71,3 +71,4 @@
 #include "klepto/model.inc.c"
 #include "klepto/anims/data.inc.c"
 #include "klepto/anims/table.inc.c"
+#include "sign_idiot/model.inc.c"

@@ -58,6 +58,7 @@
 #define MODEL_SIGN_ASS_IMPACT             275
 #define MODEL_SIGN_MVC                    276
 #define MODEL_SIGN_MVH                    277
+#define MODEL_SIGN_IDIOT                  278
 
 // TIER 4
 

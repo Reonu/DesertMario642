@@ -42,3 +42,4 @@
 #include "pokey_head_custom_mesh/geo.inc.c"
 #include "goomba_custom_mesh/geo.inc.c"
 #include "klepto/geo.inc.c"
+#include "sign_idiot/geo.inc.c"

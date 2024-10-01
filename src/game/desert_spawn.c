@@ -36,6 +36,8 @@
 #include "mtwister.h"
 #include "behavior_data.h"
 #include "types.h"
+#include "include/n64/PR/os_libc.h"
+#include "actors/sign_idiot/geo_header.h"
 
 struct DesertSpawnCoords LeftSide = {
     .x = -3000,
@@ -100,13 +102,17 @@ void spawn_billboard(MTRand *rand) {
         rot = DEGREES(45);
     }
 
-    modelID = decide_billboard_model_id(rand);
+    modelID = MODEL_SIGN_IDIOT;
 
-    while (modelID == gLastBillboard) {
-        modelID = decide_billboard_model_id(rand);
+    if (modelID ==  MODEL_SIGN_IDIOT && gUsernameSuccess != 0) {
+        bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
 
-    gLastBillboard = modelID;
+    //while (modelID == gLastBillboard) {
+        //modelID = decide_billboard_model_id(rand);
+    //}
+
+    //gLastBillboard = modelID;
 
     spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }

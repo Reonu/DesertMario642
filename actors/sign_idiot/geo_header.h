@@ -1,0 +1,16 @@
+extern const GeoLayout sign_idiot_geo[];
+extern u8 sign_idiot_metal_i8_i8[];
+extern u8 sign_idiot_fence_ci4_ci4[];
+extern u8 sign_idiot_fence_ci4_pal_rgba16[];
+extern u8 sign_idiot_idiot_rgba16[];
+extern u8 sign_idiot_mario_rgba16[];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_0[44];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_1[295];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_2[12];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_3[72];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_4[9];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_idiot_sign_idiot_mesh_layer_4_vtx_0[16];
+extern Gfx sign_idiot_sign_idiot_mesh_layer_1[];
+extern Gfx sign_idiot_sign_idiot_mesh_layer_4[];

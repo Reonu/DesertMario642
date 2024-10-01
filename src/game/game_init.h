@@ -65,6 +65,8 @@ extern u16 gLow;
 extern u16 gHigh;
 extern s32 gInstantWarpCounter;
 extern u16 gLastBillboard;
+extern u8 gUsernameSuccess;
+extern u8 gAvatarTexture[2048];
 #ifdef EEP
 extern s8 gEepromProbe;
 #endif
@@ -88,7 +90,6 @@ extern struct DmaHandlerList gDemoInputsBuf;
 
 extern u8 gMarioAnims[];
 extern u8 gDemoInputs[];
-extern u8 rhdc_avatar[2048];
 
 extern u16 sRenderingFramebuffer;
 extern u32 gGlobalTimer;

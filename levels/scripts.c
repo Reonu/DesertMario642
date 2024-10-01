@@ -141,6 +141,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_POKEY_BODY_CUSTOM, pokey_body_custom_geo),
     LOAD_MODEL_FROM_GEO(MODEL_GOOMBA_CUSTOM_MESH, goomba_custom_mesh_geo),
     LOAD_MODEL_FROM_GEO(MODEL_KLEPTO,                  klepto_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SIGN_IDIOT, sign_idiot_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

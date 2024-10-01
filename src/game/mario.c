@@ -33,7 +33,8 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "actors/group0.h"
-
+#include "lib/libpl/libpl-rhdc.h"
+u8 status;
 
 /**************************************************
  *                    ANIMATIONS                  *
@@ -1820,6 +1821,15 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->flashlightOn = FALSE;
             }
         }
+        const char* username = libpl_get_my_rhdc_username();
+        if (username != NULL) {
+            gUsernameSuccess = 1;
+        }
+
+        if (gUsernameSuccess) {
+            libpl_get_rhdc_avatar_16_async(username, gAvatarTexture);
+        }
+        
 
         if (gPlayer1Controller->buttonPressed & U_JPAD) {
             cur_obj_hide();
@@ -1888,6 +1898,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->inRangeOfWaterSeller = FALSE;
         }
 
+        print_text(20, 60, username);
+
 #ifdef BREATH_METER
         update_mario_breath(gMarioState);
 #endif
@@ -1927,7 +1939,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 /**************************************************
  *                  INITIALIZATION                *
  **************************************************/
-
 void init_mario(void) {
     gMarioState->actionTimer = 0;
     gMarioState->framesSinceA = 0xFF;
