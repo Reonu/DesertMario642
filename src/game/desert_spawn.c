@@ -235,7 +235,7 @@ void spawn_enemy(MTRand *rand) {
         return;
     }
 }
-
+#define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
 void bhv_desert_spawner_loop(void) {
     MTRand firstRand = seedRand(gInstantWarpCounter);
     u32 actualSeed = genRandLong(&firstRand);
@@ -255,7 +255,7 @@ void bhv_desert_spawner_loop(void) {
             u32 numSmall = random_in_range(&newSeed, 5);
             if (gInstantWarpCounter % 20 == 0) {
                 spawn_gas_station();
-            } else if (gInstantWarpCounter == (4)){
+            } else if (gInstantWarpCounter == RGB_HOUSE_WARPS) {
                 spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
             } else {
                 for (u32 i = 0; i < numSmall; i++) {
@@ -297,6 +297,8 @@ void modulate_rgb_color(u32 *color) {
     }
 }
 
+#define RGB_HOUSE_WARPS_START_MUSIC (RGB_HOUSE_WARPS + 1)
+#define RGB_HOUSE_WARPS_STOP_MUSIC (RGB_HOUSE_WARPS + 3)
 void bhv_desert_decor_loop(void) {
     s16 offset;
     u16 isRight;
@@ -339,7 +341,25 @@ void bhv_desert_decor_loop(void) {
         }
         emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
     } else if (obj_has_model(o, MODEL_DESERT_HOUSE_RGB)) {
+        Vec3f pos = {0,0,0};
+        pos[1] = o->oPosY + 500;
+        pos[2] = o->oPosZ;
+        if (isRight) {
+            pos[0] = o->oPosX - 200;
+        } else {
+            pos[0] = o->oPosX + 200;
+        }
+        
         modulate_rgb_color(&o->oPrimRGB);
+        emit_light(pos, (o->oPrimRGB >> 16) & 0xff, (o->oPrimRGB >> 8) & 0xff, o->oPrimRGB & 0xff, 4, 50, 8, 0);
+        
+        if (gInstantWarpCounter == RGB_HOUSE_WARPS_START_MUSIC) {
+            play_secondary_music(SEQ_CARAMELLDANSEN, 10, 255, 1000);
+        } else if (gInstantWarpCounter >= RGB_HOUSE_WARPS_STOP_MUSIC) {
+            stop_secondary_music(1000);
+        } else if (gInstantWarpCounter < RGB_HOUSE_WARPS_START_MUSIC) {
+            stop_secondary_music(1000);
+        }
     }
 
 

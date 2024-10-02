@@ -396,7 +396,7 @@ enum BehaviorCommands {
 /* fast64 object exports get inserted here */
 const BehaviorScript bhvUfo[] = {
 	BEGIN(OBJ_LIST_SURFACE),
-	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+	OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
     LOAD_COLLISION_DATA(ufo_collision),
 	BEGIN_LOOP(),
 		CALL_NATIVE(bhv_desert_decor_loop),
@@ -425,7 +425,7 @@ const BehaviorScript bhvBush[] = {
 
 const BehaviorScript bhvDesertDecor[] = {
 	BEGIN(OBJ_LIST_SURFACE),
-	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+	OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
 	BEGIN_LOOP(),
 		CALL_NATIVE(bhv_desert_decor_loop),
 	END_LOOP(),

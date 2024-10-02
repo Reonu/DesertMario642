@@ -76,21 +76,8 @@ static void klepto_anim_dive(void) {
 }
 
 void bhv_klepto_init(void) {
-    if (o->oBehParams2ndByte != KLEPTO_BP_NO_STAR) {
-        if (save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(COURSE_SSL)) & STAR_FLAG_ACT_1) {
-            o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_TRANSPARENT_STAR;
-        } else {
-            o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_STAR;
-        }
-    } else {
-        vec3f_copy(&o->oKleptoStartPosVec, &o->oPosVec);
-
-        if (save_file_get_flags() & SAVE_FLAG_CAP_ON_KLEPTO) {
-            o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
-        } else {
-            o->oAction = KLEPTO_ACT_WAIT_FOR_MARIO;
-        }
-    }
+    o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_NOTHING;
+    o->oAction = KLEPTO_ACT_MOVE_FORWARD;
 }
 
 static void klepto_change_target(void) {
@@ -186,6 +173,16 @@ static void klepto_act_wait_for_mario(void) {
     klepto_circle_target(300.0f, 40.0f);
 }
 
+static void klepto_act_move_forward(void) {
+    klepto_target_mario();
+    o->oKleptoSpeed = 20.0f;
+    o->oPosY = 400.f;
+
+    if (o->oDistanceToMario < 1000.f) {
+        o->oAction = KLEPTO_ACT_DIVE_AT_MARIO;
+    }
+}
+
 static void klepto_act_turn_toward_mario(void) {
     klepto_target_mario();
 
@@ -248,7 +245,7 @@ static void klepto_act_dive_at_mario(void) {
                 && o->oDistanceToMario < 200.0f
                 && dy > 50.0f
                 && dy < 90.0f
-                && mario_lose_cap_to_enemy(1)) {
+                ) {
                 o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
             }
         }
@@ -353,6 +350,9 @@ void bhv_klepto_update(void) {
             case KLEPTO_ACT_RETREAT:
                 klepto_act_retreat();
                 break;
+            case KLEPTO_ACT_MOVE_FORWARD:
+                klepto_act_move_forward();
+                break; 
         }
 
         if (obj_handle_attacks(&sKleptoHitbox, o->oAction, sKleptoAttackHandlers)) {
@@ -385,4 +385,5 @@ void bhv_klepto_update(void) {
     obj_roll_to_match_yaw_turn(o->oKleptoYawToTarget, 0x3000, 600);
     cur_obj_move_standard(78);
     warp_desert_object(o);
+    copy_mario_x_position(o);
 }

@@ -2382,6 +2382,7 @@ enum animIDsFirePiranhaPlant {
     #define KLEPTO_ACT_RESET_POSITION                       0x5
     #define KLEPTO_ACT_STRUCK_BY_MARIO                      0x6
     #define KLEPTO_ACT_RETREAT                              0x7
+    #define KLEPTO_ACT_MOVE_FORWARD                         0x8
     /* oSubAction */
         /* KLEPTO_ACT_DIVE_AT_MARIO */
     #define KLEPTO_SUB_ACT_DIVE_TURN_PITCH                  0x0
