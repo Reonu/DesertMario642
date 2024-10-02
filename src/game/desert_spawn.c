@@ -104,8 +104,9 @@ void spawn_billboard(MTRand *rand) {
     }
 
     modelID = decide_billboard_model_id(rand);
+    
 
-    if (modelID ==  MODEL_SIGN_IDIOT && gUsernameSuccess != 0 && gEmulator & EMU_PARALLELN64) {
+    if (modelID ==  MODEL_SIGN_IDIOT && gAvatarLoaded != 0 && gEmulator & EMU_PARALLELN64) {
         bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
 

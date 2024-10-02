@@ -34,6 +34,7 @@
 #include "rumble_init.h"
 #include "actors/group0.h"
 #include "lib/libpl/libpl-rhdc.h"
+#include "lib/libpl/libpl.h"
 u8 status;
 
 /**************************************************
@@ -1776,6 +1777,8 @@ void recover_battery(s32 amt) {
  */
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
+    static u8 gFetchAvatar = TRUE;
+
 
     // Updates once per frame:
     vec3f_get_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
@@ -1826,14 +1829,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gUsernameSuccess = 1;
         }
 
-        if (gUsernameSuccess) {
-            libpl_get_rhdc_avatar_16_async(username, gAvatarTexture);
+    if (gUsernameSuccess && gFetchAvatar) {
+        const int status = libpl_get_rhdc_avatar_16_async(username, gAvatarTexture);
+        if (status == 0) {
+            gAvatarLoaded = TRUE;
+            gFetchAvatar = FALSE;
+        } else if (lpl_errno != LPL_WAIT) {
+            gFetchAvatar = FALSE;
         }
-        
+    }
 
-        if (gPlayer1Controller->buttonPressed & U_JPAD) {
-            cur_obj_hide();
-        }
+        print_text(20, 60, username);
 
         if (gMarioState->flashlightOn) {
             f32 angleX = sins(gMarioState->faceAngle[1]) * 400.0f;

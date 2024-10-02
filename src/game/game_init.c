@@ -98,6 +98,7 @@ u16 gLastBillboard;
 s32 gInstantWarpCounter;
 u8 gUsernameSuccess;
 u8 gAvatarTexture[2048];
+u8 gAvatarLoaded = FALSE;
 
 
 // Framebuffer rendering values (max 3)
