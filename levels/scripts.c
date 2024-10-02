@@ -144,6 +144,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_SIGN_IDIOT, sign_idiot_geo),
     LOAD_MODEL_FROM_GEO(MODEL_UFO_VISUAL, ufo_visual_geo),
     LOAD_MODEL_FROM_GEO(MODEL_DESERT_HOUSE, desert_house_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_DESERT_HOUSE_RGB, desert_house_rgb_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

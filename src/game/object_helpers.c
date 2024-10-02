@@ -2496,6 +2496,39 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
     }
     return dlStart;
 }
+
+Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart, *dlHead;
+    struct Object *objectGraphNode;
+    struct GraphNodeGenerated *currentGraphNode;
+    u8 layer;
+    u8 remap_alpha;
+    dlStart = NULL;
+    if (callContext == GEO_CONTEXT_RENDER) {
+        currentGraphNode = (struct GraphNodeGenerated *) node;
+        objectGraphNode = (struct Object *) gCurGraphNodeObject;
+        layer = currentGraphNode->parameter & 0xFF;
+
+        //if (layer != 0) {
+            currentGraphNode->fnNode.node.flags =
+                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
+        //}
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        dlHead = dlStart;
+
+        remap_alpha = 255;
+        //print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
+
+        s32 r = (objectGraphNode->oPrimRGB >> 16) & 0xff;
+        s32 g = (objectGraphNode->oPrimRGB >> 8) & 0xff;
+        s32 b = objectGraphNode->oPrimRGB & 0xff;
+        gDPSetPrimColor(dlHead++, 0, 0, r, g, b, remap_alpha);
+        gSPEndDisplayList(dlHead);
+    }
+    return dlStart;
+}
+
 #define MAX_DISTANCE 5
 void warp_desert_object(struct Object *obj) {
     if (obj->oDesertTimer != 0) {

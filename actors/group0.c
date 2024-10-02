@@ -75,3 +75,4 @@
 #include "ufo/collision.inc.c"
 #include "ufo_visual/model.inc.c"
 #include "desert_house/model.inc.c"
+#include "desert_house_rgb/model.inc.c"

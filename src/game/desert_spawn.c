@@ -255,6 +255,8 @@ void bhv_desert_spawner_loop(void) {
             u32 numSmall = random_in_range(&newSeed, 5);
             if (gInstantWarpCounter % 20 == 0) {
                 spawn_gas_station();
+            } else if (gInstantWarpCounter == (4)){
+                spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
             } else {
                 for (u32 i = 0; i < numSmall; i++) {
                     spawn_small_decoration(&newSeed);
@@ -267,7 +269,33 @@ void bhv_desert_spawner_loop(void) {
     }
 }
 
+void modulate_rgb_color(u32 *color) {
+    static float hue = 0.0f;
+    float r, g, b;
 
+    // Convert hue to RGB
+    int i = (int)(hue * 6);
+    float f = hue * 6 - i;
+    float q = 1 - f;
+
+    switch (i % 6) {
+        case 0: r = 1, g = f, b = 0; break;
+        case 1: r = q, g = 1, b = 0; break;
+        case 2: r = 0, g = 1, b = f; break;
+        case 3: r = 0, g = q, b = 1; break;
+        case 4: r = f, g = 0, b = 1; break;
+        case 5: r = 1, g = 0, b = q; break;
+    }
+
+    // Scale RGB values to 0-255
+    *color = ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);
+
+    // Increment hue
+    hue += 0.01f;
+    if (hue >= 1.0f) {
+        hue -= 1.0f;
+    }
+}
 
 void bhv_desert_decor_loop(void) {
     s16 offset;
@@ -310,6 +338,8 @@ void bhv_desert_decor_loop(void) {
             }
         }
         emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
+    } else if (obj_has_model(o, MODEL_DESERT_HOUSE_RGB)) {
+        modulate_rgb_color(&o->oPrimRGB);
     }
 
 

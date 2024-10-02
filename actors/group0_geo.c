@@ -45,3 +45,4 @@
 #include "sign_idiot/geo.inc.c"
 #include "ufo_visual/geo.inc.c"
 #include "desert_house/geo.inc.c"
+#include "desert_house_rgb/geo.inc.c"

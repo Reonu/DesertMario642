@@ -1,0 +1,9 @@
+extern const GeoLayout desert_house_rgb_geo[];
+extern u8 desert_house_rgb_wood_house_rgba16_rgba16[];
+extern u8 desert_house_rgb_door_house_broken_rgba16_rgba16[];
+extern u8 desert_house_rgb_window_broken_rgb_rgba16[];
+extern Vtx desert_house_rgb_desert_house_rgb_mesh_layer_1_vtx_cull[8];
+extern Vtx desert_house_rgb_desert_house_rgb_mesh_layer_1_vtx_0[199];
+extern Vtx desert_house_rgb_desert_house_rgb_mesh_layer_1_vtx_1[6];
+extern Vtx desert_house_rgb_desert_house_rgb_mesh_layer_1_vtx_2[24];
+extern Gfx desert_house_rgb_desert_house_rgb_mesh_layer_1[];

@@ -1351,5 +1351,6 @@ os16112*/
 
 #define           oDesertTimer                OBJECT_FIELD_U32(0x50)
 #define           oInstantWarpSpawn           OBJECT_FIELD_S32(0x51)
+#define           oPrimRGB                    OBJECT_FIELD_U32(0x52)
 
 #endif // OBJECT_FIELDS_H
