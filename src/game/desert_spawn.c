@@ -148,6 +148,19 @@ void spawn_gas_station(void) {
     spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
 }
 
+void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
+    u8 isRight;
+    struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
+
+    isRight = (spawnCoords.x == RightSide.x);
+
+    if (isRight) {
+        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(0),0);
+    } else {
+        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(180),0);
+    }
+}
+
 
 #define GOOMBA_CHANCE 0.25f
 #define POKEY_CHANCE 0.25f
@@ -158,10 +171,12 @@ void spawn_gas_station(void) {
 #define BUSH_CHANCE 0.25f
 #define BILLBOARD_CHANCE 0.05f
 #define UFO_CHANCE 0.01f
+#define HOUSE_CHANCE 0.01f
 
+f32 chancePrint;
 void spawn_big_decoration(MTRand *rand) {
     f32 chanceStorage = genRand(rand);
-    //print_text_fmt_int(20,20, "Chance: %d", (s32)(chanceStorage * 100));
+    chancePrint = chanceStorage;
     chanceStorage -= ELECTRICAL_POLE_CHANCE;
     if (chanceStorage < 0) {
         spawn_electrical_poles();
@@ -172,11 +187,17 @@ void spawn_big_decoration(MTRand *rand) {
         spawn_billboard(rand);
         return;
     }
+    chanceStorage -= HOUSE_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_decor_and_rotate(rand, MODEL_DESERT_HOUSE);
+        return;
+    }
     chanceStorage -= UFO_CHANCE;
     if (chanceStorage < 0) {
         spawn_ufo(rand);
         return;
     }
+
 }
 
 void spawn_small_decoration(MTRand *rand) {
@@ -216,8 +237,12 @@ void spawn_enemy(MTRand *rand) {
 }
 
 void bhv_desert_spawner_loop(void) {
-    MTRand newSeed = seedRand(gInstantWarpCounter);
-     
+    MTRand firstRand = seedRand(gInstantWarpCounter);
+    u32 actualSeed = genRandLong(&firstRand);
+    MTRand newSeed = seedRand(actualSeed);
+    u32 numSmall = random_in_range(&newSeed, 5);
+
+    //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
         if (gInstantWarpType == INSTANT_WARP_FORWARDS) {
             gVisitedAreas = (gVisitedAreas << 1) & 0b111111111;

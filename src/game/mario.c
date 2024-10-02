@@ -1775,6 +1775,11 @@ void recover_battery(s32 amt) {
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
+#define THRESHOLD_MINUS_X -4000
+#define THRESHOLD_PLUS_X 4000
+#define WORLD_EDGE_MINUS_X -4690
+#define WORLD_EDGE_PLUS_X 4690
+#define MAX_PUSHING_FORCE 90
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
     static u8 gFetchAvatar = TRUE;
@@ -1839,8 +1844,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
     }
 
-        print_text(20, 60, username);
-
         if (gMarioState->flashlightOn) {
             f32 angleX = sins(gMarioState->faceAngle[1]) * 400.0f;
             f32 angleZ = coss(gMarioState->faceAngle[1]) * 400.0f;
@@ -1859,6 +1862,22 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 
 
         }
+
+    if (gMarioCurrentRoom != 2) {
+        if (gMarioState->pos[0] < THRESHOLD_MINUS_X) {
+            f32 diff = WORLD_EDGE_MINUS_X - THRESHOLD_MINUS_X;
+            f32 diff2 = gMarioState->pos[0] - THRESHOLD_MINUS_X;
+            f32 push = diff2/diff;
+            gMarioState->pos[0] += push * MAX_PUSHING_FORCE;
+        } 
+        if (gMarioState->pos[0] > THRESHOLD_PLUS_X) {
+            f32 diff = WORLD_EDGE_PLUS_X - THRESHOLD_PLUS_X;
+            f32 diff2 = gMarioState->pos[0] - THRESHOLD_PLUS_X;
+            f32 push = diff2/diff;
+            gMarioState->pos[0] -= push * MAX_PUSHING_FORCE;
+        }  
+    }
+     
 
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         mario_reset_bodystate(gMarioState);

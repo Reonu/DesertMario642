@@ -74,3 +74,4 @@
 #include "sign_idiot/model.inc.c"
 #include "ufo/collision.inc.c"
 #include "ufo_visual/model.inc.c"
+#include "desert_house/model.inc.c"
