@@ -78,7 +78,10 @@ void spawn_electrical_poles(void) {
 
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
-    if (gInstantWarpCounter > TIER_3_THRESHOLD) {
+    if (gInstantWarpCounter > TIER_4_THRESHOLD) {
+        maxTier = MODEL_BILLBOARD_END;
+    }
+    else if (gInstantWarpCounter > TIER_3_THRESHOLD) {
         maxTier = MODEL_TIER_4_START - 1;
     } else if (gInstantWarpCounter > TIER_2_THRESHOLD){
         maxTier = MODEL_TIER_3_START - 1;
@@ -169,7 +172,7 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 #define BUSH_CHANCE 0.25f
-#define BILLBOARD_CHANCE 0.05f
+#define BILLBOARD_CHANCE 0.50f
 #define UFO_CHANCE 0.01f
 #define HOUSE_CHANCE 0.01f
 
@@ -352,17 +355,13 @@ void bhv_desert_decor_loop(void) {
         
         modulate_rgb_color(&o->oPrimRGB);
         emit_light(pos, (o->oPrimRGB >> 16) & 0xff, (o->oPrimRGB >> 8) & 0xff, o->oPrimRGB & 0xff, 4, 50, 8, 0);
-        
-        if (gInstantWarpCounter == RGB_HOUSE_WARPS_START_MUSIC) {
-            play_secondary_music(SEQ_CARAMELLDANSEN, 10, 255, 1000);
-        } else if (gInstantWarpCounter >= RGB_HOUSE_WARPS_STOP_MUSIC) {
-            stop_secondary_music(1000);
-        } else if (gInstantWarpCounter < RGB_HOUSE_WARPS_START_MUSIC) {
-            stop_secondary_music(1000);
+        print_text_fmt_int(20, 20, "warp %d", o->oInstantWarpSpawn);
+        if (gInstantWarpCounter < (o->oInstantWarpSpawn + 1) && gInstantWarpCounter > (o->oInstantWarpSpawn - 1)) {
+            play_secondary_music(SEQ_CARAMELLDANSEN, 10, 255, 1500);
+        } else {
+            stop_secondary_music(1500);
         }
     }
-
-
 }
 
 

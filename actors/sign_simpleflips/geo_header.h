@@ -1,7 +1,4 @@
 extern const GeoLayout sign_simpleflips_geo[];
-extern u8 sign_simpleflips_metal_i8_i8[];
-extern u8 sign_simpleflips_fence_ci4_ci4[];
-extern u8 sign_simpleflips_fence_ci4_pal_rgba16[];
 extern u8 sign_simpleflips_simpleflips_rgba16[];
 extern Vtx sign_simpleflips_sign_simpleflips_mesh_layer_1_vtx_cull[8];
 extern Vtx sign_simpleflips_sign_simpleflips_mesh_layer_1_vtx_0[44];

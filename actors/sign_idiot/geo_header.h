@@ -1,7 +1,4 @@
 extern const GeoLayout sign_idiot_geo[];
-extern u8 sign_idiot_metal_i8_i8[];
-extern u8 sign_idiot_fence_ci4_ci4[];
-extern u8 sign_idiot_fence_ci4_pal_rgba16[];
 extern u8 sign_idiot_idiot_rgba16[];
 extern u8 sign_idiot_mario_rgba16[];
 extern Vtx sign_idiot_sign_idiot_mesh_layer_1_vtx_cull[8];

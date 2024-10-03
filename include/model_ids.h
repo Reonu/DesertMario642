@@ -4,12 +4,12 @@
 #define MODEL_NONE                             0x00
 
 #define MODEL_BILLBOARD_START 264
-#define MODEL_BILLBOARD_END 266
+#define MODEL_BILLBOARD_END 289
 
 #define MODEL_TIER_1_START 264
 #define MODEL_TIER_2_START MODEL_SIGN_SPOON
 #define MODEL_TIER_3_START MODEL_SIGN_ASS_IMPACT
-#define MODEL_TIER_4_START 280
+#define MODEL_TIER_4_START MODEL_SIGN_COMIT_STANS
 
 /* fast64 object exports get inserted here */
 #define MODEL_DESERT_HOUSE_RGB            310
@@ -51,23 +51,30 @@
 #define MODEL_SIGN_MUSHROOM               269
 #define MODEL_SIGN_HACKERN64              270
 #define MODEL_SIGN_SYNERGY                271
+#define MODEL_SIGN_MOTIVATE               272
+#define MODEL_SIGN_PREDATOR               273
+#define MODEL_SIGN_NINTENDO_EMPLOYEES     274
+#define MODEL_SIGN_BART                   275
+#define MODEL_SIGN_YUGAMINEENA            276
 
 // TIER 2
-#define MODEL_SIGN_SPOON                  272
-#define MODEL_SIGN_JOEL                   273
-#define MODEL_SIGN_SIMPLEFLIPS            274
+#define MODEL_SIGN_SPOON                  277
+#define MODEL_SIGN_JOEL                   278
+#define MODEL_SIGN_SIMPLEFLIPS            279
 
 // TIER 3
-#define MODEL_SIGN_ASS_IMPACT             275
-#define MODEL_SIGN_MVC                    276
-#define MODEL_SIGN_MVH                    277
-#define MODEL_SIGN_IDIOT                  278
+#define MODEL_SIGN_ASS_IMPACT             280
+#define MODEL_SIGN_MVC                    281
+#define MODEL_SIGN_MVH                    282
+#define MODEL_SIGN_IDIOT                  283
 
 // TIER 4
+#define MODEL_SIGN_COMIT_STANS            284
+#define MODEL_SIGN_COMIT_ANTIS            285
+#define MODEL_SIGN_MAKE_CLEAN             286
+#define MODEL_SIGN_XENOBLADE              287
+#define MODEL_SIGN_XENOGEARS              289
 
-// TIER 3
-
-// TIER 4
 
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/

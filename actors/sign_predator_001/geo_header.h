@@ -1,0 +1,11 @@
+extern const GeoLayout sign_predator_001_geo[];
+extern u8 sign_predator_001_nintendoemployees_i8[];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_1_vtx_0[44];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_1_vtx_1[264];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_1_vtx_2[12];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_1_vtx_3[192];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_predator_001_sign_predator_001_mesh_layer_4_vtx_0[16];
+extern Gfx sign_predator_001_sign_predator_001_mesh_layer_1[];
+extern Gfx sign_predator_001_sign_predator_001_mesh_layer_4[];

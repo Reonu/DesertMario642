@@ -1,7 +1,4 @@
 extern const GeoLayout sign_joel_geo[];
-extern u8 sign_joel_metal_i8_i8[];
-extern u8 sign_joel_fence_ci4_ci4[];
-extern u8 sign_joel_fence_ci4_pal_rgba16[];
 extern u8 sign_joel_joel_rgba16[];
 extern Vtx sign_joel_sign_joel_mesh_layer_1_vtx_cull[8];
 extern Vtx sign_joel_sign_joel_mesh_layer_1_vtx_0[44];

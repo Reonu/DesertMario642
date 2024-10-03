@@ -447,4 +447,24 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "desert_house_rgb/geo_header.h"
 
+#include "sign_comit_stans/geo_header.h"
+
+#include "sign_comit_antis/geo_header.h"
+
+#include "sign_make_clean/geo_header.h"
+
+#include "sign_xenoblade/geo_header.h"
+
+#include "sign_xenogears/geo_header.h"
+
+#include "sign_motivate/geo_header.h"
+
+#include "sign_predator/geo_header.h"
+
+#include "sign_predator_001/geo_header.h"
+
+#include "sign_bart/geo_header.h"
+
+#include "sign_yugamineena/geo_header.h"
+
 #endif

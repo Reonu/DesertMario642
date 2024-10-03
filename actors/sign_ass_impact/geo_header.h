@@ -1,7 +1,4 @@
 extern const GeoLayout sign_ass_impact_geo[];
-extern u8 sign_ass_impact_metal_i8_i8[];
-extern u8 sign_ass_impact_fence_ci4_ci4[];
-extern u8 sign_ass_impact_fence_ci4_pal_rgba16[];
 extern u8 sign_ass_impact_ass_impact_rgba16[];
 extern Vtx sign_ass_impact_sign_ass_impact_mesh_layer_1_vtx_cull[8];
 extern Vtx sign_ass_impact_sign_ass_impact_mesh_layer_1_vtx_0[44];

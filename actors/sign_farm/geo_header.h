@@ -1,7 +1,4 @@
 extern const GeoLayout sign_farm_geo[];
-extern u8 sign_farm_metal_i8_i8[];
-extern u8 sign_farm_fence_ci4_ci4[];
-extern u8 sign_farm_fence_ci4_pal_rgba16[];
 extern u8 sign_farm_farm_rgba16[];
 extern Vtx sign_farm_sign_farm_mesh_layer_1_vtx_cull[8];
 extern Vtx sign_farm_sign_farm_mesh_layer_1_vtx_0[44];
