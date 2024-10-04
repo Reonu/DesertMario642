@@ -1,0 +1,11 @@
+extern const GeoLayout sign_youtube_geo[];
+extern u8 sign_youtube_funny_i4[];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_1_vtx_0[44];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_1_vtx_1[263];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_1_vtx_2[12];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_1_vtx_3[40];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_youtube_sign_youtube_mesh_layer_4_vtx_0[16];
+extern Gfx sign_youtube_sign_youtube_mesh_layer_1[];
+extern Gfx sign_youtube_sign_youtube_mesh_layer_4[];

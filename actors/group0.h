@@ -467,4 +467,24 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "sign_yugamineena/geo_header.h"
 
+#include "sign_youtube/geo_header.h"
+
+#include "sign_cross/geo_header.h"
+
+#include "sign_bettercallshy/geo_header.h"
+
+#include "sign_oatmeal/geo_header.h"
+
+#include "sign_spk/geo_header.h"
+
+#include "sign_moth/geo_header.h"
+
+#include "sign_appy/geo_header.h"
+
+#include "sign_cozies/geo_header.h"
+
+#include "sign_maltingius/geo_header.h"
+
+#include "sign_patchmaker/geo_header.h"
+
 #endif

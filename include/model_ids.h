@@ -43,6 +43,15 @@
 #define MODEL_ELECTRICAL_POLE             261
 
 // TIER 1
+#define MODEL_SIGN_PATCHMAKER             299
+#define MODEL_SIGN_MALTINGIUS             298
+#define MODEL_SIGN_COZIES                 297
+#define MODEL_SIGN_APPY                   296
+#define MODEL_SIGN_MOTH                   295
+#define MODEL_SIGN_SPK                    294
+#define MODEL_SIGN_OATMEAL                292
+#define MODEL_SIGN_BETTERCALLSHY          291
+#define MODEL_SIGN_CROSS                  290
 #define MODEL_SIGN_AMOGUS                 264
 #define MODEL_SIGN_CHEEZEPIN              265
 #define MODEL_SIGN_FARM                   266
@@ -56,23 +65,24 @@
 #define MODEL_SIGN_NINTENDO_EMPLOYEES     274
 #define MODEL_SIGN_BART                   275
 #define MODEL_SIGN_YUGAMINEENA            276
+#define MODEL_SIGN_YOUTUBE                277
 
 // TIER 2
-#define MODEL_SIGN_SPOON                  277
-#define MODEL_SIGN_JOEL                   278
-#define MODEL_SIGN_SIMPLEFLIPS            279
+#define MODEL_SIGN_SPOON                  278
+#define MODEL_SIGN_JOEL                   279
+#define MODEL_SIGN_SIMPLEFLIPS            280
 
 // TIER 3
-#define MODEL_SIGN_ASS_IMPACT             280
-#define MODEL_SIGN_MVC                    281
-#define MODEL_SIGN_MVH                    282
-#define MODEL_SIGN_IDIOT                  283
+#define MODEL_SIGN_ASS_IMPACT             281
+#define MODEL_SIGN_MVC                    282
+#define MODEL_SIGN_MVH                    283
+#define MODEL_SIGN_IDIOT                  284
 
 // TIER 4
-#define MODEL_SIGN_COMIT_STANS            284
-#define MODEL_SIGN_COMIT_ANTIS            285
-#define MODEL_SIGN_MAKE_CLEAN             286
-#define MODEL_SIGN_XENOBLADE              287
+#define MODEL_SIGN_COMIT_STANS            285
+#define MODEL_SIGN_COMIT_ANTIS            286
+#define MODEL_SIGN_MAKE_CLEAN             287
+#define MODEL_SIGN_XENOBLADE              288
 #define MODEL_SIGN_XENOGEARS              289
 
 

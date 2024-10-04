@@ -1,0 +1,11 @@
+extern const GeoLayout sign_bettercallshy_geo[];
+extern u8 sign_bettercallshy_bettercallshy_rgba16[];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_1_vtx_0[44];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_1_vtx_1[314];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_1_vtx_2[12];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_1_vtx_3[120];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_bettercallshy_sign_bettercallshy_mesh_layer_4_vtx_0[16];
+extern Gfx sign_bettercallshy_sign_bettercallshy_mesh_layer_1[];
+extern Gfx sign_bettercallshy_sign_bettercallshy_mesh_layer_4[];
