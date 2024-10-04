@@ -337,6 +337,11 @@ struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelI
         }
     }
 
+    if (model == MODEL_DESERT_HOUSE_RGB) {
+        // Offset geo translation, needed for sound effect perception to make sense
+        newObj->oPosX += (newObj->oPosX < 0 ? -1750 : 1750);
+    }
+
     return newObj;
 }
 

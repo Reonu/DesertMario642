@@ -36,6 +36,7 @@ extern f32 gGlobalSoundSource[3];
 
 // defined in data.c, used by the game
 extern u32 gAudioRandom;
+extern f32 seqPlayerVolumeMult;
 
 extern s8 sLevelAreaReverbs[LEVEL_COUNT][3];
 

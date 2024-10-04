@@ -7989,7 +7989,22 @@ layer_jump .layer_32B7
 
 
 .channelD_table:
-// Add custom sounds for Channel D here!
+sound_ref .sound_env_caramelldansen
+
+.sound_env_caramelldansen:
+chan_setbank 3
+chan_setinstr 10
+chan_setenvelope .envelope_stream
+chan_setval 10
+chan_call .set_reverb
+chan_setlayer 0, .layer_caramelldansen
+chan_end
+
+.layer_caramelldansen:
+layer_somethingon
+.layer_caramelldansen_loop:
+layer_note1 39, 0x100, 127
+layer_jump .layer_caramelldansen_loop
 
 
 .channelE_table:
@@ -8174,3 +8189,7 @@ envelope_line 1000 32700
 envelope_line 10 16000
 envelope_line 200 32760
 envelope_goto 3
+
+.envelope_stream:
+envelope_line 1 32700
+envelope_hang
