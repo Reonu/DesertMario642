@@ -603,4 +603,6 @@ enum SoundBank {
 
 // Add defines for sounds using extra custom banks here!
 
+#define SOUND_BG1_CARAMELLDANSEN /* 0xD400FF01 */ SOUND_ARG_LOAD(SOUND_BANK_CUSTOM_BACKGROUND_1, 0x00, 0xFF, SOUND_NO_PRIORITY_LOSS)
+
 #endif // SOUNDS_H

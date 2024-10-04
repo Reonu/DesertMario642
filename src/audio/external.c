@@ -66,6 +66,8 @@ s32 sGameLoopTicked = 0;
 u8 sNumProcessedSoundRequests = 0;
 u8 sSoundRequestCount = 0;
 
+f32 seqPlayerVolumeMult = 1.0f;
+
 // Music dynamic tables. A dynamic describes which volumes to apply to which
 // channels of a sequence (I think?), and different parts of a level can have
 // different dynamics. Each table below specifies first the sequence to apply
@@ -193,8 +195,8 @@ u16 sLevelAcousticReaches[LEVEL_COUNT] = {
 #define VOLUME_RANGE_UNK1 0.8f
 #define VOLUME_RANGE_UNK2 1.0f
 #else
-#define VOLUME_RANGE_UNK1 0.9f
-#define VOLUME_RANGE_UNK2 0.8f
+#define VOLUME_RANGE_UNK1 1.0f
+#define VOLUME_RANGE_UNK2 1.0f
 #endif
 
 // sBackgroundMusicDefaultVolume represents the default volume for background music sequences using the level player (deprecated).
@@ -999,11 +1001,21 @@ static f32 get_sound_pan(f32 x, f32 z) {
     return pan;
 }
 
+
 /**
  * Called from threads: thread4_sound, thread5_game_loop (EU only)
  */
 static f32 get_sound_volume(u8 bank, u8 soundIndex, f32 volumeRange) {
+    #define ACTIVE_SOUND(x) \
+        (((x) & ~SOUNDARGS_MASK_STATUS) == (sSoundBanks[bank][soundIndex].soundBits & ~SOUNDARGS_MASK_STATUS))
+
     f32 intensity;
+    f32 ret;
+    u8 shouldDoubleDistanceAndIntensity = FALSE;
+
+    if (ACTIVE_SOUND(SOUND_BG1_CARAMELLDANSEN)) {
+        shouldDoubleDistanceAndIntensity = TRUE;
+    }
 
     if (!(sSoundBanks[bank][soundIndex].soundBits & SOUND_NO_VOLUME_LOSS)) {
 #ifdef VERSION_JP
@@ -1022,6 +1034,9 @@ static f32 get_sound_volume(u8 bank, u8 soundIndex, f32 volumeRange) {
             intensity = 0.0f;
         } else {
             f32 maxSoundDistance = sLevelAcousticReaches[gCurrLevelNum] / div;
+            if (shouldDoubleDistanceAndIntensity) {
+                maxSoundDistance *= 2;
+            }
             if (maxSoundDistance < sSoundBanks[bank][soundIndex].distance) {
                 intensity = ((AUDIO_MAX_DISTANCE - sSoundBanks[bank][soundIndex].distance)
                              / (AUDIO_MAX_DISTANCE - maxSoundDistance))
@@ -1042,8 +1057,14 @@ static f32 get_sound_volume(u8 bank, u8 soundIndex, f32 volumeRange) {
         intensity = 1.0f;
     }
 
-    // Rise quadratically from 1 - volumeRange to 1
-    return volumeRange * sqr(intensity) + 1.0f - volumeRange;
+    ret = volumeRange * sqr(intensity) + 1.0f - volumeRange;
+
+    if (shouldDoubleDistanceAndIntensity) {
+        ret = sqrtf(ret);
+        seqPlayerVolumeMult = MIN(seqPlayerVolumeMult, 1.0f - ret);
+    }
+
+    return ret;
 }
 
 /**
@@ -1136,6 +1157,8 @@ static void update_game_sound(void) {
 #if defined(VERSION_JP) || defined(VERSION_US)
     f32 value;
 #endif
+
+    seqPlayerVolumeMult = 1.0f;
 
     process_all_sound_requests();
     process_level_music_dynamics();
@@ -1273,6 +1296,31 @@ static void update_game_sound(void) {
                                 get_sound_freq_scale(bank, soundIndex);
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->reverbVol =
                                 get_sound_reverb(bank, soundIndex, channelIndex);
+#endif
+                            break;
+                        case SOUND_BANK_CUSTOM_BACKGROUND_1:
+#if defined(VERSION_EU) || defined(VERSION_SH)
+                            func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
+                                          get_sound_reverb(bank, soundIndex, channelIndex));
+                            func_802ad728(0x02020000 | ((channelIndex & 0xff) << 8),
+                                          get_sound_volume(bank, soundIndex, VOLUME_RANGE_UNK2));
+                            func_802ad770(0x03020000 | ((channelIndex & 0xff) << 8),
+                                          get_sound_pan(*sSoundBanks[bank][soundIndex].x,
+                                                        *sSoundBanks[bank][soundIndex].z)
+                                                  * 127.0f
+                                              + 0.5f);
+                            func_802ad728(0x04020000 | ((channelIndex & 0xff) << 8),
+                                          get_sound_freq_scale(bank, soundIndex));
+#else
+                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->reverbVol =
+                                get_sound_reverb(bank, soundIndex, channelIndex);
+                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume =
+                                get_sound_volume(bank, soundIndex, VOLUME_RANGE_UNK2);
+                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->pan =
+                                get_sound_pan(*sSoundBanks[bank][soundIndex].x,
+                                              *sSoundBanks[bank][soundIndex].z);
+                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale =
+                                get_sound_freq_scale(bank, soundIndex);
 #endif
                             break;
                         default:

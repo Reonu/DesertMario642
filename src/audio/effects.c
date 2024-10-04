@@ -56,7 +56,7 @@ void sequence_channel_process_sound(struct SequenceChannel *seqChannel, s32 reca
 #else
 static void sequence_channel_process_sound(struct SequenceChannel *seqChannel) {
     s32 hasProcessedChannel = FALSE;
-    f32 channelVolume;
+    f32 channelVolume = 1.0f;
     f32 panFromChannel;
     f32 panLayerWeight;
 
@@ -69,6 +69,10 @@ static void sequence_channel_process_sound(struct SequenceChannel *seqChannel) {
                 channelVolume = seqChannel->volume * seqChannel->volumeScale * seqChannel->seqPlayer->fadeVolume;
                 if (seqChannel->seqPlayer->muted && (seqChannel->muteBehavior & MUTE_BEHAVIOR_SOFTEN) != 0) {
                     channelVolume *= seqChannel->seqPlayer->muteVolumeScale;
+                }
+
+                if (seqChannel->seqPlayer == &gSequencePlayers[SEQ_PLAYER_LEVEL]) {
+                    channelVolume *= seqPlayerVolumeMult;
                 }
 
                 panFromChannel = seqChannel->pan * seqChannel->panChannelWeight;

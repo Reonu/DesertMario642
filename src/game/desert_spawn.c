@@ -347,19 +347,20 @@ void bhv_desert_decor_loop(void) {
         Vec3f pos = {0,0,0};
         pos[1] = o->oPosY + 500;
         pos[2] = o->oPosZ;
+
+        // NOTE: 1750 values represented by model geo translation, needed for music to not sound like it's coming from the wrong spot
         if (isRight) {
-            pos[0] = o->oPosX - 200;
+            pos[0] = o->oPosX - 200 - 1750;
         } else {
-            pos[0] = o->oPosX + 200;
+            pos[0] = o->oPosX + 200 + 1750;
         }
         
         modulate_rgb_color(&o->oPrimRGB);
         emit_light(pos, (o->oPrimRGB >> 16) & 0xff, (o->oPrimRGB >> 8) & 0xff, o->oPrimRGB & 0xff, 4, 50, 8, 0);
         print_text_fmt_int(20, 20, "warp %d", o->oInstantWarpSpawn);
-        if (gInstantWarpCounter < (o->oInstantWarpSpawn + 1) && gInstantWarpCounter > (o->oInstantWarpSpawn - 1)) {
-            play_secondary_music(SEQ_CARAMELLDANSEN, 10, 255, 1500);
-        } else {
-            stop_secondary_music(1500);
+        
+        if (gCurrentObject->header.gfx.node.flags & GRAPH_RENDER_ACTIVE) {
+            play_sound(SOUND_BG1_CARAMELLDANSEN, gCurrentObject->header.gfx.cameraToObject);
         }
     }
 }
