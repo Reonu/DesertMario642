@@ -43,19 +43,19 @@
 struct DesertSpawnCoords LeftSide = {
     .x = -3000,
     .y = 0,
-    .z = -18472,
+    .z = -24628,
 };
 
 struct DesertSpawnCoords RightSide = {
     .x = 3000,
     .y = 0,
-    .z = -18472,
+    .z = -24628,
 };
 
 struct DesertSpawnCoords Road = {
     .x = 0,
     .y = 0,
-    .z = -18472,
+    .z = -24628,
 };
 
 struct DesertSpawnCoords decide_left_or_right(MTRand *rand) {
@@ -240,34 +240,35 @@ void spawn_enemy(MTRand *rand) {
 }
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
 void bhv_desert_spawner_loop(void) {
-    MTRand firstRand = seedRand(gInstantWarpCounter);
-    u32 actualSeed = genRandLong(&firstRand);
-    MTRand newSeed = seedRand(actualSeed);
-    u32 numSmall = random_in_range(&newSeed, 5);
-
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
+        u32 spawnIndex = gInstantWarpCounter;
+
+        // Offset the warp counter by 2 based on the direction.
+        // This is because objects are spawned 2 tiles away from the center of the map.
         if (gInstantWarpType == INSTANT_WARP_FORWARDS) {
-            gVisitedAreas = (gVisitedAreas << 1) & 0b111111111;
+            spawnIndex += 2;
         } else if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
-            gVisitedAreas = (gVisitedAreas >> 1) & 0b111111111;
+            spawnIndex -= 2;
         } else {
             print_text(20,20,"TEST");
         }
-        if (!(gVisitedAreas & 0b000010000)) {
-            u32 numSmall = random_in_range(&newSeed, 5);
-            if (gInstantWarpCounter % 20 == 0) {
-                spawn_gas_station();
-            } else if (gInstantWarpCounter == RGB_HOUSE_WARPS) {
-                spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
-            } else {
-                for (u32 i = 0; i < numSmall; i++) {
-                    spawn_small_decoration(&newSeed);
-                }
-                spawn_big_decoration(&newSeed);
-                spawn_enemy(&newSeed);
+
+        MTRand firstRand = seedRand(spawnIndex);
+        u32 actualSeed = genRandLong(&firstRand);
+        MTRand newSeed = seedRand(actualSeed);
+        u32 numSmall = random_in_range(&newSeed, 5);
+
+        if (gInstantWarpCounter % 20 == 0) {
+            spawn_gas_station();
+        } else if (gInstantWarpCounter == RGB_HOUSE_WARPS) {
+            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
+        } else {
+            for (u32 i = 0; i < numSmall; i++) {
+                spawn_small_decoration(&newSeed);
             }
-            gVisitedAreas |= 0b000010000;
+            spawn_big_decoration(&newSeed);
+            spawn_enemy(&newSeed);
         }
     }
 }
