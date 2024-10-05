@@ -64,7 +64,7 @@ extern s32 gInstantWarpDisplacement;
 extern u16 gLow;
 extern u16 gHigh;
 extern s32 gInstantWarpCounter;
-extern u16 gLastBillboard;
+extern s32 gInstantWarpSpawnIndex;
 extern u8 gUsernameSuccess;
 extern u8 gAvatarTexture[2048];
 extern u8 gAvatarLoaded;

@@ -78,12 +78,11 @@ void spawn_electrical_poles(void) {
 
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
-    if (gInstantWarpCounter > TIER_4_THRESHOLD) {
+    if (gInstantWarpSpawnIndex >= TIER_4_THRESHOLD) {
         maxTier = MODEL_BILLBOARD_END_TIER4;
-    }
-    else if (gInstantWarpCounter > TIER_3_THRESHOLD) {
+    } else if (gInstantWarpSpawnIndex >= TIER_3_THRESHOLD) {
         maxTier = MODEL_BILLBOARD_END_TIER3;
-    } else if (gInstantWarpCounter > TIER_2_THRESHOLD){
+    } else if (gInstantWarpSpawnIndex >= TIER_2_THRESHOLD){
         maxTier = MODEL_BILLBOARD_END_TIER2;
     } else {
         maxTier = MODEL_BILLBOARD_END_TIER1;
@@ -106,17 +105,10 @@ void spawn_billboard(MTRand *rand) {
     }
 
     modelID = decide_billboard_model_id(rand);
-    
 
     if (modelID ==  MODEL_SIGN_IDIOT && gAvatarLoaded != 0 && gEmulator & EMU_PARALLELN64) {
         bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
-
-    while (modelID == gLastBillboard) {
-        modelID = decide_billboard_model_id(rand);
-    }
-
-    gLastBillboard = modelID;
 
     spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
 }
@@ -238,29 +230,34 @@ void spawn_enemy(MTRand *rand) {
     }
 }
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
+#define TILES_IN_FRONT_OR_BEHIND 2
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
-        u32 spawnIndex = gInstantWarpCounter;
+        gInstantWarpSpawnIndex = gInstantWarpCounter;
 
         // Offset the warp counter by 2 based on the direction.
         // This is because objects are spawned 2 tiles away from the center of the map.
         if (gInstantWarpType == INSTANT_WARP_FORWARDS) {
-            spawnIndex += 2;
+            gInstantWarpSpawnIndex += TILES_IN_FRONT_OR_BEHIND;
         } else if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
-            spawnIndex -= 2;
+            gInstantWarpSpawnIndex -= TILES_IN_FRONT_OR_BEHIND;
         } else {
             print_text(20,20,"TEST");
         }
 
-        MTRand firstRand = seedRand(spawnIndex);
+        if (gInstantWarpSpawnIndex >= -TILES_IN_FRONT_OR_BEHIND && gInstantWarpSpawnIndex <= TILES_IN_FRONT_OR_BEHIND) {
+            return; // Do not generate anything at the start of the run, as it doesn't when you're initially spawned either
+        }
+
+        MTRand firstRand = seedRand(gInstantWarpSpawnIndex);
         u32 actualSeed = genRandLong(&firstRand);
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
 
-        if (gInstantWarpCounter % 20 == 0) {
+        if (gInstantWarpSpawnIndex % 20 == 0) {
             spawn_gas_station();
-        } else if (gInstantWarpCounter == RGB_HOUSE_WARPS) {
+        } else if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
             spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
         } else {
             for (u32 i = 0; i < numSmall; i++) {

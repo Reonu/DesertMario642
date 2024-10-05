@@ -2567,7 +2567,7 @@ void warp_desert_object(struct Object *obj) {
             mark_obj_for_deletion(obj);
         }
     } else {
-        o->oInstantWarpSpawn = gInstantWarpCounter;
+        o->oInstantWarpSpawn = gInstantWarpSpawnIndex;
     }
 }
 

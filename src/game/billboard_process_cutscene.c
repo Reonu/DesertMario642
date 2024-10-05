@@ -252,16 +252,34 @@ static s32 get_desert_sign_video_id(ModelID32 modelId) {
     return -1;
 }
 
+struct BBHistory {
+    s32 instantWarpId;
+    s32 billboardId;
+};
 #define BB_COUNT (MODEL_BILLBOARD_END - MODEL_BILLBOARD_START)
 #define BB_MAX_ATTEMPTS 10
-f32 gSceneWeights[BB_COUNT] = {[0 ... BB_COUNT - 1] = 0.5f - (1.0f / (f32) BB_COUNT)}; // Weighting array for billboards so that repeated billboards are less likely to immediately show up
+f32 gBillboardWeights[BB_COUNT] = {[0 ... BB_COUNT - 1] = 0.5f - (1.0f / (f32) BB_COUNT)}; // Weighting array for billboards so that repeated billboards are less likely to immediately show up
+f32 gBillboardWeightsBackwards[BB_COUNT] = {[0 ... BB_COUNT - 1] = 0.5f - (1.0f / (f32) BB_COUNT)}; // Same as above but for going backwards (as to not interfere with forwards generation)
+struct BBHistory gBillboardHistory[INSTANT_WARPS_GOAL] = {[0 ... INSTANT_WARPS_GOAL - 1] = {.instantWarpId = 0, .billboardId = -1}}; // History needed to preserve accuracy of billboards between playthroughs in all (expectable) situations
 s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     s32 index;
     s32 count = lastBillboard - MODEL_BILLBOARD_START;
     f32 weightIncrease = 1.0f / (f32) count;
-
-
+    f32 *weights = gBillboardWeights;
     s32 attempts = 0;
+    s32 instantWarpIndex = ((gInstantWarpSpawnIndex % INSTANT_WARPS_GOAL) + INSTANT_WARPS_GOAL) % INSTANT_WARPS_GOAL; // handles negative numbers
+    struct BBHistory *hist = &gBillboardHistory[instantWarpIndex];
+
+    if (gInstantWarpSpawnIndex <= 0) {
+        weights = gBillboardWeightsBackwards;
+    }
+
+    if (hist->billboardId >= 0) {
+        if (!(gInstantWarpSpawnIndex > 0 && gInstantWarpSpawnIndex > hist->instantWarpId) // Going forwards from start
+                    && !(hist->instantWarpId <= 0 && gInstantWarpSpawnIndex <= 0 && gInstantWarpSpawnIndex < hist->instantWarpId)) { // Going backwards from start
+            return hist->billboardId + MODEL_BILLBOARD_START; // Billboard has already been generated
+        }
+    }
 
     for (attempts = 0; attempts < BB_MAX_ATTEMPTS; attempts++) {
         f32 weightTotal = 0.0f;
@@ -270,21 +288,21 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
 
         for (index = 0; index < count; index++) {
             // Increase the probability selection window for each billboards; offers future benefit against more recently selected indexes
-            gSceneWeights[index] += weightIncrease;
+            weights[index] += weightIncrease;
 
             // If weight is below 0, effectively exclude it from the possible selection pool
-            if (gSceneWeights[index] > 0.0f)
-                weightTotal += gSceneWeights[index];
+            if (weights[index] > 0.0f)
+                weightTotal += weights[index];
         }
 
         generatedWeight *= weightTotal;
 
         for (index = 0; index < count - 1; index++) { // count - 1 not an accident
             // If weight is below 0, skip the index. This in theory should never favor the last unprocessed index if that falls below 0.
-            if (gSceneWeights[index] <= 0.0f)
+            if (weights[index] <= 0.0f)
                 continue;
 
-            currentWeight += gSceneWeights[index];
+            currentWeight += weights[index];
             if (currentWeight >= generatedWeight)
                 break;
         }
@@ -299,10 +317,12 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
         index = 0; // NOTE: MODEL_BILLBOARD_START should not be a video!
     }
 
-    // Index should be guaranteed to not show up for 2 more billboards, then will later become possible at low but increasing probability
-    // NOTE: This system fails completely if there are less than 3 billboards in the pool!
-    gSceneWeights[index] = -(weightIncrease * 2);
+    // Index should be guaranteed to not show up again until at least 30% of the other billboards have been processed (at static quantity)
+    weights[index] = -0.30f;
 
+    // Update history entry, as we have just generated a new one
+    hist->billboardId = index;
+    hist->instantWarpId = gInstantWarpSpawnIndex;
     return index + MODEL_BILLBOARD_START;
 }
 
