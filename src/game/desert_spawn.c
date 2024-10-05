@@ -33,6 +33,7 @@
 #include "debug.h"
 #include "render_fog.h"
 #include "print.h"
+#include "desert_spawn.h"
 #include "mtwister.h"
 #include "behavior_data.h"
 #include "types.h"
@@ -230,7 +231,6 @@ void spawn_enemy(MTRand *rand, u8 spawnIndex) {
     }
 }
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
-#define TILES_IN_FRONT_OR_BEHIND 2
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
@@ -255,16 +255,16 @@ void bhv_desert_spawner_loop(void) {
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
 
-        if (spawnIndex % 20 == 0) {
-            spawn_gas_station(spawnIndex);
-        } else if (spawnIndex == RGB_HOUSE_WARPS) {
-            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, spawnIndex); 
+        if (gInstantWarpSpawnIndex % 20 == 0) {
+            spawn_gas_station(gInstantWarpSpawnIndex);
+        } else if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
+            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, gInstantWarpSpawnIndex); 
         } else {
             for (u32 i = 0; i < numSmall; i++) {
-                spawn_small_decoration(&newSeed, spawnIndex);
+                spawn_small_decoration(&newSeed, gInstantWarpSpawnIndex);
             }
-            spawn_big_decoration(&newSeed, spawnIndex);
-            spawn_enemy(&newSeed, spawnIndex);
+            spawn_big_decoration(&newSeed, gInstantWarpSpawnIndex);
+            spawn_enemy(&newSeed, gInstantWarpSpawnIndex);
         }
     }
 }

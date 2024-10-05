@@ -6,6 +6,7 @@
 #include "behavior_data.h"
 #include "camera.h"
 #include "debug.h"
+#include "desert_spawn.h"
 #include "dialog_ids.h"
 #include "engine/behavior_script.h"
 #include "engine/geo_layout.h"
@@ -2556,7 +2557,6 @@ Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *co
     return dlStart;
 }
 
-#define MAX_DISTANCE 2
 void warp_desert_object(struct Object *obj) {
     if (obj->oDesertTimer != 0) {
         if (gInstantWarpDisplacement) {
@@ -2565,7 +2565,7 @@ void warp_desert_object(struct Object *obj) {
                 obj_update_gfx_pos_and_angle(obj);
             }
         }
-        if (ABS(o->oInstantWarpSpawn - gInstantWarpCounter) > MAX_DISTANCE) {
+        if (ABS(o->oInstantWarpSpawn - gInstantWarpCounter) > TILES_IN_FRONT_OR_BEHIND) {
             mark_obj_for_deletion(obj);
         }
     }
