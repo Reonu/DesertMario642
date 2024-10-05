@@ -192,7 +192,7 @@ s32 act_drinking_water(struct MarioState *m) {
         if (is_anim_at_end(m)) {
             m->actionState = 1;
             recover_hydration(HYDRATON_WATER_RECOVERY);
-            drop_and_set_mario_action(m, ACT_IDLE, 0);
+            return drop_and_set_mario_action(m, ACT_IDLE, 0);
         }
     } else {
         if (m->actionTimer++ > 20) {
@@ -200,6 +200,8 @@ s32 act_drinking_water(struct MarioState *m) {
             m->actionTimer = 0;
         }
     }
+
+    return FALSE;
 }
 
 s32 act_drinking_water_fail(struct MarioState *m) {
@@ -207,7 +209,7 @@ s32 act_drinking_water_fail(struct MarioState *m) {
         set_custom_mario_animation(m, 1);
         if (is_anim_at_end(m)) {
             m->actionState = 1;
-            drop_and_set_mario_action(m, ACT_IDLE, 0);
+            return drop_and_set_mario_action(m, ACT_IDLE, 0);
         }
     } else {
         if (m->actionTimer++ > 20) {
@@ -215,6 +217,8 @@ s32 act_drinking_water_fail(struct MarioState *m) {
             m->actionTimer = 0;
         }
     }
+
+    return FALSE;
 }
 
 void play_anim_sound(struct MarioState *m, u32 actionState, s32 animFrame, u32 sound) {

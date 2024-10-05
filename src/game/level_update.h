@@ -4,6 +4,7 @@
 #include <PR/ultratypes.h>
 
 #include "types.h"
+#include "mtwister.h"
 
 enum TimerControl {
     TIMER_CONTROL_SHOW,
@@ -181,5 +182,10 @@ s32 lvl_init_from_save_file(      UNUSED s16 initOrUpdate,        s32 levelNum);
 s32 lvl_set_current_level(        UNUSED s16 initOrUpdate,        s32 levelNum);
 s32 lvl_play_the_end_screen_sound(UNUSED s16 initOrUpdate, UNUSED s32 levelNum);
 void basic_update(void);
+
+void init_menu_video_buffers(void);
+void update_menu_video_buffers(void);
+s32 check_image_dma_complete(void);
+s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard);
 
 #endif // LEVEL_UPDATE_H

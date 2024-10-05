@@ -188,7 +188,7 @@ static s32 get_top_left_tile_idx(s8 player) {
  *                  into an x and y by modulus and division by SKYBOX_COLS. x and y are then scaled by
  *                  SKYBOX_TILE_WIDTH to get a point in world space.
  */
-Vtx *make_skybox_rect(s32 tileIndex, s8 colorIndex) {
+Vtx *make_skybox_rect(s32 tileIndex, UNUSED s8 colorIndex) {
     Vtx *verts = alloc_display_list(4 * sizeof(*verts));
     s16 x = tileIndex % SKYBOX_COLS * SKYBOX_TILE_WIDTH;
     s16 y = SKYBOX_HEIGHT - tileIndex / SKYBOX_COLS * SKYBOX_TILE_HEIGHT;

@@ -1235,7 +1235,21 @@ UNUSED static s32 play_mode_unused(void) {
 }
 
 s32 update_level(void) {
+    static s32 shouldReturn = FALSE;
     s32 changeLevel = FALSE;
+
+    // Wait for image DMA to finish before continuing on in level script
+    if (shouldReturn) {
+        if (!check_image_dma_complete()) {
+            return FALSE;
+        }
+
+        changeLevel = shouldReturn;
+        shouldReturn = FALSE;
+        return changeLevel;
+    }
+
+    update_menu_video_buffers();
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
@@ -1258,6 +1272,12 @@ s32 update_level(void) {
     if (changeLevel) {
         reset_volume();
         enable_background_sound();
+
+        // If image DMA hasn't finished, wait for it first, and then continue on afterwards
+        if (!check_image_dma_complete()) {
+            shouldReturn = changeLevel;
+            return FALSE;
+        }
     }
 
     return changeLevel;

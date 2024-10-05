@@ -13,6 +13,7 @@
 #include "game/area.h"
 #include "game/debug.h"
 #include "game/game_init.h"
+#include "game/level_update.h"
 #include "game/mario.h"
 #include "game/memory.h"
 #include "game/object_helpers.h"
@@ -332,6 +333,8 @@ static void level_cmd_init_level(void) {
         gAreaSkyboxStart[clearPointers] = 0;
         gAreaSkyboxEnd[clearPointers] = 0;
     }
+
+    init_menu_video_buffers();
 
     sCurrentCmd = CMD_NEXT;
 }

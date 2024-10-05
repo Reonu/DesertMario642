@@ -655,6 +655,27 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     return closestObj;
 }
 
+struct Object *find_first_object_with_behavior_and_bparams(const BehaviorScript *behavior, u32 bparams, u32 bparamMask) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+
+    bparams &= bparamMask;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && (obj->oBehParams & bparamMask) == bparams
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+        ) {
+            return obj;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return NULL;
+}
+
 struct Object *find_unimportant_object(void) {
     struct ObjectNode *listHead = &gObjectLists[OBJ_LIST_UNIMPORTANT];
     struct ObjectNode *obj = listHead->next;
@@ -2363,7 +2384,6 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
 }
 
 Gfx *geo_set_global_fog(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx) {
-    static u32 curUpdateFrame = 0;
     struct GraphNodeGenerated *currentGraphNode;
     Gfx *dlStart, *dlHead;
     dlStart = NULL;
@@ -2393,7 +2413,7 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
     Mtx *mtx = alloc_display_list(sizeof(*mtx));
     s32 i;
     f32 pos[3];
-    struct Object *objectGraphNode;
+    UNUSED struct Object *objectGraphNode;
     struct GraphNodeGenerated *currentGraphNode;
     currentGraphNode = (struct GraphNodeGenerated *) node;
     objectGraphNode = (struct Object *) gCurGraphNodeObject; 
@@ -2432,7 +2452,7 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
 
 Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     Gfx *dlStart, *dlHead;
-    struct Object *objectGraphNode;
+    UNUSED struct Object *objectGraphNode;
     struct GraphNodeGenerated *currentGraphNode;
     u8 layer;
     u8 remap_alpha;
@@ -2461,9 +2481,9 @@ Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED vo
         }
         //print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
 
-        s32 r = gAmbientR;
-        s32 g = gAmbientG;
-        s32 b = gAmbientB;
+        // s32 r = gAmbientR;
+        // s32 g = gAmbientG;
+        // s32 b = gAmbientB;
         gDPSetPrimColor(dlHead++, 0, 0, 255, 255, 255, remap_alpha);
         gSPEndDisplayList(dlHead);
     }
@@ -2472,7 +2492,7 @@ Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED vo
 
 Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     Gfx *dlStart, *dlHead;
-    struct Object *objectGraphNode;
+    UNUSED struct Object *objectGraphNode;
     struct GraphNodeGenerated *currentGraphNode;
     u8 layer;
     u8 remap_alpha;

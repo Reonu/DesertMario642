@@ -79,18 +79,17 @@ void spawn_electrical_poles(void) {
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
     if (gInstantWarpCounter > TIER_4_THRESHOLD) {
-        maxTier = MODEL_BILLBOARD_END;
+        maxTier = MODEL_BILLBOARD_END_TIER4;
     }
     else if (gInstantWarpCounter > TIER_3_THRESHOLD) {
-        maxTier = MODEL_TIER_4_START - 1;
+        maxTier = MODEL_BILLBOARD_END_TIER3;
     } else if (gInstantWarpCounter > TIER_2_THRESHOLD){
-        maxTier = MODEL_TIER_3_START - 1;
+        maxTier = MODEL_BILLBOARD_END_TIER2;
     } else {
-        maxTier = MODEL_TIER_2_START - 1;
+        maxTier = MODEL_BILLBOARD_END_TIER1;
     }
-    u16 randValue = random_in_range(rand, (maxTier - MODEL_BILLBOARD_START) + 1);
-    randValue = randValue + MODEL_BILLBOARD_START;
-    return randValue;
+
+    return generate_weighted_billboard(rand, maxTier);
 }
 
 void spawn_billboard(MTRand *rand) {
@@ -283,12 +282,12 @@ void modulate_rgb_color(u32 *color) {
     float q = 1 - f;
 
     switch (i % 6) {
-        case 0: r = 1, g = f, b = 0; break;
-        case 1: r = q, g = 1, b = 0; break;
-        case 2: r = 0, g = 1, b = f; break;
-        case 3: r = 0, g = q, b = 1; break;
-        case 4: r = f, g = 0, b = 1; break;
-        case 5: r = 1, g = 0, b = q; break;
+        case 0: default: r = 1, g = f, b = 0; break;
+        case 1:          r = q, g = 1, b = 0; break;
+        case 2:          r = 0, g = 1, b = f; break;
+        case 3:          r = 0, g = q, b = 1; break;
+        case 4:          r = f, g = 0, b = 1; break;
+        case 5:          r = 1, g = 0, b = q; break;
     }
 
     // Scale RGB values to 0-255

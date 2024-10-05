@@ -785,7 +785,7 @@ void geo_process_camera(struct GraphNodeCamera *node) {
     Mtx *rollMtx = alloc_display_list(sizeof(*rollMtx));
     Gfx *setLightsDL = alloc_display_list(sizeof(Gfx) * 3);
     Gfx *levelLightsDL;
-    Vec3f probePos;
+    UNUSED Vec3f probePos;
     s32 i;
     Mtx *viewMtx = alloc_display_list(sizeof(Mtx));
 

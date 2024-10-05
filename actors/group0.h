@@ -393,6 +393,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "sign/collision_header.h"
 
+#include "sign_videodata/geo_header.h"
+
 #include "sign_amogus/geo_header.h"
 
 #include "sign_cheezepin/geo_header.h"
