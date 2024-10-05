@@ -1,0 +1,14 @@
+extern const GeoLayout sign_normal_geo[];
+extern u8 sign_normal_amogus_rgba16[];
+extern u8 sign_normal_metal_i8_i8[];
+extern u8 sign_normal_fence_ci4_ci4[];
+extern u8 sign_normal_fence_ci4_pal_rgba16[];
+extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_cull[8];
+extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_0[86];
+extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_1[44];
+extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_2[229];
+extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_3[12];
+extern Vtx sign_normal_sign_normal_mesh_layer_4_vtx_cull[8];
+extern Vtx sign_normal_sign_normal_mesh_layer_4_vtx_0[16];
+extern Gfx sign_normal_sign_normal_mesh_layer_1[];
+extern Gfx sign_normal_sign_normal_mesh_layer_4[];

@@ -67,3 +67,5 @@
 #include "sign_cozies/geo.inc.c"
 #include "sign_maltingius/geo.inc.c"
 #include "sign_patchmaker/geo.inc.c"
+#include "sign_normal/geo.inc.c"
+#include "sign_video/geo.inc.c"

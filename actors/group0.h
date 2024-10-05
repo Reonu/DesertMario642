@@ -489,4 +489,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "sign_patchmaker/geo_header.h"
 
+#include "sign_normal/geo_header.h"
+
+#include "sign_video/geo_header.h"
+
 #endif

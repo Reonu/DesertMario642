@@ -97,3 +97,5 @@
 #include "sign_cozies/model.inc.c"
 #include "sign_maltingius/model.inc.c"
 #include "sign_patchmaker/model.inc.c"
+#include "sign_normal/model.inc.c"
+#include "sign_video/model.inc.c"
