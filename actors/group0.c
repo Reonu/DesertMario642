@@ -38,6 +38,7 @@
 #include "bush/model.inc.c"
 #include "pokey/model.inc.c"
 #include "sign/collision.inc.c"
+#include "sign_videodata/model.inc.c"
 #include "sign_amogus/model.inc.c"
 #include "sign_cheezepin/model.inc.c"
 #include "sign_farm/model.inc.c"

@@ -445,6 +445,7 @@ const BehaviorScript bhvDesertSign[] = {
 	BEGIN(OBJ_LIST_SURFACE),
 	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
 	LOAD_COLLISION_DATA(sign_collision),
+	CALL_NATIVE(bhv_desert_sign_init),
 	BEGIN_LOOP(),
 		CALL_NATIVE(load_object_collision_model),
 		CALL_NATIVE(bhv_desert_decor_loop),

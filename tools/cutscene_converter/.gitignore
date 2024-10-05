@@ -1,0 +1,9 @@
+*/*.png
+*.c.in
+split_video
+*.mp4
+*.avi
+*.blend
+*.blend1
+out*/*
+dma_data/*

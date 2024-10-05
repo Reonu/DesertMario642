@@ -47,8 +47,8 @@ u8 status;
 s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
     struct Object *mObj = m->marioObj;
     if (mObj->header.gfx.animInfo.animID != targetAnimID) {
-        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
-        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
+        const struct Animation *const *animPtrAddr = &mario_anims[targetAnimID];
+        const struct Animation *const *animSegmented = segmented_to_virtual(animPtrAddr);
         struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
         mObj->header.gfx.animInfo.animID = targetAnimID;
         mObj->header.gfx.animInfo.curAnim = targetAnim;
@@ -70,9 +70,9 @@ s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
 s16 set_custom_mario_animation_accel(struct MarioState *m, s32 targetAnimID, s32 accel) {
     struct Object *mObj = m->marioObj;
     if (mObj->header.gfx.animInfo.animID != targetAnimID) {
-        struct Animation **animPtrAddr = &mario_anims[targetAnimID];
-        struct Animation **animSegmented = segmented_to_virtual(animPtrAddr);
-        struct Animation *targetAnim = segmented_to_virtual(*animSegmented);
+        const struct Animation *const *animPtrAddr = &mario_anims[targetAnimID];
+        const struct Animation *const *animSegmented = segmented_to_virtual(animPtrAddr);
+        struct Animation *const targetAnim = segmented_to_virtual(*animSegmented);
         mObj->header.gfx.animInfo.animID = targetAnimID;
         mObj->header.gfx.animInfo.curAnim = targetAnim;
         mObj->header.gfx.animInfo.animAccel = 0;

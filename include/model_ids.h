@@ -1,93 +1,89 @@
 #ifndef MODEL_IDS_H
 #define MODEL_IDS_H
 
-#define MODEL_NONE                             0x00
-
-#define MODEL_BILLBOARD_START 264
-#define MODEL_BILLBOARD_END 289
-
-#define MODEL_TIER_1_START 264
-#define MODEL_TIER_2_START MODEL_SIGN_SPOON
-#define MODEL_TIER_3_START MODEL_SIGN_ASS_IMPACT
-#define MODEL_TIER_4_START MODEL_SIGN_COMIT_STANS
-
-/* fast64 object exports get inserted here */
-#define MODEL_DESERT_HOUSE_RGB            310
-#define MODEL_DESERT_HOUSE                309
-#define MODEL_UFO_VISUAL                  308
-#define MODEL_GOOMBA_CUSTOM_MESH          301
-#define MODEL_POKEY_HEAD_CUSTOM_MESH      302
-#define MODEL_POKEY_BODY_CUSTOM           303
-#define MODEL_KOOPA_WITH_SHELL_CUSTOM     304
-#define MODEL_GAS_STATION                 305
-#define MODEL_KLEPTO                      306
-
-
-
-
-
-
-
-
-
-
 /* Global models that are loaded for every level */
+
+enum GlobalModelIDs {
+    MODEL_BILLBOARD_START = 0x100,
+
+    // TIER 1
+    MODEL_SIGN_PATCHMAKER = MODEL_BILLBOARD_START, // NOTE: MODEL_BILLBOARD_START equivalent should not be a video!
+    MODEL_SIGN_MALTINGIUS,
+    MODEL_SIGN_COZIES,
+    MODEL_SIGN_APPY,
+    MODEL_SIGN_MOTH,
+    MODEL_SIGN_SPK,
+    MODEL_SIGN_OATMEAL,
+    MODEL_SIGN_BETTERCALLSHY,
+    MODEL_SIGN_CROSS,
+    MODEL_SIGN_AMOGUS,
+    MODEL_SIGN_CHEEZEPIN,
+    MODEL_SIGN_FARM,
+    MODEL_SIGN_ROVERT,
+    MODEL_SIGN_COMIT,
+    MODEL_SIGN_MUSHROOM,
+    MODEL_SIGN_HACKERN64,
+    MODEL_SIGN_SYNERGY,
+    MODEL_SIGN_MOTIVATE,
+    MODEL_SIGN_PREDATOR,
+    MODEL_SIGN_NINTENDO_EMPLOYEES,
+    MODEL_SIGN_BART,
+    MODEL_SIGN_YUGAMINEENA,
+    MODEL_SIGN_BSM_COURSE_1,
+    MODEL_BILLBOARD_END_TIER1, // END TIER 1
+
+    // TIER 2
+    MODEL_SIGN_YOUTUBE = MODEL_BILLBOARD_END_TIER1,
+    MODEL_SIGN_SPOON,
+    MODEL_SIGN_JOEL,
+    MODEL_BILLBOARD_END_TIER2, // END TIER 2
+
+    // TIER 3
+    MODEL_SIGN_SIMPLEFLIPS = MODEL_BILLBOARD_END_TIER2,
+    MODEL_SIGN_ASS_IMPACT,
+    MODEL_SIGN_MVC,
+    MODEL_SIGN_MVH,
+    MODEL_SIGN_IDIOT,
+    MODEL_BILLBOARD_END_TIER3, // END TIER 3
+
+    // TIER 4
+    MODEL_SIGN_COMIT_STANS = MODEL_BILLBOARD_END_TIER3,
+    MODEL_SIGN_COMIT_ANTIS,
+    MODEL_SIGN_MAKE_CLEAN,
+    MODEL_SIGN_XENOBLADE,
+    MODEL_SIGN_XENOGEARS,
+    MODEL_BILLBOARD_END_TIER4, // END TIER 4
+
+    // END BILLBOARD MODELS
+    MODEL_BILLBOARD_END = MODEL_BILLBOARD_END_TIER4,
+
+
+    // OTHER CUSTOM MODELS
+    MODEL_SUN = MODEL_BILLBOARD_END,
+    MODEL_MOON,
+    MODEL_BUSH,
+    MODEL_ELECTRICAL_POLE,
+    MODEL_POKEY_HEAD,      // pokey_head_geo
+    MODEL_POKEY_BODY_PART, // pokey_body_part_geo
+    MODEL_DESERT_HOUSE_RGB,
+    MODEL_DESERT_HOUSE,
+    MODEL_UFO_VISUAL,
+    MODEL_GOOMBA_CUSTOM_MESH,
+    MODEL_POKEY_HEAD_CUSTOM_MESH,
+    MODEL_POKEY_BODY_CUSTOM,
+    MODEL_KOOPA_WITH_SHELL_CUSTOM,
+    MODEL_GAS_STATION,
+    MODEL_KLEPTO,
+
+    MODEL_ID_COUNT,
+};
+
+/* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
+
+#define MODEL_NONE                             0x00
 
 #define MODEL_MARIO                            0x01        // mario_geo
 #define MODEL_LUIGI                            0x02        // unused
-#define MODEL_SUN                              0x100
-#define MODEL_MOON                             0x101
-#define MODEL_POKEY_HEAD                  262        // pokey_head_geo
-#define MODEL_POKEY_BODY_PART             263        // pokey_body_part_geo
-#define MODEL_BUSH                        260
-#define MODEL_ELECTRICAL_POLE             261
-
-// TIER 1
-#define MODEL_SIGN_PATCHMAKER             299
-#define MODEL_SIGN_MALTINGIUS             298
-#define MODEL_SIGN_COZIES                 297
-#define MODEL_SIGN_APPY                   296
-#define MODEL_SIGN_MOTH                   295
-#define MODEL_SIGN_SPK                    294
-#define MODEL_SIGN_OATMEAL                292
-#define MODEL_SIGN_BETTERCALLSHY          291
-#define MODEL_SIGN_CROSS                  290
-#define MODEL_SIGN_AMOGUS                 264
-#define MODEL_SIGN_CHEEZEPIN              265
-#define MODEL_SIGN_FARM                   266
-#define MODEL_SIGN_ROVERT                 267
-#define MODEL_SIGN_COMIT                  268
-#define MODEL_SIGN_MUSHROOM               269
-#define MODEL_SIGN_HACKERN64              270
-#define MODEL_SIGN_SYNERGY                271
-#define MODEL_SIGN_MOTIVATE               272
-#define MODEL_SIGN_PREDATOR               273
-#define MODEL_SIGN_NINTENDO_EMPLOYEES     274
-#define MODEL_SIGN_BART                   275
-#define MODEL_SIGN_YUGAMINEENA            276
-#define MODEL_SIGN_YOUTUBE                277
-
-// TIER 2
-#define MODEL_SIGN_SPOON                  278
-#define MODEL_SIGN_JOEL                   279
-#define MODEL_SIGN_SIMPLEFLIPS            280
-
-// TIER 3
-#define MODEL_SIGN_ASS_IMPACT             281
-#define MODEL_SIGN_MVC                    282
-#define MODEL_SIGN_MVH                    283
-#define MODEL_SIGN_IDIOT                  284
-
-// TIER 4
-#define MODEL_SIGN_COMIT_STANS            285
-#define MODEL_SIGN_COMIT_ANTIS            286
-#define MODEL_SIGN_MAKE_CLEAN             287
-#define MODEL_SIGN_XENOBLADE              288
-#define MODEL_SIGN_XENOGEARS              289
-
-
-
-/* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
 
 #define MODEL_LEVEL_GEOMETRY_03                0x03
 #define MODEL_LEVEL_GEOMETRY_04                0x04

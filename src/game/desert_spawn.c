@@ -78,19 +78,17 @@ void spawn_electrical_poles(u8 spawnIndex) {
 
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
-    if (gInstantWarpCounter > TIER_4_THRESHOLD) {
-        maxTier = MODEL_BILLBOARD_END;
-    }
-    else if (gInstantWarpCounter > TIER_3_THRESHOLD) {
-        maxTier = MODEL_TIER_4_START - 1;
-    } else if (gInstantWarpCounter > TIER_2_THRESHOLD){
-        maxTier = MODEL_TIER_3_START - 1;
+    if (gInstantWarpSpawnIndex >= TIER_4_THRESHOLD) {
+        maxTier = MODEL_BILLBOARD_END_TIER4;
+    } else if (gInstantWarpSpawnIndex >= TIER_3_THRESHOLD) {
+        maxTier = MODEL_BILLBOARD_END_TIER3;
+    } else if (gInstantWarpSpawnIndex >= TIER_2_THRESHOLD){
+        maxTier = MODEL_BILLBOARD_END_TIER2;
     } else {
-        maxTier = MODEL_TIER_2_START - 1;
+        maxTier = MODEL_BILLBOARD_END_TIER1;
     }
-    u16 randValue = random_in_range(rand, (maxTier - MODEL_BILLBOARD_START) + 1);
-    randValue = randValue + MODEL_BILLBOARD_START;
-    return randValue;
+
+    return generate_weighted_billboard(rand, maxTier);
 }
 
 void spawn_billboard(MTRand *rand, u8 spawnIndex) {
@@ -107,17 +105,10 @@ void spawn_billboard(MTRand *rand, u8 spawnIndex) {
     }
 
     modelID = decide_billboard_model_id(rand);
-    
 
     if (modelID ==  MODEL_SIGN_IDIOT && gAvatarLoaded != 0 && gEmulator & EMU_PARALLELN64) {
         bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
-
-    while (modelID == gLastBillboard) {
-        modelID = decide_billboard_model_id(rand);
-    }
-
-    gLastBillboard = modelID;
 
     spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0, spawnIndex);
 }
@@ -239,22 +230,27 @@ void spawn_enemy(MTRand *rand, u8 spawnIndex) {
     }
 }
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
+#define TILES_IN_FRONT_OR_BEHIND 2
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
-        u32 spawnIndex = gInstantWarpCounter;
+        gInstantWarpSpawnIndex = gInstantWarpCounter;
 
         // Offset the warp counter by 2 based on the direction.
         // This is because objects are spawned 2 tiles away from the center of the map.
         if (gInstantWarpType == INSTANT_WARP_FORWARDS) {
-            spawnIndex += 2;
+            gInstantWarpSpawnIndex += TILES_IN_FRONT_OR_BEHIND;
         } else if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
-            spawnIndex -= 2;
+            gInstantWarpSpawnIndex -= TILES_IN_FRONT_OR_BEHIND;
         } else {
             print_text(20,20,"TEST");
         }
 
-        MTRand firstRand = seedRand(spawnIndex);
+        if (gInstantWarpSpawnIndex >= -TILES_IN_FRONT_OR_BEHIND && gInstantWarpSpawnIndex <= TILES_IN_FRONT_OR_BEHIND) {
+            return; // Do not generate anything at the start of the run, as it doesn't when you're initially spawned either
+        }
+
+        MTRand firstRand = seedRand(gInstantWarpSpawnIndex);
         u32 actualSeed = genRandLong(&firstRand);
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
@@ -283,12 +279,12 @@ void modulate_rgb_color(u32 *color) {
     float q = 1 - f;
 
     switch (i % 6) {
-        case 0: r = 1, g = f, b = 0; break;
-        case 1: r = q, g = 1, b = 0; break;
-        case 2: r = 0, g = 1, b = f; break;
-        case 3: r = 0, g = q, b = 1; break;
-        case 4: r = f, g = 0, b = 1; break;
-        case 5: r = 1, g = 0, b = q; break;
+        case 0: default: r = 1, g = f, b = 0; break;
+        case 1:          r = q, g = 1, b = 0; break;
+        case 2:          r = 0, g = 1, b = f; break;
+        case 3:          r = 0, g = q, b = 1; break;
+        case 4:          r = f, g = 0, b = 1; break;
+        case 5:          r = 1, g = 0, b = q; break;
     }
 
     // Scale RGB values to 0-255

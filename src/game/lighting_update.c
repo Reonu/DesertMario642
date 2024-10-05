@@ -250,7 +250,7 @@ void set_light_color(void) {
 }
 
 void update_lighting(void) {
-    int twentyfourhr = (gUnpausedTimer / HOUR);
+    // int twentyfourhr = (gUnpausedTimer / HOUR);
     set_light_direction();
     set_light_color();
     //print_text_fmt_int(20,20, "TIME %d", twentyfourhr);  

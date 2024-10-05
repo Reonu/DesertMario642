@@ -22,6 +22,7 @@
 #include "electrical_pole/geo.inc.c"
 #include "bush/geo.inc.c"
 #include "pokey/geo.inc.c"
+#include "sign_videodata/geo.inc.c"
 #include "sign_amogus/geo.inc.c"
 #include "sign_cheezepin/geo.inc.c"
 #include "sign_farm/geo.inc.c"
