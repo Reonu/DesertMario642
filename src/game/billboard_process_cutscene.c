@@ -269,6 +269,7 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     s32 attempts = 0;
     s32 instantWarpIndex = ((gInstantWarpSpawnIndex % INSTANT_WARPS_GOAL) + INSTANT_WARPS_GOAL) % INSTANT_WARPS_GOAL; // handles negative numbers
     struct BBHistory *hist = &gBillboardHistory[instantWarpIndex];
+    u32 newSeed = genRand(rand);
 
     if (gInstantWarpSpawnIndex <= 0) {
         weights = gBillboardWeightsBackwards;
@@ -281,10 +282,11 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
         }
     }
 
+    MTRand newRand = seedRand(newSeed);
     for (attempts = 0; attempts < BB_MAX_ATTEMPTS; attempts++) {
         f32 weightTotal = 0.0f;
         f32 currentWeight = 0.0f;
-        f32 generatedWeight = genRand(rand);
+        f32 generatedWeight = genRand(&newRand);
 
         for (index = 0; index < count; index++) {
             // Increase the probability selection window for each billboards; offers future benefit against more recently selected indexes

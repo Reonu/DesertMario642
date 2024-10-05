@@ -5,6 +5,7 @@
 
 #include "macros.h"
 #include "types.h"
+#include "mtwister.h"
 
 // used for chain chomp and wiggler
 struct ChainSegment {
@@ -82,7 +83,7 @@ struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, 
                                          s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll);
 struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
                                          const BehaviorScript *behavior,
-                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, u8 spawnIndex);                                         
+                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, MTRand *rand);                                         
 struct Object *spawn_object_rel_with_rot(struct Object *parent, ModelID32 model, const BehaviorScript *behavior,
                                          s16 xOff, s16 yOff, s16 zOff, s16 pitch, s16 yaw, s16 roll);
 struct Object *spawn_obj_with_transform_flags(struct Object *parent, ModelID32 model, const BehaviorScript *behavior);
@@ -289,6 +290,7 @@ Gfx *geo_set_global_fog(s32 callContext, struct GraphNode *node, UNUSED Mat4 mtx
 Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED void *context);
 Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
+s32 check_if_desert_object_exists(const BehaviorScript *behavior, u32 objValidator);
 void warp_desert_object(struct Object *obj);
 u8 copy_mario_x_position(struct Object *obj);
 void bhv_call_warp_desert_object(void);
