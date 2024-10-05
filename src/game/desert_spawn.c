@@ -67,9 +67,9 @@ struct DesertSpawnCoords decide_left_or_right(MTRand *rand) {
     }
 }
 
-void spawn_electrical_poles(void) {
-    spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
-    spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0);
+void spawn_electrical_poles(u8 spawnIndex) {
+    spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0, spawnIndex);
+    spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0, spawnIndex);
 }
 
 #define TIER_2_THRESHOLD 20
@@ -93,7 +93,7 @@ u16 decide_billboard_model_id(MTRand *rand) {
     return randValue;
 }
 
-void spawn_billboard(MTRand *rand) {
+void spawn_billboard(MTRand *rand, u8 spawnIndex) {
     u8 isRight;
     u16 modelID;
     u16 rot;
@@ -119,48 +119,48 @@ void spawn_billboard(MTRand *rand) {
 
     gLastBillboard = modelID;
 
-    spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0);
+    spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0, spawnIndex);
 }
 
-void spawn_ufo(MTRand *rand) {
+void spawn_ufo(MTRand *rand, u8 spawnIndex) {
     u8 isRight;
     struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
 
     isRight = (spawnCoords.x == RightSide.x);
 
     if (isRight) {
-        spawn_object_desert(gCurrentObject, 0, MODEL_UFO_VISUAL, bhvUfo, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_UFO_VISUAL, bhvUfo, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,0,0, spawnIndex);
     } else {
-        spawn_object_desert(gCurrentObject, 0, MODEL_UFO_VISUAL, bhvUfo, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_UFO_VISUAL, bhvUfo, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,0,0, spawnIndex);
     }
 }
 
-void spawn_bushes(MTRand *rand) {
+void spawn_bushes(MTRand *rand, u8 spawnIndex) {
     u32 bushesAmount = random_in_range(rand, 5) + 3;
     for (u32 i = 0; i < bushesAmount; i++) {
         u32 bushX = (s32)random_in_range(rand, 501) - 250;
         u32 bushZ = (s32)random_in_range(rand, 501) - 250;
         u32 bushX2 = (s32)random_in_range(rand, 501) - 250;
         u32 bushZ2 = (s32)random_in_range(rand, 501) - 250;
-        spawn_object_desert(gCurrentObject, 0, MODEL_BUSH, bhvDesertDecor, LeftSide.x + bushX,LeftSide.y,LeftSide.z + bushZ,0,0,0);
-        spawn_object_desert(gCurrentObject, 0, MODEL_BUSH, bhvDesertDecor, RightSide.x + bushX2,RightSide.y,RightSide.z + bushZ2,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_BUSH, bhvDesertDecor, LeftSide.x + bushX,LeftSide.y,LeftSide.z + bushZ,0,0,0, spawnIndex);
+        spawn_object_desert(gCurrentObject, 0, MODEL_BUSH, bhvDesertDecor, RightSide.x + bushX2,RightSide.y,RightSide.z + bushZ2,0,0,0, spawnIndex);
     }
 }
 
-void spawn_gas_station(void) {
-    spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0);
+void spawn_gas_station(u8 spawnIndex) {
+    spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0, spawnIndex);
 }
 
-void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
+void spawn_decor_and_rotate(MTRand *rand, u16 modelID, u8 spawnIndex) {
     u8 isRight;
     struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
 
     isRight = (spawnCoords.x == RightSide.x);
 
     if (isRight) {
-        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(0),0);
+        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(0),0, spawnIndex);
     } else {
-        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(180),0);
+        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(180),0, spawnIndex);
     }
 }
 
@@ -177,64 +177,64 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
 #define HOUSE_CHANCE 0.01f
 
 f32 chancePrint;
-void spawn_big_decoration(MTRand *rand) {
+void spawn_big_decoration(MTRand *rand, u8 spawnIndex) {
     f32 chanceStorage = genRand(rand);
     chancePrint = chanceStorage;
     chanceStorage -= ELECTRICAL_POLE_CHANCE;
     if (chanceStorage < 0) {
-        spawn_electrical_poles();
+        spawn_electrical_poles(spawnIndex);
         return;
     }
     chanceStorage -= BILLBOARD_CHANCE;
     if (chanceStorage < 0) {
-        spawn_billboard(rand);
+        spawn_billboard(rand, spawnIndex);
         return;
     }
     chanceStorage -= HOUSE_CHANCE;
     if (chanceStorage < 0) {
-        spawn_decor_and_rotate(rand, MODEL_DESERT_HOUSE);
+        spawn_decor_and_rotate(rand, MODEL_DESERT_HOUSE, spawnIndex);
         return;
     }
     chanceStorage -= UFO_CHANCE;
     if (chanceStorage < 0) {
-        spawn_ufo(rand);
+        spawn_ufo(rand, spawnIndex);
         return;
     }
 
 }
 
-void spawn_small_decoration(MTRand *rand) {
+void spawn_small_decoration(MTRand *rand, u8 spawnIndex) {
     f32 chanceStorage = genRand(rand);
     chanceStorage -= BUSH_CHANCE;
     if (chanceStorage < 0) {
-        spawn_bushes(rand);
+        spawn_bushes(rand, spawnIndex);
         return;
     }    
 }
 
-void spawn_goomba(MTRand *rand) {
+void spawn_goomba(MTRand *rand, u8 spawnIndex) {
     f32 random = genRand(rand);
-    struct Object *obj = spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA_CUSTOM_MESH, bhvGoomba, Road.x,Road.y,Road.z,0,0,0);
+    struct Object *obj = spawn_object_desert(gCurrentObject, 0, MODEL_GOOMBA_CUSTOM_MESH, bhvGoomba, Road.x,Road.y,Road.z,0,0,0, spawnIndex);
     if (random < 0.1f) {
         obj->oIsFloomba = TRUE;
     }
 }
 
-void spawn_enemy(MTRand *rand) {
+void spawn_enemy(MTRand *rand, u8 spawnIndex) {
     f32 chanceStorage = genRand(rand);
     chanceStorage -= GOOMBA_CHANCE;
     if (chanceStorage < 0) {
-        spawn_goomba(rand);
+        spawn_goomba(rand, spawnIndex);
         return;
     }
     chanceStorage -= POKEY_CHANCE;
     if (chanceStorage < 0) {
-        spawn_object_desert(gCurrentObject, 0, MODEL_NONE, bhvPokey, Road.x,Road.y,Road.z,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_NONE, bhvPokey, Road.x,Road.y,Road.z,0,0,0, spawnIndex);
         return;
     }
     chanceStorage -= KLEPTO_CHANCE;
     if (chanceStorage < 0) {
-        spawn_object_desert(gCurrentObject, 0, MODEL_KLEPTO, bhvKlepto, Road.x,Road.y,Road.z,0,0,0);
+        spawn_object_desert(gCurrentObject, 0, MODEL_KLEPTO, bhvKlepto, Road.x,Road.y,Road.z,0,0,0, spawnIndex);
         return;
     }
 }
@@ -259,16 +259,16 @@ void bhv_desert_spawner_loop(void) {
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
 
-        if (gInstantWarpCounter % 20 == 0) {
-            spawn_gas_station();
-        } else if (gInstantWarpCounter == RGB_HOUSE_WARPS) {
-            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
+        if (spawnIndex % 20 == 0) {
+            spawn_gas_station(spawnIndex);
+        } else if (spawnIndex == RGB_HOUSE_WARPS) {
+            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, spawnIndex); 
         } else {
             for (u32 i = 0; i < numSmall; i++) {
-                spawn_small_decoration(&newSeed);
+                spawn_small_decoration(&newSeed, spawnIndex);
             }
-            spawn_big_decoration(&newSeed);
-            spawn_enemy(&newSeed);
+            spawn_big_decoration(&newSeed, spawnIndex);
+            spawn_enemy(&newSeed, spawnIndex);
         }
     }
 }

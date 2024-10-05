@@ -317,7 +317,7 @@ struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, 
 
 struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
                                          const BehaviorScript *behavior,
-                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll) {
+                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, u8 spawnIndex) {
     // 'uselessArg' is unused in the function spawn_object_at_origin()
     struct Object *newObj = spawn_object_at_origin(parent, uselessArg, model, behavior);
     if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
@@ -341,6 +341,8 @@ struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelI
         // Offset geo translation, needed for sound effect perception to make sense
         newObj->oPosX += (newObj->oPosX < 0 ? -1750 : 1750);
     }
+
+    newObj->oInstantWarpSpawn = spawnIndex;
 
     return newObj;
 }
@@ -2534,7 +2536,7 @@ Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *co
     return dlStart;
 }
 
-#define MAX_DISTANCE 5
+#define MAX_DISTANCE 2
 void warp_desert_object(struct Object *obj) {
     if (obj->oDesertTimer != 0) {
         if (gInstantWarpDisplacement) {
@@ -2546,8 +2548,6 @@ void warp_desert_object(struct Object *obj) {
         if (ABS(o->oInstantWarpSpawn - gInstantWarpCounter) > MAX_DISTANCE) {
             mark_obj_for_deletion(obj);
         }
-    } else {
-        o->oInstantWarpSpawn = gInstantWarpCounter;
     }
 }
 
