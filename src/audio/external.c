@@ -1013,7 +1013,8 @@ static f32 get_sound_volume(u8 bank, u8 soundIndex, f32 volumeRange) {
     f32 ret;
     u8 shouldDoubleDistanceAndIntensity = FALSE;
 
-    if (ACTIVE_SOUND(SOUND_BG1_CARAMELLDANSEN)) {
+    if (bank == SOUND_BANK_CUSTOM_BILLBOARDS 
+                || ACTIVE_SOUND(SOUND_BG1_CARAMELLDANSEN)) {
         shouldDoubleDistanceAndIntensity = TRUE;
     }
 

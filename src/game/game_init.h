@@ -9,9 +9,12 @@
 #include "types.h"
 #include "memory.h"
 #include "config.h"
+#include "emutest.h"
 
 #define MARIO_ANIMS_POOL_SIZE 0x4000
 #define DEMO_INPUTS_POOL_SIZE 0x800
+
+#define INSTANT_INPUT_BLACKLIST (EMU_CONSOLE | EMU_WIIVC | EMU_ARES | EMU_SIMPLE64 | EMU_CEN64)
 
 struct GfxPool {
     Gfx buffer[GFX_POOL_SIZE];

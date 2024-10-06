@@ -36,7 +36,6 @@
 #include "lib/libpl/libpl-rhdc.h"
 #include "actors/sign_normal/geo_header.h"
 // Emulators that the Instant Input patch should not be applied to
-#define INSTANT_INPUT_BLACKLIST (EMU_CONSOLE | EMU_WIIVC | EMU_ARES | EMU_SIMPLE64 | EMU_CEN64)
 
 // Gfx handlers
 struct SPTask *gGfxSPTask;

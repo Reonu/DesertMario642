@@ -47,6 +47,8 @@
 
 #define MAX_DMA_COUNT (((s32) ((VIDEO_TEXTURE_SIZE - 1) / 0x1000) + 1) + (IMAGE_BUFFERS * ((s32) ((IMAGE_TEXTURE_SIZE - 1) / 0x1000) + 1)))
 
+#define SOUND_EFFECT_DELAY_FRAMES ((gEmulator & INSTANT_INPUT_BLACKLIST) ? 2 : 0)
+
 enum BillboardType {
     BB_TYPE_IMAGE,
     BB_TYPE_VIDEO,
@@ -71,11 +73,12 @@ struct DMAVideoProperties {
     u32 frameTotal;
     u32 framerate;
     u32 startFrame;
+    u32 sound;
 };
 
 enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     // TIER 1
-    [BB_SIGN_PATCHMAKER]         = (u32) BB_IMAGE_PATCHMAKER,
+    [BB_SIGN_HACKERN64]          = (u32) BB_IMAGE_HACKERN64,
     [BB_SIGN_MALTINGIUS]         = (u32) BB_IMAGE_MALTINGIUS,
     [BB_SIGN_COZIES]             = (u32) BB_IMAGE_COZIES,
     [BB_SIGN_APPY]               = (u32) BB_IMAGE_APPY,
@@ -90,12 +93,13 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_ROVERT]             = (u32) BB_IMAGE_ROVERT,
     [BB_SIGN_COMIT]              = (u32) BB_IMAGE_COMIT,
     [BB_SIGN_MUSHROOM]           = (u32) BB_IMAGE_MUSHROOM,
-    [BB_SIGN_HACKERN64]          = (u32) BB_IMAGE_HACKERN64,
+    [BB_SIGN_PATCHMAKER]         = (u32) BB_IMAGE_PATCHMAKER,
     [BB_SIGN_SYNERGY]            = (u32) BB_IMAGE_SYNERGY,
     [BB_SIGN_MOTIVATE]           = (u32) BB_IMAGE_MOTIVATE,
     [BB_SIGN_PREDATOR]           = (u32) BB_IMAGE_PREDATOR,
     [BB_SIGN_NINTENDO_EMPLOYEES] = (u32) BB_IMAGE_NINTENDO_EMPLOYEES,
     [BB_SIGN_BART]               = (u32) BB_IMAGE_BART,
+    [BB_SIGN_GAMER_TYPE]         = (u32) BB_IMAGE_GAMER_TYPE,
     [BB_SIGN_YUGAMINEENA]        = (u32) BB_IMAGE_YUGAMINEENA,
     [BB_SIGN_BLOCKINGTON]        = (u32) BB_IMAGE_BLOCKINGTON,
 
@@ -120,12 +124,14 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MAKE_CLEAN]         = (u32) BB_IMAGE_MAKE_CLEAN,
     [BB_SIGN_XENOBLADE]          = (u32) BB_IMAGE_XENOBLADE,
     [BB_SIGN_XENOGEARS]          = (u32) BB_IMAGE_XENOGEARS,
+    [BB_SIGN_LEON]               = (u32) BB_VIDEO_LEON,
 };
 
 struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
-    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1 },
-    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10},
-    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30},
+    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1,  .sound = NO_SOUND     },
+    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10, .sound = NO_SOUND     },
+    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30, .sound = NO_SOUND     },
+    [BB_VIDEO_LEON]         = {.addr = leon_video_data,         .billboardId = BB_SIGN_LEON,         .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(leon_video_data),         .startFrame = 0, .framerate = 24, .sound = SOUND_BB_LEON},
 };
 
 OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];
@@ -149,6 +155,7 @@ struct DMAImageProps *videoDataProps[BB_VIDEO_COUNT];
 u32 imageGameFrame = 0;
 u32 imageVideoFrame = 0;
 s32 gVideoIndex = -1;
+u32 replaySoundEffect = -1;
 
 static void dma_read_image_noblock(u8 *dest, u8 *srcStart, u8 *srcEnd) {
     u32 size = ALIGN16(srcEnd - srcStart);
@@ -199,9 +206,16 @@ static void add_menu_frame(void) {
     if (gVideoIndex >= 0 && gVideoIndex < BB_VIDEO_COUNT) {
         imageGameFrame++;
         imageVideoFrame = imageGameFrame * videoDMAProps[gVideoIndex].framerate / GAME_FRAMERATE;
+        if (replaySoundEffect > 0) {
+            replaySoundEffect--;
+        }
+
         if (imageVideoFrame >= videoDMAProps[gVideoIndex].frameTotal) {
             imageGameFrame = videoDMAProps[gVideoIndex].relativeLoopStart * GAME_FRAMERATE / videoDMAProps[gVideoIndex].framerate;
             imageVideoFrame = imageGameFrame * videoDMAProps[gVideoIndex].framerate / GAME_FRAMERATE;
+            if (videoDMAProps[gVideoIndex].sound != NO_SOUND) {
+                replaySoundEffect = SOUND_EFFECT_DELAY_FRAMES;
+            }
         }
     }
 }
@@ -211,6 +225,7 @@ void init_menu_video_buffers(void) {
     imageGameFrame = 0;
     imageVideoFrame = 0;
     gVideoIndex = -1;
+    replaySoundEffect = -1;
     sTripleBufferIndex = 0;
     safeBufferIndex = 0;
 
@@ -282,6 +297,7 @@ void update_menu_video_buffers(void) {
         imageGameFrame = 0;
         imageVideoFrame = 0;
         gVideoIndex = -1;
+        replaySoundEffect = -1;
         return;
     }
 
@@ -298,6 +314,9 @@ void update_menu_video_buffers(void) {
 
     if (gSafeToLoadVideo == VIDEO_SAFETY_UNSAFE) {
         if (gVideoIndex >= 0 && gVideoIndex < BB_VIDEO_COUNT) {
+            if (videoDMAProps[gVideoIndex].sound != NO_SOUND) {
+                replaySoundEffect = SOUND_EFFECT_DELAY_FRAMES;
+            }
             imageGameFrame = videoDMAProps[gVideoIndex].startFrame * GAME_FRAMERATE / videoDMAProps[gVideoIndex].framerate;
             imageVideoFrame = imageGameFrame * videoDMAProps[gVideoIndex].framerate / GAME_FRAMERATE;
             safeBufferIndex = sTripleBufferIndex;
@@ -411,8 +430,8 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
         index = BB_BILLBOARD_START; // NOTE: BB_BILLBOARD_START should not be a video!
     }
 
-    // Index should be guaranteed to not show up again until at least 30% of the other billboards have been processed (at static quantity)
-    weights[index] = -0.30f;
+    // Index should be guaranteed to not show up again until at least 45% of the other billboards have been processed (at static quantity)
+    weights[index] = -0.45f;
 
     // Update history entry, as we have just generated a new one
     hist->billboardId = index;
@@ -431,6 +450,7 @@ void bhv_desert_sign_init(void) {
                 gVideoIndex = i;
                 imageGameFrame = 0;
                 imageVideoFrame = 0;
+                replaySoundEffect = -1;
             }
         }
     }
@@ -470,6 +490,17 @@ void bhv_desert_sign_init(void) {
     Texture *dest = dmaImageYAY0Addrs[openIndex];
     dma_read_image_noblock(dest, relativeAddr, (u8 *) ((size_t) relativeAddr + dmaProps->compressedSize));
     dmaImageStatus[openIndex] = BB_IMAGE_ACTIVE_DMA;
+}
+
+void bhv_desert_sign_loop(void) {
+    if (BPARAM4 != BB_TYPE_VIDEO || gSafeToLoadVideo != VIDEO_SAFETY_SAFE) {
+        return;
+    }
+
+    if (replaySoundEffect == 0 && (gVideoIndex >= 0 && gVideoIndex < BB_VIDEO_COUNT) && videoDMAProps[gVideoIndex].sound != NO_SOUND) {
+        replaySoundEffect = -1;
+        play_sound(videoDMAProps[gVideoIndex].sound, o->header.gfx.cameraToObject);
+    }
 }
 
 // Geo to display the funny video

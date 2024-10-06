@@ -447,6 +447,7 @@ const BehaviorScript bhvDesertSign[] = {
 	LOAD_COLLISION_DATA(sign_collision),
 	CALL_NATIVE(bhv_desert_sign_init),
 	BEGIN_LOOP(),
+	    CALL_NATIVE(bhv_desert_sign_loop),
 		CALL_NATIVE(load_object_collision_model),
 		CALL_NATIVE(bhv_desert_decor_loop),
 	END_LOOP(),
