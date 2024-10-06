@@ -52,14 +52,6 @@ enum BillboardType {
     BB_TYPE_VIDEO,
 };
 
-enum VideoDMAIDs {
-    BB_VIDEO_IMAGES,
-    BB_VIDEO_COURSE1,
-    BB_VIDEO_FREE_PSP,
-
-    BB_VIDEO_COUNT,
-};
-
 enum ImageDMAStatus {
     BB_IMAGE_READY,
     BB_IMAGE_ACTIVE_DMA,
@@ -105,13 +97,13 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_NINTENDO_EMPLOYEES] = (u32) BB_IMAGE_NINTENDO_EMPLOYEES,
     [BB_SIGN_BART]               = (u32) BB_IMAGE_BART,
     [BB_SIGN_YUGAMINEENA]        = (u32) BB_IMAGE_YUGAMINEENA,
-    [BB_SIGN_BSM_COURSE_1]       = (u32) BB_VIDEO_COURSE1,
 
     // TIER 2
     [BB_SIGN_YOUTUBE]            = (u32) BB_IMAGE_YOUTUBE,
     [BB_SIGN_SPOON]              = (u32) BB_IMAGE_SPOON,
     [BB_SIGN_JOEL]               = (u32) BB_IMAGE_JOEL,
     [BB_SIGN_TCS]                = (u32) BB_IMAGE_TCS,
+    [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
 
     // TIER 3
     [BB_SIGN_SIMPLEFLIPS]        = (u32) BB_IMAGE_SIMPLEFLIPS,
@@ -119,7 +111,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MVC]                = (u32) BB_IMAGE_MVC,
     [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
     [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
-    [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
+    [BB_SIGN_GBJ_PAINTING]       = (u32) BB_VIDEO_GBJ_PAINTING,
 
     // TIER 4
     [BB_SIGN_COMIT_STANS]        = (u32) BB_IMAGE_COMIT_STANS,
@@ -130,9 +122,9 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
 };
 
 struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
-    [BB_VIDEO_IMAGES]   = {.addr = dma_image_data,      .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),      .startFrame = 0, .framerate = 1 },
-    [BB_VIDEO_COURSE1]  = {.addr = course1_video_data,  .billboardId = BB_SIGN_BSM_COURSE_1, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(course1_video_data),  .startFrame = 0, .framerate = 30},
-    [BB_VIDEO_FREE_PSP] = {.addr = free_psp_video_data, .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data), .startFrame = 0, .framerate = 10},
+    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1 },
+    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10},
+    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30},
 };
 
 OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];
@@ -559,3 +551,5 @@ Gfx *geo_billboard_image_scene(s32 callContext, struct GraphNode *node, UNUSED v
 
     return dlStart;
 };
+
+STATIC_ASSERT((BB_IMAGE_COUNT + (BB_VIDEO_COUNT - 1)) == BB_BILLBOARD_END, "Data mismatch for tracked images/videos and billboard count");

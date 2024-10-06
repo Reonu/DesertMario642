@@ -1,0 +1,311 @@
+ALIGNED16 const Texture gbj_painting_video_data_0001[] = {
+#include "dma_data/gbj_painting_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0002[] = {
+#include "dma_data/gbj_painting_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0003[] = {
+#include "dma_data/gbj_painting_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0004[] = {
+#include "dma_data/gbj_painting_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0005[] = {
+#include "dma_data/gbj_painting_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0006[] = {
+#include "dma_data/gbj_painting_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0007[] = {
+#include "dma_data/gbj_painting_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0008[] = {
+#include "dma_data/gbj_painting_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0009[] = {
+#include "dma_data/gbj_painting_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0010[] = {
+#include "dma_data/gbj_painting_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0011[] = {
+#include "dma_data/gbj_painting_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0012[] = {
+#include "dma_data/gbj_painting_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0013[] = {
+#include "dma_data/gbj_painting_0013.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0014[] = {
+#include "dma_data/gbj_painting_0014.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0015[] = {
+#include "dma_data/gbj_painting_0015.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0016[] = {
+#include "dma_data/gbj_painting_0016.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0017[] = {
+#include "dma_data/gbj_painting_0017.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0018[] = {
+#include "dma_data/gbj_painting_0018.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0019[] = {
+#include "dma_data/gbj_painting_0019.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0020[] = {
+#include "dma_data/gbj_painting_0020.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0021[] = {
+#include "dma_data/gbj_painting_0021.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0022[] = {
+#include "dma_data/gbj_painting_0022.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0023[] = {
+#include "dma_data/gbj_painting_0023.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0024[] = {
+#include "dma_data/gbj_painting_0024.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0025[] = {
+#include "dma_data/gbj_painting_0025.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0026[] = {
+#include "dma_data/gbj_painting_0026.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0027[] = {
+#include "dma_data/gbj_painting_0027.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0028[] = {
+#include "dma_data/gbj_painting_0028.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0029[] = {
+#include "dma_data/gbj_painting_0029.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0030[] = {
+#include "dma_data/gbj_painting_0030.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0031[] = {
+#include "dma_data/gbj_painting_0031.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0032[] = {
+#include "dma_data/gbj_painting_0032.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0033[] = {
+#include "dma_data/gbj_painting_0033.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0034[] = {
+#include "dma_data/gbj_painting_0034.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0035[] = {
+#include "dma_data/gbj_painting_0035.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0036[] = {
+#include "dma_data/gbj_painting_0036.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0037[] = {
+#include "dma_data/gbj_painting_0037.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0038[] = {
+#include "dma_data/gbj_painting_0038.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0039[] = {
+#include "dma_data/gbj_painting_0039.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0040[] = {
+#include "dma_data/gbj_painting_0040.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0041[] = {
+#include "dma_data/gbj_painting_0041.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0042[] = {
+#include "dma_data/gbj_painting_0042.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0043[] = {
+#include "dma_data/gbj_painting_0043.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0044[] = {
+#include "dma_data/gbj_painting_0044.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0045[] = {
+#include "dma_data/gbj_painting_0045.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0046[] = {
+#include "dma_data/gbj_painting_0046.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0047[] = {
+#include "dma_data/gbj_painting_0047.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0048[] = {
+#include "dma_data/gbj_painting_0048.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0049[] = {
+#include "dma_data/gbj_painting_0049.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0050[] = {
+#include "dma_data/gbj_painting_0050.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0051[] = {
+#include "dma_data/gbj_painting_0051.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0052[] = {
+#include "dma_data/gbj_painting_0052.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0053[] = {
+#include "dma_data/gbj_painting_0053.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0054[] = {
+#include "dma_data/gbj_painting_0054.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0055[] = {
+#include "dma_data/gbj_painting_0055.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0056[] = {
+#include "dma_data/gbj_painting_0056.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0057[] = {
+#include "dma_data/gbj_painting_0057.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0058[] = {
+#include "dma_data/gbj_painting_0058.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0059[] = {
+#include "dma_data/gbj_painting_0059.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0060[] = {
+#include "dma_data/gbj_painting_0060.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0061[] = {
+#include "dma_data/gbj_painting_0061.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0062[] = {
+#include "dma_data/gbj_painting_0062.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0063[] = {
+#include "dma_data/gbj_painting_0063.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0064[] = {
+#include "dma_data/gbj_painting_0064.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0065[] = {
+#include "dma_data/gbj_painting_0065.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0066[] = {
+#include "dma_data/gbj_painting_0066.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0067[] = {
+#include "dma_data/gbj_painting_0067.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0068[] = {
+#include "dma_data/gbj_painting_0068.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0069[] = {
+#include "dma_data/gbj_painting_0069.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0070[] = {
+#include "dma_data/gbj_painting_0070.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0071[] = {
+#include "dma_data/gbj_painting_0071.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0072[] = {
+#include "dma_data/gbj_painting_0072.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0073[] = {
+#include "dma_data/gbj_painting_0073.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0074[] = {
+#include "dma_data/gbj_painting_0074.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0075[] = {
+#include "dma_data/gbj_painting_0075.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0076[] = {
+#include "dma_data/gbj_painting_0076.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture gbj_painting_video_data_0077[] = {
+#include "dma_data/gbj_painting_0077.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps gbj_painting_video_data[77] = {
+    {.address = gbj_painting_video_data_0001, .compressedSize = 0x2CE0},
+    {.address = gbj_painting_video_data_0002, .compressedSize = 0x3460},
+    {.address = gbj_painting_video_data_0003, .compressedSize = 0x4920},
+    {.address = gbj_painting_video_data_0004, .compressedSize = 0x4E50},
+    {.address = gbj_painting_video_data_0005, .compressedSize = 0x4E20},
+    {.address = gbj_painting_video_data_0006, .compressedSize = 0x4B00},
+    {.address = gbj_painting_video_data_0007, .compressedSize = 0x3E90},
+    {.address = gbj_painting_video_data_0008, .compressedSize = 0x3DB0},
+    {.address = gbj_painting_video_data_0009, .compressedSize = 0x3F30},
+    {.address = gbj_painting_video_data_0010, .compressedSize = 0x3E00},
+    {.address = gbj_painting_video_data_0011, .compressedSize = 0x3D00},
+    {.address = gbj_painting_video_data_0012, .compressedSize = 0x3ED0},
+    {.address = gbj_painting_video_data_0013, .compressedSize = 0x38B0},
+    {.address = gbj_painting_video_data_0014, .compressedSize = 0x3930},
+    {.address = gbj_painting_video_data_0015, .compressedSize = 0x3A00},
+    {.address = gbj_painting_video_data_0016, .compressedSize = 0x3A10},
+    {.address = gbj_painting_video_data_0017, .compressedSize = 0x3C50},
+    {.address = gbj_painting_video_data_0018, .compressedSize = 0x3BE0},
+    {.address = gbj_painting_video_data_0019, .compressedSize = 0x3750},
+    {.address = gbj_painting_video_data_0020, .compressedSize = 0x3900},
+    {.address = gbj_painting_video_data_0021, .compressedSize = 0x3B70},
+    {.address = gbj_painting_video_data_0022, .compressedSize = 0x3BF0},
+    {.address = gbj_painting_video_data_0023, .compressedSize = 0x3CC0},
+    {.address = gbj_painting_video_data_0024, .compressedSize = 0x3D70},
+    {.address = gbj_painting_video_data_0025, .compressedSize = 0x3A90},
+    {.address = gbj_painting_video_data_0026, .compressedSize = 0x3B40},
+    {.address = gbj_painting_video_data_0027, .compressedSize = 0x3C50},
+    {.address = gbj_painting_video_data_0028, .compressedSize = 0x3CC0},
+    {.address = gbj_painting_video_data_0029, .compressedSize = 0x3D40},
+    {.address = gbj_painting_video_data_0030, .compressedSize = 0x3D30},
+    {.address = gbj_painting_video_data_0031, .compressedSize = 0x3A50},
+    {.address = gbj_painting_video_data_0032, .compressedSize = 0x3B00},
+    {.address = gbj_painting_video_data_0033, .compressedSize = 0x3C10},
+    {.address = gbj_painting_video_data_0034, .compressedSize = 0x3C10},
+    {.address = gbj_painting_video_data_0035, .compressedSize = 0x3B80},
+    {.address = gbj_painting_video_data_0036, .compressedSize = 0x3BF0},
+    {.address = gbj_painting_video_data_0037, .compressedSize = 0x39F0},
+    {.address = gbj_painting_video_data_0038, .compressedSize = 0x3A80},
+    {.address = gbj_painting_video_data_0039, .compressedSize = 0x3B00},
+    {.address = gbj_painting_video_data_0040, .compressedSize = 0x3B10},
+    {.address = gbj_painting_video_data_0041, .compressedSize = 0x3A80},
+    {.address = gbj_painting_video_data_0042, .compressedSize = 0x3A70},
+    {.address = gbj_painting_video_data_0043, .compressedSize = 0x3970},
+    {.address = gbj_painting_video_data_0044, .compressedSize = 0x3A30},
+    {.address = gbj_painting_video_data_0045, .compressedSize = 0x3A50},
+    {.address = gbj_painting_video_data_0046, .compressedSize = 0x3A50},
+    {.address = gbj_painting_video_data_0047, .compressedSize = 0x39E0},
+    {.address = gbj_painting_video_data_0048, .compressedSize = 0x3A30},
+    {.address = gbj_painting_video_data_0049, .compressedSize = 0x37E0},
+    {.address = gbj_painting_video_data_0050, .compressedSize = 0x3800},
+    {.address = gbj_painting_video_data_0051, .compressedSize = 0x3B50},
+    {.address = gbj_painting_video_data_0052, .compressedSize = 0x3DC0},
+    {.address = gbj_painting_video_data_0053, .compressedSize = 0x3D90},
+    {.address = gbj_painting_video_data_0054, .compressedSize = 0x3C90},
+    {.address = gbj_painting_video_data_0055, .compressedSize = 0x39E0},
+    {.address = gbj_painting_video_data_0056, .compressedSize = 0x38A0},
+    {.address = gbj_painting_video_data_0057, .compressedSize = 0x3680},
+    {.address = gbj_painting_video_data_0058, .compressedSize = 0x35F0},
+    {.address = gbj_painting_video_data_0059, .compressedSize = 0x32F0},
+    {.address = gbj_painting_video_data_0060, .compressedSize = 0x31A0},
+    {.address = gbj_painting_video_data_0061, .compressedSize = 0x2C90},
+    {.address = gbj_painting_video_data_0062, .compressedSize = 0x2B70},
+    {.address = gbj_painting_video_data_0063, .compressedSize = 0x2740},
+    {.address = gbj_painting_video_data_0064, .compressedSize = 0x2590},
+    {.address = gbj_painting_video_data_0065, .compressedSize = 0x20F0},
+    {.address = gbj_painting_video_data_0066, .compressedSize = 0x1DA0},
+    {.address = gbj_painting_video_data_0067, .compressedSize = 0x15E0},
+    {.address = gbj_painting_video_data_0068, .compressedSize = 0x11C0},
+    {.address = gbj_painting_video_data_0069, .compressedSize = 0x6D0},
+    {.address = gbj_painting_video_data_0070, .compressedSize = 0x250},
+    {.address = gbj_painting_video_data_0071, .compressedSize = 0x1D0},
+    {.address = gbj_painting_video_data_0072, .compressedSize = 0x1D0},
+    {.address = gbj_painting_video_data_0073, .compressedSize = 0x1D0},
+    {.address = gbj_painting_video_data_0074, .compressedSize = 0x1D0},
+    {.address = gbj_painting_video_data_0075, .compressedSize = 0x1D0},
+    {.address = gbj_painting_video_data_0076, .compressedSize = 0x7E0},
+    {.address = gbj_painting_video_data_0077, .compressedSize = 0x1800},
+};

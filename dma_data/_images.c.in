@@ -107,7 +107,7 @@ ALIGNED16 const Texture yugamineena_image_data[] = {
 #include "dma_data/_img_yugamineena.yay0.c.in"
 };
 
-ALIGNED16 const struct DMAImageProps dma_image_data[36] = {
+ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_AMOGUS]             = {.address = amogus_image_data,            .compressedSize = 0x5A60},
     [BB_IMAGE_ASS_IMPACT]         = {.address = ass_impact_image_data,        .compressedSize = 0x7C40},
     [BB_IMAGE_BART]               = {.address = bart_image_data,              .compressedSize = 0xD960},

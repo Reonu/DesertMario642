@@ -304,7 +304,7 @@ int main(int argc, char **argv) {
             continue;
         }
         
-        fprintf(stderr, "Usage: %s <mp4 file> [-x xOffset] [-y yOffset] [-a desiredFramerate] [-b inputFramerate]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <mp4 file> [-x xOffset] [-y yOffset] [-a desiredFramerate]\n", argv[0]);
         return EXIT_FAILURE;
     }
 	
