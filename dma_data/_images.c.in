@@ -109,6 +109,9 @@ ALIGNED16 const Texture _img_yugamineena[] = {
 ALIGNED16 const Texture _img_gamertype[] = {
 #include "dma_data/_img_gamertype.rgba16.yay0.c.in"
 };
+ALIGNED16 const Texture _img_CakeOutline[] = {
+#include "dma_data/_img_CakeOutline.rgba16.yay0.c.in"
+};
 ALIGNED16 const Texture _img_blockington[] = {
 #include "dma_data/_img_blockington.rgba16.yay0.c.in"
 };
@@ -151,5 +154,6 @@ ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_XENOGEARS]          = {.address = _img_xenogears,         .compressedSize = 0x5390},
     [BB_IMAGE_YUGAMINEENA]        = {.address = _img_yugamineena,       .compressedSize = 0x4600},
     [BB_IMAGE_GAMER_TYPE]         = {.address = _img_gamertype,         .compressedSize = 0x95B0},
+    [BB_IMAGE_ROSALU]             = {.address = _img_CakeOutline,       .compressedSize = 0x8780},
     [BB_IMAGE_BLOCKINGTON]        = {.address = _img_blockington,       .compressedSize = 0x2830},
 };
