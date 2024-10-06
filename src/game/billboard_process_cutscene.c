@@ -99,8 +99,9 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_PREDATOR]           = (u32) BB_IMAGE_PREDATOR,
     [BB_SIGN_NINTENDO_EMPLOYEES] = (u32) BB_IMAGE_NINTENDO_EMPLOYEES,
     [BB_SIGN_BART]               = (u32) BB_IMAGE_BART,
-    [BB_SIGN_GAMER_TYPE]         = (u32) BB_IMAGE_GAMER_TYPE,
     [BB_SIGN_YUGAMINEENA]        = (u32) BB_IMAGE_YUGAMINEENA,
+    [BB_SIGN_GAMER_TYPE]         = (u32) BB_IMAGE_GAMER_TYPE,
+    [BB_SIGN_ROSALU]             = (u32) BB_IMAGE_ROSALU,
     [BB_SIGN_BLOCKINGTON]        = (u32) BB_IMAGE_BLOCKINGTON,
 
     // TIER 2
@@ -116,6 +117,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MVC]                = (u32) BB_IMAGE_MVC,
     [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
     [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
+    [BB_SIGN_DESERT_MARIO]       = (u32) BB_IMAGE_DESERT_MARIO,
     [BB_SIGN_GBJ_PAINTING]       = (u32) BB_VIDEO_GBJ_PAINTING,
 
     // TIER 4
@@ -290,7 +292,7 @@ void update_menu_video_buffers(void) {
         return;
     }
 
-    u8 dmaComplete = check_image_dma_complete();
+    u8 dmaComplete = check_image_dma_complete(FALSE);
 
     if (gVideoIndex < 0 || gVideoIndex >= BB_VIDEO_COUNT || find_first_object_with_behavior_and_bparams(bhvDesertSign, BB_TYPE_VIDEO, 0xFF) == NULL) {
         gSafeToLoadVideo = VIDEO_SAFETY_UNSAFE;
@@ -331,7 +333,7 @@ void update_menu_video_buffers(void) {
     dma_video_frame(&videoDataProps[gVideoIndex][imageVideoFrame]);
 }
 
-s32 check_image_dma_complete(void) {
+s32 check_image_dma_complete(u32 shouldUninitialize) {
     while (osRecvMesg(&videoImageDMAQueue, NULL, OS_MESG_NOBLOCK) == 0) {
         sImageDMACount--;
         assert(sImageDMACount >= 0, "Negative sImageDMACount detected!");
@@ -342,10 +344,20 @@ s32 check_image_dma_complete(void) {
 
     if (sImageDMACount == 0) {
         for (s32 i = 0; i < ARRAY_COUNT(dmaImageStatus); i++) {
-            if (dmaImageStatus[i] != BB_IMAGE_READY) {
+            if (dmaImageStatus[i] == BB_IMAGE_ACTIVE_DMA) {
                 dmaImageStatus[i] = BB_IMAGE_READY;
                 slidstart(dmaImageYAY0Addrs[i], dmaImageTextureAddrs[i]);
             }
+        }
+
+        if (shouldUninitialize) {
+            gSafeToLoadVideo = VIDEO_SAFETY_UNALLOCATED;
+            imageGameFrame = 0;
+            imageVideoFrame = 0;
+            gVideoIndex = -1;
+            replaySoundEffect = -1;
+            sTripleBufferIndex = 0;
+            safeBufferIndex = 0;
         }
 
         return TRUE;
@@ -363,6 +375,52 @@ s32 get_desert_sign_video_id(ModelID32 billboardId) {
     }
 
     return -1;
+}
+
+// return -1 if no image sign is found
+static s32 get_desert_sign_image_buffer(ModelID32 billboardId) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(bhvDesertSign);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *objNode = listHead->next;
+
+    if (!gFBEEnabled) {
+        return -1;
+    }
+
+    while (listHead != objNode) {
+        struct Object *obj = ((struct Object *) objNode);
+        if (obj_has_behavior(obj, bhvDesertSign) && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+                    && obj->oBehParams2ndByte == (s32) billboardId && GET_BPARAM4(obj->oBehParams) != BB_TYPE_VIDEO) {
+            return GET_BPARAM3(obj->oBehParams);
+        }
+
+        objNode = objNode->next;
+    }
+
+    return -1;
+}
+
+void framebuffer_copy(RGBA16 *fbAddr) {
+    if (!gFBEEnabled || gSafeToLoadVideo == VIDEO_SAFETY_UNALLOCATED) {
+        return;
+    }
+
+    s32 bufferIndex = get_desert_sign_image_buffer(BB_SIGN_DESERT_MARIO);
+    if (bufferIndex < 0 || dmaImageStatus[bufferIndex] == BB_IMAGE_ACTIVE_DMA) {
+        return;
+    }
+
+    Texture *bufferStart = dmaImageTextureAddrs[bufferIndex];
+
+    #define x1 (SCREEN_CENTER_X - (IMAGE_TEXTURE_WIDTH / 2))
+    #define y1 (SCREEN_CENTER_Y - (IMAGE_TEXTURE_HEIGHT / 2))
+
+    for (s32 i = 0; i < IMAGE_TEXTURE_HEIGHT; i++) {
+        bcopy(&fbAddr[(SCREEN_WIDTH * (i + y1)) + x1], &bufferStart[i * (IMAGE_TEXTURE_WIDTH * sizeof(RGBA16))], (IMAGE_TEXTURE_WIDTH * sizeof(RGBA16)));
+    }
+
+    #undef x1
+    #undef y1
 }
 
 struct BBHistory {
@@ -550,7 +608,7 @@ Gfx *geo_billboard_image_scene(s32 callContext, struct GraphNode *node, UNUSED v
         struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
         struct Object *obj = (struct Object *) gCurGraphNodeObject;
 
-        if (dmaImageStatus[GET_BPARAM3(obj->oBehParams)] != BB_IMAGE_READY) {
+        if (dmaImageStatus[GET_BPARAM3(obj->oBehParams)] == BB_IMAGE_ACTIVE_DMA) {
             return NULL;
         }
 

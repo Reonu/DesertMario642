@@ -198,6 +198,7 @@ enum BillboardIDs {
     BB_SIGN_BART,
     BB_SIGN_YUGAMINEENA,
     BB_SIGN_GAMER_TYPE,
+    BB_SIGN_ROSALU,
     BB_SIGN_BLOCKINGTON,
     BB_BILLBOARD_END_TIER1, // END TIER 1
 
@@ -215,6 +216,7 @@ enum BillboardIDs {
     BB_SIGN_MVC,
     BB_SIGN_MVH,
     BB_SIGN_IDIOT,
+    BB_SIGN_DESERT_MARIO,
     BB_SIGN_GBJ_PAINTING,
     BB_BILLBOARD_END_TIER3, // END TIER 3
 
@@ -245,8 +247,9 @@ void basic_update(void);
 
 void init_menu_video_buffers(void);
 void update_menu_video_buffers(void);
-s32 check_image_dma_complete(void);
+s32 check_image_dma_complete(u32 shouldUninitialize);
 s32 get_desert_sign_video_id(ModelID32 billboardId);
 s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard);
+void framebuffer_copy(RGBA16 *fbAddr);
 
 #endif // LEVEL_UPDATE_H
