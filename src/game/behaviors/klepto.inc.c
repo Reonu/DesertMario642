@@ -215,23 +215,18 @@ static void klepto_act_dive_at_mario(void) {
 
         if (cur_obj_set_anim_if_at_end(0)) {
             if (o->oAnimState != KLEPTO_ANIM_STATE_HOLDING_NOTHING) {
-                o->oAction = KLEPTO_ACT_MOVE_FORWARD;
                 o->oKleptoTimeUntilTargetChange = 0;
-                struct Object *newKlepto = spawn_object_desert(o, 0, MODEL_KLEPTO, bhvKlepto, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0, NULL);
-                newKlepto->oPosX = o->oPosX;
-                newKlepto->oPosY = o->oPosY;
-                newKlepto->oPosZ = o->oPosZ;                
-                newKlepto->oPrimRGB = 1;
-                mark_obj_for_deletion(o);
-            } else {
-                o->oAction = KLEPTO_ACT_MOVE_FORWARD;
-                struct Object *newKlepto = spawn_object_desert(o, 0, MODEL_KLEPTO, bhvKlepto, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0, NULL);
-                newKlepto->oPrimRGB = 1;
+            }
+
+            o->oAction = KLEPTO_ACT_MOVE_FORWARD;
+            struct Object *newKlepto = spawn_object_desert(o, 0, MODEL_KLEPTO, bhvKlepto, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0, NULL);
+            if (newKlepto) {
                 newKlepto->oPosX = o->oPosX;
                 newKlepto->oPosY = o->oPosY;
                 newKlepto->oPosZ = o->oPosZ;
-                mark_obj_for_deletion(o);
+                newKlepto->oPrimRGB = 1;
             }
+            mark_obj_for_deletion(o);
         }
     } else {
         f32 dy = o->oPosY - gMarioObject->oPosY;
