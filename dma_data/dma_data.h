@@ -43,6 +43,7 @@ enum ImageDMAIDs {
     BB_IMAGE_XENOBLADE,
     BB_IMAGE_XENOGEARS,
     BB_IMAGE_YUGAMINEENA,
+    BB_IMAGE_GAMER_TYPE,
     BB_IMAGE_BLOCKINGTON,
 
     BB_IMAGE_COUNT,
@@ -52,11 +53,13 @@ enum VideoDMAIDs {
     BB_VIDEO_IMAGES, // Used as the 'video data' for individual images
     BB_VIDEO_FREE_PSP,
     BB_VIDEO_GBJ_PAINTING,
+    BB_VIDEO_LEON,
 
     BB_VIDEO_COUNT,
 };
 
-extern ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT];
+extern const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT];
 
-extern ALIGNED16 const struct DMAImageProps free_psp_video_data[13];
-extern ALIGNED16 const struct DMAImageProps gbj_painting_video_data[77];
+extern const struct DMAImageProps free_psp_video_data[13];
+extern const struct DMAImageProps gbj_painting_video_data[77];
+extern const struct DMAImageProps leon_video_data[122];
