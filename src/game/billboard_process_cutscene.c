@@ -110,6 +110,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_YOUTUBE]            = (u32) BB_IMAGE_YOUTUBE,
     [BB_SIGN_SPOON]              = (u32) BB_IMAGE_SPOON,
     [BB_SIGN_JOEL]               = (u32) BB_IMAGE_JOEL,
+    [BB_SIGN_TCS]                = (u32) BB_IMAGE_TCS,
 
     // TIER 3
     [BB_SIGN_SIMPLEFLIPS]        = (u32) BB_IMAGE_SIMPLEFLIPS,
@@ -530,15 +531,12 @@ Gfx *geo_billboard_image_scene(s32 callContext, struct GraphNode *node, UNUSED v
 
         Gfx *dlHead;
         if (currentGraphNode->parameter == LAYER_OPAQUE) {
-            dlStart = alloc_display_list(6 * sizeof(Gfx));
+            dlStart = alloc_display_list(5 * sizeof(Gfx));
             dlHead = dlStart;
 
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_first);
             gDPSetTextureImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, IMAGE_TEXTURE_WIDTH, dmaImageTextureAddrs[GET_BPARAM3(obj->oBehParams)]);
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_second);
-            if (obj->oBehParams2ndByte == BB_SIGN_IDIOT) {
-                gSPDisplayList(dlHead++, sign_normal_sign_idiot_mesh_layer_1_idiot_mario);
-            }
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_end);
             gSPEndDisplayList(dlHead);
         } else if (currentGraphNode->parameter == LAYER_ALPHA) {
@@ -546,6 +544,12 @@ Gfx *geo_billboard_image_scene(s32 callContext, struct GraphNode *node, UNUSED v
             dlHead = dlStart;
 
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_4);
+            gSPEndDisplayList(dlHead);
+        } else if (currentGraphNode->parameter == LAYER_TRANSPARENT_DECAL && obj->oBehParams2ndByte == BB_SIGN_IDIOT) {
+            dlStart = alloc_display_list(2 * sizeof(Gfx));
+            dlHead = dlStart;
+
+            gSPDisplayList(dlHead++, sign_normal_sign_idiot_mesh_layer_1_idiot_mario);
             gSPEndDisplayList(dlHead);
         }
     }

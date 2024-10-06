@@ -1834,15 +1834,15 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gUsernameSuccess = 1;
         }
 
-    if (gUsernameSuccess && gFetchAvatar) {
-        const int status = libpl_get_rhdc_avatar_16_async(username, gAvatarTexture);
-        if (status == 0) {
-            gAvatarLoaded = TRUE;
-            gFetchAvatar = FALSE;
-        } else if (lpl_errno != LPL_WAIT) {
-            gFetchAvatar = FALSE;
+        if (gUsernameSuccess && gFetchAvatar) {
+            const int status = libpl_get_rhdc_avatar_32_async(username, gAvatarTexture);
+            if (status == 0) {
+                gAvatarLoaded = TRUE;
+                gFetchAvatar = FALSE;
+            } else if (lpl_errno != LPL_WAIT) {
+                gFetchAvatar = FALSE;
+            }
         }
-    }
 
         if (gMarioState->flashlightOn) {
             f32 angleX = sins(gMarioState->faceAngle[1]) * 400.0f;

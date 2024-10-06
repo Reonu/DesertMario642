@@ -97,7 +97,7 @@ u16 gHigh;
 s32 gInstantWarpCounter;
 s32 gInstantWarpSpawnIndex;
 u8 gUsernameSuccess;
-u8 gAvatarTexture[2048];
+u8 gAvatarTexture[4096];
 u8 gAvatarLoaded = FALSE;
 
 
