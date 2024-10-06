@@ -14,6 +14,11 @@
 #define MARIO_ANIMS_POOL_SIZE 0x4000
 #define DEMO_INPUTS_POOL_SIZE 0x800
 
+// NOTE: For some reason, checking something with index 13 and FBE_CHECK being set to 12 fails on some versions of GlideN64 (pain)
+// So apparently this value actually matters...???
+#define FBE_PIXEL_OFFSET   13
+#define FBE_CHECK          0xFF01
+
 #define INSTANT_INPUT_BLACKLIST (EMU_CONSOLE | EMU_WIIVC | EMU_ARES | EMU_SIMPLE64 | EMU_CEN64)
 
 struct GfxPool {
@@ -101,6 +106,9 @@ extern s32 gUnpausedTimer;
 extern u32 gDayTime;
 extern Vec3f gLightDirection;
 
+extern u8 gFBEEnabled;
+
+s32 check_fbe(s16 arg0, s32 arg1);
 void setup_game_memory(void);
 void thread5_game_loop(UNUSED void *arg);
 void clear_framebuffer(s32 color);

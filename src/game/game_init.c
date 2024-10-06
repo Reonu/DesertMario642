@@ -11,6 +11,7 @@
 #include "engine/level_script.h"
 #include "engine/math_util.h"
 #include "game_init.h"
+#include "level_update.h"
 #include "main.h"
 #include "memory.h"
 #include "save_file.h"
@@ -117,6 +118,10 @@ struct Controller* const gPlayer4Controller = &gControllers[3];
 struct DemoInput *gCurrDemoInput = NULL;
 u16 gDemoInputListID = 0;
 struct DemoInput gRecordedDemoInput = { 0 };
+
+u8 gFBEEnabled = FALSE;
+static u8 checkingFBE = 0;
+static u8 fbeCheckFinished = FALSE;
 
 // Display
 // ----------------------------------------------------------------------------------------------------
@@ -425,6 +430,30 @@ void draw_reset_bars(void) {
     osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
 }
 
+// Check if we are emulating the framebuffer
+s32 check_fbe(UNUSED s16 arg0, UNUSED s32 arg1) {
+    if (fbeCheckFinished) {
+        return TRUE;
+    }
+
+    if (checkingFBE == 0) {
+        gFramebuffers[0][FBE_PIXEL_OFFSET] = FBE_CHECK;
+    }
+    
+    if (checkingFBE < 4) {
+        checkingFBE++;
+        return FALSE;
+    }
+    
+    if (gFramebuffers[0][FBE_PIXEL_OFFSET] == FBE_CHECK) {
+        gFBEEnabled = FALSE;
+    } else {
+        gFBEEnabled = TRUE;
+    }
+
+    fbeCheckFinished = TRUE;
+    return TRUE;
+}
 
 /**
  * Initial settings for the first rendered frame.
@@ -477,6 +506,9 @@ void display_and_vsync(void) {
         gGoddardVblankCallback = NULL;
     }
     exec_display_list(&gGfxPool->spTask);
+
+    framebuffer_copy(gFramebuffers[sRenderedFramebuffer]);
+
 #ifndef UNLOCK_FPS
     osRecvMesg(&gGameVblankQueue, &gMainReceivedMesg, OS_MESG_BLOCK);
 #endif

@@ -1240,7 +1240,7 @@ s32 update_level(void) {
 
     // Wait for image DMA to finish before continuing on in level script
     if (shouldReturn) {
-        if (!check_image_dma_complete()) {
+        if (!check_image_dma_complete(TRUE)) {
             return FALSE;
         }
 
@@ -1274,7 +1274,7 @@ s32 update_level(void) {
         enable_background_sound();
 
         // If image DMA hasn't finished, wait for it first, and then continue on afterwards
-        if (!check_image_dma_complete()) {
+        if (!check_image_dma_complete(TRUE)) {
             shouldReturn = changeLevel;
             return FALSE;
         }
