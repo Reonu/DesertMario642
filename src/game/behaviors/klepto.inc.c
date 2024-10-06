@@ -1,4 +1,5 @@
 // klepto.inc.c
+#include "behavior_data.h"
 
 static struct ObjectHitbox sKleptoHitbox = {
     /* interactType:      */ INTERACT_HIT_FROM_BELOW,
@@ -178,8 +179,9 @@ static void klepto_act_move_forward(void) {
     o->oKleptoSpeed = 20.0f;
     o->oPosY = 400.f;
 
-    if (o->oDistanceToMario < 1000.f) {
+    if (o->oDistanceToMario < 1000.f && !o->oPrimRGB) {
         o->oAction = KLEPTO_ACT_DIVE_AT_MARIO;
+        o->oPrimRGB = 1;
     }
 }
 
@@ -213,10 +215,22 @@ static void klepto_act_dive_at_mario(void) {
 
         if (cur_obj_set_anim_if_at_end(0)) {
             if (o->oAnimState != KLEPTO_ANIM_STATE_HOLDING_NOTHING) {
-                o->oAction = KLEPTO_ACT_CIRCLE_TARGET_HOLDING;
+                o->oAction = KLEPTO_ACT_MOVE_FORWARD;
                 o->oKleptoTimeUntilTargetChange = 0;
+                struct Object *newKlepto = spawn_object_desert(o, 0, MODEL_KLEPTO, bhvKlepto, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0, o->oInstantWarpSpawn);
+                newKlepto->oPosX = o->oPosX;
+                newKlepto->oPosY = o->oPosY;
+                newKlepto->oPosZ = o->oPosZ;                
+                newKlepto->oPrimRGB = 1;
+                mark_obj_for_deletion(o);
             } else {
-                o->oAction = KLEPTO_ACT_WAIT_FOR_MARIO;
+                o->oAction = KLEPTO_ACT_MOVE_FORWARD;
+                struct Object *newKlepto = spawn_object_desert(o, 0, MODEL_KLEPTO, bhvKlepto, o->oPosX, o->oPosY, o->oPosZ, 0, 0, 0, o->oInstantWarpSpawn);
+                newKlepto->oPrimRGB = 1;
+                newKlepto->oPosX = o->oPosX;
+                newKlepto->oPosY = o->oPosY;
+                newKlepto->oPosZ = o->oPosZ;
+                mark_obj_for_deletion(o);
             }
         }
     } else {
