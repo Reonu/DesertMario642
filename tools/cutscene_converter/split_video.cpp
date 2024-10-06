@@ -9,8 +9,8 @@
 #include <errno.h>
 
 // YEP, these are hardcoded!
-#define CROP_WIDTH  256
-#define CROP_HEIGHT 128
+#define CROP_WIDTH  192
+#define CROP_HEIGHT 96
 
 int32_t X_OFFSET = 0;
 int32_t Y_OFFSET = 0;
@@ -212,7 +212,7 @@ void extractAndWriteFilenames(const char *videoPath, const char *directoryPath) 
         }
 
         fprintf(outputFile, "\n");
-        fprintf(outputFile, "ALIGNED16 const struct DMAVideoProps %s_video_data[%d] = {\n", videoFilename.c_str(), numFiles);
+        fprintf(outputFile, "ALIGNED16 const struct DMAImageProps %s_video_data[%d] = {\n", videoFilename.c_str(), numFiles);
         fprintf(outputFile, "%s", structBuf);
         fprintf(outputFile, "};\n");
 

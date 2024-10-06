@@ -10,5 +10,11 @@ extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_2[229];
 extern Vtx sign_normal_sign_normal_mesh_layer_1_vtx_3[12];
 extern Vtx sign_normal_sign_normal_mesh_layer_4_vtx_cull[8];
 extern Vtx sign_normal_sign_normal_mesh_layer_4_vtx_0[16];
-extern Gfx sign_normal_sign_normal_mesh_layer_1[];
+extern Gfx sign_normal_sign_normal_mesh_layer_1_first[];
+extern Gfx sign_normal_sign_normal_mesh_layer_1_second[];
+extern Gfx sign_normal_sign_normal_mesh_layer_1_end[];
 extern Gfx sign_normal_sign_normal_mesh_layer_4[];
+
+extern u8 sign_idiot_mario_rgba16[];
+extern Vtx sign_normal_sign_idiot_mesh_layer_1_vtx_4[9];
+extern Gfx sign_normal_sign_idiot_mesh_layer_1_idiot_mario[];

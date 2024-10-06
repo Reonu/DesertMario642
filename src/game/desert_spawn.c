@@ -38,7 +38,7 @@
 #include "behavior_data.h"
 #include "types.h"
 #include "include/n64/PR/os_libc.h"
-#include "actors/sign_idiot/geo_header.h"
+#include "actors/sign_normal/geo_header.h"
 #include "game/emutest.h"
 
 struct DesertSpawnCoords LeftSide = {
@@ -80,13 +80,13 @@ void spawn_electrical_poles(MTRand *rand) {
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
     if (gInstantWarpSpawnIndex >= TIER_4_THRESHOLD) {
-        maxTier = MODEL_BILLBOARD_END_TIER4;
+        maxTier = BB_BILLBOARD_END_TIER4;
     } else if (gInstantWarpSpawnIndex >= TIER_3_THRESHOLD) {
-        maxTier = MODEL_BILLBOARD_END_TIER3;
+        maxTier = BB_BILLBOARD_END_TIER3;
     } else if (gInstantWarpSpawnIndex >= TIER_2_THRESHOLD){
-        maxTier = MODEL_BILLBOARD_END_TIER2;
+        maxTier = BB_BILLBOARD_END_TIER2;
     } else {
-        maxTier = MODEL_BILLBOARD_END_TIER1;
+        maxTier = BB_BILLBOARD_END_TIER1;
     }
 
     return generate_weighted_billboard(rand, maxTier);
@@ -94,8 +94,9 @@ u16 decide_billboard_model_id(MTRand *rand) {
 
 void spawn_billboard(MTRand *rand) {
     u8 isRight;
-    u16 modelID;
+    u8 bparam2;
     u16 rot;
+    ModelID32 model = MODEL_BILLBOARD_IMAGE;
     struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
     isRight = (spawnCoords.x == RightSide.x);
 
@@ -105,13 +106,21 @@ void spawn_billboard(MTRand *rand) {
         rot = DEGREES(45);
     }
 
-    modelID = decide_billboard_model_id(rand);
+    bparam2 = decide_billboard_model_id(rand);
 
-    if (modelID ==  MODEL_SIGN_IDIOT && gAvatarLoaded != 0 && gEmulator & EMU_PARALLELN64) {
+    if (bparam2 == BB_SIGN_IDIOT && gAvatarLoaded != 0 && gEmulator & EMU_PARALLELN64) {
         bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba16), 2048);
     }
 
-    spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0,rand);
+    if (get_desert_sign_video_id(bparam2) >= 0) {
+        model = MODEL_BILLBOARD_VIDEO;
+    }
+
+    struct Object *obj = spawn_object_desert(gCurrentObject, 0, model, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0,rand);
+    if (obj) {
+        obj->oBehParams2ndByte = bparam2;
+        SET_BPARAM2(obj->oBehParams, bparam2);
+    }
 }
 
 void spawn_ufo(MTRand *rand) {

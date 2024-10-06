@@ -1,0 +1,147 @@
+ALIGNED16 const Texture amogus_image_data[] = {
+#include "dma_data/_img_amogus.yay0.c.in"
+};
+ALIGNED16 const Texture ass_impact_image_data[] = {
+#include "dma_data/_img_ass_impact.yay0.c.in"
+};
+ALIGNED16 const Texture bart_image_data[] = {
+#include "dma_data/_img_bart.yay0.c.in"
+};
+ALIGNED16 const Texture bettercallshy_image_data[] = {
+#include "dma_data/_img_bettercallshy.yay0.c.in"
+};
+ALIGNED16 const Texture brandi_bat_image_data[] = {
+#include "dma_data/_img_brandi_bat.yay0.c.in"
+};
+ALIGNED16 const Texture comitantis_image_data[] = {
+#include "dma_data/_img_comitantis.yay0.c.in"
+};
+ALIGNED16 const Texture comitstans_image_data[] = {
+#include "dma_data/_img_comitstans.yay0.c.in"
+};
+ALIGNED16 const Texture cross_image_data[] = {
+#include "dma_data/_img_cross.yay0.c.in"
+};
+ALIGNED16 const Texture farm_image_data[] = {
+#include "dma_data/_img_farm.yay0.c.in"
+};
+ALIGNED16 const Texture FreeOatmeal_image_data[] = {
+#include "dma_data/_img_FreeOatmeal.yay0.c.in"
+};
+ALIGNED16 const Texture funny_image_data[] = {
+#include "dma_data/_img_funny.yay0.c.in"
+};
+ALIGNED16 const Texture hackern64_image_data[] = {
+#include "dma_data/_img_hackern64.yay0.c.in"
+};
+ALIGNED16 const Texture idiot_image_data[] = {
+#include "dma_data/_img_idiot.yay0.c.in"
+};
+ALIGNED16 const Texture joel_image_data[] = {
+#include "dma_data/_img_joel.yay0.c.in"
+};
+ALIGNED16 const Texture makeclean_image_data[] = {
+#include "dma_data/_img_makeclean.yay0.c.in"
+};
+ALIGNED16 const Texture maltingius_image_data[] = {
+#include "dma_data/_img_maltingius.yay0.c.in"
+};
+ALIGNED16 const Texture MarbleFace1_image_data[] = {
+#include "dma_data/_img_MarbleFace1.yay0.c.in"
+};
+ALIGNED16 const Texture motivate_image_data[] = {
+#include "dma_data/_img_motivate.yay0.c.in"
+};
+ALIGNED16 const Texture mrcomit_image_data[] = {
+#include "dma_data/_img_mrcomit.yay0.c.in"
+};
+ALIGNED16 const Texture MVC_image_data[] = {
+#include "dma_data/_img_MVC.yay0.c.in"
+};
+ALIGNED16 const Texture mvh_image_data[] = {
+#include "dma_data/_img_mvh.yay0.c.in"
+};
+ALIGNED16 const Texture nintendoemployees_image_data[] = {
+#include "dma_data/_img_nintendoemployees.yay0.c.in"
+};
+ALIGNED16 const Texture patchmaker_image_data[] = {
+#include "dma_data/_img_patchmaker.yay0.c.in"
+};
+ALIGNED16 const Texture predator_image_data[] = {
+#include "dma_data/_img_predator.yay0.c.in"
+};
+ALIGNED16 const Texture property_image_data[] = {
+#include "dma_data/_img_property.yay0.c.in"
+};
+ALIGNED16 const Texture rovert_image_data[] = {
+#include "dma_data/_img_rovert.yay0.c.in"
+};
+ALIGNED16 const Texture simpleflips_image_data[] = {
+#include "dma_data/_img_simpleflips.yay0.c.in"
+};
+ALIGNED16 const Texture SPKFITNESSPROGRAM_image_data[] = {
+#include "dma_data/_img_SPKFITNESSPROGRAM.yay0.c.in"
+};
+ALIGNED16 const Texture spoon_image_data[] = {
+#include "dma_data/_img_spoon.yay0.c.in"
+};
+ALIGNED16 const Texture suecheezepin_image_data[] = {
+#include "dma_data/_img_suecheezepin.yay0.c.in"
+};
+ALIGNED16 const Texture SYNERGY_image_data[] = {
+#include "dma_data/_img_SYNERGY.yay0.c.in"
+};
+ALIGNED16 const Texture tcs_scam_screen_image_data[] = {
+#include "dma_data/_img_tcs_scam_screen.yay0.c.in"
+};
+ALIGNED16 const Texture whatsyourproblem_image_data[] = {
+#include "dma_data/_img_whatsyourproblem.yay0.c.in"
+};
+ALIGNED16 const Texture xenoblade_image_data[] = {
+#include "dma_data/_img_xenoblade.yay0.c.in"
+};
+ALIGNED16 const Texture xenogears_image_data[] = {
+#include "dma_data/_img_xenogears.yay0.c.in"
+};
+ALIGNED16 const Texture yugamineena_image_data[] = {
+#include "dma_data/_img_yugamineena.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps dma_image_data[36] = {
+    [BB_IMAGE_AMOGUS]             = {.address = amogus_image_data,            .compressedSize = 0x5A60},
+    [BB_IMAGE_ASS_IMPACT]         = {.address = ass_impact_image_data,        .compressedSize = 0x7C40},
+    [BB_IMAGE_BART]               = {.address = bart_image_data,              .compressedSize = 0xD960},
+    [BB_IMAGE_BETTERCALLSHY]      = {.address = bettercallshy_image_data,     .compressedSize = 0x6AF0},
+    [BB_IMAGE_APPY]               = {.address = brandi_bat_image_data,        .compressedSize = 0x3CD0},
+    [BB_IMAGE_COMIT_ANTIS]        = {.address = comitantis_image_data,        .compressedSize = 0xA120},
+    [BB_IMAGE_COMIT_STANS]        = {.address = comitstans_image_data,        .compressedSize = 0xA6E0},
+    [BB_IMAGE_CROSS]              = {.address = cross_image_data,             .compressedSize = 0xABB0},
+    [BB_IMAGE_FARM]               = {.address = farm_image_data,              .compressedSize = 0xB480},
+    [BB_IMAGE_OATMEAL]            = {.address = FreeOatmeal_image_data,       .compressedSize = 0x8DF0},
+    [BB_IMAGE_YOUTUBE]            = {.address = funny_image_data,             .compressedSize = 0x0470},
+    [BB_IMAGE_HACKERN64]          = {.address = hackern64_image_data,         .compressedSize = 0x37B0},
+    [BB_IMAGE_IDIOT]              = {.address = idiot_image_data,             .compressedSize = 0x2240},
+    [BB_IMAGE_JOEL]               = {.address = joel_image_data,              .compressedSize = 0x43D0},
+    [BB_IMAGE_MAKE_CLEAN]         = {.address = makeclean_image_data,         .compressedSize = 0x6840},
+    [BB_IMAGE_MALTINGIUS]         = {.address = maltingius_image_data,        .compressedSize = 0x5150},
+    [BB_IMAGE_MOTH]               = {.address = MarbleFace1_image_data,       .compressedSize = 0x7150},
+    [BB_IMAGE_MOTIVATE]           = {.address = motivate_image_data,          .compressedSize = 0x8F60},
+    [BB_IMAGE_COMIT]              = {.address = mrcomit_image_data,           .compressedSize = 0x6710},
+    [BB_IMAGE_MVC]                = {.address = MVC_image_data,               .compressedSize = 0xADF0},
+    [BB_IMAGE_MVH]                = {.address = mvh_image_data,               .compressedSize = 0x4E50},
+    [BB_IMAGE_NINTENDO_EMPLOYEES] = {.address = nintendoemployees_image_data, .compressedSize = 0x3240},
+    [BB_IMAGE_PATCHMAKER]         = {.address = patchmaker_image_data,        .compressedSize = 0x4F50},
+    [BB_IMAGE_PREDATOR]           = {.address = predator_image_data,          .compressedSize = 0x78C0},
+    [BB_IMAGE_MUSHROOM]           = {.address = property_image_data,          .compressedSize = 0xB260},
+    [BB_IMAGE_ROVERT]             = {.address = rovert_image_data,            .compressedSize = 0xAEE0},
+    [BB_IMAGE_SIMPLEFLIPS]        = {.address = simpleflips_image_data,       .compressedSize = 0x78A0},
+    [BB_IMAGE_SPK]                = {.address = SPKFITNESSPROGRAM_image_data, .compressedSize = 0x39A0},
+    [BB_IMAGE_SPOON]              = {.address = spoon_image_data,             .compressedSize = 0x5E30},
+    [BB_IMAGE_CHEEZEPIN]          = {.address = suecheezepin_image_data,      .compressedSize = 0x4E30},
+    [BB_IMAGE_SYNERGY]            = {.address = SYNERGY_image_data,           .compressedSize = 0x2EA0},
+    [BB_IMAGE_TCS]                = {.address = tcs_scam_screen_image_data,   .compressedSize = 0x30B0},
+    [BB_IMAGE_COZIES]             = {.address = whatsyourproblem_image_data,  .compressedSize = 0x1BB0},
+    [BB_IMAGE_XENOBLADE]          = {.address = xenoblade_image_data,         .compressedSize = 0xCAA0},
+    [BB_IMAGE_XENOGEARS]          = {.address = xenogears_image_data,         .compressedSize = 0x5390},
+    [BB_IMAGE_YUGAMINEENA]        = {.address = yugamineena_image_data,       .compressedSize = 0x4600},
+};

@@ -10,5 +10,6 @@ extern Vtx sign_video_sign_video_mesh_layer_1_vtx_2[12];
 extern Vtx sign_video_sign_video_mesh_layer_1_vtx_3[54];
 extern Vtx sign_video_sign_video_mesh_layer_4_vtx_cull[8];
 extern Vtx sign_video_sign_video_mesh_layer_4_vtx_0[16];
-extern Gfx sign_video_sign_video_mesh_layer_1[];
+extern Gfx sign_video_sign_video_mesh_layer_1_begin[];
+extern Gfx sign_video_sign_video_mesh_layer_1_end[];
 extern Gfx sign_video_sign_video_mesh_layer_4[];
