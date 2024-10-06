@@ -320,13 +320,17 @@ struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, 
 struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
                                          const BehaviorScript *behavior,
                                          s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, MTRand *rand) {
-    u32 objectValidator;
-    do {
-        objectValidator = genRandLong(rand);
-    } while (objectValidator == 0);
+    u32 objectValidator = 0;
+    if (rand) {
+        while (objectValidator == 0) {
+            objectValidator = genRandLong(rand);
+        }
 
-    if (check_if_desert_object_exists(behavior, objectValidator)) {
-        return NULL; // Object has (very very probably) already been spawned!
+        if (check_if_desert_object_exists(behavior, objectValidator)) {
+            return NULL; // Object has (very very probably) already been spawned!
+        }
+    } else {
+        objectValidator = o->oDesertObjValidator; // Use parent value
     }
 
     // 'uselessArg' is unused in the function spawn_object_at_origin()
