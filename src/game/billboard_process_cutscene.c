@@ -2,7 +2,8 @@
 #include <PR/gbi.h>
 
 #include "sm64.h"
-#include "actors/sign_videodata/geo_header.h"
+#include "actors/sign_normal/geo_header.h"
+#include "actors/sign_video/geo_header.h"
 #include "dma_data/dma_data.h"
 #include "behavior_data.h"
 #include "audio/external.h"
@@ -28,24 +29,32 @@
 
 #define GAME_FRAMERATE 30
 
-#define TEXTURE_WIDTH  256
-#define TEXTURE_HEIGHT 128
+#define VIDEO_TEXTURE_WIDTH  192
+#define VIDEO_TEXTURE_HEIGHT 96
 
 // NOTE: This has acceptable alignment, but should otherwise be taken into consideration with DMA usage.
-#define TEXTURE_SIZE (TEXTURE_WIDTH * TEXTURE_HEIGHT * sizeof(RGBA16))
-#define ALIGNED_BUFFER_SIZE ALIGN16(TEXTURE_SIZE)
+#define VIDEO_TEXTURE_SIZE (VIDEO_TEXTURE_WIDTH * VIDEO_TEXTURE_HEIGHT * sizeof(RGBA16))
+#define ALIGNED_VIDEO_BUFFER_SIZE ALIGN16(VIDEO_TEXTURE_SIZE)
 
-#define TEXTURE_COUNT ((s32) ((TEXTURE_SIZE - 1) / 0x1000) + 1)
+#define IMAGE_TEXTURE_WIDTH  256
+#define IMAGE_TEXTURE_HEIGHT 128
+
+// NOTE: This has acceptable alignment, but should otherwise be taken into consideration with DMA usage.
+#define IMAGE_TEXTURE_SIZE (IMAGE_TEXTURE_WIDTH * IMAGE_TEXTURE_HEIGHT * sizeof(RGBA16))
+#define ALIGNED_IMAGE_BUFFER_SIZE ALIGN16(IMAGE_TEXTURE_SIZE)
+
+#define IMAGE_BUFFERS 4
+
+#define MAX_DMA_COUNT (((s32) ((VIDEO_TEXTURE_SIZE - 1) / 0x1000) + 1) + (IMAGE_BUFFERS * ((s32) ((IMAGE_TEXTURE_SIZE - 1) / 0x1000) + 1)))
 
 enum BillboardType {
     BB_TYPE_IMAGE,
     BB_TYPE_VIDEO,
 };
 
-enum VideoDMAIDs {
-    BB_VIDEO_COURSE1,
-
-    BB_VIDEO_COUNT,
+enum ImageDMAStatus {
+    BB_IMAGE_READY,
+    BB_IMAGE_ACTIVE_DMA,
 };
 
 enum VideoSafetyStates {
@@ -55,21 +64,72 @@ enum VideoSafetyStates {
     VIDEO_SAFETY_SAFE,
 };
 
-struct DMAImageProperties {
-    const struct DMAVideoProps *addr;
-    u32 modelId;
+struct DMAVideoProperties {
+    const struct DMAImageProps *addr;
+    s32 billboardId;
     u32 relativeLoopStart;
     u32 frameTotal;
     u32 framerate;
     u32 startFrame;
 };
 
-struct DMAImageProperties dmaProps[BB_VIDEO_COUNT] = {
-    [BB_VIDEO_COURSE1] = {.addr = course1_video_data, .modelId = MODEL_SIGN_BSM_COURSE_1, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(course1_video_data), .startFrame = 0, .framerate = 30},
+enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
+    // TIER 1
+    [BB_SIGN_PATCHMAKER]         = (u32) BB_IMAGE_PATCHMAKER,
+    [BB_SIGN_MALTINGIUS]         = (u32) BB_IMAGE_MALTINGIUS,
+    [BB_SIGN_COZIES]             = (u32) BB_IMAGE_COZIES,
+    [BB_SIGN_APPY]               = (u32) BB_IMAGE_APPY,
+    [BB_SIGN_MOTH]               = (u32) BB_IMAGE_MOTH,
+    [BB_SIGN_SPK]                = (u32) BB_IMAGE_SPK,
+    [BB_SIGN_OATMEAL]            = (u32) BB_IMAGE_OATMEAL,
+    [BB_SIGN_BETTERCALLSHY]      = (u32) BB_IMAGE_BETTERCALLSHY,
+    [BB_SIGN_CROSS]              = (u32) BB_IMAGE_CROSS,
+    [BB_SIGN_AMOGUS]             = (u32) BB_IMAGE_AMOGUS,
+    [BB_SIGN_CHEEZEPIN]          = (u32) BB_IMAGE_CHEEZEPIN,
+    [BB_SIGN_FARM]               = (u32) BB_IMAGE_FARM,
+    [BB_SIGN_ROVERT]             = (u32) BB_IMAGE_ROVERT,
+    [BB_SIGN_COMIT]              = (u32) BB_IMAGE_COMIT,
+    [BB_SIGN_MUSHROOM]           = (u32) BB_IMAGE_MUSHROOM,
+    [BB_SIGN_HACKERN64]          = (u32) BB_IMAGE_HACKERN64,
+    [BB_SIGN_SYNERGY]            = (u32) BB_IMAGE_SYNERGY,
+    [BB_SIGN_MOTIVATE]           = (u32) BB_IMAGE_MOTIVATE,
+    [BB_SIGN_PREDATOR]           = (u32) BB_IMAGE_PREDATOR,
+    [BB_SIGN_NINTENDO_EMPLOYEES] = (u32) BB_IMAGE_NINTENDO_EMPLOYEES,
+    [BB_SIGN_BART]               = (u32) BB_IMAGE_BART,
+    [BB_SIGN_YUGAMINEENA]        = (u32) BB_IMAGE_YUGAMINEENA,
+    [BB_SIGN_BLOCKINGTON]        = (u32) BB_IMAGE_BLOCKINGTON,
+
+    // TIER 2
+    [BB_SIGN_YOUTUBE]            = (u32) BB_IMAGE_YOUTUBE,
+    [BB_SIGN_SPOON]              = (u32) BB_IMAGE_SPOON,
+    [BB_SIGN_JOEL]               = (u32) BB_IMAGE_JOEL,
+    [BB_SIGN_TCS]                = (u32) BB_IMAGE_TCS,
+    [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
+
+    // TIER 3
+    [BB_SIGN_SIMPLEFLIPS]        = (u32) BB_IMAGE_SIMPLEFLIPS,
+    [BB_SIGN_ASS_IMPACT]         = (u32) BB_IMAGE_ASS_IMPACT,
+    [BB_SIGN_MVC]                = (u32) BB_IMAGE_MVC,
+    [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
+    [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
+    [BB_SIGN_GBJ_PAINTING]       = (u32) BB_VIDEO_GBJ_PAINTING,
+
+    // TIER 4
+    [BB_SIGN_COMIT_STANS]        = (u32) BB_IMAGE_COMIT_STANS,
+    [BB_SIGN_COMIT_ANTIS]        = (u32) BB_IMAGE_COMIT_ANTIS,
+    [BB_SIGN_MAKE_CLEAN]         = (u32) BB_IMAGE_MAKE_CLEAN,
+    [BB_SIGN_XENOBLADE]          = (u32) BB_IMAGE_XENOBLADE,
+    [BB_SIGN_XENOGEARS]          = (u32) BB_IMAGE_XENOGEARS,
 };
 
-OSIoMesg videoImageDMAIoMesg[TEXTURE_COUNT];
-OSMesg videoImageDMAReceivedMesg[TEXTURE_COUNT];
+struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
+    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1 },
+    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10},
+    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30},
+};
+
+OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];
+OSMesg videoImageDMAReceivedMesg[MAX_DMA_COUNT];
 OSMesgQueue videoImageDMAQueue;
 
 u8 gSafeToLoadVideo = VIDEO_SAFETY_UNALLOCATED;
@@ -78,9 +138,13 @@ u8 safeBufferIndex = 0;
 u8 hasInitializedMessageQueue = FALSE;
 s32 sImageDMACount = 0;
 
-Texture *dmaTextureAddrs[3];
-Texture *dmaYAY0Addrs[3];
-struct DMAVideoProps *videoDataProps[BB_VIDEO_COUNT];
+Texture *dmaImageTextureAddrs[IMAGE_BUFFERS];
+Texture *dmaImageYAY0Addrs[IMAGE_BUFFERS];
+enum ImageDMAStatus dmaImageStatus[IMAGE_BUFFERS];
+
+Texture *dmaVideoTextureAddrs[3];
+Texture *dmaVideoYAY0Addrs[3];
+struct DMAImageProps *videoDataProps[BB_VIDEO_COUNT];
 
 u32 imageGameFrame = 0;
 u32 imageVideoFrame = 0;
@@ -101,7 +165,7 @@ static void dma_read_image_noblock(u8 *dest, u8 *srcStart, u8 *srcEnd) {
         size -= copySize;
     }
 
-    assert(sImageDMACount <= TEXTURE_COUNT, "sImageDMACount too large!");
+    assert(sImageDMACount <= MAX_DMA_COUNT, "sImageDMACount too large!");
 }
 
 static void dma_read_block(u8 *dest, u8 *srcStart, u8 *srcEnd) {
@@ -121,12 +185,12 @@ static void dma_read_block(u8 *dest, u8 *srcStart, u8 *srcEnd) {
     }
 }
 
-static void dma_video_frame(struct DMAVideoProps *dmaProps) {
+static void dma_video_frame(struct DMAImageProps *dmaProps) {
     Texture *relativeAddr = (Texture *) ((u32) dmaProps->address);
-    Texture *dest = dmaYAY0Addrs[sTripleBufferIndex];
-    sTripleBufferIndex = (sTripleBufferIndex + 1) % ARRAY_COUNT(dmaYAY0Addrs);
+    Texture *dest = dmaVideoYAY0Addrs[sTripleBufferIndex];
+    sTripleBufferIndex = (sTripleBufferIndex + 1) % ARRAY_COUNT(dmaVideoYAY0Addrs);
 
-    assert(dmaProps->compressedSize < ALIGNED_BUFFER_SIZE, "Compressed YAY0 larger than source!");
+    assert(dmaProps->compressedSize < ALIGNED_VIDEO_BUFFER_SIZE, "Compressed YAY0 larger than source!");
 
     dma_read_image_noblock(dest, relativeAddr, (u8 *) ((size_t) relativeAddr + dmaProps->compressedSize));
 }
@@ -134,10 +198,10 @@ static void dma_video_frame(struct DMAVideoProps *dmaProps) {
 static void add_menu_frame(void) {
     if (gVideoIndex >= 0 && gVideoIndex < BB_VIDEO_COUNT) {
         imageGameFrame++;
-        imageVideoFrame = imageGameFrame * dmaProps[gVideoIndex].framerate / GAME_FRAMERATE;
-        if (imageVideoFrame >= dmaProps[gVideoIndex].frameTotal) {
-            imageGameFrame = dmaProps[gVideoIndex].relativeLoopStart * GAME_FRAMERATE / dmaProps[gVideoIndex].framerate;
-            imageVideoFrame = imageGameFrame * dmaProps[gVideoIndex].framerate / GAME_FRAMERATE;
+        imageVideoFrame = imageGameFrame * videoDMAProps[gVideoIndex].framerate / GAME_FRAMERATE;
+        if (imageVideoFrame >= videoDMAProps[gVideoIndex].frameTotal) {
+            imageGameFrame = videoDMAProps[gVideoIndex].relativeLoopStart * GAME_FRAMERATE / videoDMAProps[gVideoIndex].framerate;
+            imageVideoFrame = imageGameFrame * videoDMAProps[gVideoIndex].framerate / GAME_FRAMERATE;
         }
     }
 }
@@ -150,13 +214,25 @@ void init_menu_video_buffers(void) {
     sTripleBufferIndex = 0;
     safeBufferIndex = 0;
 
-    u8 *texturememaddr = main_pool_alloc(ALIGNED_BUFFER_SIZE * ARRAY_COUNT(dmaTextureAddrs), MEMORY_POOL_LEFT);
+    u8 *imagememaddr = main_pool_alloc(ALIGNED_IMAGE_BUFFER_SIZE * ARRAY_COUNT(dmaImageTextureAddrs), MEMORY_POOL_LEFT);
+    if (imagememaddr == NULL) {
+        assert(FALSE, "Out of memory! :(");
+        return;
+    }
+
+    u8 *imageyay0memaddr = main_pool_alloc(ALIGNED_IMAGE_BUFFER_SIZE * ARRAY_COUNT(dmaImageYAY0Addrs), MEMORY_POOL_LEFT);
+    if (imageyay0memaddr == NULL) {
+        assert(FALSE, "Out of memory! :(");
+        return;
+    }
+
+    u8 *texturememaddr = main_pool_alloc(ALIGNED_VIDEO_BUFFER_SIZE * ARRAY_COUNT(dmaVideoTextureAddrs), MEMORY_POOL_LEFT);
     if (texturememaddr == NULL) {
         assert(FALSE, "Out of memory! :(");
         return;
     }
 
-    u8 *yay0memaddr = main_pool_alloc(ALIGNED_BUFFER_SIZE * ARRAY_COUNT(dmaYAY0Addrs), MEMORY_POOL_LEFT);
+    u8 *yay0memaddr = main_pool_alloc(ALIGNED_VIDEO_BUFFER_SIZE * ARRAY_COUNT(dmaVideoYAY0Addrs), MEMORY_POOL_LEFT);
     if (yay0memaddr == NULL) {
         assert(FALSE, "Out of memory! :(");
         return;
@@ -169,23 +245,28 @@ void init_menu_video_buffers(void) {
     }
 
     for (s32 i = 0; i < ARRAY_COUNT(videoDataProps); i++) {
-        uint32_t dataSize = (dmaProps[i].frameTotal * sizeof(struct DMAVideoProps));
+        uint32_t dataSize = (videoDMAProps[i].frameTotal * sizeof(struct DMAImageProps));
         u8 *propData = main_pool_alloc(ALIGN16(dataSize), MEMORY_POOL_LEFT);
         if (propData == NULL) {
             assert(FALSE, "Out of memory! :(");
             return;
         }
 
-        videoDataProps[i] = (struct DMAVideoProps*) propData;
+        videoDataProps[i] = (struct DMAImageProps*) propData;
 
-        dma_read_block(propData, (u8 *) dmaProps[i].addr, (u8 *) dmaProps[i].addr + (size_t) ALIGN16(dataSize));
+        dma_read_block(propData, (u8 *) videoDMAProps[i].addr, (u8 *) videoDMAProps[i].addr + (size_t) ALIGN16(dataSize));
     }
 
     gSafeToLoadVideo = VIDEO_SAFETY_UNSAFE;
 
-    for (s32 i = 0; i < ARRAY_COUNT(dmaTextureAddrs); i++) {
-        dmaTextureAddrs[i] = &texturememaddr[ALIGNED_BUFFER_SIZE * i];
-        dmaYAY0Addrs[i] = &yay0memaddr[ALIGNED_BUFFER_SIZE * i];
+    for (s32 i = 0; i < ARRAY_COUNT(dmaImageTextureAddrs); i++) {
+        dmaImageTextureAddrs[i] = &imagememaddr[ALIGNED_IMAGE_BUFFER_SIZE * i];
+        dmaImageYAY0Addrs[i] = &imageyay0memaddr[ALIGNED_IMAGE_BUFFER_SIZE * i];
+    }
+
+    for (s32 i = 0; i < ARRAY_COUNT(dmaVideoTextureAddrs); i++) {
+        dmaVideoTextureAddrs[i] = &texturememaddr[ALIGNED_VIDEO_BUFFER_SIZE * i];
+        dmaVideoYAY0Addrs[i] = &yay0memaddr[ALIGNED_VIDEO_BUFFER_SIZE * i];
     }
 }
 
@@ -194,7 +275,9 @@ void update_menu_video_buffers(void) {
         return;
     }
 
-    if (gVideoIndex < 0 || gVideoIndex >= BB_VIDEO_COUNT || find_first_object_with_behavior_and_bparams(bhvDesertSign, BB_TYPE_VIDEO << 16, 0xFF << 16) == NULL) {
+    u8 dmaComplete = check_image_dma_complete();
+
+    if (gVideoIndex < 0 || gVideoIndex >= BB_VIDEO_COUNT || find_first_object_with_behavior_and_bparams(bhvDesertSign, BB_TYPE_VIDEO, 0xFF) == NULL) {
         gSafeToLoadVideo = VIDEO_SAFETY_UNSAFE;
         imageGameFrame = 0;
         imageVideoFrame = 0;
@@ -202,7 +285,7 @@ void update_menu_video_buffers(void) {
         return;
     }
 
-    if (!check_image_dma_complete()) {
+    if (!dmaComplete) {
         if (gSafeToLoadVideo != VIDEO_SAFETY_UNSAFE) {
             add_menu_frame();
         }
@@ -215,14 +298,14 @@ void update_menu_video_buffers(void) {
 
     if (gSafeToLoadVideo == VIDEO_SAFETY_UNSAFE) {
         if (gVideoIndex >= 0 && gVideoIndex < BB_VIDEO_COUNT) {
-            imageGameFrame = dmaProps[gVideoIndex].startFrame * GAME_FRAMERATE / dmaProps[gVideoIndex].framerate;
-            imageVideoFrame = imageGameFrame * dmaProps[gVideoIndex].framerate / GAME_FRAMERATE;
+            imageGameFrame = videoDMAProps[gVideoIndex].startFrame * GAME_FRAMERATE / videoDMAProps[gVideoIndex].framerate;
+            imageVideoFrame = imageGameFrame * videoDMAProps[gVideoIndex].framerate / GAME_FRAMERATE;
             safeBufferIndex = sTripleBufferIndex;
             gSafeToLoadVideo = VIDEO_SAFETY_ACTIVE_DMA;
         }
     } else {
-        s32 lastBufferIndex = (sTripleBufferIndex + (ARRAY_COUNT(dmaTextureAddrs) - 1)) % ARRAY_COUNT(dmaTextureAddrs);
-        slidstart(dmaYAY0Addrs[lastBufferIndex], dmaTextureAddrs[sTripleBufferIndex]);
+        s32 lastBufferIndex = (sTripleBufferIndex + (ARRAY_COUNT(dmaVideoTextureAddrs) - 1)) % ARRAY_COUNT(dmaVideoTextureAddrs);
+        slidstart(dmaVideoYAY0Addrs[lastBufferIndex], dmaVideoTextureAddrs[sTripleBufferIndex]);
         add_menu_frame();
     }
 
@@ -238,13 +321,24 @@ s32 check_image_dma_complete(void) {
         }
     }
 
-    return (sImageDMACount == 0);
+    if (sImageDMACount == 0) {
+        for (s32 i = 0; i < ARRAY_COUNT(dmaImageStatus); i++) {
+            if (dmaImageStatus[i] != BB_IMAGE_READY) {
+                dmaImageStatus[i] = BB_IMAGE_READY;
+                slidstart(dmaImageYAY0Addrs[i], dmaImageTextureAddrs[i]);
+            }
+        }
+
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 // return -1 if no video sign is found
-static s32 get_desert_sign_video_id(ModelID32 modelId) {
-    for (s32 i = 0; i < ARRAY_COUNT(dmaProps); i++) {
-        if (modelId == dmaProps[i].modelId) {
+s32 get_desert_sign_video_id(ModelID32 billboardId) {
+    for (s32 i = 0; i < ARRAY_COUNT(videoDMAProps); i++) {
+        if (billboardId == (u32) videoDMAProps[i].billboardId) {
             return i;
         }
     }
@@ -256,19 +350,18 @@ struct BBHistory {
     s32 instantWarpId;
     s32 billboardId;
 };
-#define BB_COUNT (MODEL_BILLBOARD_END - MODEL_BILLBOARD_START)
 #define BB_MAX_ATTEMPTS 10
-f32 gBillboardWeights[BB_COUNT] = {[0 ... BB_COUNT - 1] = 0.5f - (1.0f / (f32) BB_COUNT)}; // Weighting array for billboards so that repeated billboards are less likely to immediately show up
-f32 gBillboardWeightsBackwards[BB_COUNT] = {[0 ... BB_COUNT - 1] = 0.5f - (1.0f / (f32) BB_COUNT)}; // Same as above but for going backwards (as to not interfere with forwards generation)
+f32 gBillboardWeights[BB_BILLBOARD_END] = {[0 ... BB_BILLBOARD_END - 1] = 0.5f - (1.0f / (f32) BB_BILLBOARD_END)}; // Weighting array for billboards so that repeated billboards are less likely to immediately show up
+f32 gBillboardWeightsBackwards[BB_BILLBOARD_END] = {[0 ... BB_BILLBOARD_END - 1] = 0.5f - (1.0f / (f32) BB_BILLBOARD_END)}; // Same as above but for going backwards (as to not interfere with forwards generation)
 struct BBHistory gBillboardHistory[INSTANT_WARPS_GOAL] = {[0 ... INSTANT_WARPS_GOAL - 1] = {.instantWarpId = 0, .billboardId = -1}}; // History needed to preserve accuracy of billboards between playthroughs in all (expectable) situations
 s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     s32 index;
-    s32 count = lastBillboard - MODEL_BILLBOARD_START;
-    f32 weightIncrease = 1.0f / (f32) count;
+    f32 weightIncrease = 1.0f / (f32) lastBillboard;
     f32 *weights = gBillboardWeights;
     s32 attempts = 0;
     s32 instantWarpIndex = ((gInstantWarpSpawnIndex % INSTANT_WARPS_GOAL) + INSTANT_WARPS_GOAL) % INSTANT_WARPS_GOAL; // handles negative numbers
     struct BBHistory *hist = &gBillboardHistory[instantWarpIndex];
+    u32 newSeed = genRandLong(rand);
 
     if (gInstantWarpSpawnIndex <= 0) {
         weights = gBillboardWeightsBackwards;
@@ -277,16 +370,17 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     if (hist->billboardId >= 0) {
         if (!(gInstantWarpSpawnIndex > 0 && gInstantWarpSpawnIndex > hist->instantWarpId) // Going forwards from start
                     && !(hist->instantWarpId <= 0 && gInstantWarpSpawnIndex <= 0 && gInstantWarpSpawnIndex < hist->instantWarpId)) { // Going backwards from start
-            return hist->billboardId + MODEL_BILLBOARD_START; // Billboard has already been generated
+            return hist->billboardId; // Billboard has already been generated
         }
     }
 
+    MTRand newRand = seedRand(newSeed);
     for (attempts = 0; attempts < BB_MAX_ATTEMPTS; attempts++) {
         f32 weightTotal = 0.0f;
         f32 currentWeight = 0.0f;
-        f32 generatedWeight = genRand(rand);
+        f32 generatedWeight = genRand(&newRand);
 
-        for (index = 0; index < count; index++) {
+        for (index = 0; index < lastBillboard; index++) {
             // Increase the probability selection window for each billboards; offers future benefit against more recently selected indexes
             weights[index] += weightIncrease;
 
@@ -297,7 +391,7 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
 
         generatedWeight *= weightTotal;
 
-        for (index = 0; index < count - 1; index++) { // count - 1 not an accident
+        for (index = 0; index < lastBillboard - 1; index++) { // lastBillboard - 1 not an accident
             // If weight is below 0, skip the index. This in theory should never favor the last unprocessed index if that falls below 0.
             if (weights[index] <= 0.0f)
                 continue;
@@ -308,13 +402,13 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
         }
 
         // Only one video can be loaded at a time! If a video is already loaded, try again.
-        if (gVideoIndex < 0 || get_desert_sign_video_id(index + MODEL_BILLBOARD_START) < 0) {
+        if (gVideoIndex < 0 || get_desert_sign_video_id(index) < 0) {
             break;
         }
     }
 
     if (attempts == BB_MAX_ATTEMPTS) {
-        index = 0; // NOTE: MODEL_BILLBOARD_START should not be a video!
+        index = BB_BILLBOARD_START; // NOTE: BB_BILLBOARD_START should not be a video!
     }
 
     // Index should be guaranteed to not show up again until at least 30% of the other billboards have been processed (at static quantity)
@@ -323,15 +417,14 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     // Update history entry, as we have just generated a new one
     hist->billboardId = index;
     hist->instantWarpId = gInstantWarpSpawnIndex;
-    return index + MODEL_BILLBOARD_START;
+    return index;
 }
 
 void bhv_desert_sign_init(void) {
-    for (s32 i = 0; i < ARRAY_COUNT(dmaProps); i++) {
-        if (cur_obj_has_model(dmaProps[i].modelId)) {
-            // bparam2 lets us know video data is active
-            o->oBehParams2ndByte = BB_TYPE_VIDEO;
-            SET_BPARAM2(o->oBehParams, BB_TYPE_VIDEO);
+    for (s32 i = 0; i < ARRAY_COUNT(videoDMAProps); i++) {
+        if (o->oBehParams2ndByte == videoDMAProps[i].billboardId) {
+            // bparam4 lets us know video data is active
+            SET_BPARAM4(o->oBehParams, BB_TYPE_VIDEO);
             
             if (gSafeToLoadVideo != VIDEO_SAFETY_UNALLOCATED) {
                 gSafeToLoadVideo = VIDEO_SAFETY_UNSAFE;
@@ -341,6 +434,42 @@ void bhv_desert_sign_init(void) {
             }
         }
     }
+
+    u8 imagesUsed[IMAGE_BUFFERS] = {[0 ... IMAGE_BUFFERS - 1] = FALSE};
+    uintptr_t *behaviorAddr = segmented_to_virtual(bhvDesertSign);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *objNode = listHead->next;
+
+    while (listHead != objNode) {
+        struct Object *obj = ((struct Object *) objNode);
+        if (obj_has_behavior(obj, bhvDesertSign) && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED && 
+                    GET_BPARAM4(obj->oBehParams) != BB_TYPE_VIDEO) {
+            imagesUsed[GET_BPARAM3(obj->oBehParams)] = TRUE;
+        }
+
+        objNode = objNode->next;
+    }
+
+    u8 openIndex = 0;
+    for (; openIndex < ARRAY_COUNT(imagesUsed); openIndex++) {
+        if (!imagesUsed[openIndex]) {
+            break;
+        }
+    }
+
+    if (openIndex == ARRAY_COUNT(imagesUsed)) {
+        obj_mark_for_deletion(o); // No open image DMA slots...
+        return;
+    }
+
+    SET_BPARAM3(o->oBehParams, openIndex);
+    struct DMAImageProps *dmaProps = &videoDataProps[BB_VIDEO_IMAGES][billboardList[o->oBehParams2ndByte]];
+    
+    assert(dmaProps->compressedSize < ALIGNED_IMAGE_BUFFER_SIZE, "Compressed YAY0 larger than source!");
+    Texture *relativeAddr = (Texture *) ((u32) dmaProps->address);
+    Texture *dest = dmaImageYAY0Addrs[openIndex];
+    dma_read_image_noblock(dest, relativeAddr, (u8 *) ((size_t) relativeAddr + dmaProps->compressedSize));
+    dmaImageStatus[openIndex] = BB_IMAGE_ACTIVE_DMA;
 }
 
 // Geo to display the funny video
@@ -356,7 +485,7 @@ Gfx *geo_billboard_video_scene(s32 callContext, struct GraphNode *node, UNUSED v
 
         s32 renderIndex = sTripleBufferIndex - 1;
         if (renderIndex < 0) {
-            renderIndex = ARRAY_COUNT(dmaTextureAddrs) - 1;
+            renderIndex = ARRAY_COUNT(dmaVideoTextureAddrs) - 1;
         }
 
         SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, currentGraphNode->parameter);
@@ -366,18 +495,62 @@ Gfx *geo_billboard_video_scene(s32 callContext, struct GraphNode *node, UNUSED v
             dlStart = alloc_display_list(4 * sizeof(Gfx));
             dlHead = dlStart;
 
-            gSPDisplayList(dlHead++, sign_video_data_sign_video_data_mesh_layer_1_begin);
-            gDPSetTextureImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, TEXTURE_WIDTH, dmaTextureAddrs[renderIndex]);
-            gSPDisplayList(dlHead++, sign_video_data_sign_video_data_mesh_layer_1_end);
+            gSPDisplayList(dlHead++, sign_video_sign_video_mesh_layer_1_begin);
+            gDPSetTextureImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, VIDEO_TEXTURE_WIDTH, dmaVideoTextureAddrs[renderIndex]);
+            gSPDisplayList(dlHead++, sign_video_sign_video_mesh_layer_1_end);
             gSPEndDisplayList(dlHead);
         } else if (currentGraphNode->parameter == LAYER_ALPHA) {
             dlStart = alloc_display_list(2 * sizeof(Gfx));
             dlHead = dlStart;
 
-            gSPDisplayList(dlHead++, sign_video_data_sign_video_data_mesh_layer_4);
+            gSPDisplayList(dlHead++, sign_video_sign_video_mesh_layer_4);
             gSPEndDisplayList(dlHead);
         }
     }
 
     return dlStart;
 };
+
+// Geo to display the funny image
+Gfx *geo_billboard_image_scene(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        struct Object *obj = (struct Object *) gCurGraphNodeObject;
+
+        if (dmaImageStatus[GET_BPARAM3(obj->oBehParams)] != BB_IMAGE_READY) {
+            return NULL;
+        }
+
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, currentGraphNode->parameter);
+
+        Gfx *dlHead;
+        if (currentGraphNode->parameter == LAYER_OPAQUE) {
+            dlStart = alloc_display_list(5 * sizeof(Gfx));
+            dlHead = dlStart;
+
+            gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_first);
+            gDPSetTextureImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, IMAGE_TEXTURE_WIDTH, dmaImageTextureAddrs[GET_BPARAM3(obj->oBehParams)]);
+            gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_second);
+            gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_end);
+            gSPEndDisplayList(dlHead);
+        } else if (currentGraphNode->parameter == LAYER_ALPHA) {
+            dlStart = alloc_display_list(2 * sizeof(Gfx));
+            dlHead = dlStart;
+
+            gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_4);
+            gSPEndDisplayList(dlHead);
+        } else if (currentGraphNode->parameter == LAYER_TRANSPARENT_DECAL && obj->oBehParams2ndByte == BB_SIGN_IDIOT) {
+            dlStart = alloc_display_list(2 * sizeof(Gfx));
+            dlHead = dlStart;
+
+            gSPDisplayList(dlHead++, sign_normal_sign_idiot_mesh_layer_1_idiot_mario);
+            gSPEndDisplayList(dlHead);
+        }
+    }
+
+    return dlStart;
+};
+
+STATIC_ASSERT((BB_IMAGE_COUNT + (BB_VIDEO_COUNT - 1)) == BB_BILLBOARD_END, "Data mismatch for tracked images/videos and billboard count");

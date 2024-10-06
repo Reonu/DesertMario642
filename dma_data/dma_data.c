@@ -1,3 +1,6 @@
 #include "dma_data.h"
 
-#include "course1.c.in"
+#include "_images.c.in"
+
+#include "free_psp.c.in"
+#include "gbj_painting.c.in"

@@ -8,9 +8,9 @@
 #include <unistd.h>
 #include <errno.h>
 
-// YEP, these are hardcoded!
-#define CROP_WIDTH  256
-#define CROP_HEIGHT 128
+int32_t CROP_WIDTH = 192;
+int32_t CROP_HEIGHT = 96;
+bool isImage = false;
 
 int32_t X_OFFSET = 0;
 int32_t Y_OFFSET = 0;
@@ -109,7 +109,11 @@ void extractAndWriteFilenames(const char *videoPath, const char *directoryPath) 
             filename[len - suffixLen] = '\0';
 
             // Write the data
-            fprintf(outputFile, "ALIGNED16 const Texture %s_video_data_%04d[] = {\n", videoFilename.c_str(), i+1);
+            fprintf(outputFile, "ALIGNED16 const Texture %s", videoFilename.c_str());
+            if (!isImage) {
+                fprintf(outputFile, "_video_data_%04d", i+1);
+            }
+            fprintf(outputFile, "[] = {\n");
             fprintf(outputFile, "#include \"dma_data/%s%s.yay0.c.in\"\n", filename, shortSuffix);
             fprintf(outputFile, "};\n");
 
@@ -208,11 +212,20 @@ void extractAndWriteFilenames(const char *videoPath, const char *directoryPath) 
             free(buf);
             fclose(writeImage);
 
-            sprintf(structBuf, "%s    {.address = %s_video_data_%04d, .compressedSize = 0x%02X},\n", structBuf, videoFilename.c_str(), i+1, (uint32_t) yay0SizeAligned);
+            sprintf(structBuf, "%s    {.address = %s", structBuf, videoFilename.c_str());
+            if (!isImage) {
+                sprintf(structBuf, "%s_video_data_%04d", structBuf, i+1);
+            }
+            sprintf(structBuf, "%s, .compressedSize = 0x%02X},\n", structBuf, (uint32_t) yay0SizeAligned);
         }
 
         fprintf(outputFile, "\n");
-        fprintf(outputFile, "ALIGNED16 const struct DMAVideoProps %s_video_data[%d] = {\n", videoFilename.c_str(), numFiles);
+        fprintf(outputFile, "ALIGNED16 const struct DMAImageProps %s", videoFilename.c_str());
+        if (isImage) {
+            fprintf(outputFile, "_image_data[%d] = {\n", numFiles);
+        } else {
+            fprintf(outputFile, "_video_data[%d] = {\n", numFiles);
+        }
         fprintf(outputFile, "%s", structBuf);
         fprintf(outputFile, "};\n");
 
@@ -259,17 +272,32 @@ void splitFrames(const char *videoPath, const char *outputFolder) {
     videoFilename = videoFilename.substr(0, lastindex);
 
     // Generate png images
-    sprintf(strBuff, "ffmpeg -i %s -pix_fmt rgb555le -vf fps=%d,crop=%d:%d:%d:%d %s/%s_%%04d%s 2> /dev/null",
-        videoPath,
-        (unsigned int) (DESIRED_FRAMERATE + 0.5f),
-        CROP_WIDTH,
-        CROP_HEIGHT,
-        X_OFFSET,
-        Y_OFFSET,
-        outputFolder,
-        videoFilename.c_str(),
-        suffix
-    );
+
+    if (isImage) {
+        sprintf(strBuff, "ffmpeg -i %s -pix_fmt rgb555le -vf fps=%d,crop=%d:%d:%d:%d %s/%s%s 2> /dev/null",
+            videoPath,
+            (unsigned int) (DESIRED_FRAMERATE + 0.5f),
+            CROP_WIDTH,
+            CROP_HEIGHT,
+            X_OFFSET,
+            Y_OFFSET,
+            outputFolder,
+            videoFilename.c_str(),
+            suffix
+        );
+    } else {
+        sprintf(strBuff, "ffmpeg -i %s -pix_fmt rgb555le -vf fps=%d,crop=%d:%d:%d:%d %s/%s_%%04d%s 2> /dev/null",
+            videoPath,
+            (unsigned int) (DESIRED_FRAMERATE + 0.5f),
+            CROP_WIDTH,
+            CROP_HEIGHT,
+            X_OFFSET,
+            Y_OFFSET,
+            outputFolder,
+            videoFilename.c_str(),
+            suffix
+        );
+    }
     system(strBuff);
     
     extractAndWriteFilenames(videoPath, outputFolder);
@@ -277,20 +305,21 @@ void splitFrames(const char *videoPath, const char *outputFolder) {
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s <mp4 file> [-x xOffset] [-y yOffset] [-a desiredFramerate]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <mp4 file> [-i] [-x xOffset] [-y yOffset] [-a desiredFramerate]\n", argv[0]);
         fprintf(stderr, "xOffset default: %d\nyOffset default: %d\ndesiredFramerate default: %f\n", X_OFFSET, Y_OFFSET, DESIRED_FRAMERATE);
         return EXIT_FAILURE;
     }
 
     for (int32_t i = 2; i < argc; i++) {
-        if (i + 1 == argc) {
-            fprintf(stderr, "Usage: %s <mp4 file> [-x xOffset] [-y yOffset] [-a desiredFramerate]\n", argv[0]);
-            return EXIT_FAILURE;
-        }
-
         if (strcmp(argv[i], "-a") == 0) {
             DESIRED_FRAMERATE = atof(argv[i + 1]);
             i++;
+            continue;
+        }
+        if (strcmp(argv[i], "-i") == 0) { // image instead of video
+            isImage = true;
+            CROP_WIDTH = 256;
+			CROP_HEIGHT = 128;
             continue;
         }
         if (strcmp(argv[i], "-x") == 0) {
@@ -304,7 +333,7 @@ int main(int argc, char **argv) {
             continue;
         }
         
-        fprintf(stderr, "Usage: %s <mp4 file> [-x xOffset] [-y yOffset] [-a desiredFramerate] [-b inputFramerate]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <mp4 file> [-i] [-x xOffset] [-y yOffset] [-a desiredFramerate]\n", argv[0]);
         return EXIT_FAILURE;
     }
 	

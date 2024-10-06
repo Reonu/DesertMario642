@@ -150,6 +150,7 @@ static void pokey_act_uninitialized(void) {
             // Spawn body parts at y offsets 480, 360, 240, 120, 0
             // behavior param POKEY_PART_BP_HEAD = head, POKEY_PART_BP_LOWEST = lowest body part
             bodyPart = spawn_object_relative(i, 0, -i * 120 + 480, 0, o, partModel, bhvPokeyBodyPart);
+            bodyPart->oDrawingDistance = 999999.0f;
 
             if (bodyPart != NULL) {
                 obj_scale(bodyPart, 3.0f);

@@ -1,0 +1,55 @@
+ALIGNED16 const Texture free_psp_video_data_0001[] = {
+#include "dma_data/free_psp_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0002[] = {
+#include "dma_data/free_psp_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0003[] = {
+#include "dma_data/free_psp_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0004[] = {
+#include "dma_data/free_psp_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0005[] = {
+#include "dma_data/free_psp_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0006[] = {
+#include "dma_data/free_psp_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0007[] = {
+#include "dma_data/free_psp_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0008[] = {
+#include "dma_data/free_psp_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0009[] = {
+#include "dma_data/free_psp_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0010[] = {
+#include "dma_data/free_psp_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0011[] = {
+#include "dma_data/free_psp_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0012[] = {
+#include "dma_data/free_psp_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture free_psp_video_data_0013[] = {
+#include "dma_data/free_psp_0013.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps free_psp_video_data[13] = {
+    {.address = free_psp_video_data_0001, .compressedSize = 0x25E0},
+    {.address = free_psp_video_data_0002, .compressedSize = 0x2060},
+    {.address = free_psp_video_data_0003, .compressedSize = 0x20F0},
+    {.address = free_psp_video_data_0004, .compressedSize = 0x26A0},
+    {.address = free_psp_video_data_0005, .compressedSize = 0x2620},
+    {.address = free_psp_video_data_0006, .compressedSize = 0x1F60},
+    {.address = free_psp_video_data_0007, .compressedSize = 0x1E50},
+    {.address = free_psp_video_data_0008, .compressedSize = 0x2600},
+    {.address = free_psp_video_data_0009, .compressedSize = 0x27D0},
+    {.address = free_psp_video_data_0010, .compressedSize = 0x22D0},
+    {.address = free_psp_video_data_0011, .compressedSize = 0x2380},
+    {.address = free_psp_video_data_0012, .compressedSize = 0x2910},
+    {.address = free_psp_video_data_0013, .compressedSize = 0x28A0},
+};

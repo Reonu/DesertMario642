@@ -316,20 +316,28 @@ struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, 
     return newObj;
 }
 
+// WARNING: Can return NULL!
 struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
                                          const BehaviorScript *behavior,
-                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, u8 spawnIndex) {
+                                         s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, MTRand *rand) {
+    u32 objectValidator;
+    do {
+        objectValidator = genRandLong(rand);
+    } while (objectValidator == 0);
+
+    if (check_if_desert_object_exists(behavior, objectValidator)) {
+        return NULL; // Object has (very very probably) already been spawned!
+    }
+
     // 'uselessArg' is unused in the function spawn_object_at_origin()
     struct Object *newObj = spawn_object_at_origin(parent, uselessArg, model, behavior);
     if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
         obj_set_pos(newObj, x, y, z * -1);
-        obj_update_gfx_pos_and_angle(newObj);
-
     } else {
         obj_set_pos(newObj, x, y, z);
-        obj_update_gfx_pos_and_angle(newObj);
     }
     
+    obj_update_gfx_pos_and_angle(newObj);
     obj_set_angle(newObj, pitch, yaw, roll);
     newObj->oDrawingDistance = 99999.0f;
     if (newObj->behavior == segmented_to_virtual(bhvDesertSign)) {
@@ -343,7 +351,8 @@ struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelI
         newObj->oPosX += (newObj->oPosX < 0 ? -1750 : 1750);
     }
 
-    newObj->oInstantWarpSpawn = spawnIndex;
+    newObj->oInstantWarpSpawn = gInstantWarpSpawnIndex;
+    newObj->oDesertObjValidator = objectValidator;
 
     return newObj;
 }
@@ -2557,6 +2566,24 @@ Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *co
     return dlStart;
 }
 
+s32 check_if_desert_object_exists(const BehaviorScript *behavior, u32 objValidator) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct ObjectNode *objNode = listHead->next;
+
+    while (listHead != objNode) {
+        struct Object *obj = ((struct Object *) objNode);
+        if (obj->oDesertObjValidator == objValidator
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED) {
+            return TRUE;
+        }
+
+        objNode = objNode->next;
+    }
+
+    return FALSE;
+}
+
 void warp_desert_object(struct Object *obj) {
     if (obj->oDesertTimer != 0) {
         if (gInstantWarpDisplacement) {
@@ -2564,9 +2591,10 @@ void warp_desert_object(struct Object *obj) {
                 obj->oPosZ += gInstantWarpDisplacement;
                 obj_update_gfx_pos_and_angle(obj);
             }
-        }
-        if (ABS(o->oInstantWarpSpawn - gInstantWarpCounter) > TILES_IN_FRONT_OR_BEHIND) {
-            mark_obj_for_deletion(obj);
+
+            if (ABS(gMarioState->pos[2] - obj->oPosZ) > ABS((TILES_IN_FRONT_OR_BEHIND + 1) * gInstantWarpDisplacement)) {
+                mark_obj_for_deletion(obj);
+            }
         }
     }
 }

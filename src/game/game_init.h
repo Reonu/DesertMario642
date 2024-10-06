@@ -66,7 +66,7 @@ extern u16 gHigh;
 extern s32 gInstantWarpCounter;
 extern s32 gInstantWarpSpawnIndex;
 extern u8 gUsernameSuccess;
-extern u8 gAvatarTexture[2048];
+extern u8 gAvatarTexture[4096];
 extern u8 gAvatarLoaded;
 #ifdef EEP
 extern s8 gEepromProbe;

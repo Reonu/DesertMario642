@@ -171,6 +171,64 @@ enum WarpNodes {
     WARP_NODE_CREDITS_END   = 0xFA
 };
 
+enum BillboardIDs {
+    BB_BILLBOARD_START,
+
+    // TIER 1
+    BB_SIGN_PATCHMAKER = BB_BILLBOARD_START, // NOTE: BB_BILLBOARD_START equivalent should not be a video!
+    BB_SIGN_MALTINGIUS,
+    BB_SIGN_COZIES,
+    BB_SIGN_APPY,
+    BB_SIGN_MOTH,
+    BB_SIGN_SPK,
+    BB_SIGN_OATMEAL,
+    BB_SIGN_BETTERCALLSHY,
+    BB_SIGN_CROSS,
+    BB_SIGN_AMOGUS,
+    BB_SIGN_CHEEZEPIN,
+    BB_SIGN_FARM,
+    BB_SIGN_ROVERT,
+    BB_SIGN_COMIT,
+    BB_SIGN_MUSHROOM,
+    BB_SIGN_HACKERN64,
+    BB_SIGN_SYNERGY,
+    BB_SIGN_MOTIVATE,
+    BB_SIGN_PREDATOR,
+    BB_SIGN_NINTENDO_EMPLOYEES,
+    BB_SIGN_BART,
+    BB_SIGN_YUGAMINEENA,
+    BB_SIGN_BLOCKINGTON,
+    BB_BILLBOARD_END_TIER1, // END TIER 1
+
+    // TIER 2
+    BB_SIGN_YOUTUBE = BB_BILLBOARD_END_TIER1,
+    BB_SIGN_SPOON,
+    BB_SIGN_JOEL,
+    BB_SIGN_TCS,
+    BB_SIGN_FREE_PSP,
+    BB_BILLBOARD_END_TIER2, // END TIER 2
+
+    // TIER 3
+    BB_SIGN_SIMPLEFLIPS = BB_BILLBOARD_END_TIER2,
+    BB_SIGN_ASS_IMPACT,
+    BB_SIGN_MVC,
+    BB_SIGN_MVH,
+    BB_SIGN_IDIOT,
+    BB_SIGN_GBJ_PAINTING,
+    BB_BILLBOARD_END_TIER3, // END TIER 3
+
+    // TIER 4
+    BB_SIGN_COMIT_STANS = BB_BILLBOARD_END_TIER3,
+    BB_SIGN_COMIT_ANTIS,
+    BB_SIGN_MAKE_CLEAN,
+    BB_SIGN_XENOBLADE,
+    BB_SIGN_XENOGEARS,
+    BB_BILLBOARD_END_TIER4, // END TIER 4
+
+    // END BILLBOARD MODELS
+    BB_BILLBOARD_END = BB_BILLBOARD_END_TIER4,
+};
+
 u16 level_control_timer(s32 timerOp);
 void fade_into_special_warp(u32 arg, u32 color);
 void load_level_init_text(u32 arg);
@@ -186,6 +244,7 @@ void basic_update(void);
 void init_menu_video_buffers(void);
 void update_menu_video_buffers(void);
 s32 check_image_dma_complete(void);
+s32 get_desert_sign_video_id(ModelID32 billboardId);
 s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard);
 
 #endif // LEVEL_UPDATE_H
