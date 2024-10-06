@@ -159,7 +159,7 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, u8 spawnIndex) {
 
 #define GOOMBA_CHANCE 0.25f
 #define POKEY_CHANCE 0.25f
-#define KLEPTO_CHANCE 0.10f
+#define KLEPTO_CHANCE 0.40f
 #define SUN_CHANCE 0.10f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
