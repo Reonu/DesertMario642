@@ -213,6 +213,7 @@ enum BillboardIDs {
     BB_SIGN_MVC,
     BB_SIGN_MVH,
     BB_SIGN_IDIOT,
+    BB_SIGN_FREE_PSP,
     BB_BILLBOARD_END_TIER3, // END TIER 3
 
     // TIER 4

@@ -47,5 +47,7 @@ enum ImageDMAIDs {
     BB_IMAGE_COUNT,
 };
 
-extern ALIGNED16 const struct DMAImageProps dma_image_data[36];
+extern ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT];
+
 extern ALIGNED16 const struct DMAImageProps course1_video_data[291];
+extern ALIGNED16 const struct DMAImageProps free_psp_video_data[13];

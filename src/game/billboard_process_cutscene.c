@@ -55,6 +55,7 @@ enum BillboardType {
 enum VideoDMAIDs {
     BB_VIDEO_IMAGES,
     BB_VIDEO_COURSE1,
+    BB_VIDEO_FREE_PSP,
 
     BB_VIDEO_COUNT,
 };
@@ -118,6 +119,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MVC]                = (u32) BB_IMAGE_MVC,
     [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
     [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
+    [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
 
     // TIER 4
     [BB_SIGN_COMIT_STANS]        = (u32) BB_IMAGE_COMIT_STANS,
@@ -128,8 +130,9 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
 };
 
 struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
-    [BB_VIDEO_IMAGES]  = {.addr = dma_image_data,     .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),     .startFrame = 0, .framerate = 1 },
-    [BB_VIDEO_COURSE1] = {.addr = course1_video_data, .billboardId = BB_SIGN_BSM_COURSE_1, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(course1_video_data), .startFrame = 0, .framerate = 30},
+    [BB_VIDEO_IMAGES]   = {.addr = dma_image_data,      .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),      .startFrame = 0, .framerate = 1 },
+    [BB_VIDEO_COURSE1]  = {.addr = course1_video_data,  .billboardId = BB_SIGN_BSM_COURSE_1, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(course1_video_data),  .startFrame = 0, .framerate = 30},
+    [BB_VIDEO_FREE_PSP] = {.addr = free_psp_video_data, .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data), .startFrame = 0, .framerate = 10},
 };
 
 OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];
