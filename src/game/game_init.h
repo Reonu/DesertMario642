@@ -73,9 +73,6 @@ extern u16 gLow;
 extern u16 gHigh;
 extern s32 gInstantWarpCounter;
 extern s32 gInstantWarpSpawnIndex;
-extern u8 gUsernameSuccess;
-extern u8 gAvatarTexture[4096];
-extern u8 gAvatarLoaded;
 #ifdef EEP
 extern s8 gEepromProbe;
 #endif
@@ -107,6 +104,8 @@ extern u32 gDayTime;
 extern Vec3f gLightDirection;
 
 extern u8 gFBEEnabled;
+extern u8 rhdcPFPRGBA32[4096];
+extern char rhdcUsername[33];
 
 s32 check_fbe(s16 arg0, s32 arg1);
 void setup_game_memory(void);

@@ -108,10 +108,6 @@ void spawn_billboard(MTRand *rand) {
 
     bparam2 = decide_billboard_model_id(rand);
 
-    if (bparam2 == BB_SIGN_IDIOT && gAvatarLoaded != 0 && gEmulator & EMU_PARALLELN64) {
-        bcopy(gAvatarTexture, segmented_to_virtual(sign_idiot_mario_rgba32), sizeof(gAvatarTexture));
-    }
-
     if (get_desert_sign_video_id(bparam2) >= 0) {
         model = MODEL_BILLBOARD_VIDEO;
     }
