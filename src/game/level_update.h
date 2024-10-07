@@ -208,6 +208,7 @@ enum BillboardIDs {
     BB_SIGN_JOEL,
     BB_SIGN_TCS,
     BB_SIGN_FREE_PSP,
+    BB_SIGN_FELIZ_JEUVES,
     BB_BILLBOARD_END_TIER2, // END TIER 2
 
     // TIER 3

@@ -110,6 +110,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_JOEL]               = (u32) BB_IMAGE_JOEL,
     [BB_SIGN_TCS]                = (u32) BB_IMAGE_TCS,
     [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
+    [BB_SIGN_FELIZ_JEUVES]       = (u32) BB_VIDEO_FELIZ_JEUVES,
 
     // TIER 3
     [BB_SIGN_SIMPLEFLIPS]        = (u32) BB_IMAGE_SIMPLEFLIPS,
@@ -134,6 +135,7 @@ struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
     [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10, .sound = NO_SOUND     },
     [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30, .sound = NO_SOUND     },
     [BB_VIDEO_LEON]         = {.addr = leon_video_data,         .billboardId = BB_SIGN_LEON,         .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(leon_video_data),         .startFrame = 0, .framerate = 24, .sound = SOUND_BB_LEON},
+    [BB_VIDEO_FELIZ_JEUVES] = {.addr = feliz_jeuves_video_data, .billboardId = BB_SIGN_FELIZ_JEUVES, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(feliz_jeuves_video_data), .startFrame = 0, .framerate = 20, .sound = NO_SOUND     },
 };
 
 OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];

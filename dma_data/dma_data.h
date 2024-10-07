@@ -56,6 +56,7 @@ enum VideoDMAIDs {
     BB_VIDEO_FREE_PSP,
     BB_VIDEO_GBJ_PAINTING,
     BB_VIDEO_LEON,
+    BB_VIDEO_FELIZ_JEUVES,
 
     BB_VIDEO_COUNT,
 };
@@ -65,3 +66,4 @@ extern const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT];
 extern const struct DMAImageProps free_psp_video_data[13];
 extern const struct DMAImageProps gbj_painting_video_data[77];
 extern const struct DMAImageProps leon_video_data[122];
+extern const struct DMAImageProps feliz_jeuves_video_data[33];
