@@ -341,7 +341,7 @@ void update_shell_speed(struct MarioState *m) {
         // m->floor->originOffset = m->waterLevel; //! (Original code) Negative origin offset
     }
 
-    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+    if (m->floor != NULL && (m->floor->type == SURFACE_SLOW || m->hydrationMeter <= 0.1f)) {
         maxTargetSpeed = 48.0f;
     } else {
         maxTargetSpeed = 64.0f;

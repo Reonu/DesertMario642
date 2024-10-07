@@ -1010,7 +1010,7 @@ void puppyprint_render_general_vars(void) {
 #ifndef ENABLE_CREDITS_BENCHMARK
     // Very little point printing useless info if Mario doesn't even exist.
     if (gMarioState->marioObj) {
-        sprintf(textBytes, "Mario\n\nX: %d\nY: %d\nZ: %d\nYaw: 0x%04X\n\nfVel: %1.1f\nyVel: %1.1f\n\nHealth: %03X\nAction: 0x%02X\nFloor Type: 0x%02X\nWater Height: %d\nInstant Warps: %d\n Chance: %.2f",
+        sprintf(textBytes, "Mario\n\nX: %d\nY: %d\nZ: %d\nYaw: 0x%04X\n\nfVel: %1.1f\nyVel: %1.1f\n\nHealth: %03X\nAction: 0x%02X\nFloor Type: 0x%02X\nWater Height: %d\nInstant Warps: %d\nChance: %.2f\nHydration: %.2f",
             (s32)(gMarioState->pos[0]),
             (s32)(gMarioState->pos[1]),
             (s32)(gMarioState->pos[2]),
@@ -1022,7 +1022,8 @@ void puppyprint_render_general_vars(void) {
             (u32)(floorType),
             (s32)(gMarioState->waterLevel),
             (s32)(gInstantWarpCounter),
-            (f32)(chancePrint)
+            (f32)(chancePrint),
+            (f32)(gMarioState->hydrationMeter)
             );  
         print_small_text_light(16, 36, textBytes, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
         sprintf(textBytes, "Gfx Pool: %d / %d", ((u32)gDisplayListHead - ((u32)gGfxPool->buffer)) / 4, GFX_POOL_SIZE);

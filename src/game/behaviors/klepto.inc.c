@@ -1,5 +1,6 @@
 // klepto.inc.c
 #include "behavior_data.h"
+#include "game/level_update.h"
 
 static struct ObjectHitbox sKleptoHitbox = {
     /* interactType:      */ INTERACT_HIT_FROM_BELOW,
@@ -225,6 +226,7 @@ static void klepto_act_dive_at_mario(void) {
                 newKlepto->oPosY = o->oPosY;
                 newKlepto->oPosZ = o->oPosZ;
                 newKlepto->oPrimRGB = 1;
+                newKlepto->oInstantWarpSpawn = o->oInstantWarpSpawn;
             }
             mark_obj_for_deletion(o);
         }
@@ -255,7 +257,7 @@ static void klepto_act_dive_at_mario(void) {
                 && dy > 50.0f
                 && dy < 90.0f
                 ) {
-                o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP;
+                gMarioState->waterLeft = 0;
             }
         }
     }
