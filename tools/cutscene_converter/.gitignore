@@ -3,6 +3,9 @@
 split_video
 *.mp4
 *.avi
+*.gif
+*.png
+*.jpg
 *.blend
 *.blend1
 out*/*

@@ -1,0 +1,135 @@
+ALIGNED16 const Texture feliz_jeuves_video_data_0001[] = {
+#include "dma_data/feliz_jeuves_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0002[] = {
+#include "dma_data/feliz_jeuves_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0003[] = {
+#include "dma_data/feliz_jeuves_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0004[] = {
+#include "dma_data/feliz_jeuves_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0005[] = {
+#include "dma_data/feliz_jeuves_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0006[] = {
+#include "dma_data/feliz_jeuves_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0007[] = {
+#include "dma_data/feliz_jeuves_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0008[] = {
+#include "dma_data/feliz_jeuves_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0009[] = {
+#include "dma_data/feliz_jeuves_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0010[] = {
+#include "dma_data/feliz_jeuves_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0011[] = {
+#include "dma_data/feliz_jeuves_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0012[] = {
+#include "dma_data/feliz_jeuves_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0013[] = {
+#include "dma_data/feliz_jeuves_0013.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0014[] = {
+#include "dma_data/feliz_jeuves_0014.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0015[] = {
+#include "dma_data/feliz_jeuves_0015.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0016[] = {
+#include "dma_data/feliz_jeuves_0016.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0017[] = {
+#include "dma_data/feliz_jeuves_0017.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0018[] = {
+#include "dma_data/feliz_jeuves_0018.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0019[] = {
+#include "dma_data/feliz_jeuves_0019.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0020[] = {
+#include "dma_data/feliz_jeuves_0020.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0021[] = {
+#include "dma_data/feliz_jeuves_0021.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0022[] = {
+#include "dma_data/feliz_jeuves_0022.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0023[] = {
+#include "dma_data/feliz_jeuves_0023.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0024[] = {
+#include "dma_data/feliz_jeuves_0024.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0025[] = {
+#include "dma_data/feliz_jeuves_0025.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0026[] = {
+#include "dma_data/feliz_jeuves_0026.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0027[] = {
+#include "dma_data/feliz_jeuves_0027.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0028[] = {
+#include "dma_data/feliz_jeuves_0028.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0029[] = {
+#include "dma_data/feliz_jeuves_0029.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0030[] = {
+#include "dma_data/feliz_jeuves_0030.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0031[] = {
+#include "dma_data/feliz_jeuves_0031.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0032[] = {
+#include "dma_data/feliz_jeuves_0032.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture feliz_jeuves_video_data_0033[] = {
+#include "dma_data/feliz_jeuves_0033.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps feliz_jeuves_video_data[33] = {
+    {.address = feliz_jeuves_video_data_0001, .compressedSize = 0x3170},
+    {.address = feliz_jeuves_video_data_0002, .compressedSize = 0x3250},
+    {.address = feliz_jeuves_video_data_0003, .compressedSize = 0x3250},
+    {.address = feliz_jeuves_video_data_0004, .compressedSize = 0x32F0},
+    {.address = feliz_jeuves_video_data_0005, .compressedSize = 0x3190},
+    {.address = feliz_jeuves_video_data_0006, .compressedSize = 0x3010},
+    {.address = feliz_jeuves_video_data_0007, .compressedSize = 0x31E0},
+    {.address = feliz_jeuves_video_data_0008, .compressedSize = 0x3210},
+    {.address = feliz_jeuves_video_data_0009, .compressedSize = 0x3190},
+    {.address = feliz_jeuves_video_data_0010, .compressedSize = 0x3110},
+    {.address = feliz_jeuves_video_data_0011, .compressedSize = 0x3050},
+    {.address = feliz_jeuves_video_data_0012, .compressedSize = 0x3010},
+    {.address = feliz_jeuves_video_data_0013, .compressedSize = 0x3140},
+    {.address = feliz_jeuves_video_data_0014, .compressedSize = 0x3140},
+    {.address = feliz_jeuves_video_data_0015, .compressedSize = 0x30D0},
+    {.address = feliz_jeuves_video_data_0016, .compressedSize = 0x3180},
+    {.address = feliz_jeuves_video_data_0017, .compressedSize = 0x3060},
+    {.address = feliz_jeuves_video_data_0018, .compressedSize = 0x3080},
+    {.address = feliz_jeuves_video_data_0019, .compressedSize = 0x30F0},
+    {.address = feliz_jeuves_video_data_0020, .compressedSize = 0x3060},
+    {.address = feliz_jeuves_video_data_0021, .compressedSize = 0x3080},
+    {.address = feliz_jeuves_video_data_0022, .compressedSize = 0x3090},
+    {.address = feliz_jeuves_video_data_0023, .compressedSize = 0x3020},
+    {.address = feliz_jeuves_video_data_0024, .compressedSize = 0x30C0},
+    {.address = feliz_jeuves_video_data_0025, .compressedSize = 0x31F0},
+    {.address = feliz_jeuves_video_data_0026, .compressedSize = 0x31C0},
+    {.address = feliz_jeuves_video_data_0027, .compressedSize = 0x3040},
+    {.address = feliz_jeuves_video_data_0028, .compressedSize = 0x3270},
+    {.address = feliz_jeuves_video_data_0029, .compressedSize = 0x32E0},
+    {.address = feliz_jeuves_video_data_0030, .compressedSize = 0x3270},
+    {.address = feliz_jeuves_video_data_0031, .compressedSize = 0x30D0},
+    {.address = feliz_jeuves_video_data_0032, .compressedSize = 0x30E0},
+    {.address = feliz_jeuves_video_data_0033, .compressedSize = 0x3190},
+};

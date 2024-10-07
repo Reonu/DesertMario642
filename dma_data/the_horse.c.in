@@ -1,0 +1,115 @@
+ALIGNED16 const Texture the_horse_video_data_0001[] = {
+#include "dma_data/the_horse_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0002[] = {
+#include "dma_data/the_horse_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0003[] = {
+#include "dma_data/the_horse_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0004[] = {
+#include "dma_data/the_horse_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0005[] = {
+#include "dma_data/the_horse_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0006[] = {
+#include "dma_data/the_horse_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0007[] = {
+#include "dma_data/the_horse_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0008[] = {
+#include "dma_data/the_horse_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0009[] = {
+#include "dma_data/the_horse_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0010[] = {
+#include "dma_data/the_horse_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0011[] = {
+#include "dma_data/the_horse_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0012[] = {
+#include "dma_data/the_horse_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0013[] = {
+#include "dma_data/the_horse_0013.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0014[] = {
+#include "dma_data/the_horse_0014.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0015[] = {
+#include "dma_data/the_horse_0015.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0016[] = {
+#include "dma_data/the_horse_0016.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0017[] = {
+#include "dma_data/the_horse_0017.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0018[] = {
+#include "dma_data/the_horse_0018.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0019[] = {
+#include "dma_data/the_horse_0019.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0020[] = {
+#include "dma_data/the_horse_0020.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0021[] = {
+#include "dma_data/the_horse_0021.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0022[] = {
+#include "dma_data/the_horse_0022.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0023[] = {
+#include "dma_data/the_horse_0023.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0024[] = {
+#include "dma_data/the_horse_0024.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0025[] = {
+#include "dma_data/the_horse_0025.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0026[] = {
+#include "dma_data/the_horse_0026.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0027[] = {
+#include "dma_data/the_horse_0027.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture the_horse_video_data_0028[] = {
+#include "dma_data/the_horse_0028.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps the_horse_video_data[28] = {
+    {.address = the_horse_video_data_0001, .compressedSize = 0x52E0},
+    {.address = the_horse_video_data_0002, .compressedSize = 0x52E0},
+    {.address = the_horse_video_data_0003, .compressedSize = 0x5320},
+    {.address = the_horse_video_data_0004, .compressedSize = 0x52C0},
+    {.address = the_horse_video_data_0005, .compressedSize = 0x5220},
+    {.address = the_horse_video_data_0006, .compressedSize = 0x50A0},
+    {.address = the_horse_video_data_0007, .compressedSize = 0x50A0},
+    {.address = the_horse_video_data_0008, .compressedSize = 0x5060},
+    {.address = the_horse_video_data_0009, .compressedSize = 0x4CF0},
+    {.address = the_horse_video_data_0010, .compressedSize = 0x4C80},
+    {.address = the_horse_video_data_0011, .compressedSize = 0x4C20},
+    {.address = the_horse_video_data_0012, .compressedSize = 0x4CE0},
+    {.address = the_horse_video_data_0013, .compressedSize = 0x4D70},
+    {.address = the_horse_video_data_0014, .compressedSize = 0x4D90},
+    {.address = the_horse_video_data_0015, .compressedSize = 0x4DF0},
+    {.address = the_horse_video_data_0016, .compressedSize = 0x4DF0},
+    {.address = the_horse_video_data_0017, .compressedSize = 0x4D70},
+    {.address = the_horse_video_data_0018, .compressedSize = 0x4D50},
+    {.address = the_horse_video_data_0019, .compressedSize = 0x4BC0},
+    {.address = the_horse_video_data_0020, .compressedSize = 0x4C30},
+    {.address = the_horse_video_data_0021, .compressedSize = 0x4C20},
+    {.address = the_horse_video_data_0022, .compressedSize = 0x4C30},
+    {.address = the_horse_video_data_0023, .compressedSize = 0x4D20},
+    {.address = the_horse_video_data_0024, .compressedSize = 0x4D60},
+    {.address = the_horse_video_data_0025, .compressedSize = 0x4DE0},
+    {.address = the_horse_video_data_0026, .compressedSize = 0x4D20},
+    {.address = the_horse_video_data_0027, .compressedSize = 0x4CB0},
+    {.address = the_horse_video_data_0028, .compressedSize = 0x4BB0},
+};

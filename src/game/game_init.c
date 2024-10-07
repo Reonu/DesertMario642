@@ -96,9 +96,6 @@ u16 gLow;
 u16 gHigh;
 s32 gInstantWarpCounter;
 s32 gInstantWarpSpawnIndex;
-u8 gUsernameSuccess;
-u8 gAvatarTexture[4096];
-u8 gAvatarLoaded = FALSE;
 
 
 // Framebuffer rendering values (max 3)
@@ -122,6 +119,18 @@ struct DemoInput gRecordedDemoInput = { 0 };
 u8 gFBEEnabled = FALSE;
 static u8 checkingFBE = 0;
 static u8 fbeCheckFinished = FALSE;
+
+// RHDC Profile Picture
+ALIGNED16 u8 rhdcPFPRGBA32[4096] = {
+#include "src/game/rhdc_pfp.rgba32.c.in"
+};
+
+// RHDC Username
+char rhdcUsername[33];
+
+static u8 isLibpl = TRUE;
+static u8 usernameSet = FALSE;
+static u8 rhdcPFPSet = FALSE;
 
 // Display
 // ----------------------------------------------------------------------------------------------------
@@ -777,6 +786,48 @@ void init_controllers(void) {
     osContSetCh(lastUsedPort + 1);
 }
 
+static void get_rhdc_info(void) {
+    if (!isLibpl || !libpl_is_supported(LPL_ABI_VERSION_3)) {
+        isLibpl = FALSE;
+        return;
+    }
+
+    if (!usernameSet) {
+        const char *res = libpl_get_my_rhdc_username();
+        if (!res) {
+            return;
+        }
+
+        bcopy(res, rhdcUsername, sizeof(rhdcUsername) - 1);
+        rhdcUsername[ARRAY_COUNT(rhdcUsername) - 1] = '\0';
+        usernameSet = TRUE;
+    }
+
+    if (usernameSet && !rhdcPFPSet) {
+        u8 ret = libpl_get_rhdc_avatar_32_async(rhdcUsername, rhdcPFPRGBA32);
+
+        if (ret != 0 && ret != 2 && ret != 4) {
+            // Failure, do not try again
+            rhdcPFPSet = TRUE;
+        } else {
+            switch (lpl_errno) {
+                case LPL_OKAY:
+                    // Success, no need to try again
+                    rhdcPFPSet = TRUE;
+                    break;
+                case LPL_WAIT:
+                    // Waiting on async response, try again next frame
+                    break;
+                default:
+                    // Eternal failure state, do not try again
+                    rhdcPFPSet = TRUE;
+                    // assert(FALSE, "rhdc avatar error");
+                    break;
+            }
+        }
+    }
+}
+
 // Game thread core
 // ----------------------------------------------------------------------------------------------------
 
@@ -847,6 +898,8 @@ void thread5_game_loop(UNUSED void *arg) {
     render_init();
 
     while (TRUE) {
+        get_rhdc_info();
+
         profiler_frame_setup();
         // If the reset timer is active, run the process to reset the game.
         if (gResetTimer != 0) {

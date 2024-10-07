@@ -1782,8 +1782,6 @@ void recover_battery(s32 amt) {
 #define MAX_PUSHING_FORCE 90
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
-    static u8 gFetchAvatar = TRUE;
-
 
     // Updates once per frame:
     vec3f_get_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
@@ -1829,20 +1827,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gMarioState->flashlightOn = FALSE;
             }
         }
-        const char* username = libpl_get_my_rhdc_username();
-        if (username != NULL) {
-            gUsernameSuccess = 1;
-        }
-
-        if (gUsernameSuccess && gFetchAvatar) {
-            const int status = libpl_get_rhdc_avatar_32_async(username, gAvatarTexture);
-            if (status == 0) {
-                gAvatarLoaded = TRUE;
-                gFetchAvatar = FALSE;
-            } else if (lpl_errno != LPL_WAIT) {
-                gFetchAvatar = FALSE;
-            }
-        }
 
         if (gMarioState->flashlightOn) {
             f32 angleX = sins(gMarioState->faceAngle[1]) * 400.0f;
@@ -1859,8 +1843,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
 
             emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 4, 30, 8, 0);
-
-
         }
 
     if (gMarioCurrentRoom != 2) {

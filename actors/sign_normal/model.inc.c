@@ -776,11 +776,6 @@ u8 sign_normal_fence_ci4_ci4[] = {
 	
 };
 
-Gfx sign_idiot_mario_rgba32_aligner[] = {gsSPEndDisplayList()};
-u8 sign_idiot_mario_rgba32[] = {
-#include "actors/sign_normal/idiot.rgba32.inc.c"
-};
-
 Gfx sign_normal_fence_ci4_pal_rgba16_aligner[] = {gsSPEndDisplayList()};
 u8 sign_normal_fence_ci4_pal_rgba16[] = {
 	0xac, 0x55, 0x93, 0x93, 0x7a, 0xcf, 0x7b, 0x0f, 
@@ -1473,7 +1468,7 @@ Gfx sign_normal_sign_normal_mesh_layer_1_end[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx sign_normal_sign_idiot_mesh_layer_1_idiot_mario[] = {
+Gfx sign_normal_sign_idiot_mesh_layer_1_idiot_mario_begin[] = {
 	gsDPPipeSync(),
 	gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
@@ -1481,7 +1476,10 @@ Gfx sign_normal_sign_idiot_mesh_layer_1_idiot_mario[] = {
 	gsSPSetOtherMode(G_SETOTHERMODE_L, 0, 32, G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_XLU_DECAL2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPPipeSync(),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b_LOAD_BLOCK, 1, sign_idiot_mario_rgba32),
+	gsSPEndDisplayList(),
+};
+
+Gfx sign_normal_sign_idiot_mesh_layer_1_idiot_mario_end[] = {
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 32 * 32 - 1, CALC_DXT(32, G_IM_SIZ_32b_BYTES)),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 8, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
