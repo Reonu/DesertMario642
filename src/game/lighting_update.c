@@ -37,9 +37,9 @@
 
 
 struct GlobalFog sNightFog = {
-    .r = 5,
-    .g = 5,
-    .b = 30,
+    .r = 3,
+    .g = 3,
+    .b = 20,
     .a = 255,
     .low = 960,
     .high = 995,
@@ -72,23 +72,26 @@ struct GlobalFog sDuskFog = {
     .high = 995,
 };
 
+#define NIGHT_DIR_R_VALUE 10
+#define NIGHT_DIR_G_VALUE 10
+#define NIGHT_DIR_B_VALUE 40
 
 struct DayConfig gDayConfigs[] = {
     // 00:00
     {
         .timeStart = 0,
         .fog = &sNightFog,
-        .dirR = 30,
-        .dirG = 30,
-        .dirB = 30,
+        .dirR = NIGHT_DIR_R_VALUE,
+        .dirG = NIGHT_DIR_G_VALUE,
+        .dirB = NIGHT_DIR_B_VALUE,
     },
     // Dawn. DAY_START to 30 minutes later. Still pre-sunrise lighting.
     {
         .timeStart = DAY_START,
         .fog = &sNightFog,
-        .dirR = 30,
-        .dirG = 30,
-        .dirB = 30,        
+        .dirR = NIGHT_DIR_R_VALUE,
+        .dirG = NIGHT_DIR_G_VALUE,
+        .dirB = NIGHT_DIR_B_VALUE,        
     },
     // Sunrise. DAY_START+30min to DAY_START+one hour. Epic sunrise lighting.
     {
@@ -126,17 +129,17 @@ struct DayConfig gDayConfigs[] = {
     {
         .timeStart = DAY_END + (MINUTE * 15),
         .fog = &sNightFog,
-        .dirR = 30,
-        .dirG = 30,
-        .dirB = 30,
+        .dirR = NIGHT_DIR_R_VALUE,
+        .dirG = NIGHT_DIR_G_VALUE,
+        .dirB = NIGHT_DIR_B_VALUE,
     },
     // 24:00
     {
         .timeStart = HOUR * 24,
         .fog = &sNightFog,
-        .dirR = 30,
-        .dirG = 30,
-        .dirB = 30,
+        .dirR = NIGHT_DIR_R_VALUE,
+        .dirG = NIGHT_DIR_G_VALUE,
+        .dirB = NIGHT_DIR_B_VALUE,
     }
 
 };
