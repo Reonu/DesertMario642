@@ -8038,7 +8038,7 @@ chan_setlayer 0, .layer_bb_leon
 chan_end
 
 .layer_bb_leon:
-layer_note1 39, 0x1eb, 111
+layer_note1 39, 0x1eb, 115
 layer_end
 
 

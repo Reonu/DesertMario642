@@ -125,6 +125,7 @@ struct HudDisplay {
 extern struct HudDisplay gHudDisplay;
 extern s8 gNeverEnteredCastle;
 extern u8 g100CoinStarSpawned;
+extern u8 gBGMusicActive;
 
 enum HUDDisplayFlag {
     HUD_DISPLAY_FLAG_LIVES            = (1 <<  0), // 0x0001
