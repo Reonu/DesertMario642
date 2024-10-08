@@ -13,3 +13,5 @@ extern void bhv_point_light_preview_loop(void);
 extern void bhv_koopa_water_seller_loop(void);
 extern void bhv_angry_sun_init(void);
 extern void bhv_angry_sun_loop(void);
+extern void bhv_jukebox_init(void);
+extern void bhv_jukebox_loop(void);

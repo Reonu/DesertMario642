@@ -423,4 +423,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "angry_sun/geo_header.h"
 
+#include "jukebox/geo_header.h"
+
+#include "jukebox/collision_header.h"
+
 #endif

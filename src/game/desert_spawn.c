@@ -610,3 +610,13 @@ void bhv_angry_sun_loop(void) {
 
     
 }
+
+// Jukebox
+
+void bhv_jukebox_init(void) {
+
+}
+
+void bhv_jukebox_loop(void) {
+
+}

@@ -22,6 +22,7 @@ enum GlobalModelIDs {
     MODEL_GAS_STATION,
     MODEL_KLEPTO,
     MODEL_ANGRY_SUN,
+    MODEL_JUKEBOX,
 
     MODEL_ID_COUNT,
 };

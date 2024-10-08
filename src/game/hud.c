@@ -435,7 +435,7 @@ void render_debug_mode(void) {
 void render_hud_coins(void) {
     char str[10];
     sprintf(str, "✪×%d", gHudDisplay.coins);
-    print_text(HUD_COINS_X, HUD_TOP_Y, str);
+    print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y - 20, str);
 }
 
 /**
@@ -454,9 +454,9 @@ void render_hud_stars(void) {
 }
 
 #define BAR_HEIGHT 8
-#define BAR_MARGIN 8
+#define BAR_MARGIN 12
 #define BAR_RIGHT ((SCREEN_WIDTH / 3) - BAR_MARGIN)
-#define BAR_TOP (SCREEN_HEIGHT - (BAR_MARGIN + BAR_HEIGHT))
+#define BAR_TOP ((SCREEN_HEIGHT - 10) - (BAR_MARGIN + BAR_HEIGHT))
 
 void render_hud_hydration_meter(Gfx **head) {
     Gfx *gfx = *head;
@@ -642,7 +642,7 @@ void render_hud(void) {
         }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_STAR_COUNT) {
-            render_hud_stars();
+            //render_hud_stars();
         }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_KEYS) {
@@ -658,7 +658,7 @@ void render_hud(void) {
 #ifdef PUPPYCAM
             if (!gPuppyCam.enabled) {
 #endif
-            render_hud_camera_status();
+            //render_hud_camera_status();
 #ifdef PUPPYCAM
             }
 #endif

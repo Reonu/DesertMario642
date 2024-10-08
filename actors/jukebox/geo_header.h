@@ -1,0 +1,14 @@
+extern const GeoLayout jukebox_geo[];
+extern u8 jukebox_jukebox_rgba16[];
+extern u8 jukebox_wood_jukebox_ci4[];
+extern u8 jukebox_wood_jukebox_pal_rgba16[];
+extern Vtx jukebox_jukebox_mesh_layer_1_vtx_cull[8];
+extern Vtx jukebox_jukebox_mesh_layer_1_vtx_0[18];
+extern Gfx jukebox_jukebox_mesh_layer_1_tri_0[];
+extern Vtx jukebox_jukebox_mesh_layer_1_vtx_1[29];
+extern Gfx jukebox_jukebox_mesh_layer_1_tri_1[];
+extern Gfx mat_jukebox_jukebox_layer1[];
+extern Gfx mat_revert_jukebox_jukebox_layer1[];
+extern Gfx mat_jukebox_wood_layer1[];
+extern Gfx mat_revert_jukebox_wood_layer1[];
+extern Gfx jukebox_jukebox_mesh_layer_1[];
