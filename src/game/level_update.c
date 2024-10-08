@@ -16,6 +16,7 @@
 #include "sound_init.h"
 #include "mario.h"
 #include "camera.h"
+#include "print.h"
 #include "object_list_processor.h"
 #include "ingame_menu.h"
 #include "obj_behaviors.h"
@@ -148,6 +149,7 @@ u8 g100CoinStarSpawned = FALSE;
 
 struct MarioState *gMarioState = &gMarioStates[0];
 s8 sWarpCheckpointActive = FALSE;
+u8 gBGMusicActive = TRUE;
 
 u16 level_control_timer(s32 timerOp) {
     switch (timerOp) {
@@ -1032,6 +1034,7 @@ void basic_update(void) {
 }
 
 s32 play_mode_normal(void) {
+    static u8 musicDisplayCounter = 0;
 #ifndef DISABLE_DEMO
     if (gCurrDemoInput != NULL) {
         print_intro_text();
@@ -1048,6 +1051,17 @@ s32 play_mode_normal(void) {
         if (gUnpausedTimer >= DAY) {
             gUnpausedTimer = gUnpausedTimer - DAY;
         }
+    }
+
+    if (gPlayer1Controller->buttonPressed & START_BUTTON) {
+        gBGMusicActive ^= TRUE;
+        musicDisplayCounter = 90;
+    }
+
+    if (musicDisplayCounter > 0) {
+        musicDisplayCounter--;
+        print_text(20, 40, "BACKGROUND MUSIC");
+        print_text(20, 20, gBGMusicActive ? "ENABLED" : "DISABLED");
     }
 
     update_lighting();  

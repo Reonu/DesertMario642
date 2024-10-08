@@ -58,6 +58,7 @@ enum VideoDMAIDs {
     BB_VIDEO_LEON,
     BB_VIDEO_FELIZ_JEUVES,
     BB_VIDEO_THE_HORSE,
+    BB_VIDEO_BILLWURTZ,
 
     BB_VIDEO_COUNT,
 };
@@ -69,3 +70,4 @@ extern const struct DMAImageProps gbj_painting_video_data[77];
 extern const struct DMAImageProps leon_video_data[122];
 extern const struct DMAImageProps feliz_jeuves_video_data[33];
 extern const struct DMAImageProps the_horse_video_data[28];
+extern const struct DMAImageProps chips_video_data[125];

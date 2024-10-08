@@ -424,6 +424,7 @@ struct Object *spawn_object_at_origin(struct Object *parent, UNUSED s32 unusedAr
     struct Object *obj = create_object(behaviorAddr);
 
     obj->parentObj = parent;
+    obj->oInstantWarpSpawn = parent->oInstantWarpSpawn;
     obj->header.gfx.areaIndex = parent->header.gfx.areaIndex;
     obj->header.gfx.activeAreaIndex = parent->header.gfx.areaIndex;
 
@@ -2596,7 +2597,8 @@ void warp_desert_object(struct Object *obj) {
                 obj_update_gfx_pos_and_angle(obj);
             }
 
-            if (ABS(gMarioState->pos[2] - obj->oPosZ) > ABS((TILES_IN_FRONT_OR_BEHIND + 1) * gInstantWarpDisplacement)) {
+            if ((ABS(gMarioState->pos[2] - obj->oPosZ) > ABS((TILES_IN_FRONT_OR_BEHIND + 1) * gInstantWarpDisplacement))
+                        || ABS(gInstantWarpCounter - obj->oInstantWarpSpawn) > MAX_TILES_FROM_SPAWN_TILE) {
                 mark_obj_for_deletion(obj);
             }
         }

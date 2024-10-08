@@ -128,16 +128,18 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MAKE_CLEAN]         = (u32) BB_IMAGE_MAKE_CLEAN,
     [BB_SIGN_XENOBLADE]          = (u32) BB_IMAGE_XENOBLADE,
     [BB_SIGN_XENOGEARS]          = (u32) BB_IMAGE_XENOGEARS,
+    [BB_SIGN_CHIPS]              = (u32) BB_VIDEO_BILLWURTZ,
     [BB_SIGN_LEON]               = (u32) BB_VIDEO_LEON,
 };
 
 struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
-    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1,  .sound = NO_SOUND     },
-    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10, .sound = NO_SOUND     },
-    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30, .sound = NO_SOUND     },
-    [BB_VIDEO_LEON]         = {.addr = leon_video_data,         .billboardId = BB_SIGN_LEON,         .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(leon_video_data),         .startFrame = 0, .framerate = 24, .sound = SOUND_BB_LEON},
-    [BB_VIDEO_FELIZ_JEUVES] = {.addr = feliz_jeuves_video_data, .billboardId = BB_SIGN_FELIZ_JEUVES, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(feliz_jeuves_video_data), .startFrame = 0, .framerate = 20, .sound = NO_SOUND     },
-    [BB_VIDEO_THE_HORSE]    = {.addr = the_horse_video_data,    .billboardId = BB_SIGN_THE_HORSE,    .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(the_horse_video_data),    .startFrame = 0, .framerate = 25, .sound = NO_SOUND     },
+    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1,  .sound = NO_SOUND      },
+    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10, .sound = NO_SOUND      },
+    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30, .sound = NO_SOUND      },
+    [BB_VIDEO_LEON]         = {.addr = leon_video_data,         .billboardId = BB_SIGN_LEON,         .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(leon_video_data),         .startFrame = 0, .framerate = 24, .sound = SOUND_BB_LEON },
+    [BB_VIDEO_FELIZ_JEUVES] = {.addr = feliz_jeuves_video_data, .billboardId = BB_SIGN_FELIZ_JEUVES, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(feliz_jeuves_video_data), .startFrame = 0, .framerate = 20, .sound = NO_SOUND      },
+    [BB_VIDEO_THE_HORSE]    = {.addr = the_horse_video_data,    .billboardId = BB_SIGN_THE_HORSE,    .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(the_horse_video_data),    .startFrame = 0, .framerate = 25, .sound = NO_SOUND      },
+    [BB_VIDEO_BILLWURTZ]    = {.addr = chips_video_data,        .billboardId = BB_SIGN_CHIPS,        .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(chips_video_data),        .startFrame = 0, .framerate = 25, .sound = SOUND_BB_CHIPS},
 };
 
 OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];
@@ -431,7 +433,6 @@ struct BBHistory {
     s32 instantWarpId;
     s32 billboardId;
 };
-#define BB_MAX_ATTEMPTS 10
 f32 gBillboardWeights[BB_BILLBOARD_END] = {[0 ... BB_BILLBOARD_END - 1] = 0.5f - (1.0f / (f32) BB_BILLBOARD_END)}; // Weighting array for billboards so that repeated billboards are less likely to immediately show up
 f32 gBillboardWeightsBackwards[BB_BILLBOARD_END] = {[0 ... BB_BILLBOARD_END - 1] = 0.5f - (1.0f / (f32) BB_BILLBOARD_END)}; // Same as above but for going backwards (as to not interfere with forwards generation)
 struct BBHistory gBillboardHistory[INSTANT_WARPS_GOAL] = {[0 ... INSTANT_WARPS_GOAL - 1] = {.instantWarpId = 0, .billboardId = -1}}; // History needed to preserve accuracy of billboards between playthroughs in all (expectable) situations
@@ -439,7 +440,6 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     s32 index;
     f32 weightIncrease = 1.0f / (f32) lastBillboard;
     f32 *weights = gBillboardWeights;
-    s32 attempts = 0;
     s32 instantWarpIndex = ((gInstantWarpSpawnIndex % INSTANT_WARPS_GOAL) + INSTANT_WARPS_GOAL) % INSTANT_WARPS_GOAL; // handles negative numbers
     struct BBHistory *hist = &gBillboardHistory[instantWarpIndex];
     u32 newSeed = genRandLong(rand);
@@ -456,25 +456,27 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     }
 
     MTRand newRand = seedRand(newSeed);
-    for (attempts = 0; attempts < BB_MAX_ATTEMPTS; attempts++) {
-        f32 weightTotal = 0.0f;
-        f32 currentWeight = 0.0f;
-        f32 generatedWeight = genRand(&newRand);
+    f32 weightTotal = 0.0f;
+    f32 currentWeight = 0.0f;
+    f32 generatedWeight = genRand(&newRand);
 
-        for (index = 0; index < lastBillboard; index++) {
-            // Increase the probability selection window for each billboards; offers future benefit against more recently selected indexes
-            weights[index] += weightIncrease;
+    for (index = 0; index < lastBillboard; index++) {
+        // Increase the probability selection window for each billboards; offers future benefit against more recently selected indexes
+        weights[index] += weightIncrease;
 
-            // If weight is below 0, effectively exclude it from the possible selection pool
-            if (weights[index] > 0.0f)
-                weightTotal += weights[index];
-        }
+        // If weight is below 0, effectively exclude it from the possible selection pool
+        // Also skip if video is already active and video is selected.
+        if (weights[index] > 0.0f && (gVideoIndex < 0 || get_desert_sign_video_id(index) < 0))
+            weightTotal += weights[index];
+    }
 
+    if (weightTotal > 0.0f) {
         generatedWeight *= weightTotal;
 
         for (index = 0; index < lastBillboard - 1; index++) { // lastBillboard - 1 not an accident
             // If weight is below 0, skip the index. This in theory should never favor the last unprocessed index if that falls below 0.
-            if (weights[index] <= 0.0f)
+            // Also skip if video is already active and video is selected.
+            if (weights[index] <= 0.0f || !(gVideoIndex < 0 || get_desert_sign_video_id(index) < 0))
                 continue;
 
             currentWeight += weights[index];
@@ -482,13 +484,12 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
                 break;
         }
 
-        // Only one video can be loaded at a time! If a video is already loaded, try again.
-        if (gVideoIndex < 0 || get_desert_sign_video_id(index) < 0) {
-            break;
+        // This in theory should never happen!
+        if (!(gVideoIndex < 0 || get_desert_sign_video_id(index) < 0)) {
+            assert(FALSE, "Entered impossible condition!");
+            index = BB_BILLBOARD_START; // NOTE: BB_BILLBOARD_START should not be a video!
         }
-    }
-
-    if (attempts == BB_MAX_ATTEMPTS) {
+    } else {
         index = BB_BILLBOARD_START; // NOTE: BB_BILLBOARD_START should not be a video!
     }
 

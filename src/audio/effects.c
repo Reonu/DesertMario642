@@ -6,6 +6,7 @@
 #include "external.h"
 #include "seqplayer.h"
 #include "game/game_init.h"
+#include "game/level_update.h"
 #include "game/main.h"
 #include "engine/math_util.h"
 
@@ -72,7 +73,11 @@ static void sequence_channel_process_sound(struct SequenceChannel *seqChannel) {
                 }
 
                 if (seqChannel->seqPlayer == &gSequencePlayers[SEQ_PLAYER_LEVEL]) {
-                    channelVolume *= seqPlayerVolumeMult;
+                    if (gBGMusicActive) {
+                        channelVolume *= seqPlayerVolumeMult;
+                    } else {
+                        channelVolume = 0.0f;
+                    }
                 }
 
                 panFromChannel = seqChannel->pan * seqChannel->panChannelWeight;

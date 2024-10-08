@@ -125,6 +125,7 @@ struct HudDisplay {
 extern struct HudDisplay gHudDisplay;
 extern s8 gNeverEnteredCastle;
 extern u8 g100CoinStarSpawned;
+extern u8 gBGMusicActive;
 
 enum HUDDisplayFlag {
     HUD_DISPLAY_FLAG_LIVES            = (1 <<  0), // 0x0001
@@ -228,6 +229,7 @@ enum BillboardIDs {
     BB_SIGN_MAKE_CLEAN,
     BB_SIGN_XENOBLADE,
     BB_SIGN_XENOGEARS,
+    BB_SIGN_CHIPS,
     BB_SIGN_LEON,
     BB_BILLBOARD_END_TIER4, // END TIER 4
 
