@@ -74,6 +74,7 @@
     #undef VANILLA_DEBUG
     #undef DEBUG_FORCE_CRASH_ON_BOOT
     #undef DEBUG_ASSERTIONS
+    #undef DESERT_DEBUG
 #endif // DISABLE_ALL
 
 #ifdef DEBUG_ALL

@@ -1828,6 +1828,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
 
+        if (gMarioCurrentRoom == 2) {
+            gMarioState->inRangeOfWaterSeller = TRUE;
+        } else {
+            gMarioState->inRangeOfWaterSeller = FALSE;
+        }
+
+        #ifdef DESERT_DEBUG
+            gMarioState->numCoins = 999;
+        #endif
+        
+
         if (gMarioState->flashlightOn) {
             f32 angleX = sins(gMarioState->faceAngle[1]) * 400.0f;
             f32 angleZ = coss(gMarioState->faceAngle[1]) * 400.0f;

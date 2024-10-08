@@ -37,6 +37,7 @@ const LevelScript level_desert_entry[] = {
 		INSTANT_WARP(0x01, 0x01, 0, 0, -12314),
 		INSTANT_WARP(0x02, 0x01, -15080, 0, -1062),
 		INSTANT_WARP(0x03, 0x01, 15080, 0, 1062),
+		OBJECT(MODEL_JUKEBOX, -19339, 0, 1158, 0, 0, 0, 0x00000000, bhvJukebox),
 		OBJECT(MODEL_KOOPA_WITH_SHELL_CUSTOM, -20936, 0, 916, 0, -180, 0, 0x00000000, bhvKoopaCustom),
 		OBJECT(MODEL_KOOPA_WITH_SHELL_CUSTOM, -20135, 0, 916, 0, -180, 0, (1), bhvKoopaCustom),
 		MARIO_POS(0x01, 0, 0, 0, 0),

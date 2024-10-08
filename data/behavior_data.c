@@ -6216,11 +6216,12 @@ const BehaviorScript bhvAngrySun[] = {
 
 const BehaviorScript bhvJukebox[] = {
     BEGIN(OBJ_LIST_SURFACE),
-    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(jukebox_collision),
     SET_HOME(),
     CALL_NATIVE(bhv_jukebox_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_jukebox_loop),
+        CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

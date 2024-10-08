@@ -499,7 +499,7 @@ void bhv_koopa_water_seller_loop(void) {
             break;
     }
 
-    gMarioState->inRangeOfWaterSeller = bhv_koopa_water_seller_update_range();
+    //gMarioState->inRangeOfWaterSeller = bhv_koopa_water_seller_update_range();
     if (gMarioCurrentRoom == 2) {
         cur_obj_unhide();
     } else {
@@ -613,10 +613,61 @@ void bhv_angry_sun_loop(void) {
 
 // Jukebox
 
-void bhv_jukebox_init(void) {
+enum JukeboxActions {
+    JUKEBOX_ACT_IDLE,
+    JUKEBOX_ACT_SHOW_PROMPT,
+    JUKEBOX_ACT_NOT_ENOUGH_COINS,
+    JUKEBOX_ACT_CHANGE_SONG,
+    JUKEBOX_ACT_SUCCESS,
+};
 
+void bhv_jukebox_init(void) {
+    o->oAction = JUKEBOX_ACT_IDLE;
 }
 
+#define CUSTOM_SONGS_START SEQ_KALIMARI_DESERT
+#define CUSTOM_SONGS_END SEQ_CROSSING_THOSE_HILLS
+#define TRIGGER_DIST 250.f
+extern u8 sCurrentBackgroundMusicSeqId;
 void bhv_jukebox_loop(void) {
-
+    switch (o->oAction) {
+        case JUKEBOX_ACT_IDLE:
+            if (o->oDistanceToMario < TRIGGER_DIST) {
+                o->oAction = JUKEBOX_ACT_SHOW_PROMPT;
+            }
+            break;
+        case JUKEBOX_ACT_SHOW_PROMPT:
+            print_small_text_buffered(20, 180, "Press B to play a song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            //gMarioState->inRangeOfWaterSeller == TRUE;
+            if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                if (gMarioState->numCoins >= 25) {
+                    gMarioState->numCoins -= 25;
+                    o->oAction = JUKEBOX_ACT_CHANGE_SONG;
+                } else {
+                    o->oAction = JUKEBOX_ACT_NOT_ENOUGH_COINS;
+                }
+            }
+            if (o->oDistanceToMario > TRIGGER_DIST) {
+                o->oAction = JUKEBOX_ACT_IDLE;
+            }
+            break;
+        case JUKEBOX_ACT_NOT_ENOUGH_COINS:
+            print_small_text_buffered(20, 180, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            if ((o->oDistanceToMario > TRIGGER_DIST) || (o->oTimer > 45)) {
+                o->oAction = JUKEBOX_ACT_IDLE;
+            }
+            break;
+        case JUKEBOX_ACT_CHANGE_SONG:
+            u8 song = random_u16() % (SEQ_COUNT - CUSTOM_SONGS_START) + CUSTOM_SONGS_START;
+            stop_background_music(sCurrentBackgroundMusicSeqId);
+            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, song), 30);
+            o->oAction = JUKEBOX_ACT_SUCCESS;
+            break;
+        case JUKEBOX_ACT_SUCCESS:
+            if ((o->oDistanceToMario > TRIGGER_DIST) || (o->oTimer > 45)) {
+                o->oAction = JUKEBOX_ACT_IDLE;
+            }
+            print_small_text_buffered(20, 180, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            break;
+    }
 }

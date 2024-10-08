@@ -1138,6 +1138,11 @@ void mode_8_directions_camera(struct Camera *c) {
     if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
         s8DirModeYawOffset -= DEGREES(45);
         play_sound_cbutton_side();
+    } else if (gPlayer1Controller->buttonDown & L_JPAD) {
+        s8DirModeYawOffset -= DEGREES(2);
+    }
+    else if (gPlayer1Controller->buttonDown & R_JPAD) {
+        s8DirModeYawOffset += DEGREES(2);
     }
 #ifdef PARALLEL_LAKITU_CAM
     // extra functionality
@@ -1155,10 +1160,11 @@ void mode_8_directions_camera(struct Camera *c) {
         s8DirModeYawOffset = snap_to_45_degrees(s8DirModeYawOffset);
     }
 #endif
+#ifndef DESERT_DEBUG
     if (gMarioCurrentRoom != 2) {
         s8DirModeYawOffset++;
     }
-    
+#endif
 
     lakitu_zoom(400.f, 0x900);
     c->nextYaw = update_8_directions_camera(c, c->focus, pos);

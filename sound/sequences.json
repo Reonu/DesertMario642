@@ -125,5 +125,11 @@
     },
     "23_kalimari_desert": [
         "25"
+    ],
+    "24_crossing_those_hills": [
+        "0C_extended_bank"
+    ],
+    "25_route_203": [
+        "0C_extended_bank"
     ]
 }
