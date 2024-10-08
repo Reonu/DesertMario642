@@ -23,6 +23,7 @@ enum GlobalModelIDs {
     MODEL_KLEPTO,
     MODEL_ANGRY_SUN,
     MODEL_JUKEBOX,
+    MODEL_EXCLAMATION_MARK,
 
     MODEL_ID_COUNT,
 };

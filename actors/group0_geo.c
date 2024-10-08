@@ -35,3 +35,4 @@
 #include "sign_video/geo.inc.c"
 #include "angry_sun/geo.inc.c"
 #include "jukebox/geo.inc.c"
+#include "exclamation_mark/geo.inc.c"

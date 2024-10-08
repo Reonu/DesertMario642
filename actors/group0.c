@@ -66,3 +66,4 @@
 #include "angry_sun/model.inc.c"
 #include "jukebox/model.inc.c"
 #include "jukebox/collision.inc.c"
+#include "exclamation_mark/model.inc.c"

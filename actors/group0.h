@@ -427,4 +427,6 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "jukebox/collision_header.h"
 
+#include "exclamation_mark/geo_header.h"
+
 #endif

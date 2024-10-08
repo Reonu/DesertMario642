@@ -1,0 +1,7 @@
+extern const GeoLayout exclamation_mark_geo[];
+extern Vtx exclamation_mark_exclamation_mark_mesh_layer_1_vtx_cull[8];
+extern Vtx exclamation_mark_exclamation_mark_mesh_layer_1_vtx_0[56];
+extern Gfx exclamation_mark_exclamation_mark_mesh_layer_1_tri_0[];
+extern Gfx mat_exclamation_mark_f3dlite_material_layer1[];
+extern Gfx mat_revert_exclamation_mark_f3dlite_material_layer1[];
+extern Gfx exclamation_mark_exclamation_mark_mesh_layer_1[];

@@ -1834,9 +1834,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->inRangeOfWaterSeller = FALSE;
         }
 
-        #ifdef DESERT_DEBUG
-            gMarioState->numCoins = 999;
-        #endif
+    #ifdef DESERT_DEBUG
+        if (gPlayer1Controller->buttonPressed & D_JPAD) {
+            gMarioState->numCoins += 50;
+        }
+    #endif
         
 
         if (gMarioState->flashlightOn) {

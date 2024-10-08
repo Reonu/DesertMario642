@@ -397,6 +397,11 @@ enum KoopaWaterSellerAction {
 
 #define SELLER_MAX_DISTANCE 400.f
 
+void bhv_koopa_water_seller_set_exclamation_mark(void) {
+    o->oAction = KOOPA_WATER_SELLER_IDLE;
+    o->oExclamationMarkObject = spawn_object(o, MODEL_EXCLAMATION_MARK, bhvExclamationMark);
+}
+
 u8 bhv_koopa_water_seller_update_range(void) {
     if (gMarioCurrentRoom == 2) {
         if (o->oDistanceToMario < SELLER_MAX_DISTANCE) {
@@ -432,6 +437,9 @@ void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            if (o->oExclamationMarkObject != NULL) {
+                mark_obj_for_deletion(o->oExclamationMarkObject);
+            }
             gMarioState->waterLeft = MAX_WATER;
             o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
         }
@@ -444,6 +452,9 @@ void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            if (o->oExclamationMarkObject != NULL) {
+                mark_obj_for_deletion(o->oExclamationMarkObject);
+            }
             gMarioState->batteryMeter = MAX_BATTERIES;
             o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
         }
@@ -543,7 +554,6 @@ void bhv_angry_sun_init(void) {
 void bhv_angry_sun_loop(void) {
 
     s16 sunOffsetSideHorizontal = SUN_OFFSET_HORIZONTAL * o->oF8;
-    Vec3f pos = {o->oPosX, o->oPosY + 600, o->oPosZ};
 
     o->oHomeY = SUN_OFFSET_VERTICAL;
     
@@ -599,7 +609,8 @@ void bhv_angry_sun_loop(void) {
     } else {
         cur_obj_become_intangible();
     }
-
+    
+    Vec3f pos = {o->oPosX, o->oPosY + 600, o->oPosZ};
     emit_light(pos, 255, 220, 210, 4, 10, 4, 0);
 
     if (gMarioCurrentRoom == 2) {
@@ -622,6 +633,7 @@ enum JukeboxActions {
 };
 
 void bhv_jukebox_init(void) {
+    o->oExclamationMarkObject = spawn_object(o, MODEL_EXCLAMATION_MARK, bhvExclamationMark);
     o->oAction = JUKEBOX_ACT_IDLE;
 }
 
@@ -638,9 +650,11 @@ void bhv_jukebox_loop(void) {
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
             print_small_text_buffered(20, 180, "Press B to play a song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            //gMarioState->inRangeOfWaterSeller == TRUE;
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 if (gMarioState->numCoins >= 25) {
+                    if (o->oExclamationMarkObject != NULL) {
+                        mark_obj_for_deletion(o->oExclamationMarkObject);
+                    }
                     gMarioState->numCoins -= 25;
                     o->oAction = JUKEBOX_ACT_CHANGE_SONG;
                 } else {
@@ -670,4 +684,18 @@ void bhv_jukebox_loop(void) {
             print_small_text_buffered(20, 180, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             break;
     }
+}
+
+void bhv_exclamation_mark_init(void) {
+    o->oPosY += 400;
+}
+
+void bhv_exclamation_mark_loop(void) {
+    o->oFaceAngleYaw += 0x1000;
+    o->oPrimRGB += 1300;
+    o->oPosY += sins(o->oPrimRGB) * 1.1f;
+    o->oFaceAngleYaw += 100;
+
+    Vec3f pos = {o->oPosX, o->oPosY, o->oPosZ - 200};
+    emit_light(pos, 255, 0, 0, 4, 80, 4, 0);
 }
