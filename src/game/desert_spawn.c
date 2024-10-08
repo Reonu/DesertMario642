@@ -513,25 +513,37 @@ void bhv_koopa_water_seller_loop(void) {
 enum AngrySunActions {
     ANGRY_SUN_ACT_IDLE,
     ANGRY_SUN_ACT_CIRCLE,
-    ANGRY_SUN_ACT_SWOOP
+    ANGRY_SUN_ACT_SWOOP,
+    ANGRY_SUN_ACT_LEAVE
 };
 
 #define SUN_OFFSET_HORIZONTAL   700
 #define SUN_OFFSET_VERTICAL     650
 #define SUN_CIRCLE_SIZE     300
-#define SUN_CIRCLE_SPEED     0x444
-#define SUN_SWOOP_SPEED     0x222
+#define SUN_CIRCLE_SPEED     0x999
+#define SUN_SWOOP_SPEED     0x300
 #define NUM_SUN_CYCLES     4
 
 void bhv_angry_sun_init(void) {
     o->oF4 = 0;
     o->oF8 = 1;
     gAngrySunPresent = 1;
+    o->oHomeY = SUN_OFFSET_VERTICAL;
+    s16 sunOffsetSideHorizontalInit = SUN_OFFSET_HORIZONTAL * o->oF8;
+    
+    o->oHomeX = gMarioState->pos[0] + sunOffsetSideHorizontalInit;
+    o->oHomeZ = gMarioState->pos[2];
+
+    o->oPosY = o->oHomeY;
+    o->oPosX = o->oHomeX;
+    
+    o->oPosZ = gMarioState->pos[2];
 }
 
 void bhv_angry_sun_loop(void) {
 
     s16 sunOffsetSideHorizontal = SUN_OFFSET_HORIZONTAL * o->oF8;
+    Vec3f pos = {o->oPosX, o->oPosY + 600, o->oPosZ};
 
     o->oHomeY = SUN_OFFSET_VERTICAL;
     
@@ -542,8 +554,8 @@ void bhv_angry_sun_loop(void) {
 
     switch (o->oAction) {
         case ANGRY_SUN_ACT_IDLE:
-            o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.08f);
-            o->oPosX = approach_f32_asymptotic(o->oPosX, o->oHomeX, 0.08f);
+            o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.10f);
+            o->oPosX = approach_f32_asymptotic(o->oPosX, o->oHomeX, 0.10f);
 
             if (o->oTimer == 30) {
                 o->oAction = ANGRY_SUN_ACT_CIRCLE;
@@ -561,11 +573,10 @@ void bhv_angry_sun_loop(void) {
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY + (-SUN_OFFSET_VERTICAL * sins(o->oTimer * SUN_SWOOP_SPEED)), 0.16f);
             o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0] + (sunOffsetSideHorizontal * coss(o->oTimer * SUN_SWOOP_SPEED)), 0.16f);
 
-            if (o->oTimer == 60) {
+            if (o->oTimer == 40) {
                 o->oF4++;
                 if (o->oF4 >= NUM_SUN_CYCLES) {
-                    gAngrySunPresent = 0;
-                    mark_obj_for_deletion(o);
+                    o->oAction = ANGRY_SUN_ACT_LEAVE;
                 }
                 else {
                     o->oAction = ANGRY_SUN_ACT_IDLE;
@@ -573,6 +584,13 @@ void bhv_angry_sun_loop(void) {
                 }
             }
         break;
+        case ANGRY_SUN_ACT_LEAVE:
+            o->oPosY = approach_f32_asymptotic(o->oPosY, 1600, 0.10f);
+
+            if (o->oTimer > 30) {
+                gAngrySunPresent = 0;
+                mark_obj_for_deletion(o);
+            }
     }
 
     if (o->oDesertTimer > 7) {
@@ -582,7 +600,13 @@ void bhv_angry_sun_loop(void) {
         cur_obj_become_intangible();
     }
 
-    print_text_fmt_int(20, 20, "ACTION: %d", o->oAction);
+    emit_light(pos, 255, 220, 210, 4, 10, 4, 0);
+
+    if (gMarioCurrentRoom == 2) {
+        gAngrySunPresent = 0;
+        mark_obj_for_deletion(o);
+    }
+
 
     
 }
