@@ -419,7 +419,7 @@ void update_walking_speed(struct MarioState *m) {
     f32 maxTargetSpeed;
     f32 targetSpeed;
 
-    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
+    if (m->floor != NULL && (m->floor->type == SURFACE_SLOW || m->hydrationMeter <= 0.1f)) {
         maxTargetSpeed = 20.0f;
     } else {
         maxTargetSpeed = 32.0f;
