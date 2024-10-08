@@ -565,8 +565,10 @@ endif
 
 ifneq (,$(call find-command,wslview))
     EMULATOR = "/mnt/c/Program Files (x86)/parallel-launcher/parallel-launcher.exe"
+    SC64DEPLOYER = /mnt/c/sc64/sc64deployer.exe upload
 else
     EMULATOR = parallel-launcher
+    SC64DEPLOYER = /mnt/c/sc64/sc64deployer.exe upload
 endif
 
 EMU_FLAGS =
@@ -624,6 +626,9 @@ distclean: clean
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
+
+sc: $(ROM)
+	$(SC64DEPLOYER) $(EMU_FLAGS) $<
 
 test-pj64: $(ROM)
 	wine ~/Desktop/new64/Project64.exe $<
