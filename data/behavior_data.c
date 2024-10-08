@@ -6199,3 +6199,17 @@ const BehaviorScript bhvDesertSpawner[] = {
         CALL_NATIVE(bhv_desert_spawner_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvAngrySun[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 100, /*Height*/ 100, /*Downwards offset*/ 0),
+    SET_INTERACT_TYPE(INTERACT_DAMAGE),
+    SET_INT(oDamageOrCoinValue, 1),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HOME(),
+    CALL_NATIVE(bhv_angry_sun_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_angry_sun_loop),
+    END_LOOP(),
+};

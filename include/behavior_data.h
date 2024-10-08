@@ -552,5 +552,6 @@ extern const BehaviorScript bhvDesertSpawner[];
 extern const BehaviorScript bhvDesertSign[];
 extern const BehaviorScript bhvPointLightPreview[];
 extern const BehaviorScript bhvKoopaCustom[];
+extern const BehaviorScript bhvAngrySun[];
 
 #endif // BEHAVIOR_DATA_H

@@ -33,3 +33,4 @@
 #include "desert_house_rgb/geo.inc.c"
 #include "sign_normal/geo.inc.c"
 #include "sign_video/geo.inc.c"
+#include "angry_sun/geo.inc.c"

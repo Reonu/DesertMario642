@@ -63,3 +63,4 @@
 #include "desert_house_rgb/model.inc.c"
 #include "sign_normal/model.inc.c"
 #include "sign_video/model.inc.c"
+#include "angry_sun/model.inc.c"

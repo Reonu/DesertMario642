@@ -162,10 +162,10 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
 }
 
 
-#define GOOMBA_CHANCE 0.25f
-#define POKEY_CHANCE 0.25f
-#define KLEPTO_CHANCE 0.40f
-#define SUN_CHANCE 0.10f
+#define GOOMBA_CHANCE 0.10f
+#define POKEY_CHANCE 0.07f
+#define KLEPTO_CHANCE 0.05f
+#define SUN_CHANCE 0.40f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 #define BUSH_CHANCE 0.25f
@@ -232,6 +232,13 @@ void spawn_enemy(MTRand *rand) {
     chanceStorage -= KLEPTO_CHANCE;
     if (chanceStorage < 0) {
         spawn_object_desert(gCurrentObject, 0, MODEL_KLEPTO, bhvKlepto, Road.x,Road.y,Road.z,0,0,0,rand);
+        return;
+    }
+    chanceStorage -= SUN_CHANCE;
+    if (chanceStorage < 0) {
+        if (!gAngrySunPresent) {
+            spawn_object_desert(gCurrentObject, 0, MODEL_ANGRY_SUN, bhvAngrySun, Road.x,Road.y,Road.z,0,0,0,rand);
+        }
         return;
     }
 }
@@ -498,5 +505,84 @@ void bhv_koopa_water_seller_loop(void) {
     } else {
         cur_obj_hide();
     }
+    
+}
+
+// Angry sun
+
+enum AngrySunActions {
+    ANGRY_SUN_ACT_IDLE,
+    ANGRY_SUN_ACT_CIRCLE,
+    ANGRY_SUN_ACT_SWOOP
+};
+
+#define SUN_OFFSET_HORIZONTAL   700
+#define SUN_OFFSET_VERTICAL     650
+#define SUN_CIRCLE_SIZE     300
+#define SUN_CIRCLE_SPEED     0x444
+#define SUN_SWOOP_SPEED     0x222
+#define NUM_SUN_CYCLES     4
+
+void bhv_angry_sun_init(void) {
+    o->oF4 = 0;
+    o->oF8 = 1;
+    gAngrySunPresent = 1;
+}
+
+void bhv_angry_sun_loop(void) {
+
+    s16 sunOffsetSideHorizontal = SUN_OFFSET_HORIZONTAL * o->oF8;
+
+    o->oHomeY = SUN_OFFSET_VERTICAL;
+    
+    o->oHomeX = gMarioState->pos[0] + sunOffsetSideHorizontal;
+    o->oHomeZ = gMarioState->pos[2];
+
+    o->oPosZ = gMarioState->pos[2];
+
+    switch (o->oAction) {
+        case ANGRY_SUN_ACT_IDLE:
+            o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.08f);
+            o->oPosX = approach_f32_asymptotic(o->oPosX, o->oHomeX, 0.08f);
+
+            if (o->oTimer == 30) {
+                o->oAction = ANGRY_SUN_ACT_CIRCLE;
+            }
+        break;
+        case ANGRY_SUN_ACT_CIRCLE:
+            o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY + (SUN_CIRCLE_SIZE * coss(o->oTimer * SUN_CIRCLE_SPEED)), 0.08f);
+            o->oPosX = approach_f32_asymptotic(o->oPosX, o->oHomeX + (SUN_CIRCLE_SIZE * sins(o->oTimer * SUN_CIRCLE_SPEED)), 0.08f);
+
+            if (o->oTimer == 60) {
+                o->oAction = ANGRY_SUN_ACT_SWOOP;
+            }
+        break;
+        case ANGRY_SUN_ACT_SWOOP:
+            o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY + (-SUN_OFFSET_VERTICAL * sins(o->oTimer * SUN_SWOOP_SPEED)), 0.16f);
+            o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0] + (sunOffsetSideHorizontal * coss(o->oTimer * SUN_SWOOP_SPEED)), 0.16f);
+
+            if (o->oTimer == 60) {
+                o->oF4++;
+                if (o->oF4 >= NUM_SUN_CYCLES) {
+                    gAngrySunPresent = 0;
+                    mark_obj_for_deletion(o);
+                }
+                else {
+                    o->oAction = ANGRY_SUN_ACT_IDLE;
+                    o->oF8 *= -1;
+                }
+            }
+        break;
+    }
+
+    if (o->oDesertTimer > 7) {
+        cur_obj_become_tangible();
+        cur_obj_check_interacted();
+    } else {
+        cur_obj_become_intangible();
+    }
+
+    print_text_fmt_int(20, 20, "ACTION: %d", o->oAction);
+
     
 }
