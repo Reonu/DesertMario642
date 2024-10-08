@@ -7,3 +7,4 @@
 #include "leon.c.in"
 #include "feliz_jeuves.c.in"
 #include "the_horse.c.in"
+#include "chips.c.in"

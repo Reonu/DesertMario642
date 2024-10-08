@@ -8012,11 +8012,25 @@ layer_jump .layer_caramelldansen_loop
 
 
 .channelF_table:
+sound_ref .sound_bb_chips
 sound_ref .sound_bb_leon
+
+.sound_bb_chips:
+chan_setbank 0
+chan_setinstr 6
+chan_setenvelope .envelope_stream
+chan_setval 8
+chan_call .set_reverb
+chan_setlayer 0, .layer_bb_chips
+chan_end
+
+.layer_bb_chips:
+layer_note1 39, 0x1e4, 127
+layer_end
 
 .sound_bb_leon:
 chan_setbank 0
-chan_setinstr 6
+chan_setinstr 7
 chan_setenvelope .envelope_stream
 chan_setval 8
 chan_call .set_reverb

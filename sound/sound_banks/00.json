@@ -43,7 +43,12 @@
         "inst6": {
             "release_rate": 30,
             "envelope": "envelope0",
-            "sound": "06_bb_leon"
+            "sound": "06_bb_chips"
+        },
+        "inst7": {
+            "release_rate": 30,
+            "envelope": "envelope0",
+            "sound": "07_bb_leon"
         }
     },
     "instrument_list": [
@@ -53,6 +58,7 @@
         "inst3",
         "inst4",
         "inst5",
-        "inst6"
+        "inst6",
+        "inst7"
     ]
 }
