@@ -652,17 +652,19 @@ void bhv_angry_sun_loop(void) {
 // Jukebox
 
 struct DesertSeqs {
-    const u32 seqId;
+    const u16 seqId;
+    const u8 isPort;
     const char *seqAuthor;
     const char *seqName;
 };
 
 const struct DesertSeqs seqsToRandomize[] = {
-    {.seqId = SEQ_KALIMARI_DESERT,      .seqAuthor = "ShrooboidBrat",   .seqName = "MK64 - Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
-    {.seqId = SEQ_LEVEL_HOT,            .seqAuthor = "Nintendo",        .seqName = "SM64 - Shifting Sand Land"},
-    {.seqId = SEQ_CROSSING_THOSE_HILLS, .seqAuthor = "scutte",          .seqName = "Scott Pilgrim - Crossing Those Hills"},
-    {.seqId = SEQ_ROUTE_203,            .seqAuthor = "scutte",          .seqName = "Legends Arceus - Route 203"},
-    {.seqId = SEQ_SMO_SAND_KINGDOM,     .seqAuthor = "ArcticJaguar725", .seqName = "SMO - Sand Kingdom"},
+    {.seqId = SEQ_KALIMARI_DESERT,       .isPort = TRUE,  .seqAuthor = "ShrooboidBrat",   .seqName = "Mario Kart 64: Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
+    {.seqId = SEQ_LEVEL_HOT,             .isPort = FALSE, .seqAuthor = "Nintendo",        .seqName = "Super Mario 64: Shifting Sand Land"},
+    {.seqId = SEQ_CROSSING_THOSE_HILLS,  .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Final Fantasy IX: Crossing Those Hills"},
+    {.seqId = SEQ_ROUTE_203,             .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Pokemon Legends Arceus: Route 203"},
+    {.seqId = SEQ_SMO_SAND_KINGDOM,      .isPort = TRUE,  .seqAuthor = "ArcticJaguar725", .seqName = "Super Mario Odyssey: Sand Kingdom"},
+    {.seqId = SEQ_REDC_MANSION_BASEMENT, .isPort = FALSE, .seqAuthor = "Capcom",          .seqName = "Resident Evil (DC): Mansion Basement"},
 };
 
 #define RANDOMIZED_SEQ_COUNT (ARRAY_COUNT(seqsToRandomize))
@@ -761,14 +763,20 @@ void bhv_jukebox_loop(void) {
             o->oAction = JUKEBOX_ACT_SUCCESS;
             break;
         case JUKEBOX_ACT_SUCCESS:
-            if ((o->oTimer > 150)) {
+            if ((o->oTimer > 120)) {
                 o->oAction = JUKEBOX_ACT_IDLE;
             }
             print_small_text_at_slot(20, 3, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             sprintf(str, "<COL_3FFF3F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqName);
             print_small_text_at_slot(20, 1, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            sprintf(str, "Music port by: <COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqAuthor);
-            print_small_text_at_slot(20, 0, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            if (seqsToRandomize[o->oDesertSequenceIndex].seqAuthor) {
+                if (seqsToRandomize[o->oDesertSequenceIndex].isPort) {
+                    sprintf(str, "Music port by: <COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqAuthor);
+                } else {
+                    sprintf(str, "<COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqAuthor);
+                }
+                print_small_text_at_slot(20, 0, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            }
             lock_remaining_text_slots();
             break;
     }

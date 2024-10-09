@@ -49,6 +49,7 @@ enum SeqId {
     SEQ_CROSSING_THOSE_HILLS,         // 0x24
     SEQ_ROUTE_203,                    // 0x25
     SEQ_SMO_SAND_KINGDOM,             // 0x26
+    SEQ_REDC_MANSION_BASEMENT,        // 0x27
 
     SEQ_COUNT,
 };
