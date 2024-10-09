@@ -47,6 +47,10 @@ enum ImageDMAIDs {
     BB_IMAGE_ROSALU,
     BB_IMAGE_BLOCKINGTON,
     BB_IMAGE_DESERT_MARIO,
+    BB_IMAGE_JOOPII,
+    BB_IMAGE_HYENA_CHAN,
+    BB_IMAGE_ANONYMOUS_MOOSE,
+    BB_IMAGE_CRYPTLYS,
 
     BB_IMAGE_COUNT,
 };
@@ -59,6 +63,7 @@ enum VideoDMAIDs {
     BB_VIDEO_FELIZ_JEUVES,
     BB_VIDEO_THE_HORSE,
     BB_VIDEO_BILLWURTZ,
+    BB_VIDEO_KAZE_ENDCARD,
 
     BB_VIDEO_COUNT,
 };
@@ -71,3 +76,4 @@ extern const struct DMAImageProps leon_video_data[122];
 extern const struct DMAImageProps feliz_jeuves_video_data[33];
 extern const struct DMAImageProps the_horse_video_data[28];
 extern const struct DMAImageProps chips_video_data[125];
+extern const struct DMAImageProps kaze_endcard_video_data[324];

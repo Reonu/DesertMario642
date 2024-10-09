@@ -8014,6 +8014,10 @@ layer_jump .layer_caramelldansen_loop
 .channelF_table:
 sound_ref .sound_bb_chips
 sound_ref .sound_bb_leon
+sound_ref .sound_bb_kaze_endcard
+
+.layer_bb_padding:
+layer_delay 0x120 # 3 seconds (in case game lags, don't force volume spike back up)
 
 .sound_bb_chips:
 chan_setbank 0
@@ -8026,7 +8030,7 @@ chan_end
 
 .layer_bb_chips:
 layer_note1 39, 0x1e4, 127
-layer_end
+layer_jump .layer_bb_padding
 
 .sound_bb_leon:
 chan_setbank 0
@@ -8039,7 +8043,20 @@ chan_end
 
 .layer_bb_leon:
 layer_note1 39, 0x1eb, 115
-layer_end
+layer_jump .layer_bb_padding
+
+.sound_bb_kaze_endcard:
+chan_setbank 0
+chan_setinstr 8
+chan_setenvelope .envelope_stream
+chan_setval 8
+chan_call .set_reverb
+chan_setlayer 0, .layer_bb_kaze_endcard
+chan_end
+
+.layer_bb_kaze_endcard:
+layer_note1 39, 0x81a, 127
+layer_jump .layer_bb_padding
 
 
 .align 2, 0

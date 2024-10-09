@@ -641,12 +641,57 @@ void bhv_angry_sun_loop(void) {
         gAngrySunPresent = 0;
         mark_obj_for_deletion(o);
     }
-
-
-    
 }
 
 // Jukebox
+
+u8 seqsToRandomize[] = {
+    SEQ_KALIMARI_DESERT, // NOTE: Kalimari Desert must be first here!
+    SEQ_LEVEL_HOT,
+    SEQ_CROSSING_THOSE_HILLS,
+    SEQ_ROUTE_203,
+};
+
+#define RANDOMIZED_SEQ_COUNT (ARRAY_COUNT(seqsToRandomize))
+#define SEQ_WEIGHT_INCREASE (1.0f / (f32) RANDOMIZED_SEQ_COUNT)
+static f32 jukeboxSeqWeights[RANDOMIZED_SEQ_COUNT] = {
+    [0] = -(SEQ_WEIGHT_INCREASE * 2), // Start with first sequence here (Kalimari Desert)
+    [1 ... RANDOMIZED_SEQ_COUNT - 1] = 0.5f,
+}; // Weighting array for scenes so that repeated scenes are less likely to immediately show up
+static s32 jukebox_generate_new_weighted_track(void) {
+    s32 index;
+
+    f32 weightTotal = 0.0f;
+    f32 currentWeight = 0.0f;
+    f32 generatedWeight = random_float();
+
+    for (index = 0; index < RANDOMIZED_SEQ_COUNT; index++) {
+        // Increase the probability selection window for each scene; offers future benefit against more recently selected indexes
+        jukeboxSeqWeights[index] += SEQ_WEIGHT_INCREASE;
+
+        // If weight is below 0, effectively exclude it from the possible selection pool
+        if (jukeboxSeqWeights[index] > 0.0f)
+            weightTotal += jukeboxSeqWeights[index];
+    }
+
+    generatedWeight *= weightTotal;
+
+    for (index = 0; index < RANDOMIZED_SEQ_COUNT - 1; index++) { // RANDOMIZED_SEQ_COUNT - 1 not an accident
+        // If weight is below 0, skip the index. This in theory should never favor the last unprocessed index if that falls below 0.
+        if (jukeboxSeqWeights[index] <= 0.0f)
+            continue;
+
+        currentWeight += jukeboxSeqWeights[index];
+        if (currentWeight >= generatedWeight)
+            break;
+    }
+
+    // Index should be guaranteed to not show up for 2 more sequences, then will later become possible at low but increasing probability
+    // NOTE: This system fails completely if there are less than 3 sequences in the pool 
+    jukeboxSeqWeights[index] = -(SEQ_WEIGHT_INCREASE * 2);
+
+    return seqsToRandomize[index];
+}
 
 enum JukeboxActions {
     JUKEBOX_ACT_IDLE,
@@ -666,6 +711,8 @@ void bhv_jukebox_init(void) {
 #define TRIGGER_DIST 250.f
 extern u8 sCurrentBackgroundMusicSeqId;
 void bhv_jukebox_loop(void) {
+    s32 song;
+
     switch (o->oAction) {
         case JUKEBOX_ACT_IDLE:
             if (o->oDistanceToMario < TRIGGER_DIST) {
@@ -696,9 +743,8 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_CHANGE_SONG:
-            u8 song = random_u16() % (SEQ_COUNT - CUSTOM_SONGS_START) + CUSTOM_SONGS_START;
-            stop_background_music(sCurrentBackgroundMusicSeqId);
-            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, song), 30);
+            song = jukebox_generate_new_weighted_track();
+            set_background_music(0, song, 0);
             o->oAction = JUKEBOX_ACT_SUCCESS;
             break;
         case JUKEBOX_ACT_SUCCESS:

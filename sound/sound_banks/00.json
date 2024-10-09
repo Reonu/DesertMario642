@@ -49,6 +49,11 @@
             "release_rate": 30,
             "envelope": "envelope0",
             "sound": "07_bb_leon"
+        },
+        "inst8": {
+            "release_rate": 30,
+            "envelope": "envelope0",
+            "sound": "08_bb_kaze_endcard"
         }
     },
     "instrument_list": [
@@ -59,6 +64,7 @@
         "inst4",
         "inst5",
         "inst6",
-        "inst7"
+        "inst7",
+        "inst8"
     ]
 }
