@@ -437,7 +437,8 @@ void bhv_koopa_water_seller_idle(void) {
 
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
-        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             if (gMarioState->numCoins >= WATER_PRICE) {
                 if (o->oExclamationMarkObject != NULL) {
@@ -458,7 +459,8 @@ void bhv_koopa_water_seller_offer_water(void) {
 
 void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
-        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press B to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             if (gMarioState->numCoins >= BATTERY_PRICE) {
                 if (o->oExclamationMarkObject != NULL) {
@@ -478,7 +480,8 @@ void bhv_koopa_water_seller_offer_battery(void) {
 
 void bhv_koopa_water_seller_thank_you(void) {
     if (o->oDistanceToMario < 500.f) {
-        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Thank you for your business!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Thank you for your business!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
     }
@@ -486,7 +489,8 @@ void bhv_koopa_water_seller_thank_you(void) {
 
 void bhv_koopa_water_seller_water_full(void) {
     if (o->oDistanceToMario < 500.f) {
-        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "You can't carry any more water!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "You can't carry any more water!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
     }
@@ -494,7 +498,8 @@ void bhv_koopa_water_seller_water_full(void) {
 
 void bhv_koopa_water_seller_battery_full(void) {
     if (o->oDistanceToMario < 500.f) {
-        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Your batteries are maxed out!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your batteries are maxed out!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
     }
@@ -502,7 +507,8 @@ void bhv_koopa_water_seller_battery_full(void) {
 
 void bhv_koopa_water_seller_not_enough_coins(void) {
     if ((o->oDistanceToMario < 500.f) || (o->oTimer < 60)) {
-        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
     }
@@ -645,11 +651,18 @@ void bhv_angry_sun_loop(void) {
 
 // Jukebox
 
-u8 seqsToRandomize[] = {
-    SEQ_KALIMARI_DESERT, // NOTE: Kalimari Desert must be first here!
-    SEQ_LEVEL_HOT,
-    SEQ_CROSSING_THOSE_HILLS,
-    SEQ_ROUTE_203,
+struct DesertSeqs {
+    const u32 seqId;
+    const char *seqAuthor;
+    const char *seqName;
+};
+
+const struct DesertSeqs seqsToRandomize[] = {
+    {.seqId = SEQ_KALIMARI_DESERT,      .seqAuthor = "ShrooboidBrat",   .seqName = "MK64 - Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
+    {.seqId = SEQ_LEVEL_HOT,            .seqAuthor = "Nintendo",        .seqName = "SM64 - Shifting Sand Land"},
+    {.seqId = SEQ_CROSSING_THOSE_HILLS, .seqAuthor = "scutte",          .seqName = "Scott Pilgrim - Crossing Those Hills"},
+    {.seqId = SEQ_ROUTE_203,            .seqAuthor = "scutte",          .seqName = "Legends Arceus - Route 203"},
+    {.seqId = SEQ_SMO_SAND_KINGDOM,     .seqAuthor = "ArcticJaguar725", .seqName = "SMO - Sand Kingdom"},
 };
 
 #define RANDOMIZED_SEQ_COUNT (ARRAY_COUNT(seqsToRandomize))
@@ -690,7 +703,7 @@ static s32 jukebox_generate_new_weighted_track(void) {
     // NOTE: This system fails completely if there are less than 3 sequences in the pool 
     jukeboxSeqWeights[index] = -(SEQ_WEIGHT_INCREASE * 2);
 
-    return seqsToRandomize[index];
+    return index;
 }
 
 enum JukeboxActions {
@@ -706,12 +719,10 @@ void bhv_jukebox_init(void) {
     o->oAction = JUKEBOX_ACT_IDLE;
 }
 
-#define CUSTOM_SONGS_START SEQ_KALIMARI_DESERT
-#define CUSTOM_SONGS_END SEQ_CROSSING_THOSE_HILLS
 #define TRIGGER_DIST 250.f
 extern u8 sCurrentBackgroundMusicSeqId;
 void bhv_jukebox_loop(void) {
-    s32 song;
+    static char str[128];
 
     switch (o->oAction) {
         case JUKEBOX_ACT_IDLE:
@@ -720,7 +731,8 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
-            print_small_text_buffered(20, 180, "Press B to play a song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "Press B to play a song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 if (gMarioState->numCoins >= 25) {
                     if (o->oExclamationMarkObject != NULL) {
@@ -737,26 +749,33 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_NOT_ENOUGH_COINS:
-            print_small_text_buffered(20, 180, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
             if ((o->oDistanceToMario > TRIGGER_DIST) || (o->oTimer > 45)) {
                 o->oAction = JUKEBOX_ACT_IDLE;
             }
             break;
         case JUKEBOX_ACT_CHANGE_SONG:
-            song = jukebox_generate_new_weighted_track();
-            set_background_music(0, song, 0);
+            o->oDesertSequenceIndex = jukebox_generate_new_weighted_track();
+            set_background_music(0, seqsToRandomize[o->oDesertSequenceIndex].seqId, 0);
             o->oAction = JUKEBOX_ACT_SUCCESS;
             break;
         case JUKEBOX_ACT_SUCCESS:
-            if ((o->oDistanceToMario > TRIGGER_DIST) || (o->oTimer > 45)) {
+            if ((o->oTimer > 150)) {
                 o->oAction = JUKEBOX_ACT_IDLE;
             }
-            print_small_text_buffered(20, 180, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 3, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            sprintf(str, "<COL_3FFF3F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqName);
+            print_small_text_at_slot(20, 1, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            sprintf(str, "Music port by: <COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqAuthor);
+            print_small_text_at_slot(20, 0, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
             break;
     }
     if (gMarioCurrentRoom == 2) {
         cur_obj_unhide();
     } else {
+        o->oAction = JUKEBOX_ACT_IDLE;
         cur_obj_hide();
     }
 }
@@ -837,8 +856,9 @@ void run_tutorial(void) {
         case TUTORIAL_WATER_START:
             alpha = 255;
             print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "You're dehydrated, so you run slowly.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "Press R to drink water.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "You're dehydrated, so you run slowly.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Press R to drink water.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
             if (gMarioState->action == ACT_DRINKING_WATER) {
                 gWaterTutorialProgress = 1;
                 sTutorialTimer = 0;
@@ -846,8 +866,9 @@ void run_tutorial(void) {
             break;
         case TUTORIAL_WATER_END:
             print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "If you run out of water, you can", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "buy more at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "If you run out of water, you can", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "buy more at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
             if (sTutorialTimer++ >= 120) {
                 alpha = remap(sTutorialTimer, 120, 180, 255, 0);
                 if (sTutorialTimer >= 180) {
@@ -861,8 +882,9 @@ void run_tutorial(void) {
         case TUTORIAL_FLASHLIGHT_START:
             alpha = 255;
             print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "It's getting dark.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "Press L to turn on your flashlight.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT); 
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "It's getting dark.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Press L to turn on your flashlight.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT); 
+            lock_remaining_text_slots();
             if (gMarioState->flashlightOn) {
                 gNightFirstTime = 2;
                 sTutorialTimer = 0;
@@ -870,8 +892,9 @@ void run_tutorial(void) {
             break;
         case TUTORIAL_FLASHLIGHT_END:
             print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Your flashlight needs batteries.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "You can buy batteries at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your flashlight needs batteries.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "You can buy batteries at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
             if (sTutorialTimer++ >= 120) {
                 alpha = remap(sTutorialTimer, 120, 180, 255, 0);
                 if (sTutorialTimer >= 180) {

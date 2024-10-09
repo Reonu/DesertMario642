@@ -152,6 +152,8 @@ extern s32 puppyprint_strlen(const char *str);
 extern void set_segment_memory_printout(u32 segment, u32 amount);
 extern void print_small_text_light(s32 x, s32 y, const char *str, s32 align, s32 amount, u8 font);
 extern void print_small_text_buffered_light(s32 x, s32 y, const char *str, u8 align, s32 amount, u8 font);
+void print_small_text_at_slot(s32 x, u8 slotReservation, const char *str, u8 align, s32 amount, u8 font);
+void lock_remaining_text_slots(void);
 void puppyprint_profiler_process(void);
 s32 text_iterate_command(const char *str, s32 i, s32 runCMD);
 void get_char_from_byte(s32 *textX, s32 *textPos, u8 letter, u8 *wideX, u8 *spaceX, s8 *offsetY, u8 font);

@@ -1854,7 +1854,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 gWaterBottleStolen = 0;
             }
             print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Your water bottle was stolen!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your water was stolen!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
         }
 
     #ifdef DESERT_DEBUG
@@ -1900,7 +1901,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 f32 diff2 = gMarioState->pos[2] - THRESHOLD_MINUS_Z;
                 f32 push = diff2/diff;   
                 gMarioState->pos[2] += push * MAX_PUSHING_FORCE; 
-                print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS - 30, "Drink water before proceeding.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);         
+                print_small_text_at_slot(WATER_TEXT_X_POS, 3, "Drink water before proceeding.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                // Do not lock slots, message is part of tutorial!
             }
         } 
     }

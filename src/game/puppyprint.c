@@ -47,6 +47,7 @@ a modern game engine's developer's console.
 #include "audio/load.h"
 #include "hud.h"
 #include "debug_box.h"
+#include "debug.h"
 #include "color_presets.h"
 #include "buffers/buffers.h"
 #include "profiling.h"
@@ -1985,6 +1986,32 @@ void print_small_text_buffered_light(s32 x, s32 y, const char *str, u8 align, s3
     gIsLightText = FALSE;
 }
 
+#define SLOT_TEXT_Y_POS 180
+#define SLOT_TEXT_Y_OFFSET 14
+static u8 printSlots[5];
+
+// Used to prevent unwanted cases of overlapping text prints
+void print_small_text_at_slot(s32 x, u8 slotReservation, const char *str, u8 align, s32 amount, u8 font) {
+    if (slotReservation >= ARRAY_COUNT(printSlots)) {
+        assert(FALSE, "Invalid print slot!");
+        return;
+    }
+
+    if (printSlots[slotReservation]) {
+        return;
+    }
+
+    printSlots[slotReservation] = TRUE;
+    print_small_text_buffered(x, SLOT_TEXT_Y_POS - (slotReservation * SLOT_TEXT_Y_OFFSET), str, align, amount, font);
+}
+
+// Used to prevent unwanted cases of overlapping text prints
+void lock_remaining_text_slots(void) {
+    for (s32 i = 0; i < ARRAY_COUNT(printSlots); i++) {
+        printSlots[i] = TRUE;
+    }
+}
+
 void puppyprint_print_deferred(void) {
     if (sPuppyprintTextBufferPos == 0)
         return;
@@ -2016,6 +2043,11 @@ void puppyprint_print_deferred(void) {
 
     //Reset the position back to zero, effectively clearing the buffer.
     sPuppyprintTextBufferPos = 0;
+
+    // Unlock reserved print slots
+    for (s32 i = 0; i < ARRAY_COUNT(printSlots); i++) {
+        printSlots[i] = FALSE;
+    }
 }
 
 void render_multi_image(Texture *image, s32 x, s32 y, s32 width, s32 height, UNUSED s32 scaleX, UNUSED s32 scaleY, s32 mode) {

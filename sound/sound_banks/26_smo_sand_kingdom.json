@@ -1,0 +1,215 @@
+{
+    "date": "1996-03-19",
+    "sample_bank": "instruments",
+    "envelopes": {
+        "envelope0": [
+            [3, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope1": [
+            [2, 32700],
+            [300, 0],
+            "hang"
+        ],
+        "envelope2": [
+            [2, 32700],
+            [1, 32700],
+            [800, 0],
+            "hang"
+        ],
+        "envelope3": [
+            [2, 32700],
+            [1, 32700],
+            [800, 0],
+            "hang"
+        ],
+        "envelope4": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope5": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope6": [
+            [6, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope7": [
+            [2, 32700],
+            [35, 32700],
+            [15, 24000],
+            [30, 16000],
+            [100, 0],
+            "hang"
+        ],
+        "envelope8": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope9": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope10": [
+            [1, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope11": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope12": [
+            [12, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope13": [
+            [1, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope14": [
+            [1, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope15": [
+            [1, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ]
+    },
+    "instruments": {
+        "inst0": {
+            "release_rate": 30,
+            "envelope": "envelope0",
+            "sound": "26_crystal_rhodes"
+        },
+        "inst1": {
+            "release_rate": 75,
+            "envelope": "envelope1",
+            "sound": "27_harpsichord"
+        },
+        "inst2": {
+            "release_rate": 55,
+            "envelope": "envelope2",
+            "sound": "3C_acoustic_guitar"
+        },
+        "inst3": {
+            "release_rate": 50,
+            "envelope": "envelope3",
+            "sound": "3B_banjo_2"
+        },
+        "inst4": {
+            "release_rate": 80,
+            "envelope": "envelope4",
+            "sound": "05_acoustic_bass"
+        },
+        "inst5": {
+            "release_rate": 35,
+            "envelope": "envelope5",
+            "sound": "36_sawtooth_synth"
+        },
+        "inst6": {
+            "release_rate": 10,
+            "normal_range_lo": 27,
+            "normal_range_hi": 46,
+            "envelope": "envelope6",
+            "sound_lo": "23_strings_1",
+            "sound": "24_strings_2",
+            "sound_hi": "25_strings_3"
+        },
+        "inst7": {
+            "release_rate": 15,
+            "normal_range_lo": 27,
+            "normal_range_hi": 46,
+            "envelope": "envelope7",
+            "sound_lo": "23_strings_1",
+            "sound": "24_strings_2",
+            "sound_hi": "25_strings_3"
+        },
+        "inst8": {
+            "release_rate": 10,
+            "envelope": "envelope8",
+            "sound": "22_boys_choir"
+        },
+        "inst9": {
+            "release_rate": 50,
+            "envelope": "envelope9",
+            "sound": "34_alto_flute"
+        },
+        "inst10": {
+            "release_rate": 120,
+            "envelope": "envelope9",
+            "sound": "41_pan_flute"
+        },
+        "inst11": {
+            "release_rate": 208,
+            "envelope": "envelope11",
+            "sound": "37_square_synth"
+        },
+        "inst12": {
+            "release_rate": 45,
+            "envelope": "envelope12",
+            "sound": "39_sitar_2"
+        },
+        "inst13": {
+            "release_rate": 208,
+            "envelope": "envelope13",
+            "sound": "0B"
+        },
+        "inst14": {
+            "release_rate": 208,
+            "envelope": "envelope14",
+            "sound": "0C_conga_stick"
+        },
+        "percussion": [
+            {"release_rate": 35, "pan": 63, "envelope": "envelope15", "sound": {"sample": "09", "tuning": 0.529732}},
+            {"release_rate": 35, "pan": 79, "envelope": "envelope15", "sound": {"sample": "0A_tambourine", "tuning": 1.189207}},
+            {"release_rate": 35, "pan": 79, "envelope": "envelope15", "sound": {"sample": "0A_tambourine", "tuning": 1.414214}},
+            {"release_rate": 35, "pan": 63, "envelope": "envelope15", "sound": {"sample": "0B", "tuning": 0.840896}},
+            {"release_rate": 35, "pan": 19, "envelope": "envelope15", "sound": {"sample": "0C_conga_stick", "tuning": 1.498307}},
+            {"release_rate": 35, "pan": 121, "envelope": "envelope15", "sound": {"sample": "0C_conga_stick", "tuning": 1.542211}},
+            {"release_rate": 35, "pan": 89, "envelope": "envelope15", "sound": {"sample": "3F", "tuning": 0.637280}},
+            {"release_rate": 35, "pan": 89, "envelope": "envelope15", "sound": {"sample": "3F", "tuning": 1.701334}}
+        ]
+	},
+    "instrument_list": [
+        "inst0",
+        "inst1",
+        "inst2",
+        "inst3",
+        "inst4",
+        "inst5",
+        "inst6",
+        "inst7",
+        "inst8",
+        "inst9",
+        "inst10",
+        "inst11",
+        "inst12",
+        "inst13",
+        "inst14"
+    ]
+}

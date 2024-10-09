@@ -1355,5 +1355,6 @@ os16112*/
 #define           oPrimRGB                    OBJECT_FIELD_U32(0x53)
 #define           oKleptoStoleWaterBottle     OBJECT_FIELD_S32(0x54)
 #define           oExclamationMarkObject      OBJECT_FIELD_OBJ(0x1C)
+#define           oDesertSequenceIndex        OBJECT_FIELD_S32(0x1D)
 
 #endif // OBJECT_FIELDS_H

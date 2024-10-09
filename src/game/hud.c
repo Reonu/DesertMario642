@@ -495,7 +495,7 @@ void render_hud_battery_meter(s8 alpha) {
     s32 batteryPercent = (gMarioState->batteryMeter * 100) / MAX_BATTERIES;
     print_set_envcolour(255, 255, 255, alpha);
     sprintf(batteryStr, "BATTERY: %d%%", batteryPercent);
-    print_small_text_buffered(10, 190, batteryStr, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    print_small_text_buffered(11, 194, batteryStr, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
 }
 
 /**
