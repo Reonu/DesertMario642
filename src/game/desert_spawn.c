@@ -731,7 +731,7 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
-            print_small_text_at_slot(20, 0, "Press B to play a song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "Press B to play a random song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 if (gMarioState->numCoins >= 25) {

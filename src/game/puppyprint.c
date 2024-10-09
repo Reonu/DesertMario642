@@ -1535,7 +1535,6 @@ void print_small_text(s32 x, s32 y, const char *str, s32 align, s32 amount, u8 f
     s32 textPos[2] = { 0, 0 };
     u16 wideX[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     s32 textLength = amount;
-    s32 prevxlu = 256; // Set out of bounds, so it will *always* be different at first.
     s32 strLen = strlen(str);
     s32 commandOffset;
     f32 wavePos;
@@ -1544,7 +1543,6 @@ void print_small_text(s32 x, s32 y, const char *str, s32 align, s32 amount, u8 f
     u8 spaceX = 0;
     u8 widthX = 0;
     u8 lines = 0;
-    u8 xlu = gCurrEnvCol[3];
     u8 shakeTablePos = 0;
     struct PPTextFont **fntPtr = segmented_to_virtual(gPuppyPrintFontTable);
     struct PPTextFont *fnt = segmented_to_virtual(fntPtr[font]);
@@ -1561,6 +1559,7 @@ void print_small_text(s32 x, s32 y, const char *str, s32 align, s32 amount, u8 f
 
     // Calculate the text width for centre and right aligned text.
     gSPDisplayList(gDisplayListHead++, dl_small_text_begin);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF);
     if (align == PRINT_TEXT_ALIGN_CENTRE || align == PRINT_TEXT_ALIGN_RIGHT) {
         for (s32 i = 0; i < strLen; i++) {
             while (i < strLen && str[i] == '<') {
@@ -1650,15 +1649,6 @@ void print_small_text(s32 x, s32 y, const char *str, s32 align, s32 amount, u8 f
         get_char_from_byte(&textX, &textPos[0], str[i], &widthX, &spaceX, &offsetY, font);
         s32 goddamnJMeasure = textX == 256 ? 1 : 0; // Hack to fix a rendering bug.
         if (str[i] != ' ' && str[i] != '\t') {
-            if (xlu != prevxlu) {
-                prevxlu = xlu;
-                if (xlu > 250) {
-                    gDPSetRenderMode(gDisplayListHead++, G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
-                } else {
-                    gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF);
-                }
-            }
-
             gSPScisTextureRectangle(gDisplayListHead++, (x + textPos[0] + (s16)(shakePos[0])) << 2,
                                                         (y + textPos[1] + (s16)((shakePos[1] + offsetY + wavePos))) << 2,
                                                         (x + textPos[0] + (s16)((shakePos[0] + (widthX * textSizeTotal)))) << 2,
@@ -1684,13 +1674,11 @@ void print_small_text_light(s32 x, s32 y, const char *str, s32 align, s32 amount
     s32 textPos[2] = { 0, 0 };
     u16 wideX[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     s32 textLength = amount;
-    s32 prevxlu = 256; // Set out of bounds, so it will *always* be different at first.
     s32 strLen = strlen(str);
     s8 offsetY = 0;
     u8 spaceX = 0;
     u8 lines = 0;
     u8 widthX = 0;
-    u8 xlu = gCurrEnvCol[3];
     struct PPTextFont **fntPtr = segmented_to_virtual(gPuppyPrintFontTable);
     struct PPTextFont *fnt = segmented_to_virtual(fntPtr[font]);
 
@@ -1700,6 +1688,7 @@ void print_small_text_light(s32 x, s32 y, const char *str, s32 align, s32 amount
 
     // Calculate the text width for centre and right aligned text.
     gSPDisplayList(gDisplayListHead++, dl_small_text_begin);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF);
     if (align == PRINT_TEXT_ALIGN_CENTRE || align == PRINT_TEXT_ALIGN_RIGHT) {
         for (s32 i = 0; i < strLen; i++) {
             if (str[i] == '\n') {
@@ -1743,15 +1732,6 @@ void print_small_text_light(s32 x, s32 y, const char *str, s32 align, s32 amount
         get_char_from_byte(&textX, &textPos[0], str[i], &widthX, &spaceX, &offsetY, font);
         s32 goddamnJMeasure = textX == 256 ? 1 : 0; // Hack to fix a rendering bug.
         if (str[i] != ' ' && str[i] != '\t') {
-            if (xlu != prevxlu) {
-                prevxlu = xlu;
-                if (xlu > 250) {
-                    gDPSetRenderMode(gDisplayListHead++, G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
-                } else {
-                    gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF);
-                }
-            }
-
             gSPScisTextureRectangle(gDisplayListHead++, (x + textPos[0]) << 2,
                                                         (y + textPos[1] + offsetY) << 2,
                                                         (x + textPos[0] + widthX) << 2,
