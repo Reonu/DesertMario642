@@ -79,7 +79,7 @@ struct DmaHandlerList gDemoInputsBuf;
 
 // General timer that runs as the game starts
 u32 gGlobalTimer = 0;
-s32 gUnpausedTimer = 0;
+s32 gUnpausedTimer = DAY_START;
 u32 gDayTime;
 Vec3f gLightDirection = {0,0,0};
 u8 *gAreaSkyboxStart[AREA_COUNT];
@@ -92,6 +92,10 @@ u8 gGoingBackwards;
 u8 gJustExitedGasStation;
 u8 gAngrySunPresent;
 u8 gWaterBottleStolen;
+u8 gWaterTutorialProgress;
+u8 gFlashlightTutorialProgress;
+u8 gNightFirstTime;
+u8 gTutorialDone;
 u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;

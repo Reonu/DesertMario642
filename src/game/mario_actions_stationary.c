@@ -101,7 +101,7 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
         return drop_and_set_mario_action(m, ACT_START_CROUCHING, 0);
     }
 
-    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+    if (gPlayer1Controller->buttonPressed & R_TRIG) {
         return drop_and_set_mario_action(m, ACT_DRINKING_WATER, 0);
     }
 
@@ -192,6 +192,7 @@ s32 act_drinking_water(struct MarioState *m) {
         if (is_anim_at_end(m)) {
             m->actionState = 1;
             recover_hydration(HYDRATON_WATER_RECOVERY);
+            m->waterLeft--;
             return drop_and_set_mario_action(m, ACT_IDLE, 0);
         }
     } else {

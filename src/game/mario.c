@@ -35,6 +35,7 @@
 #include "actors/group0.h"
 #include "lib/libpl/libpl-rhdc.h"
 #include "lib/libpl/libpl.h"
+#include "game/desert_spawn.h"
 u8 status;
 
 /**************************************************
@@ -1779,7 +1780,10 @@ void recover_battery(s32 amt) {
 #define THRESHOLD_PLUS_X 4000
 #define WORLD_EDGE_MINUS_X -4690
 #define WORLD_EDGE_PLUS_X 4690
+#define THRESHOLD_MINUS_Z -2000
+#define WORLD_EDGE_MINUS_Z -3000
 #define MAX_PUSHING_FORCE 90
+
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
@@ -1814,7 +1818,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 
         if ((gPlayer1Controller-> buttonPressed & L_TRIG) && (gMarioState->action != ACT_DRINKING_WATER) && (gMarioState->action != ACT_DRINKING_WATER_FAIL)) {
-            if (gMarioState->batteryMeter > 0) {
+            if ((gMarioState->batteryMeter > 0) && (gNightFirstTime > 0)) {
                 gMarioState->flashlightOn ^= 1;
             } else {
                 play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
@@ -1865,7 +1869,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             f32 angleZ = coss(gMarioState->faceAngle[1]) * 600.0f;
             f32 flashLightPosX = gMarioState->pos[0] + angleX;
             f32 flashLightPosZ = gMarioState->pos[2] + angleZ;
-            Vec3f flashLightPos = {flashLightPosX, gMarioState->pos[1] + 450.0f, flashLightPosZ};
+            Vec3f flashLightPos = {flashLightPosX, gMarioState->pos[1] + 700.0f, flashLightPosZ};
             u8 lightIntensity;
 
             if (gMarioState->batteryMeter >= (MAX_BATTERIES / 2)) {
@@ -1889,8 +1893,19 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             f32 diff2 = gMarioState->pos[0] - THRESHOLD_PLUS_X;
             f32 push = diff2/diff;
             gMarioState->pos[0] -= push * MAX_PUSHING_FORCE;
-        }  
+        } 
+        if (gWaterTutorialProgress == 0) {
+            if (gMarioState->pos[2] < THRESHOLD_MINUS_Z) {
+                f32 diff = WORLD_EDGE_MINUS_Z - THRESHOLD_MINUS_Z;
+                f32 diff2 = gMarioState->pos[2] - THRESHOLD_MINUS_Z;
+                f32 push = diff2/diff;   
+                gMarioState->pos[2] += push * MAX_PUSHING_FORCE; 
+                print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS - 30, "Drink water before proceeding.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);         
+            }
+        } 
     }
+
+    run_tutorial();
      
 
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
@@ -2004,7 +2019,9 @@ void init_mario(void) {
     gMarioState->riddenObj = NULL;
     gMarioState->usedObj = NULL;
 
-    gMarioState->hydrationMeter = MAX_HYDRATION / 5;
+    gMarioState->hydrationMeter = 0;
+    gMarioState->waterLeft = 3;
+    gMarioState->batteryMeter = MAX_BATTERIES;
 
     gMarioState->inRangeOfWaterSeller = FALSE;
 

@@ -753,3 +753,93 @@ void bhv_water_bottle_loop(void) {
     }
 
 }
+
+u8 sCurrentTutorial;
+u16 sTutorialTimer;
+
+enum TutorialSteps {
+    TUTORIAL_WATER_START,
+    TUTORIAL_WATER_END,
+    TUTORIAL_FLASHLIGHT_START,
+    TUTORIAL_FLASHLIGHT_END,
+    TUTORIAL_DONE,
+};
+
+void choose_tutorial(void) {
+    if (!gWaterTutorialProgress) {
+        sCurrentTutorial = TUTORIAL_WATER_START;
+    } else if (gWaterTutorialProgress == 1) {
+        sCurrentTutorial = TUTORIAL_WATER_END;
+    } else if (gNightFirstTime == 1) {
+        sCurrentTutorial = TUTORIAL_FLASHLIGHT_START;
+    } else if (gNightFirstTime == 2) {
+        sCurrentTutorial = TUTORIAL_FLASHLIGHT_END;
+    } else if (gTutorialDone) {
+        sCurrentTutorial = TUTORIAL_DONE;
+    } else {
+        sCurrentTutorial = TUTORIAL_DONE;
+    }
+
+    if (gUnpausedTimer >= DAY_END && !gNightFirstTime) {
+        gNightFirstTime = 1;
+    }
+}
+
+void run_tutorial(void) {
+    static u8 alpha;
+    switch (sCurrentTutorial) {
+        case TUTORIAL_WATER_START:
+            alpha = 255;
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "You're dehydrated, so you run slowly.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "Press R to drink water.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            if (gMarioState->action == ACT_DRINKING_WATER) {
+                gWaterTutorialProgress = 1;
+                sTutorialTimer = 0;
+            }
+            break;
+        case TUTORIAL_WATER_END:
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "If you run out of water, you can", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "buy more at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            if (sTutorialTimer++ >= 120) {
+                alpha = remap(sTutorialTimer, 120, 180, 255, 0);
+                if (sTutorialTimer >= 180) {
+                    gWaterTutorialProgress = 2;
+                    sTutorialTimer = 0;
+                }
+            } else {
+                alpha = 255;
+            }
+            break;
+        case TUTORIAL_FLASHLIGHT_START:
+            alpha = 255;
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "It's getting dark.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "Press L to turn on your flashlight.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT); 
+            if (gMarioState->flashlightOn) {
+                gNightFirstTime = 2;
+                sTutorialTimer = 0;
+            }           
+            break;
+        case TUTORIAL_FLASHLIGHT_END:
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Your flashlight needs batteries.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS + 15, "You can buy batteries at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            if (sTutorialTimer++ >= 120) {
+                alpha = remap(sTutorialTimer, 120, 180, 255, 0);
+                if (sTutorialTimer >= 180) {
+                    gNightFirstTime = 3;
+                    gTutorialDone = 1;
+                    sTutorialTimer = 0;
+                }
+            } else {
+                alpha = 255;
+            }
+            break;
+        case TUTORIAL_DONE:
+        default:
+            break;
+    }
+    choose_tutorial();
+}
