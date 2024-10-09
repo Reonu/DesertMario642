@@ -375,6 +375,11 @@ ALIGNED16 const Texture chips_video_data_0125[] = {
 };
 
 ALIGNED16 const struct DMAImageProps chips_video_data[125] = {
+    // Throw these frames at the beginning to sync with sound effect
+    {.address = chips_video_data_0123, .compressedSize = 0x1680},
+    {.address = chips_video_data_0124, .compressedSize = 0x1680},
+    {.address = chips_video_data_0125, .compressedSize = 0x1680},
+
     {.address = chips_video_data_0001, .compressedSize = 0x1440},
     {.address = chips_video_data_0002, .compressedSize = 0x1440},
     {.address = chips_video_data_0003, .compressedSize = 0x1440},
@@ -497,7 +502,4 @@ ALIGNED16 const struct DMAImageProps chips_video_data[125] = {
     {.address = chips_video_data_0120, .compressedSize = 0x1A40},
     {.address = chips_video_data_0121, .compressedSize = 0x1A50},
     {.address = chips_video_data_0122, .compressedSize = 0x1A50},
-    {.address = chips_video_data_0123, .compressedSize = 0x1680},
-    {.address = chips_video_data_0124, .compressedSize = 0x1680},
-    {.address = chips_video_data_0125, .compressedSize = 0x1680},
 };
