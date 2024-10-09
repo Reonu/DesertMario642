@@ -1866,11 +1866,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         
 
         if (gMarioState->flashlightOn) {
-            f32 angleX = sins(gMarioState->faceAngle[1]) * 600.0f;
-            f32 angleZ = coss(gMarioState->faceAngle[1]) * 600.0f;
-            f32 flashLightPosX = gMarioState->pos[0] + angleX;
-            f32 flashLightPosZ = gMarioState->pos[2] + angleZ;
+            f32 angleX = sins(gMarioState->faceAngle[1]);
+            f32 angleZ = coss(gMarioState->faceAngle[1]);
+            f32 flashLightPosX = gMarioState->pos[0] + angleX * 600.0f;
+            f32 flashLightPosZ = gMarioState->pos[2] + angleZ * 600.0f;
+            f32 flashLightPosX2 = gMarioState->pos[0] + angleX * 1900.0f;
+            f32 flashLightPosZ2 = gMarioState->pos[2] + angleZ * 1900.0f;
             Vec3f flashLightPos = {flashLightPosX, gMarioState->pos[1] + 700.0f, flashLightPosZ};
+            Vec3f flashLightPos2 = {flashLightPosX2, gMarioState->pos[1] + 700.0f, flashLightPosZ2};
             u8 lightIntensity;
 
             if (gMarioState->batteryMeter >= (MAX_BATTERIES / 2)) {
@@ -1879,7 +1882,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 lightIntensity = remap(gMarioState->batteryMeter, 0, (MAX_BATTERIES / 2), 0, 255);
             }
 
-            emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 1, 25, 5, 0);
+            emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 1, 25, 8, 0);
+            emit_light(flashLightPos2, lightIntensity * 0.8f, lightIntensity * 0.8f, lightIntensity * 0.8f, 1, 25, 8, 0);
         }
 
     if (gMarioCurrentRoom != 2) {
