@@ -135,6 +135,8 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_ANGRY_SUN, angry_sun_geo),
     LOAD_MODEL_FROM_GEO(MODEL_JUKEBOX,          jukebox_geo),
     LOAD_MODEL_FROM_GEO(MODEL_EXCLAMATION_MARK,     exclamation_mark_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KLEPTO_WITH_WATER_BOTTLE, klepto_with_water_bottle_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WATER_BOTTLE,             water_bottle_geo),
     FREE_LEVEL_POOL(),
     POP_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),

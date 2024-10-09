@@ -1834,6 +1834,25 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->inRangeOfWaterSeller = FALSE;
         }
 
+        if (gWaterBottleStolen) {
+            u8 alpha = 0;
+            if (gWaterBottleStolen < 60) {
+                if (gWaterBottleStolen <= 15) {
+                    alpha = remap(gWaterBottleStolen, 0, 15, 0, 255);
+                } else {
+                    alpha = 255;
+                }
+                gWaterBottleStolen++;
+            }  else if (gWaterBottleStolen < 75) {
+                alpha = remap(gWaterBottleStolen, 60, 75, 255, 0);
+                gWaterBottleStolen++;
+            } else {
+                gWaterBottleStolen = 0;
+            }
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Your water bottle was stolen!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        }
+
     #ifdef DESERT_DEBUG
         if (gPlayer1Controller->buttonPressed & D_JPAD) {
             gMarioState->numCoins += 50;

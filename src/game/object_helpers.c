@@ -2605,6 +2605,12 @@ void warp_desert_object(struct Object *obj) {
     }
 }
 
+void delete_if_mario_in_gas_station(struct Object *obj) {
+    if (gMarioCurrentRoom == 2) {
+        mark_obj_for_deletion(obj);
+    }
+}
+
 #define COPY_POS_DISTANCE_THRESHOLD 600.0f
 
 u8 copy_mario_x_position(struct Object *obj) {

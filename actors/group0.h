@@ -429,4 +429,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "exclamation_mark/geo_header.h"
 
+#include "klepto_with_water_bottle/geo_header.h"
+
+#include "water_bottle/geo_header.h"
+
 #endif

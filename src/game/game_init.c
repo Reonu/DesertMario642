@@ -91,6 +91,7 @@ u8 gInstantWarpType;
 u8 gGoingBackwards;
 u8 gJustExitedGasStation;
 u8 gAngrySunPresent;
+u8 gWaterBottleStolen;
 u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;

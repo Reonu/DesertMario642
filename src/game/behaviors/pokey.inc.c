@@ -133,6 +133,7 @@ void bhv_pokey_body_part_update(void) {
         o->oAnimState = 1;
     }
     warp_desert_object(o);
+    delete_if_mario_in_gas_station(o);
     o->oGraphYOffset = o->header.gfx.scale[1] * 22.0f;
 }
 
@@ -299,5 +300,6 @@ void bhv_pokey_update(void) {
     o->oDrawingDistance = 999999.0f;
     copy_mario_x_position(o);
     warp_desert_object(o);
+    delete_if_mario_in_gas_station(o);
 }
 

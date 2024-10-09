@@ -1,0 +1,15 @@
+extern const GeoLayout water_bottle_geo[];
+extern u8 water_bottle_water_label_ci4[];
+extern u8 water_bottle_water_label_pal_rgba16[];
+extern Vtx water_bottle_water_bottle_mesh_layer_1_vtx_cull[8];
+extern Vtx water_bottle_water_bottle_mesh_layer_1_vtx_0[26];
+extern Gfx water_bottle_water_bottle_mesh_layer_1_tri_0[];
+extern Vtx water_bottle_water_bottle_mesh_layer_5_vtx_cull[8];
+extern Vtx water_bottle_water_bottle_mesh_layer_5_vtx_0[36];
+extern Gfx water_bottle_water_bottle_mesh_layer_5_tri_0[];
+extern Gfx mat_water_bottle_water_bottle_label[];
+extern Gfx mat_revert_water_bottle_water_bottle_label[];
+extern Gfx mat_water_bottle_water[];
+extern Gfx mat_revert_water_bottle_water[];
+extern Gfx water_bottle_water_bottle_mesh_layer_1[];
+extern Gfx water_bottle_water_bottle_mesh_layer_5[];

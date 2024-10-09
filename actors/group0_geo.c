@@ -36,3 +36,5 @@
 #include "angry_sun/geo.inc.c"
 #include "jukebox/geo.inc.c"
 #include "exclamation_mark/geo.inc.c"
+#include "klepto_with_water_bottle/geo.inc.c"
+#include "water_bottle/geo.inc.c"

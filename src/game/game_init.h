@@ -68,6 +68,7 @@ extern u8 gInstantWarpType;
 extern u8 gGoingBackwards;
 extern u8 gJustExitedGasStation;
 extern u8 gAngrySunPresent;
+extern u8 gWaterBottleStolen;
 extern u16 gVisitedAreas;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;

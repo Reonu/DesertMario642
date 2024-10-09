@@ -2735,4 +2735,7 @@ enum gCutsceneObjSpawns {
 #define HYDRATON_WATER_RECOVERY (MAX_HYDRATION / 4)
 
 #define INSTANT_WARPS_GOAL 100
+
+#define WATER_TEXT_X_POS 20
+#define WATER_TEXT_Y_POS 180
 #endif // OBJECT_CONSTANTS_H

@@ -298,5 +298,6 @@ void bhv_call_warp_desert_object(void);
 u16 calculate_z_pos_difference(struct Object *obj);
 u8 bhv_flip_desert_object(struct Object *obj, s16 offset);
 Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
+void delete_if_mario_in_gas_station(struct Object *obj);
 
 #endif // OBJECT_HELPERS_H

@@ -1353,6 +1353,7 @@ os16112*/
 #define           oInstantWarpSpawn           OBJECT_FIELD_S32(0x51)
 #define           oDesertObjValidator         OBJECT_FIELD_U32(0x52)
 #define           oPrimRGB                    OBJECT_FIELD_U32(0x53)
+#define           oKleptoStoleWaterBottle     OBJECT_FIELD_S32(0x54)
 #define           oExclamationMarkObject      OBJECT_FIELD_OBJ(0x1C)
 
 #endif // OBJECT_FIELDS_H

@@ -67,3 +67,5 @@
 #include "jukebox/model.inc.c"
 #include "jukebox/collision.inc.c"
 #include "exclamation_mark/model.inc.c"
+#include "klepto_with_water_bottle/model.inc.c"
+#include "water_bottle/model.inc.c"

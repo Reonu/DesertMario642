@@ -396,4 +396,5 @@ void bhv_goomba_update(void) {
     }
     copy_mario_x_position(o);
     warp_desert_object(o);
+    delete_if_mario_in_gas_station(o);
 }

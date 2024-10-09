@@ -6236,3 +6236,13 @@ const BehaviorScript bhvExclamationMark[] = {
         CALL_NATIVE(bhv_exclamation_mark_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvWaterBottle[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_HOME(),
+    CALL_NATIVE(bhv_water_bottle_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_water_bottle_loop),
+    END_LOOP(),
+};

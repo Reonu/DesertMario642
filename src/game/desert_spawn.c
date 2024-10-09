@@ -164,8 +164,8 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
 
 #define GOOMBA_CHANCE 0.10f
 #define POKEY_CHANCE 0.07f
-#define KLEPTO_CHANCE 0.05f
-#define SUN_CHANCE 0.40f
+#define KLEPTO_CHANCE 0.40f
+#define SUN_CHANCE 0.02f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 #define BUSH_CHANCE 0.25f
@@ -389,8 +389,7 @@ enum KoopaWaterSellerAction {
     KOOPA_SELLER_THANK_YOU
 };
 
-#define WATER_TEXT_X_POS 20
-#define WATER_TEXT_Y_POS 180
+
 
 #define SELLS_WATER 0 
 #define SELLS_BATTERIES 1
@@ -684,6 +683,11 @@ void bhv_jukebox_loop(void) {
             print_small_text_buffered(20, 180, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             break;
     }
+    if (gMarioCurrentRoom == 2) {
+        cur_obj_unhide();
+    } else {
+        cur_obj_hide();
+    }
 }
 
 void bhv_exclamation_mark_init(void) {
@@ -697,5 +701,30 @@ void bhv_exclamation_mark_loop(void) {
     o->oFaceAngleYaw += 100;
 
     Vec3f pos = {o->oPosX, o->oPosY, o->oPosZ - 200};
-    emit_light(pos, 255, 0, 0, 4, 80, 4, 0);
+    if (gMarioCurrentRoom == 2) {
+        cur_obj_unhide();
+        emit_light(pos, 255, 0, 0, 4, 80, 4, 0);
+    } else {
+        cur_obj_hide();
+    }
+}
+
+void bhv_water_bottle_init(void) {
+
+}
+
+void bhv_water_bottle_loop(void) {
+    o->oFaceAngleYaw += 0x1000;
+    o->oPrimRGB += 1300;
+    o->oPosY += sins(o->oPrimRGB) * 1.1f;
+    o->oFaceAngleYaw += 100;    
+
+    if (o->oDistanceToMario < 200.f) {
+        if (gMarioState->waterLeft < MAX_WATER) {
+            gMarioState->waterLeft = o->oKleptoStoleWaterBottle;
+            play_sound(SOUND_GENERAL_COLLECT_1UP, gGlobalSoundSource);
+        }
+        mark_obj_for_deletion(o);
+    }
+
 }

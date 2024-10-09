@@ -1,6 +1,8 @@
 // klepto.inc.c
 #include "behavior_data.h"
 #include "game/level_update.h"
+#include "game/puppyprint.h"
+#include "game/game_init.h"
 
 static struct ObjectHitbox sKleptoHitbox = {
     /* interactType:      */ INTERACT_HIT_FROM_BELOW,
@@ -227,11 +229,15 @@ static void klepto_act_dive_at_mario(void) {
                 newKlepto->oPosZ = o->oPosZ;
                 newKlepto->oPrimRGB = 1;
                 newKlepto->oInstantWarpSpawn = o->oInstantWarpSpawn;
+                if (o->oKleptoStoleWaterBottle) {
+                    newKlepto->oKleptoStoleWaterBottle = o->oKleptoStoleWaterBottle;
+                    obj_set_model(newKlepto, MODEL_KLEPTO_WITH_WATER_BOTTLE);
+                }
             }
             mark_obj_for_deletion(o);
         }
     } else {
-        f32 dy = o->oPosY - gMarioObject->oPosY;
+        f32 dy = o->oPosY;
 
         if (o->oSoundStateID == KLEPTO_ANIM_DIVE_AT_MARIO_3) {
             cur_obj_set_anim_if_at_end(KLEPTO_ANIM_DIVE_AT_MARIO_4);
@@ -257,7 +263,13 @@ static void klepto_act_dive_at_mario(void) {
                 && dy > 50.0f
                 && dy < 90.0f
                 ) {
-                gMarioState->waterLeft = 0;
+                if (gMarioState->waterLeft) {
+                    o->oKleptoStoleWaterBottle = gMarioState->waterLeft;
+                    gMarioState->waterLeft = 0;
+                    gWaterBottleStolen = 1;
+                    obj_set_model(o, MODEL_KLEPTO_WITH_WATER_BOTTLE);
+                }
+                
             }
         }
     }
@@ -269,12 +281,25 @@ static void klepto_act_dive_at_mario(void) {
 
 static void klepto_act_struck_by_mario(void) {
     cur_obj_init_animation_with_sound(KLEPTO_ANIM_STRUCK_BY_MARIO);
-
+    o->oHealth = 0;
+    if (!o->oKleptoStoleWaterBottle) {
+        o->oNumLootCoins = 2;
+    } else {
+        struct Object *waterBottle = spawn_object(o, MODEL_WATER_BOTTLE, bhvWaterBottle);
+        waterBottle->oPosX = o->oPosX;
+        waterBottle->oPosY = 50;
+        waterBottle->oPosZ = o->oPosZ;
+        waterBottle->oKleptoStoleWaterBottle = o->oKleptoStoleWaterBottle;
+    }
+    
+    obj_die_if_health_non_positive();
+    return; 
     obj_face_pitch_approach(0, 800);
     obj_face_yaw_approach(o->oMoveAngleYaw + 0x8000, 800);
     obj_face_roll_approach(0, 800);
 
     if (cur_obj_check_if_near_animation_end()) {
+        return;
         o->oAction = KLEPTO_ACT_RETREAT;
         o->oGravity = 0.0f;
 
@@ -400,4 +425,5 @@ void bhv_klepto_update(void) {
     cur_obj_move_standard(78);
     warp_desert_object(o);
     copy_mario_x_position(o);
+    delete_if_mario_in_gas_station(o);
 }
