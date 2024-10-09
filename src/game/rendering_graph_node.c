@@ -1491,7 +1491,7 @@ void geo_process_scene_light(struct GraphNodeSceneLight *node)
 
             node->light->l.pl.quadratic_attenuation = node->a;
             node->light->l.pl.linear_attenuation = node->b;
-            node->light->l.pl.constant_attenuation = (node->c == 0) ? 8 : node->c;
+            node->light->l.pl.constant_attenuation = MAX(node->c, 8);
             break;
         case LIGHT_TYPE_AMBIENT:
             if (!gOverrideAmbientLight)
