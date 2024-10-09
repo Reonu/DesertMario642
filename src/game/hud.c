@@ -585,7 +585,7 @@ void render_hud_camera_status(void) {
  */
 void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
-    static s8 alpha;
+    static u8 alpha = 0;
 
     if (hudDisplayFlags == HUD_DISPLAY_NONE) {
         sPowerMeterHUD.animation = POWER_METER_HIDDEN;
@@ -626,14 +626,11 @@ void render_hud(void) {
         render_hud_water_left();
         if (gMarioState->flashlightOn) {
             render_hud_battery_meter(alpha);
-            alpha = (alpha + 20) % 255;
+            alpha = CLAMP(alpha + 20, 0, 255);
         } else {
             if (alpha > 0) {
                 render_hud_battery_meter(alpha);
-                alpha -= 20;
-                if (alpha < 0) {
-                    alpha = 0;
-                }
+                alpha = CLAMP(alpha -20, 0, 255);
             }
         }
 

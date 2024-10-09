@@ -386,7 +386,7 @@ enum KoopaWaterSellerAction {
     KOOPA_WATER_SELLER_WATER_FULL,
     KOOPA_BATTERY_SELLER_OFFER_BATTERY,
     KOOPA_BATTERY_SELLER_BATTERY_FULL,
-    KOOPA_SELLER_THANK_YOU
+    KOOPA_SELLER_NOT_ENOUGH_COINS,
 };
 
 
@@ -395,6 +395,9 @@ enum KoopaWaterSellerAction {
 #define SELLS_BATTERIES 1
 
 #define SELLER_MAX_DISTANCE 400.f
+
+#define WATER_PRICE 10
+#define BATTERY_PRICE 10
 
 void bhv_koopa_water_seller_set_exclamation_mark(void) {
     o->oAction = KOOPA_WATER_SELLER_IDLE;
@@ -436,11 +439,17 @@ void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
-            if (o->oExclamationMarkObject != NULL) {
-                mark_obj_for_deletion(o->oExclamationMarkObject);
+            if (gMarioState->numCoins >= WATER_PRICE) {
+                if (o->oExclamationMarkObject != NULL) {
+                    mark_obj_for_deletion(o->oExclamationMarkObject);
+                }
+                gMarioState->numCoins -= WATER_PRICE;
+                gMarioState->waterLeft = MAX_WATER;
+                o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+            } else {
+                o->oAction = KOOPA_SELLER_NOT_ENOUGH_COINS;
             }
-            gMarioState->waterLeft = MAX_WATER;
-            o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+
         }
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
@@ -451,11 +460,16 @@ void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "Press B to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
-            if (o->oExclamationMarkObject != NULL) {
-                mark_obj_for_deletion(o->oExclamationMarkObject);
+            if (gMarioState->numCoins >= BATTERY_PRICE) {
+                if (o->oExclamationMarkObject != NULL) {
+                    mark_obj_for_deletion(o->oExclamationMarkObject);
+                }
+                gMarioState->numCoins -= BATTERY_PRICE;
+                gMarioState->batteryMeter = MAX_BATTERIES;
+                o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
+            } else {
+                o->oAction = KOOPA_SELLER_NOT_ENOUGH_COINS;
             }
-            gMarioState->batteryMeter = MAX_BATTERIES;
-            o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
         }
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
@@ -486,6 +500,14 @@ void bhv_koopa_water_seller_battery_full(void) {
     }
 }
 
+void bhv_koopa_water_seller_not_enough_coins(void) {
+    if ((o->oDistanceToMario < 500.f) || (o->oTimer < 60)) {
+        print_small_text_buffered(WATER_TEXT_X_POS, WATER_TEXT_Y_POS, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    } else {
+        o->oAction = KOOPA_WATER_SELLER_IDLE;
+    }
+}
+
 void bhv_koopa_water_seller_loop(void) {
 
     switch (o->oAction) {
@@ -506,6 +528,9 @@ void bhv_koopa_water_seller_loop(void) {
             break;
         case KOOPA_BATTERY_SELLER_BATTERY_FULL:
             bhv_koopa_water_seller_battery_full();
+            break;
+        case KOOPA_SELLER_NOT_ENOUGH_COINS:
+            bhv_koopa_water_seller_not_enough_coins();
             break;
     }
 
