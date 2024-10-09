@@ -776,7 +776,7 @@ static s32 bhv_cmd_set_light_falloff(void) {
 
     gCurrentObject->oLightQuadraticFalloff = quadraticFalloff;
     gCurrentObject->oLightLinearFalloff = linearFalloff;
-    gCurrentObject->oLightConstantFalloff = constantFalloff;
+    gCurrentObject->oLightConstantFalloff = MAX(constantFalloff, 8);
 
     gCurBhvCommand += 2;
     return BHV_PROC_CONTINUE;
