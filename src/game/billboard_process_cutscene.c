@@ -113,6 +113,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_SPOON]              = (u32) BB_IMAGE_SPOON,
     [BB_SIGN_JOEL]               = (u32) BB_IMAGE_JOEL,
     [BB_SIGN_TCS]                = (u32) BB_IMAGE_TCS,
+    [BB_SIGN_STICKER_STAR]       = (u32) BB_IMAGE_STICKER_STAR,
     [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
     [BB_SIGN_FELIZ_JEUVES]       = (u32) BB_VIDEO_FELIZ_JEUVES,
 
@@ -123,7 +124,6 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
     [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
     [BB_SIGN_DESERT_MARIO]       = (u32) BB_IMAGE_DESERT_MARIO,
-    [BB_SIGN_THE_HORSE]          = (u32) BB_VIDEO_THE_HORSE,
     [BB_SIGN_GBJ_PAINTING]       = (u32) BB_VIDEO_GBJ_PAINTING,
     [BB_SIGN_CHIPS]              = (u32) BB_VIDEO_BILLWURTZ,
 
@@ -133,6 +133,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MAKE_CLEAN]         = (u32) BB_IMAGE_MAKE_CLEAN,
     [BB_SIGN_XENOBLADE]          = (u32) BB_IMAGE_XENOBLADE,
     [BB_SIGN_XENOGEARS]          = (u32) BB_IMAGE_XENOGEARS,
+    [BB_SIGN_THE_HORSE]          = (u32) BB_VIDEO_THE_HORSE,
     [BB_SIGN_KAZE_ENDCARD]       = (u32) BB_VIDEO_KAZE_ENDCARD,
     [BB_SIGN_LEON]               = (u32) BB_VIDEO_LEON,
 };

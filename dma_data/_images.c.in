@@ -130,6 +130,9 @@ ALIGNED16 const Texture _img_injuredGood[] = {
 ALIGNED16 const Texture _img_cryptlys[] = {
 #include "dma_data/_img_cryptlys.rgba16.yay0.c.in"
 };
+ALIGNED16 const Texture _img_sticker_star[] = {
+#include "dma_data/_img_sticker_star.rgba16.yay0.c.in"
+};
 
 ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_AMOGUS]             = {.address = _img_amogus,            .compressedSize = 0x5A60},
@@ -176,4 +179,5 @@ ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_HYENA_CHAN]         = {.address = _img_sandwich,          .compressedSize = 0x6130},
     [BB_IMAGE_ANONYMOUS_MOOSE]    = {.address = _img_injuredGood,       .compressedSize = 0x8DD0},
     [BB_IMAGE_CRYPTLYS]           = {.address = _img_cryptlys,          .compressedSize = 0x83F0},
+    [BB_IMAGE_STICKER_STAR]       = {.address = _img_sticker_star,      .compressedSize = 0x7D00},
 };
