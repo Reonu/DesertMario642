@@ -6246,3 +6246,17 @@ const BehaviorScript bhvWaterBottle[] = {
         CALL_NATIVE(bhv_water_bottle_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvBus[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 650, /*Height*/ 800, /*Downwards offset*/ 300),
+    SET_INT(oDamageOrCoinValue, 1),
+    SET_INT(oInteractType, INTERACT_DAMAGE),
+    SET_HOME(),
+    CALL_NATIVE(bhv_bus_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bus_loop),
+    END_LOOP(),
+};

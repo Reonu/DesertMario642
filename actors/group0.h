@@ -433,4 +433,6 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "water_bottle/geo_header.h"
 
+#include "bus/geo_header.h"
+
 #endif

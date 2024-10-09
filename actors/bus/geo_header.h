@@ -1,0 +1,12 @@
+extern const GeoLayout bus_geo[];
+extern u8 bus_bus_side_ci4[];
+extern u8 bus_bus_side_pal_rgba16[];
+extern u8 bus_bus_front_ci4_ci4[];
+extern u8 bus_bus_front_ci4_pal_rgba16[];
+extern u8 bus_wheel_ci4[];
+extern u8 bus_wheel_pal_rgba16[];
+extern Vtx bus_bus_mesh_layer_1_vtx_cull[8];
+extern Vtx bus_bus_mesh_layer_1_vtx_0[49];
+extern Vtx bus_bus_mesh_layer_1_vtx_1[16];
+extern Vtx bus_bus_mesh_layer_1_vtx_2[122];
+extern Gfx bus_bus_mesh_layer_1[];

@@ -875,7 +875,7 @@ s32 update_8_directions_camera(struct Camera *c, Vec3f focus, Vec3f pos) {
     f32 yOff = 125.f;
     f32 baseDist;
 
-    if (gAngrySunPresent) {
+    if (gAngrySunPresent || gMarioState->action == ACT_SPECIAL_KB_BUS) {
         baseDist = 2000.f;
     } else {
         baseDist = 1000.f;

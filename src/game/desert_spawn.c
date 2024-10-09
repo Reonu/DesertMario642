@@ -242,7 +242,9 @@ void spawn_enemy(MTRand *rand) {
         return;
     }
 }
+u8 sBusAlreadySpawned = 0;
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
+#define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.75f)
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
@@ -267,10 +269,15 @@ void bhv_desert_spawner_loop(void) {
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
 
-        if (gInstantWarpSpawnIndex % 20 == 0) {
-            spawn_gas_station(&newSeed);
-        } else if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
+        if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
             spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
+        } else if (gInstantWarpSpawnIndex == FUNNY_BUS_WARPS) {
+            if (!sBusAlreadySpawned) {
+                spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,&newSeed);
+                sBusAlreadySpawned = 1;
+            }
+        } else if (gInstantWarpSpawnIndex % 20 == 0) {
+            spawn_gas_station(&newSeed);
         } else {
             for (u32 i = 0; i < numSmall; i++) {
                 spawn_small_decoration(&newSeed);
@@ -378,6 +385,8 @@ void bhv_desert_decor_loop(void) {
 void bhv_point_light_preview_loop(void) {
     warp_desert_object(o);
 }
+
+// Koopa water/battery seller
 
 enum KoopaWaterSellerAction {
     KOOPA_WATER_SELLER_IDLE,
@@ -788,6 +797,8 @@ void bhv_jukebox_loop(void) {
     }
 }
 
+// Custom exclamation point
+
 void bhv_exclamation_mark_init(void) {
     o->oPosY += 400;
 }
@@ -826,6 +837,8 @@ void bhv_water_bottle_loop(void) {
     }
 
 }
+
+// Cringe tutorial code that I didn't want to write
 
 u8 sCurrentTutorial;
 u16 sTutorialTimer;
@@ -919,4 +932,60 @@ void run_tutorial(void) {
             break;
     }
     choose_tutorial();
+}
+
+// Epic bus
+
+enum BusActions {
+    BUS_ACT_BEFORE_HITTING_MARIO,
+    BUS_ACT_AFTER_HITTING_MARIO,
+    BUS_ACT_DESPAWN,
+};
+
+void bhv_bus_init(void) {
+    o->oPosY += 400;
+    o->oFloat100 = 1.f;
+}
+
+void bhv_bus_before_hitting_mario(void) {
+    if (o->oDistanceToMario < 1000.f) {
+        o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0], 0.5f);
+    }
+    o->oFloat100 = 1.f;
+    if (gMarioState->action == ACT_SPECIAL_KB_BUS) {
+        o->oAction = BUS_ACT_AFTER_HITTING_MARIO;
+    }
+}
+
+void bhv_bus_after_hitting_mario(void) {
+    // Increase oFloat100 a tiny bit every frame
+    o->oFloat100 += 0.01f;
+}
+
+void bhv_bus_despawn(void) {
+    mark_obj_for_deletion(o);
+}
+
+void bhv_bus_loop(void) {
+    switch (o->oAction) {
+        case BUS_ACT_BEFORE_HITTING_MARIO:
+            bhv_bus_before_hitting_mario();
+            break;
+        case BUS_ACT_AFTER_HITTING_MARIO:
+            bhv_bus_after_hitting_mario();
+            break;
+        case BUS_ACT_DESPAWN:
+            bhv_bus_despawn();
+            break;
+    }
+
+    o->oPosZ += 300.f * o->oFloat100;
+
+    warp_desert_object(o);
+    Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
+    emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
+
+    if (o->oPosZ > 10000) {
+        o->oAction = BUS_ACT_DESPAWN;
+    }
 }

@@ -21,3 +21,5 @@ extern void bhv_exclamation_mark_init(void);
 extern void bhv_water_bottle_init(void);
 extern void bhv_water_bottle_loop(void);
 extern void run_tutorial(void);
+extern void bhv_bus_init(void);
+extern void bhv_bus_loop(void);

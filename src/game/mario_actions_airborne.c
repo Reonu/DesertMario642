@@ -1140,6 +1140,25 @@ s32 act_backward_air_kb(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_special_kb_bus(struct MarioState *m) {
+    play_knockback_sound(m);
+    m->faceAngle[1] = DEGREES(180);
+    common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, -350.0f);
+
+    if (m->actionTimer++ < 500) {
+        if (m->pos[1] < 700) {
+             m->vel[1] = 10.f;
+        } else {
+            m->vel[1] = 0.f;
+        }
+       m->forwardVel = 1500.f;
+    } else {
+        m->vel[1] = -10.f;
+    }
+
+    return FALSE;
+}
+
 s32 act_forward_air_kb(struct MarioState *m) {
     if (check_wall_kick(m)) {
         return TRUE;
@@ -2049,6 +2068,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_RIDING_HOOT:          cancel = act_riding_hoot(m);          break;
         case ACT_TOP_OF_POLE_JUMP:     cancel = act_top_of_pole_jump(m);     break;
         case ACT_VERTICAL_WIND:        cancel = act_vertical_wind(m);        break;
+        case ACT_SPECIAL_KB_BUS:       cancel = act_special_kb_bus(m);       break;
     }
     /* clang-format on */
 
