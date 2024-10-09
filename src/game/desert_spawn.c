@@ -73,9 +73,9 @@ void spawn_electrical_poles(MTRand *rand) {
     spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0,rand);
 }
 
-#define TIER_2_THRESHOLD 20
-#define TIER_3_THRESHOLD 30
-#define TIER_4_THRESHOLD 40
+#define TIER_2_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.25f))
+#define TIER_3_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.40f))
+#define TIER_4_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.55f))
 
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
