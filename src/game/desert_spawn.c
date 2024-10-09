@@ -958,8 +958,7 @@ void bhv_bus_before_hitting_mario(void) {
 }
 
 void bhv_bus_after_hitting_mario(void) {
-    // Increase oFloat100 a tiny bit every frame
-    o->oFloat100 += 0.01f;
+    o->oFloat100 += 0.009f;
 }
 
 void bhv_bus_despawn(void) {

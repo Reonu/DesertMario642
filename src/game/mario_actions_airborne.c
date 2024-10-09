@@ -1145,9 +1145,11 @@ s32 act_special_kb_bus(struct MarioState *m) {
     m->faceAngle[1] = DEGREES(180);
     common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, -350.0f);
 
+    gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
+    
     if (m->actionTimer++ < 500) {
-        if (m->pos[1] < 700) {
-             m->vel[1] = 10.f;
+        if (m->pos[1] < 1000) {
+             m->vel[1] = 24.f;
         } else {
             m->vel[1] = 0.f;
         }
