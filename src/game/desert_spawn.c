@@ -148,17 +148,25 @@ void spawn_gas_station(MTRand *rand) {
     spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0,rand);
 }
 
-void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
+#define NORMAL_ROTATION 1
+#define RANDOM_ROTATION 2
+
+void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *behavior, u8 rotationMode, u16 zPosOffset) {
     u8 isRight;
     struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
 
     isRight = (spawnCoords.x == RightSide.x);
-
-    if (isRight) {
-        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(0),0,rand);
+    
+    if (rotationMode == NORMAL_ROTATION) {
+        if (isRight) {
+            spawn_object_desert(gCurrentObject, 0, modelID, behavior, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(0),0,rand);
+        } else {
+            spawn_object_desert(gCurrentObject, 0, modelID, behavior, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(180),0,rand);
+        }
     } else {
-        spawn_object_desert(gCurrentObject, 0, modelID, bhvDesertDecor, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,DEGREES(180),0,rand);
+        spawn_object_desert(gCurrentObject, 0, modelID, behavior, spawnCoords.x,spawnCoords.y,spawnCoords.z + zPosOffset,0,DEGREES((random_u16() % 360)),0,rand);
     }
+
 }
 
 
@@ -172,6 +180,7 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID) {
 #define BILLBOARD_CHANCE 0.50f
 #define UFO_CHANCE 0.01f
 #define HOUSE_CHANCE 0.01f
+#define CACTUS_CHANCE 0.07f
 
 f32 chancePrint;
 void spawn_big_decoration(MTRand *rand) {
@@ -189,7 +198,7 @@ void spawn_big_decoration(MTRand *rand) {
     }
     chanceStorage -= HOUSE_CHANCE;
     if (chanceStorage < 0) {
-        spawn_decor_and_rotate(rand, MODEL_DESERT_HOUSE);
+        spawn_decor_and_rotate(rand, MODEL_DESERT_HOUSE, bhvDesertDecor, NORMAL_ROTATION, 0);
         return;
     }
     chanceStorage -= UFO_CHANCE;
@@ -207,6 +216,11 @@ void spawn_small_decoration(MTRand *rand) {
         spawn_bushes(rand);
         return;
     }    
+    chanceStorage -= CACTUS_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_decor_and_rotate(rand, MODEL_CACTUS, bhvDesertDecorWithHitbox, RANDOM_ROTATION, -1800);
+        return;
+    }
 }
 
 void spawn_goomba(MTRand *rand) {
@@ -270,7 +284,7 @@ void bhv_desert_spawner_loop(void) {
         u32 numSmall = random_in_range(&newSeed, 5);
 
         if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
-            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB); 
+            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, bhvDesertDecor, NORMAL_ROTATION, 0); 
         } else if (gInstantWarpSpawnIndex == FUNNY_BUS_WARPS) {
             if (!sBusAlreadySpawned) {
                 spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,&newSeed);

@@ -70,3 +70,4 @@
 #include "klepto_with_water_bottle/model.inc.c"
 #include "water_bottle/model.inc.c"
 #include "bus/model.inc.c"
+#include "cactus/model.inc.c"

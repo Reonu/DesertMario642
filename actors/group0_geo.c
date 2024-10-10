@@ -39,3 +39,4 @@
 #include "klepto_with_water_bottle/geo.inc.c"
 #include "water_bottle/geo.inc.c"
 #include "bus/geo.inc.c"
+#include "cactus/geo.inc.c"

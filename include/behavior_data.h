@@ -557,6 +557,7 @@ extern const BehaviorScript bhvJukebox[];
 extern const BehaviorScript bhvExclamationMark[];
 extern const BehaviorScript bhvWaterBottle[];
 extern const BehaviorScript bhvBus[];
+extern const BehaviorScript bhvDesertDecorWithHitbox[];
 
 
 #endif // BEHAVIOR_DATA_H

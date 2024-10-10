@@ -6260,3 +6260,16 @@ const BehaviorScript bhvBus[] = {
         CALL_NATIVE(bhv_bus_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvDesertDecorWithHitbox[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_IGLOO_BARRIER),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 100, /*Height*/ 300, /*Downwards offset*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        SET_INT(oInteractStatus, INT_STATUS_NONE),
+        CALL_NATIVE(warp_desert_object),
+    END_LOOP(),
+};
