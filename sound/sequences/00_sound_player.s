@@ -7977,7 +7977,22 @@ layer_jump .layer_32B7
 
 
 .channelA_table:
-// Add custom sounds for Channel A here!
+sound_ref .sound_bus_vengabeep
+
+.sound_bus_vengabeep:
+chan_setbank 3
+chan_setinstr 12
+chan_setenvelope .envelope_stream
+chan_setval 47
+chan_call .set_reverb
+chan_setlayer 0, .layer_bus_vengabeep
+chan_end
+
+.layer_bus_vengabeep:
+layer_somethingon
+.layer_bus_vengabeep_loop:
+layer_note1 39, 0x153, 127
+layer_jump .layer_bus_vengabeep_loop
 
 
 .channelB_table:
@@ -7990,6 +8005,7 @@ layer_jump .layer_32B7
 
 .channelD_table:
 sound_ref .sound_env_caramelldansen
+sound_ref .sound_env_vengamusic
 
 .sound_env_caramelldansen:
 chan_setbank 3
@@ -8006,9 +8022,39 @@ layer_somethingon
 layer_note1 39, 0x100, 127
 layer_jump .layer_caramelldansen_loop
 
+.sound_env_vengamusic:
+chan_setbank 3
+chan_setinstr 11
+chan_setenvelope .envelope_vengamusic
+chan_setval 18
+chan_call .set_reverb
+chan_setlayer 0, .layer_vengamusic
+chan_end
+
+.layer_vengamusic:
+layer_somethingon
+.layer_vengamusic_loop:
+layer_note1 39, 0x153, 127
+layer_jump .layer_vengamusic_loop
+
 
 .channelE_table:
-// Add custom sounds for Channel E here!
+sound_ref .sound_env_vengaengine
+
+.sound_env_vengaengine:
+chan_setbank 3
+chan_setinstr 13
+chan_setenvelope .envelope_stream
+chan_setval 31
+chan_call .set_reverb
+chan_setlayer 0, .layer_env_vengaengine
+chan_end
+
+.layer_env_vengaengine:
+layer_somethingon
+.layer_env_vengaengine_loop:
+layer_note1 39, 0x9, 127
+layer_jump .layer_env_vengaengine_loop
 
 
 .channelF_table:
@@ -8236,4 +8282,8 @@ envelope_goto 3
 
 .envelope_stream:
 envelope_line 1 32700
+envelope_hang
+
+.envelope_vengamusic:
+envelope_line 1200 32700
 envelope_hang

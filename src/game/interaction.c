@@ -1406,9 +1406,10 @@ u32 interact_spiny_walking(struct MarioState *m, UNUSED u32 interactType, struct
 
 u32 interact_damage(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
     if (obj->behavior == segmented_to_virtual(bhvBus)) {
-        m->action = ACT_SPECIAL_KB_BUS;
+        drop_and_set_mario_action(m, ACT_SPECIAL_KB_BUS, 0);
         return TRUE;
     }
+
     if (take_damage_and_knock_back(m, obj)) {
         return TRUE;
     }
@@ -1416,8 +1417,6 @@ u32 interact_damage(struct MarioState *m, UNUSED u32 interactType, struct Object
     if (!(obj->oInteractionSubtype & INT_SUBTYPE_DELAY_INVINCIBILITY)) {
         sDelayInvincTimer = TRUE;
     }
-
-
 
     return FALSE;
 }

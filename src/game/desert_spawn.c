@@ -256,7 +256,7 @@ void spawn_enemy(MTRand *rand) {
         return;
     }
 }
-u8 sBusAlreadySpawned = 0;
+u8 sBusAlreadySpawned = FALSE;
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
 #define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.75f)
 void bhv_desert_spawner_loop(void) {
@@ -285,11 +285,6 @@ void bhv_desert_spawner_loop(void) {
 
         if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
             spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, bhvDesertDecor, NORMAL_ROTATION, 0); 
-        } else if (gInstantWarpSpawnIndex == FUNNY_BUS_WARPS) {
-            if (!sBusAlreadySpawned) {
-                spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,&newSeed);
-                sBusAlreadySpawned = 1;
-            }
         } else if (gInstantWarpSpawnIndex % 20 == 0) {
             spawn_gas_station(&newSeed);
         } else {
@@ -298,6 +293,13 @@ void bhv_desert_spawner_loop(void) {
             }
             spawn_big_decoration(&newSeed);
             spawn_enemy(&newSeed);
+        }
+
+        if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && !sBusAlreadySpawned && (gInstantWarpCounter % 20 != 0) && (gMarioCurrentRoom != 2) // No gas station
+                    && (gUnpausedTimer > (DAY_END + (HOUR * 2)) || gUnpausedTimer < (DAY_START - (HOUR * 2)))) { // Force nighttime spawn
+            if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,NULL)) {
+                sBusAlreadySpawned = TRUE;
+            }
         }
     }
 }
@@ -569,7 +571,6 @@ void bhv_koopa_water_seller_loop(void) {
     } else {
         cur_obj_hide();
     }
-    
 }
 
 // Angry sun
@@ -850,6 +851,7 @@ void bhv_water_bottle_loop(void) {
         mark_obj_for_deletion(o);
     }
 
+    warp_desert_object(o);
 }
 
 // Cringe tutorial code that I didn't want to write
@@ -951,54 +953,81 @@ void run_tutorial(void) {
 // Epic bus
 
 enum BusActions {
+    BUS_ACT_EARLY_SPAWN,
     BUS_ACT_BEFORE_HITTING_MARIO,
     BUS_ACT_AFTER_HITTING_MARIO,
-    BUS_ACT_DESPAWN,
 };
 
 void bhv_bus_init(void) {
-    o->oPosY += 400;
+    o->oPosY += 380;
+    o->oPosX = gMarioState->pos[0];
     o->oFloat100 = 1.f;
+    o->oFloat104 = 0.0f; // Pitch multiplier
+    o->oFloat108 = ABS(o->oPosZ); // Last distance to Mario
 }
 
 void bhv_bus_before_hitting_mario(void) {
-    if (o->oDistanceToMario < 1000.f) {
-        o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0], 0.5f);
+    cur_obj_unhide();
+    if (o->oDistanceToMario > 1000.f) {
+        o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0], 0.07f);
     }
     o->oFloat100 = 1.f;
     if (gMarioState->action == ACT_SPECIAL_KB_BUS) {
         o->oAction = BUS_ACT_AFTER_HITTING_MARIO;
     }
+
+    o->oPosZ += 300.f * o->oFloat100;
+    Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
+    emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
 }
 
 void bhv_bus_after_hitting_mario(void) {
+    cur_obj_unhide();
     o->oFloat100 += 0.009f;
-}
 
-void bhv_bus_despawn(void) {
-    mark_obj_for_deletion(o);
+    o->oPosZ += 300.f * o->oFloat100;
+    Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
+    emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
 }
 
 void bhv_bus_loop(void) {
     switch (o->oAction) {
+        case BUS_ACT_EARLY_SPAWN:
+            if (o->oTimer > 150) {
+                o->oAction++;
+            } else if (o->oTimer < 25 || (o->oTimer >= 75 && o->oTimer < 110)) {
+                play_sound(SOUND_FG1_VENGABEEP, gCurrentObject->header.gfx.cameraToObject);
+            }
+            cur_obj_hide();
+            o->oFloat108 += 300.0f;
+            break;
         case BUS_ACT_BEFORE_HITTING_MARIO:
+            if (o->oTimer >= 25 && o->oTimer < 100) {
+                play_sound(SOUND_FG1_VENGABEEP, gCurrentObject->header.gfx.cameraToObject);
+            }
             bhv_bus_before_hitting_mario();
             break;
         case BUS_ACT_AFTER_HITTING_MARIO:
+            if (o->oTimer < 30) {
+                play_sound(SOUND_FG1_VENGABEEP, gCurrentObject->header.gfx.cameraToObject);
+            }
             bhv_bus_after_hitting_mario();
             break;
-        case BUS_ACT_DESPAWN:
-            bhv_bus_despawn();
-            break;
     }
 
-    o->oPosZ += 300.f * o->oFloat100;
-
+    delete_if_mario_in_gas_station(o);
     warp_desert_object(o);
-    Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
-    emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
-
-    if (o->oPosZ > 10000) {
-        o->oAction = BUS_ACT_DESPAWN;
+    if (o->activeFlags == ACTIVE_FLAG_DEACTIVATED) {
+        if (o->oAction == BUS_ACT_EARLY_SPAWN) {
+            sBusAlreadySpawned = FALSE;
+        }
+        return;
     }
+
+    o->oDistanceToMario = dist_between_objects(o, gMarioObject); // Update with new distance
+    o->oFloat104 = (o->oFloat108 - o->oDistanceToMario) / 10000.0f;
+    play_sound(SOUND_BG1_VENGAMUSIC, gCurrentObject->header.gfx.cameraToObject);
+    play_sound(SOUND_BG2_VENGAENGINE, gCurrentObject->header.gfx.cameraToObject);
+
+    o->oFloat108 = o->oDistanceToMario;
 }

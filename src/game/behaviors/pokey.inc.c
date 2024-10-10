@@ -298,7 +298,7 @@ void bhv_pokey_update(void) {
             break;
     }
     o->oDrawingDistance = 999999.0f;
-    copy_mario_x_position(o);
+    copy_mario_x_position(o, 0.036f, 500.0f);
     warp_desert_object(o);
     delete_if_mario_in_gas_station(o);
 }

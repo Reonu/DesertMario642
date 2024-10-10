@@ -269,7 +269,7 @@ void bhv_sun_loop(void) {
             cur_obj_unhide();
         }
     } else {
-         if (gUnpausedTimer > DAY_END || gUnpausedTimer < DAY_START) {
+        if (gUnpausedTimer > DAY_END || gUnpausedTimer < DAY_START) {
             cur_obj_unhide();
         } else {
             cur_obj_hide();

@@ -394,7 +394,7 @@ void bhv_goomba_update(void) {
                             && (o->oAction != GOOMBA_ACT_ATTACKED_MARIO)) {
         mark_goomba_as_dead();
     }
-    copy_mario_x_position(o);
+    copy_mario_x_position(o, 0.075f, 400.0f);
     warp_desert_object(o);
     delete_if_mario_in_gas_station(o);
 }

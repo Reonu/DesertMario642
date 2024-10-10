@@ -646,7 +646,7 @@ f32 cur_obj_dist_to_nearest_object_with_behavior(const BehaviorScript *behavior)
     return dist;
 }
 
-struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *behavior, f32 *dist) {
+struct Object *obj_find_nearest_object_with_behavior(struct Object *object, const BehaviorScript *behavior, f32 *dist) {
     uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
     struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
     struct Object *obj = (struct Object *) listHead->next;
@@ -656,9 +656,9 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
     while (obj != (struct Object *) listHead) {
         if (obj->behavior == behaviorAddr
             && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
-            && obj != o
+            && obj != object
         ) {
-            f32 objDist = dist_between_objects(o, obj);
+            f32 objDist = dist_between_objects(object, obj);
             if (objDist < minDist) {
                 closestObj = obj;
                 minDist = objDist;
@@ -670,6 +670,10 @@ struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *b
 
     *dist = minDist;
     return closestObj;
+}
+
+struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript *behavior, f32 *dist) {
+    return obj_find_nearest_object_with_behavior(o, behavior, dist);
 }
 
 struct Object *find_first_object_with_behavior_and_bparams(const BehaviorScript *behavior, u32 bparams, u32 bparamMask) {
@@ -2601,6 +2605,10 @@ void warp_desert_object(struct Object *obj) {
                         || ABS(gInstantWarpCounter - obj->oInstantWarpSpawn) > MAX_TILES_FROM_SPAWN_TILE) {
                 mark_obj_for_deletion(obj);
             }
+        } 
+        
+        if (ABS(obj->oPosZ) >= 40000.0f) {
+            mark_obj_for_deletion(obj);
         }
     }
 }
@@ -2611,19 +2619,17 @@ void delete_if_mario_in_gas_station(struct Object *obj) {
     }
 }
 
-#define COPY_POS_DISTANCE_THRESHOLD 600.0f
-
-u8 copy_mario_x_position(struct Object *obj) {
+u8 copy_mario_x_position(struct Object *obj, f32 approachMult, f32 minDist) {
     if (!gGoingBackwards) {
-        if (gMarioObject->oPosZ > obj->oPosZ + COPY_POS_DISTANCE_THRESHOLD) {
-            obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
+        if (gMarioObject->oPosZ > obj->oPosZ + minDist) {
+            obj->oPosX = approach_f32_asymptotic(obj->oPosX,gMarioObject->oPosX, approachMult);
             return TRUE;
         } else {
             return FALSE;
         }
     } else {
-        if (gMarioObject->oPosZ < obj->oPosZ - COPY_POS_DISTANCE_THRESHOLD) {
-            obj->oPosX = approach_f32(obj->oPosX,gMarioObject->oPosX,45.f,45.f);
+        if (gMarioObject->oPosZ < obj->oPosZ - minDist) {
+            obj->oPosX = approach_f32_asymptotic(obj->oPosX,gMarioObject->oPosX, approachMult);
             return TRUE;
         } else {
             return FALSE;

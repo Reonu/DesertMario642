@@ -64,6 +64,21 @@
             "release_rate": 10,
             "envelope": "envelope0",
             "sound": "0A_caramelldansen"
+        },
+        "inst11": {
+            "release_rate": 2,
+            "envelope": "envelope0",
+            "sound": "0B_vengamusic"
+        },
+        "inst12": {
+            "release_rate": 208,
+            "envelope": "envelope0",
+            "sound": "0C_vengabeep"
+        },
+        "inst13": {
+            "release_rate": 10,
+            "envelope": "envelope0",
+            "sound": "0D_vengabus_engine"
         }
     },
     "instrument_list": [
@@ -77,6 +92,9 @@
         "inst7",
         "inst8",
         "inst9",
-        "inst10"
+        "inst10",
+        "inst11",
+        "inst12",
+        "inst13"
     ]
 }

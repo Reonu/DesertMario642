@@ -7,9 +7,11 @@
 #include "external.h"
 #include "playback.h"
 #include "synthesis.h"
+#include "behavior_data.h"
 #include "game/debug.h"
 #include "game/main.h"
 #include "game/level_update.h"
+#include "game/object_helpers.h"
 #include "game/object_list_processor.h"
 #include "game/camera.h"
 #include "engine/math_util.h"
@@ -17,6 +19,9 @@
 #include "dialog_ids.h"
 
 #include "config/config_audio.h"
+
+    #define ACTIVE_SOUND(x) \
+        (((x) & ~SOUNDARGS_MASK_STATUS) == (sSoundBanks[bank][soundIndex].soundBits & ~SOUNDARGS_MASK_STATUS))
 
 // N.B. sound banks are different from the audio banks referred to in other
 // files. We should really fix our naming to be less ambiguous...
@@ -197,6 +202,7 @@ u16 sLevelAcousticReaches[LEVEL_COUNT] = {
 #else
 #define VOLUME_RANGE_UNK1 1.0f
 #define VOLUME_RANGE_UNK2 1.0f
+#define VOLUME_RANGE_UNK3 0.75f
 #endif
 
 // sBackgroundMusicDefaultVolume represents the default volume for background music sequences using the level player (deprecated).
@@ -1006,15 +1012,13 @@ static f32 get_sound_pan(f32 x, f32 z) {
  * Called from threads: thread4_sound, thread5_game_loop (EU only)
  */
 static f32 get_sound_volume(u8 bank, u8 soundIndex, f32 volumeRange) {
-    #define ACTIVE_SOUND(x) \
-        (((x) & ~SOUNDARGS_MASK_STATUS) == (sSoundBanks[bank][soundIndex].soundBits & ~SOUNDARGS_MASK_STATUS))
-
     f32 intensity;
     f32 ret;
     u8 shouldDoubleDistanceAndIntensity = FALSE;
 
     if (bank == SOUND_BANK_CUSTOM_BILLBOARDS 
-                || ACTIVE_SOUND(SOUND_BG1_CARAMELLDANSEN)) {
+                || ACTIVE_SOUND(SOUND_BG1_CARAMELLDANSEN)
+                || ACTIVE_SOUND(SOUND_BG1_VENGAMUSIC)) {
         shouldDoubleDistanceAndIntensity = TRUE;
     }
 
@@ -1299,31 +1303,6 @@ static void update_game_sound(void) {
                                 get_sound_reverb(bank, soundIndex, channelIndex);
 #endif
                             break;
-                        case SOUND_BANK_CUSTOM_BACKGROUND_1:
-#if defined(VERSION_EU) || defined(VERSION_SH)
-                            func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
-                                          get_sound_reverb(bank, soundIndex, channelIndex));
-                            func_802ad728(0x02020000 | ((channelIndex & 0xff) << 8),
-                                          get_sound_volume(bank, soundIndex, VOLUME_RANGE_UNK2));
-                            func_802ad770(0x03020000 | ((channelIndex & 0xff) << 8),
-                                          get_sound_pan(*sSoundBanks[bank][soundIndex].x,
-                                                        *sSoundBanks[bank][soundIndex].z)
-                                                  * 127.0f
-                                              + 0.5f);
-                            func_802ad728(0x04020000 | ((channelIndex & 0xff) << 8),
-                                          get_sound_freq_scale(bank, soundIndex));
-#else
-                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->reverbVol =
-                                get_sound_reverb(bank, soundIndex, channelIndex);
-                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume =
-                                get_sound_volume(bank, soundIndex, VOLUME_RANGE_UNK2);
-                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->pan =
-                                get_sound_pan(*sSoundBanks[bank][soundIndex].x,
-                                              *sSoundBanks[bank][soundIndex].z);
-                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale =
-                                get_sound_freq_scale(bank, soundIndex);
-#endif
-                            break;
                         default:
 #if defined(VERSION_EU) || defined(VERSION_SH)
                             func_802ad770(0x05020000 | ((channelIndex & 0xff) << 8),
@@ -1348,6 +1327,27 @@ static void update_game_sound(void) {
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale =
                                 get_sound_freq_scale(bank, soundIndex);
 #endif
+                            if (
+                              ACTIVE_SOUND(SOUND_BG1_VENGAMUSIC) || 
+                              ACTIVE_SOUND(SOUND_FG1_VENGABEEP) ||
+                              ACTIVE_SOUND(SOUND_BG2_VENGAENGINE)
+                            ) {
+                                if (ACTIVE_SOUND(SOUND_FG1_VENGABEEP)) {
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume =
+                                        get_sound_volume(bank, soundIndex, VOLUME_RANGE_UNK3);
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale -= 0.33f * (1.0f / 12.0f);
+                                } else if (ACTIVE_SOUND(SOUND_BG1_VENGAMUSIC)) {
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume = MAX(gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume, 0.25f);
+                                }
+                                f32 dist;
+                                struct Object *obj = obj_find_nearest_object_with_behavior(gMarioObject, bhvBus, &dist);
+                                if (obj) {
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale += obj->oFloat104;
+                                    if (ACTIVE_SOUND(SOUND_FG1_VENGABEEP) && obj->oAction == 0) {
+                                        gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume *= 0.1f + (0.9f * (obj->oTimer) / 150.0f);
+                                    }
+                                }
+                            }
                             break;
                     }
                 } else if (gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->layers[0] == NULL) {
@@ -1509,6 +1509,27 @@ static void update_game_sound(void) {
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale =
                                 get_sound_freq_scale(bank, soundIndex);
 #endif
+                            if (
+                              ACTIVE_SOUND(SOUND_BG1_VENGAMUSIC) || 
+                              ACTIVE_SOUND(SOUND_FG1_VENGABEEP) ||
+                              ACTIVE_SOUND(SOUND_BG2_VENGAENGINE)
+                            ) {
+                                if (ACTIVE_SOUND(SOUND_FG1_VENGABEEP)) {
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume =
+                                        get_sound_volume(bank, soundIndex, VOLUME_RANGE_UNK3);
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale -= 0.33f * (1.0f / 12.0f);
+                                } else if (ACTIVE_SOUND(SOUND_BG1_VENGAMUSIC)) {
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume = MAX(gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume, 0.25f);
+                                }
+                                f32 dist;
+                                struct Object *obj = obj_find_nearest_object_with_behavior(gMarioObject, bhvBus, &dist);
+                                if (obj) {
+                                    gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale += obj->oFloat104;
+                                    if (ACTIVE_SOUND(SOUND_FG1_VENGABEEP) && obj->oAction == 0) {
+                                        gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume *= 0.1f + (0.9f * (obj->oTimer) / 150.0f);
+                                    }
+                                }
+                            }
                             break;
                     }
                 }

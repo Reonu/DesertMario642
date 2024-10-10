@@ -1140,23 +1140,23 @@ s32 act_backward_air_kb(struct MarioState *m) {
     return FALSE;
 }
 
+#define BUS_FLYBACK_FRAMES 420
 s32 act_special_kb_bus(struct MarioState *m) {
-    play_knockback_sound(m);
+    gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
+
+    if (m->actionTimer == 0) {
+        play_sound_if_no_flag(m, SOUND_MARIO_WAAAOOOW, MARIO_FALL_SOUND_PLAYED);
+        play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m->marioObj->header.gfx.cameraToObject);
+    }
+    
+    if (m->actionTimer++ < BUS_FLYBACK_FRAMES) {
+        m->vel[1] = MAX(25.0f - ((f32) m->actionTimer / 3.0f), 0.0f);
+    } else {
+        m->vel[1] = (BUS_FLYBACK_FRAMES - (f32) m->actionTimer) / 3.0f;
+    }
+
     m->faceAngle[1] = DEGREES(180);
     common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, -350.0f);
-
-    gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
-    
-    if (m->actionTimer++ < 500) {
-        if (m->pos[1] < 1000) {
-             m->vel[1] = 24.f;
-        } else {
-            m->vel[1] = 0.f;
-        }
-       m->forwardVel = 1500.f;
-    } else {
-        m->vel[1] = -10.f;
-    }
 
     return FALSE;
 }

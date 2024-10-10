@@ -290,6 +290,7 @@ static void klepto_act_struck_by_mario(void) {
         waterBottle->oPosY = 50;
         waterBottle->oPosZ = o->oPosZ;
         waterBottle->oKleptoStoleWaterBottle = o->oKleptoStoleWaterBottle;
+        waterBottle->oInstantWarpSpawn = gInstantWarpCounter;
     }
     
     obj_die_if_health_non_positive();
@@ -424,6 +425,6 @@ void bhv_klepto_update(void) {
     
     cur_obj_move_standard(78);
     warp_desert_object(o);
-    copy_mario_x_position(o);
+    copy_mario_x_position(o, 0.055f, 800.0f);
     delete_if_mario_in_gas_station(o);
 }

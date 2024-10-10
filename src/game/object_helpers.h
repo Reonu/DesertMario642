@@ -122,6 +122,7 @@ u32 get_object_list_from_behavior(const BehaviorScript *behavior);
 struct Object *cur_obj_nearest_object_with_behavior(const BehaviorScript *behavior);
 f32 cur_obj_dist_to_nearest_object_with_behavior(const BehaviorScript* behavior);
 struct Object *cur_obj_find_nearest_object_with_behavior(const BehaviorScript * behavior, f32 *dist);
+struct Object *obj_find_nearest_object_with_behavior(struct Object *object, const BehaviorScript *behavior, f32 *dist);
 struct Object *find_unimportant_object(void);
 s32 count_unimportant_objects(void);
 s32 count_objects_with_behavior(const BehaviorScript *behavior);
@@ -293,7 +294,7 @@ Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED vo
 
 s32 check_if_desert_object_exists(const BehaviorScript *behavior, u32 objValidator);
 void warp_desert_object(struct Object *obj);
-u8 copy_mario_x_position(struct Object *obj);
+u8 copy_mario_x_position(struct Object *obj, f32 approachMult, f32 minDist);
 void bhv_call_warp_desert_object(void);
 u16 calculate_z_pos_difference(struct Object *obj);
 u8 bhv_flip_desert_object(struct Object *obj, s16 offset);
