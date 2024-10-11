@@ -1995,6 +1995,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     queue_rumble_particles(gMarioState);
 #endif
 
+    s32 room = get_room_at_pos(
+        gMarioObject->oPosX,
+        gMarioObject->oPosY,
+        gMarioObject->oPosZ
+    );
+
+    if (room > 0) {
+        gMarioCurrentRoom = room;
+    }
+
     return gMarioState->particleFlags;
 }
 

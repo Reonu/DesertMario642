@@ -1077,7 +1077,6 @@ s32 play_mode_normal(void) {
         print_text(20, 20, gBGMusicActive ? "ENABLED" : "DISABLED");
     }
 
-    update_lighting();  
     warp_area();
     check_instant_warp();
 
@@ -1132,6 +1131,8 @@ s32 play_mode_normal(void) {
             set_play_mode(PLAY_MODE_PAUSED);
         }
     }
+
+    update_lighting();
       
     return FALSE;
 }

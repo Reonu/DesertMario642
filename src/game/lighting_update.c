@@ -209,7 +209,7 @@ void set_light_color(void) {
     dirG = lerpf(gDayConfigs[curDayConfig].dirG, gDayConfigs[nextDayConfig].dirG,remapTime);
     dirB = lerpf(gDayConfigs[curDayConfig].dirB, gDayConfigs[nextDayConfig].dirB,remapTime);
 
-    if (gMarioCurrentRoom == 2) {
+    if (get_room_at_pos(gMarioObject->oPosX, gMarioObject->oPosY, gMarioObject->oPosZ) == 2) { // Can't use gMarioCurrentRoom!
         set_ambient_light(70, 70, 66);
         set_directional_light(dirInside, 210, 210, 200);
     } else {
