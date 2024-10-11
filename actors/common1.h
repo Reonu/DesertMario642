@@ -294,4 +294,8 @@ extern const Gfx wooden_signpost_seg3_dl_0302DCD0[];
 extern const Gfx wooden_signpost_seg3_dl_0302DD08[];
 extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
+#include "actors/night_bg/header.h"
+
+#include "actors/day_bg/header.h"
+
 #endif

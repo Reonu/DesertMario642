@@ -44,6 +44,5 @@ enum CameraHUDLUT {
 
 void set_hud_camera_status(s16 status);
 void render_hud(void);
-extern void render_hud_hydration_meter(Gfx **head);
 
 #endif // HUD_H

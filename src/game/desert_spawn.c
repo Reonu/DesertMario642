@@ -256,7 +256,17 @@ void spawn_enemy(MTRand *rand) {
         return;
     }
 }
+
 u8 sBusAlreadySpawned = FALSE;
+void bhv_desert_spawner_init(void) {
+    gUnpausedTimer = DAY_START;
+    gInstantWarpDisplacement = 0;
+    gInstantWarpCounter = 0;
+    gInstantWarpType = INSTANT_WARP_FORWARDS;
+    gInstantWarpSpawnIndex = TILES_IN_FRONT_OR_BEHIND;
+    sBusAlreadySpawned = FALSE;
+}
+
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
 #define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.75f)
 void bhv_desert_spawner_loop(void) {
@@ -270,8 +280,6 @@ void bhv_desert_spawner_loop(void) {
             gInstantWarpSpawnIndex += TILES_IN_FRONT_OR_BEHIND;
         } else if (gInstantWarpType == INSTANT_WARP_BACKWARDS) {
             gInstantWarpSpawnIndex -= TILES_IN_FRONT_OR_BEHIND;
-        } else {
-            print_text(20,20,"TEST");
         }
 
         if (gInstantWarpSpawnIndex >= -TILES_IN_FRONT_OR_BEHIND && gInstantWarpSpawnIndex <= TILES_IN_FRONT_OR_BEHIND) {
@@ -301,6 +309,39 @@ void bhv_desert_spawner_loop(void) {
                 sBusAlreadySpawned = TRUE;
             }
         }
+    }
+}
+
+void bhv_desert_spawn_intro_init(void) {
+    gUnpausedTimer = DAY_START + (HOUR * 2);
+    gInstantWarpDisplacement = 12314;
+    gInstantWarpType = INSTANT_WARP_FORWARDS;
+    for (gInstantWarpCounter = (-TILES_IN_FRONT_OR_BEHIND * 2); gInstantWarpCounter <= 0; gInstantWarpCounter++) {
+        gInstantWarpSpawnIndex = gInstantWarpCounter + TILES_IN_FRONT_OR_BEHIND;
+        warp_all_if_desert_spawn();
+
+        MTRand firstRand = seedRand((u32) gInstantWarpSpawnIndex + 0x80000000);
+        u32 actualSeed = genRandLong(&firstRand);
+        MTRand newSeed = seedRand(actualSeed);
+        u32 numSmall = random_in_range(&newSeed, 16);
+
+        for (u32 i = 0; i < numSmall; i++) {
+            spawn_small_decoration(&newSeed);
+        }
+
+        if (gInstantWarpCounter == -TILES_IN_FRONT_OR_BEHIND - 1) {
+            spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE, bhvDesertDecor, NORMAL_ROTATION, 0);
+        }
+    }
+
+    gInstantWarpCounter = 0;
+    gInstantWarpSpawnIndex = gInstantWarpCounter + TILES_IN_FRONT_OR_BEHIND;
+    gInstantWarpDisplacement = 0;
+}
+
+void bhv_desert_spawn_intro_loop(void) {
+    if (o->oTimer > 45 && (gPlayer1Controller->buttonPressed & (A_BUTTON | B_BUTTON | START_BUTTON))) {
+        level_trigger_warp(gMarioState, WARP_OP_DESERT_SPAWN);
     }
 }
 
@@ -1070,7 +1111,8 @@ void bhv_lakitu_act_invisible(void) {
 void bhv_lakitu_act_appear(void) {
     // Swoop down from the top of the screen
     o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, LAKITU_ANIMATION_SPEED);
-    if (fabsf(o->oPosY - o->oHomeY) < 1.0f) {
+    if (absf(o->oPosY - o->oHomeY) < 1.0f) {
+        o->oPosY = o->oHomeY;
         o->oAction = LAKITU_ACT_STAY;
     }
     cur_obj_unhide();
@@ -1093,7 +1135,8 @@ void bhv_lakitu_act_stay(void) {
 void bhv_lakitu_act_disappear(void) {
     // Swoop up to the top of the screen
     o->oPosY = approach_f32_asymptotic(o->oPosY, 1000, LAKITU_ANIMATION_SPEED);
-    if (o->oPosY > 999) {
+    if (o->oPosY > 999.0f) {
+        o->oPosY = 1000.0f;
         o->oAction = LAKITU_ACT_INVISIBLE;
     }
     cur_obj_unhide();

@@ -458,8 +458,8 @@ void render_hud_stars(void) {
 #define BAR_RIGHT ((SCREEN_WIDTH / 3) - BAR_MARGIN)
 #define BAR_TOP ((SCREEN_HEIGHT - 10) - (BAR_MARGIN + BAR_HEIGHT))
 
-void render_hud_hydration_meter(Gfx **head) {
-    Gfx *gfx = *head;
+void render_hud_hydration_meter(void) {
+    Gfx *gfx = gDisplayListHead;
     f32 hydrationPercent = ((f32)gMarioState->hydrationMeter / (f32)MAX_HYDRATION);
     s32 r, g, b;
     s32 xEnergyWidth = roundf(remap(gMarioState->hydrationMeter, 0, MAX_HYDRATION, 0, (SCREEN_WIDTH / 3) - BAR_MARGIN));
@@ -487,7 +487,7 @@ void render_hud_hydration_meter(Gfx **head) {
     render_rect(&gfx, BAR_MARGIN, BAR_TOP, xEnergyWidth, BAR_HEIGHT, r, g, b, TRUE);
     render_rect_xlu(&gfx, xEnergyWidth + BAR_MARGIN, BAR_TOP, BAR_RIGHT - xEnergyWidth, BAR_HEIGHT, r, g, b, 50, TRUE);
 
-    *head = gfx;
+    gDisplayListHead = gfx;
 }
 
 void render_hud_battery_meter(s8 alpha) {
@@ -587,6 +587,10 @@ void render_hud(void) {
     s16 hudDisplayFlags = gHudDisplay.flags;
     static u8 alpha = 0;
 
+    if (gMarioState->action == ACT_UNPROCESSED) {
+        hudDisplayFlags = HUD_DISPLAY_NONE;
+    }
+
     if (hudDisplayFlags == HUD_DISPLAY_NONE) {
         sPowerMeterHUD.animation = POWER_METER_HIDDEN;
         sPowerMeterStoredHealth = 8;
@@ -663,6 +667,10 @@ void render_hud(void) {
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {
             render_hud_timer();
+        }
+
+        if (hudDisplayFlags & HUD_DISPLAY_FLAG_HYDRATION_METER) {
+            render_hud_hydration_meter();
         }
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG

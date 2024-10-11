@@ -27,7 +27,7 @@
 #include "rendering_graph_node.h"
 #include "spawn_object.h"
 #include "spawn_sound.h"
-#include "levels/desert/header.h"
+#include "actors/common1.h"
 #include "print.h"
 #include "engine/behavior_script.h"
 
@@ -2591,6 +2591,20 @@ s32 check_if_desert_object_exists(const BehaviorScript *behavior, u32 objValidat
     }
 
     return FALSE;
+}
+
+void warp_all_if_desert_spawn(void) {    
+    for (u32 i = 0; i < OBJECT_POOL_CAPACITY; i++) {
+        struct Object *obj = &gObjectPool[i];
+        if (obj->activeFlags == ACTIVE_FLAG_DEACTIVATED || obj->oDesertObjValidator == 0) {
+            continue;
+        }
+
+        u32 tmp = obj->oDesertTimer;
+        obj->oDesertTimer = 1;
+        warp_desert_object(obj);
+        obj->oDesertTimer = tmp;
+    }
 }
 
 void warp_desert_object(struct Object *obj) {

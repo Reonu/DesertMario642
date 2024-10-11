@@ -870,6 +870,11 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 }
                 fadeMusic = FALSE;
                 break;
+
+            case WARP_OP_DESERT_SPAWN:
+                sDelayedWarpTimer = 45;
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, sDelayedWarpTimer, 0x00, 0x00, 0x00);
+                break;
         }
 
         if (fadeMusic && gCurrDemoInput == NULL) {
@@ -918,6 +923,11 @@ void initiate_delayed_warp(void) {
 
                 case WARP_OP_DEMO_NEXT:
                     warp_special(WARP_SPECIAL_MARIO_HEAD_REGULAR);
+                    break;
+
+                case WARP_OP_DESERT_SPAWN:
+                    save_file_reload();
+                    warp_special(WARP_SPECIAL_DESERT_WARP);
                     break;
 
                 case WARP_OP_CREDITS_START:
@@ -1056,7 +1066,7 @@ s32 play_mode_normal(void) {
         }
     }
 
-    if (gPlayer1Controller->buttonPressed & START_BUTTON) {
+    if (gMarioState->action != ACT_UNPROCESSED && gPlayer1Controller->buttonPressed & START_BUTTON) {
         gBGMusicActive ^= TRUE;
         musicDisplayCounter = 90;
     }
@@ -1261,6 +1271,9 @@ s32 update_level(void) {
             return FALSE;
         }
 
+        reset_volume();
+        enable_background_sound();
+
         changeLevel = shouldReturn;
         shouldReturn = FALSE;
         return changeLevel;
@@ -1287,14 +1300,14 @@ s32 update_level(void) {
     }
 
     if (changeLevel) {
-        reset_volume();
-        enable_background_sound();
-
         // If image DMA hasn't finished, wait for it first, and then continue on afterwards
         if (!check_image_dma_complete(TRUE)) {
             shouldReturn = changeLevel;
             return FALSE;
         }
+
+        reset_volume();
+        enable_background_sound();
     }
 
     return changeLevel;
@@ -1302,6 +1315,7 @@ s32 update_level(void) {
 
 s32 init_level(void) {
     s32 fadeFromColor = FALSE;
+    s32 actionAlreadySet = FALSE;
 #ifdef PUPPYPRINT_DEBUG
     OSTime first = osGetTime();
 #endif
@@ -1342,30 +1356,35 @@ s32 init_level(void) {
         if (gPlayerSpawnInfos[0].areaIndex >= 0) {
             load_mario_area();
             init_mario();
+            actionAlreadySet = TRUE;
         }
 
         if (gCurrentArea != NULL) {
             reset_camera(gCurrentArea->camera);
 
 #ifdef PEACH_SKIP
-            if (gCurrDemoInput != NULL) {
-                set_mario_action(gMarioState, ACT_IDLE, 0);
-            } else if (!gDebugLevelSelect) {
-                if (gMarioState->action != ACT_UNINITIALIZED) {
+            if (!actionAlreadySet) {
+                if (gCurrDemoInput != NULL) {
                     set_mario_action(gMarioState, ACT_IDLE, 0);
+                } else if (!gDebugLevelSelect) {
+                    if (gMarioState->action != ACT_UNINITIALIZED) {
+                        set_mario_action(gMarioState, ACT_IDLE, 0);
+                    }
                 }
             }
         }
 #else
-            if (gCurrDemoInput != NULL) {
-                set_mario_action(gMarioState, ACT_IDLE, 0);
-            } else if (!gDebugLevelSelect) {
-                if (gMarioState->action != ACT_UNINITIALIZED) {
-                    if (save_file_exists(gCurrSaveFileNum - 1)) {
-                        set_mario_action(gMarioState, ACT_IDLE, 0);
-                    } else {
-                        set_mario_action(gMarioState, ACT_INTRO_CUTSCENE, 0);
-                        fadeFromColor = TRUE;
+            if (!actionAlreadySet) {
+                if (gCurrDemoInput != NULL) {
+                    set_mario_action(gMarioState, ACT_IDLE, 0);
+                } else if (!gDebugLevelSelect) {
+                    if (gMarioState->action != ACT_UNINITIALIZED) {
+                        if (save_file_exists(gCurrSaveFileNum - 1)) {
+                            set_mario_action(gMarioState, ACT_IDLE, 0);
+                        } else {
+                            set_mario_action(gMarioState, ACT_INTRO_CUTSCENE, 0);
+                            fadeFromColor = TRUE;
+                        }
                     }
                 }
             }

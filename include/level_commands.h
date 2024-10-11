@@ -354,10 +354,14 @@ enum GoddardScene {
 #define OBJECT(model, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh) \
     OBJECT_WITH_ACTS(model, posX, posY, posZ, angleX, angleY, angleZ, behParam, beh, ALL_ACTS)
 
-#define MARIO(model, behArg, beh) \
-    CMD_BBH(LEVEL_CMD_INIT_MARIO, 0x0C, model), \
+#define MARIO_WITH_ACTION(model, behArg, beh, action) \
+    CMD_BBH(LEVEL_CMD_INIT_MARIO, 0x10, model), \
     CMD_W(behArg), \
-    CMD_PTR(beh)
+    CMD_PTR(beh), \
+    CMD_W(action)
+
+#define MARIO(model, behArg, beh) \
+    MARIO_WITH_ACTION(model, behArg, beh, ACT_UNINITIALIZED)
 
 #define WARP_NODE(id, destLevel, destArea, destNode, flags) \
     CMD_BBBB(LEVEL_CMD_CREATE_WARP_NODE, 0x08, id, destLevel), \

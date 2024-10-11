@@ -1791,100 +1791,107 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     vec3f_get_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_get_lateral_dist(gMarioState->prevPos, gMarioState->pos, &gMarioState->lateralSpeed);
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
-    if (gMarioState->action) {
+    if (gMarioState->action == ACT_UNINITIALIZED) {
+        return ACTIVE_PARTICLE_NONE;
+    }
+    if (gMarioState->action == ACT_UNPROCESSED) {
+        set_mario_animation(gMarioState, MARIO_ANIM_A_POSE);
+        gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_ACTIVE;
+        return ACTIVE_PARTICLE_NONE;
+    }
 #ifdef ENABLE_DEBUG_FREE_MOVE
-        if (
-            (gMarioState->controller->buttonDown & U_JPAD) &&
-            !(gMarioState->controller->buttonDown & L_TRIG)
-        ) {
-            set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
-            set_mario_action(gMarioState, ACT_DEBUG_FREE_MOVE, 0);
-        }
+    if (
+        (gMarioState->controller->buttonDown & U_JPAD) &&
+        !(gMarioState->controller->buttonDown & L_TRIG)
+    ) {
+        set_camera_mode(gMarioState->area->camera, CAMERA_MODE_8_DIRECTIONS, 1);
+        set_mario_action(gMarioState, ACT_DEBUG_FREE_MOVE, 0);
+    }
 #endif
 #ifdef ENABLE_CREDITS_BENCHMARK
-        static s32 startedBenchmark = FALSE;
-        if (!startedBenchmark) {
-            set_mario_action(gMarioState, ACT_IDLE, 0);
-            level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
-            startedBenchmark = TRUE;
-        }
+    static s32 startedBenchmark = FALSE;
+    if (!startedBenchmark) {
+        set_mario_action(gMarioState, ACT_IDLE, 0);
+        level_trigger_warp(gMarioState, WARP_OP_CREDITS_START);
+        startedBenchmark = TRUE;
+    }
 #endif
-        if ((gPlayer1Controller->buttonPressed & R_TRIG) && (gMarioState->action & ACT_FLAG_CAN_DRINK_WATER)) {
-            if (gMarioState->waterLeft) {
-                set_mario_action(gMarioState, ACT_DRINKING_WATER, 0);
-            } else {
-                set_mario_action(gMarioState, ACT_DRINKING_WATER_FAIL, 1);
-            }
-        }
-
-        if ((gPlayer1Controller-> buttonPressed & L_TRIG) && (gMarioState->action != ACT_DRINKING_WATER) && (gMarioState->action != ACT_DRINKING_WATER_FAIL)) {
-            if ((gMarioState->batteryMeter > 0) && (gNightFirstTime > 0)) {
-                gMarioState->flashlightOn ^= 1;
-            } else {
-                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
-            }
-        }
-
-        if (gMarioState->flashlightOn) {
-            deplete_battery(1);
-            if (gMarioState->batteryMeter <= 0) {
-                gMarioState->flashlightOn = FALSE;
-            }
-        }
-
-        if (gMarioCurrentRoom == 2) {
-            gMarioState->inRangeOfWaterSeller = TRUE;
+    if ((gPlayer1Controller->buttonPressed & R_TRIG) && (gMarioState->action & ACT_FLAG_CAN_DRINK_WATER)) {
+        if (gMarioState->waterLeft) {
+            set_mario_action(gMarioState, ACT_DRINKING_WATER, 0);
         } else {
-            gMarioState->inRangeOfWaterSeller = FALSE;
+            set_mario_action(gMarioState, ACT_DRINKING_WATER_FAIL, 1);
         }
+    }
 
-        if (gWaterBottleStolen) {
-            u8 alpha = 0;
-            if (gWaterBottleStolen < 60) {
-                if (gWaterBottleStolen <= 15) {
-                    alpha = remap(gWaterBottleStolen, 0, 15, 0, 255);
-                } else {
-                    alpha = 255;
-                }
-                gWaterBottleStolen++;
-            }  else if (gWaterBottleStolen < 75) {
-                alpha = remap(gWaterBottleStolen, 60, 75, 255, 0);
-                gWaterBottleStolen++;
+    if ((gPlayer1Controller-> buttonPressed & L_TRIG) && (gMarioState->action != ACT_DRINKING_WATER) && (gMarioState->action != ACT_DRINKING_WATER_FAIL)) {
+        if ((gMarioState->batteryMeter > 0) && (gNightFirstTime > 0)) {
+            gMarioState->flashlightOn ^= 1;
+        } else {
+            play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+        }
+    }
+
+    if (gMarioState->flashlightOn) {
+        deplete_battery(1);
+        if (gMarioState->batteryMeter <= 0) {
+            gMarioState->flashlightOn = FALSE;
+        }
+    }
+
+    if (gMarioCurrentRoom == 2) {
+        gMarioState->inRangeOfWaterSeller = TRUE;
+    } else {
+        gMarioState->inRangeOfWaterSeller = FALSE;
+    }
+
+    if (gWaterBottleStolen) {
+        u8 alpha = 0;
+        if (gWaterBottleStolen < 60) {
+            if (gWaterBottleStolen <= 15) {
+                alpha = remap(gWaterBottleStolen, 0, 15, 0, 255);
             } else {
-                gWaterBottleStolen = 0;
+                alpha = 255;
             }
-            print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your water was stolen!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            lock_remaining_text_slots();
+            gWaterBottleStolen++;
+        }  else if (gWaterBottleStolen < 75) {
+            alpha = remap(gWaterBottleStolen, 60, 75, 255, 0);
+            gWaterBottleStolen++;
+        } else {
+            gWaterBottleStolen = 0;
+        }
+        print_set_envcolour(255, 255, 255, alpha);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your water was stolen!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
+    }
+
+#ifdef DESERT_DEBUG
+    if (gPlayer1Controller->buttonPressed & D_JPAD) {
+        gMarioState->numCoins += 50;
+    }
+#endif
+    
+
+    if (gMarioState->flashlightOn) {
+        f32 angleX = sins(gMarioState->faceAngle[1]);
+        f32 angleZ = coss(gMarioState->faceAngle[1]);
+        f32 flashLightPosX = gMarioState->pos[0] + angleX * 600.0f;
+        f32 flashLightPosZ = gMarioState->pos[2] + angleZ * 600.0f;
+        f32 flashLightPosX2 = gMarioState->pos[0] + angleX * 1900.0f;
+        f32 flashLightPosZ2 = gMarioState->pos[2] + angleZ * 1900.0f;
+        Vec3f flashLightPos = {flashLightPosX, gMarioState->pos[1] + 700.0f, flashLightPosZ};
+        Vec3f flashLightPos2 = {flashLightPosX2, gMarioState->pos[1] + 700.0f, flashLightPosZ2};
+        u8 lightIntensity;
+
+        if (gMarioState->batteryMeter >= (MAX_BATTERIES / 2)) {
+            lightIntensity = 255;
+        } else {
+            lightIntensity = remap(gMarioState->batteryMeter, 0, (MAX_BATTERIES / 2), 0, 255);
         }
 
-    #ifdef DESERT_DEBUG
-        if (gPlayer1Controller->buttonPressed & D_JPAD) {
-            gMarioState->numCoins += 50;
-        }
-    #endif
-        
-
-        if (gMarioState->flashlightOn) {
-            f32 angleX = sins(gMarioState->faceAngle[1]);
-            f32 angleZ = coss(gMarioState->faceAngle[1]);
-            f32 flashLightPosX = gMarioState->pos[0] + angleX * 600.0f;
-            f32 flashLightPosZ = gMarioState->pos[2] + angleZ * 600.0f;
-            f32 flashLightPosX2 = gMarioState->pos[0] + angleX * 1900.0f;
-            f32 flashLightPosZ2 = gMarioState->pos[2] + angleZ * 1900.0f;
-            Vec3f flashLightPos = {flashLightPosX, gMarioState->pos[1] + 700.0f, flashLightPosZ};
-            Vec3f flashLightPos2 = {flashLightPosX2, gMarioState->pos[1] + 700.0f, flashLightPosZ2};
-            u8 lightIntensity;
-
-            if (gMarioState->batteryMeter >= (MAX_BATTERIES / 2)) {
-                lightIntensity = 255;
-            } else {
-                lightIntensity = remap(gMarioState->batteryMeter, 0, (MAX_BATTERIES / 2), 0, 255);
-            }
-
-            emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 1, 25, 8, 0);
-            emit_light(flashLightPos2, lightIntensity * 0.8f, lightIntensity * 0.8f, lightIntensity * 0.8f, 1, 25, 8, 0);
-        }
+        emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 1, 25, 8, 0);
+        emit_light(flashLightPos2, lightIntensity * 0.8f, lightIntensity * 0.8f, lightIntensity * 0.8f, 1, 25, 8, 0);
+    }
 
     if (gMarioCurrentRoom != 2) {
         if (gMarioState->pos[0] < THRESHOLD_MINUS_X) {
@@ -1912,86 +1919,83 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     }
 
     run_tutorial();
-     
+    
 
-        gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
-        mario_reset_bodystate(gMarioState);
-        update_mario_inputs(gMarioState);
+    gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+    mario_reset_bodystate(gMarioState);
+    update_mario_inputs(gMarioState);
 
 #ifdef PUPPYCAM
-        if (!(gPuppyCam.flags & PUPPYCAM_BEHAVIOUR_FREE)) {
+    if (!(gPuppyCam.flags & PUPPYCAM_BEHAVIOUR_FREE)) {
 #endif
-        mario_handle_special_floors(gMarioState);
+    mario_handle_special_floors(gMarioState);
 #ifdef PUPPYCAM
-        }
+    }
 #endif
-        mario_process_interactions(gMarioState);
+    mario_process_interactions(gMarioState);
 
-        // If Mario is OOB, stop executing actions.
-        if (gMarioState->floor == NULL) {
-            return ACTIVE_PARTICLE_NONE;
-        }
-
-        // The function can loop through many action shifts in one frame,
-        // which can lead to unexpected sub-frame behavior. Could potentially hang
-        // if a loop of actions were found, but there has not been a situation found.
-        while (inLoop) {
-            switch (gMarioState->action & ACT_GROUP_MASK) {
-                case ACT_GROUP_STATIONARY: inLoop = mario_execute_stationary_action(gMarioState); break;
-                case ACT_GROUP_MOVING:     inLoop = mario_execute_moving_action(gMarioState);     break;
-                case ACT_GROUP_AIRBORNE:   inLoop = mario_execute_airborne_action(gMarioState);   break;
-                case ACT_GROUP_SUBMERGED:  inLoop = mario_execute_submerged_action(gMarioState);  break;
-                case ACT_GROUP_CUTSCENE:   inLoop = mario_execute_cutscene_action(gMarioState);   break;
-                case ACT_GROUP_AUTOMATIC:  inLoop = mario_execute_automatic_action(gMarioState);  break;
-                case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
-            }
-        }
-
-        sink_mario_in_quicksand(gMarioState);
-        squish_mario_model(gMarioState);
-        set_submerged_cam_preset_and_spawn_bubbles(gMarioState);
-        update_mario_health(gMarioState);
-
-        deplete_hydration(HYDRATION_DRAIN_RATE);
-
-        if (gMarioCurrentRoom != 2) {
-            gMarioState->inRangeOfWaterSeller = FALSE;
-        }
-
-#ifdef BREATH_METER
-        update_mario_breath(gMarioState);
-#endif
-        update_mario_info_for_cam(gMarioState);
-        mario_update_hitbox_and_cap_model(gMarioState);
-
-        // Both of the wind handling portions play wind audio only in
-        // non-Japanese releases.
-        if (gMarioState->floor->type == SURFACE_HORIZONTAL_WIND) {
-            spawn_wind_particles(0, (gMarioState->floor->force << 8));
-            play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
-        }
-
-        if (gMarioState->floor->type == SURFACE_VERTICAL_WIND) {
-            spawn_wind_particles(1, 0);
-            play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
-        }
-
-        /*if (gPlayer1Controller->buttonPressed & L_TRIG) {
-            gGoingBackwards ^= 1;
-        }*/
-
-        //print_text_fmt_int(20, 100, "WARPS %d", gMarioCurrentRoom); 
-
-        play_infinite_stairs_music();
-        gMarioState->marioObj->oInteractStatus = INT_STATUS_NONE;
-#if ENABLE_RUMBLE
-        queue_rumble_particles(gMarioState);
-#endif
-
-        return gMarioState->particleFlags;
+    // If Mario is OOB, stop executing actions.
+    if (gMarioState->floor == NULL) {
+        return ACTIVE_PARTICLE_NONE;
     }
 
-    return ACTIVE_PARTICLE_NONE;
+    // The function can loop through many action shifts in one frame,
+    // which can lead to unexpected sub-frame behavior. Could potentially hang
+    // if a loop of actions were found, but there has not been a situation found.
+    while (inLoop) {
+        switch (gMarioState->action & ACT_GROUP_MASK) {
+            case ACT_GROUP_STATIONARY: inLoop = mario_execute_stationary_action(gMarioState); break;
+            case ACT_GROUP_MOVING:     inLoop = mario_execute_moving_action(gMarioState);     break;
+            case ACT_GROUP_AIRBORNE:   inLoop = mario_execute_airborne_action(gMarioState);   break;
+            case ACT_GROUP_SUBMERGED:  inLoop = mario_execute_submerged_action(gMarioState);  break;
+            case ACT_GROUP_CUTSCENE:   inLoop = mario_execute_cutscene_action(gMarioState);   break;
+            case ACT_GROUP_AUTOMATIC:  inLoop = mario_execute_automatic_action(gMarioState);  break;
+            case ACT_GROUP_OBJECT:     inLoop = mario_execute_object_action(gMarioState);     break;
+        }
+    }
+
+    sink_mario_in_quicksand(gMarioState);
+    squish_mario_model(gMarioState);
+    set_submerged_cam_preset_and_spawn_bubbles(gMarioState);
+    update_mario_health(gMarioState);
+
+    deplete_hydration(HYDRATION_DRAIN_RATE);
+
+    if (gMarioCurrentRoom != 2) {
+        gMarioState->inRangeOfWaterSeller = FALSE;
+    }
+
+#ifdef BREATH_METER
+    update_mario_breath(gMarioState);
+#endif
+    update_mario_info_for_cam(gMarioState);
+    mario_update_hitbox_and_cap_model(gMarioState);
+
+    // Both of the wind handling portions play wind audio only in
+    // non-Japanese releases.
+    if (gMarioState->floor->type == SURFACE_HORIZONTAL_WIND) {
+        spawn_wind_particles(0, (gMarioState->floor->force << 8));
+        play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
+    }
+
+    if (gMarioState->floor->type == SURFACE_VERTICAL_WIND) {
+        spawn_wind_particles(1, 0);
+        play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
+    }
+
+    /*if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        gGoingBackwards ^= 1;
+    }*/
+
+    //print_text_fmt_int(20, 100, "WARPS %d", gMarioCurrentRoom); 
+
+    play_infinite_stairs_music();
+    gMarioState->marioObj->oInteractStatus = INT_STATUS_NONE;
+#if ENABLE_RUMBLE
+    queue_rumble_particles(gMarioState);
+#endif
+
+    return gMarioState->particleFlags;
 }
 
 /**************************************************
@@ -2052,8 +2056,11 @@ void init_mario(void) {
 
     gMarioState->marioObj->header.gfx.pos[1] = gMarioState->pos[1];
 
-    gMarioState->action =
-        (gMarioState->pos[1] <= (gMarioState->waterLevel - 100)) ? ACT_WATER_IDLE : ACT_IDLE;
+    gMarioState->action = gMarioSpawnInfo->spawnAction;
+    if (gMarioState->action == ACT_UNINITIALIZED) {
+        gMarioState->action =
+            (gMarioState->pos[1] <= (gMarioState->waterLevel - 100)) ? ACT_WATER_IDLE : ACT_IDLE;
+    }
 
     mario_reset_bodystate(gMarioState);
     update_mario_info_for_cam(gMarioState);

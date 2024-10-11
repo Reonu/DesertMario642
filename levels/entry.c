@@ -18,10 +18,9 @@ const LevelScript level_script_entry[] = {
     BLACKOUT(/*active*/ FALSE),
 #ifdef TEST_LEVEL
     SET_REG(/*value*/ TEST_LEVEL),
-    EXECUTE(/*seg*/ SEGMENT_GLOBAL_LEVEL_SCRIPT, /*script*/ _scriptsSegmentRomStart, /*scriptEnd*/ _scriptsSegmentRomEnd, /*entry*/ level_main_scripts_entry),
 #else
-    SET_REG(/*value*/ 0),
-    EXECUTE(/*seg*/ SEGMENT_MENU_INTRO, /*script*/ _introSegmentRomStart, /*scriptEnd*/ _introSegmentRomEnd, /*entry*/ level_intro_splash_screen),
+    SET_REG(/*value*/ LEVEL_DESERT_INTRO),
 #endif
+    EXECUTE(/*seg*/ SEGMENT_GLOBAL_LEVEL_SCRIPT, /*script*/ _scriptsSegmentRomStart, /*scriptEnd*/ _scriptsSegmentRomEnd, /*entry*/ level_main_scripts_entry),
     JUMP(/*target*/ level_script_entry),
 };

@@ -6194,10 +6194,20 @@ const BehaviorScript bhvIntroScene[] = {
 //extern void bhv_desert_spawner_loop(void);
 
 const BehaviorScript bhvDesertSpawner[] = {
-    BEGIN(OBJ_LIST_PUSHABLE),
+    BEGIN(OBJ_LIST_SPAWNER),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_desert_spawner_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_desert_spawner_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvDesertIntroSpawner[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_desert_spawn_intro_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_desert_spawn_intro_loop),
     END_LOOP(),
 };
 
