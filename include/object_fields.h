@@ -1357,4 +1357,7 @@ os16112*/
 #define           oExclamationMarkObject      OBJECT_FIELD_OBJ(0x1C)
 #define           oDesertSequenceIndex        OBJECT_FIELD_S32(0x1D)
 
+#define /*0x108*/ oLakituAppearTimer          OBJECT_FIELD_S32(0x20)
+#define /*0x108*/ oLakituDisappearTimer       OBJECT_FIELD_S32(0x20)
+
 #endif // OBJECT_FIELDS_H

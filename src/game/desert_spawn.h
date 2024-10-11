@@ -23,3 +23,4 @@ extern void bhv_water_bottle_loop(void);
 extern void run_tutorial(void);
 extern void bhv_bus_init(void);
 extern void bhv_bus_loop(void);
+extern void bhv_lakitu_nuh_uh_loop(void);

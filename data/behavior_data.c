@@ -6274,3 +6274,13 @@ const BehaviorScript bhvDesertDecorWithHitbox[] = {
         CALL_NATIVE(warp_desert_object),
     END_LOOP(),
 };
+
+const BehaviorScript bhvLakituNuhUh[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    LOAD_ANIMATIONS(oAnimations, lakitu_custom_anims),
+    ANIMATE(0),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_lakitu_nuh_uh_loop),
+    END_LOOP(),
+};

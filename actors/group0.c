@@ -72,3 +72,6 @@
 #include "water_bottle/model.inc.c"
 #include "bus/model.inc.c"
 #include "cactus/model.inc.c"
+#include "lakitu_custom/model.inc.c"
+#include "lakitu_custom/anims/data.inc.c"
+#include "lakitu_custom/anims/table.inc.c"

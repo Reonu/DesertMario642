@@ -28,6 +28,7 @@ enum GlobalModelIDs {
     MODEL_WATER_BOTTLE,
     MODEL_BUS,
     MODEL_CACTUS,
+    MODEL_LAKITU_CUSTOM,
 
     MODEL_ID_COUNT,
 };

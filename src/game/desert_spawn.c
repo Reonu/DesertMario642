@@ -1036,3 +1036,100 @@ void bhv_bus_loop(void) {
 
     o->oFloat108 = o->oDistanceToMario;
 }
+
+// Lakitu
+
+enum LakituActions {
+    LAKITU_ACT_INVISIBLE,
+    LAKITU_ACT_APPEAR,
+    LAKITU_ACT_STAY,
+    LAKITU_ACT_LEAVE,
+};
+
+#define LAKITU_APPEAR_THRESHOLD 150 
+#define LAKITU_DISAPPEAR_THRESHOLD 5
+#define LAKITU_ANIMATION_SPEED 0.1f // Speed at which Lakitu moves up and down
+
+void bhv_lakitu_act_invisible(void) {
+    // Stay very high up, outside the screen
+    o->oPosY = 1000;
+
+    if (gMarioState->vel[2] > 0) {
+        o->oLakituAppearTimer++;
+    } else {
+        o->oLakituAppearTimer = 0;
+    }
+
+    if (o->oLakituAppearTimer > LAKITU_APPEAR_THRESHOLD) {
+        o->oAction = LAKITU_ACT_APPEAR;
+    }
+
+    cur_obj_hide();
+}
+
+void bhv_lakitu_act_appear(void) {
+    // Swoop down from the top of the screen
+    o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, LAKITU_ANIMATION_SPEED);
+    if (fabsf(o->oPosY - o->oHomeY) < 1.0f) {
+        o->oAction = LAKITU_ACT_STAY;
+    }
+    cur_obj_unhide();
+}
+
+void bhv_lakitu_act_stay(void) {
+    // Bop up and down
+    o->oPosY = o->oHomeY + sins(gGlobalTimer * 0x800) * 50.0f;
+    if ((gMarioState->vel[2] < 0) && (gMarioCurrentRoom != 2) && (gMarioState->action != ACT_SPECIAL_KB_BUS)) {
+        o->oLakituDisappearTimer++;
+    } else {
+        o->oLakituDisappearTimer = 0;
+    }
+
+    if (o->oLakituDisappearTimer > LAKITU_DISAPPEAR_THRESHOLD) {
+        o->oAction = LAKITU_ACT_LEAVE;
+    }
+}
+
+void bhv_lakitu_act_disappear(void) {
+    // Swoop up to the top of the screen
+    o->oPosY = approach_f32_asymptotic(o->oPosY, 1000, LAKITU_ANIMATION_SPEED);
+    if (o->oPosY > 999) {
+        o->oAction = LAKITU_ACT_INVISIBLE;
+    }
+    cur_obj_unhide();
+}
+
+void bhv_lakitu_nuh_uh_loop(void) {
+    switch (o->oAction) {
+        case LAKITU_ACT_INVISIBLE:
+            bhv_lakitu_act_invisible();
+            break;
+        case LAKITU_ACT_APPEAR:
+            bhv_lakitu_act_appear();
+            break;
+        case LAKITU_ACT_STAY:
+            bhv_lakitu_act_stay();
+            break;
+        case LAKITU_ACT_LEAVE:
+            bhv_lakitu_act_disappear();
+            break;
+    }
+
+    // face mario
+    o->oFaceAngleYaw = obj_angle_to_object(o, gMarioObject) + 0x8000;
+
+    // stay in front of mario
+    if (o->oAction != LAKITU_ACT_INVISIBLE) {
+        o->oPosX = gMarioObject->oPosX + sins(gMarioObject->oMoveAngleYaw) * 200.0f;
+        o->oPosZ = gMarioObject->oPosZ + coss(gMarioObject->oMoveAngleYaw) * 200.0f;
+        Vec3f pos = {o->oPosX - sins(o->oMoveAngleYaw) * 100, o->oPosY + 800, o->oPosZ - coss(o->oMoveAngleYaw) * 100};
+        emit_light(pos, 255, 0, 0, 4, 50, 8, 0);
+        
+    }
+
+    if (gMarioCurrentRoom == 2 || gMarioState->action == ACT_SPECIAL_KB_BUS) {
+        o->oAction = LAKITU_ACT_INVISIBLE;
+    }
+
+    o->oHomeY = 300;
+}

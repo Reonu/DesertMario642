@@ -40,3 +40,4 @@
 #include "water_bottle/geo.inc.c"
 #include "bus/geo.inc.c"
 #include "cactus/geo.inc.c"
+#include "lakitu_custom/geo.inc.c"

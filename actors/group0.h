@@ -437,4 +437,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "cactus/geo_header.h"
 
+#include "lakitu_custom/geo_header.h"
+
+
+#include "lakitu_custom/anim_header.h"
 #endif

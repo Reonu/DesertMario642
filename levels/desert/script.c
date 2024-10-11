@@ -40,6 +40,7 @@ const LevelScript level_desert_entry[] = {
 		OBJECT(MODEL_JUKEBOX, -19339, 0, 1158, 0, 0, 0, 0x00000000, bhvJukebox),
 		OBJECT(MODEL_KOOPA_WITH_SHELL_CUSTOM, -20936, 0, 916, 0, -180, 0, 0x00000000, bhvKoopaCustom),
 		OBJECT(MODEL_KOOPA_WITH_SHELL_CUSTOM, -20135, 0, 916, 0, -180, 0, (1), bhvKoopaCustom),
+		OBJECT(MODEL_LAKITU_CUSTOM, 253, 0, 993, 0, 0, 0, 0x00000000, bhvLakituNuhUh),
 		MARIO_POS(0x01, 0, 0, 0, 0),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -75, 0, 2030, 0, 0, 0, 0x00000000, bhvDesertSpawner),
