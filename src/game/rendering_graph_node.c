@@ -747,16 +747,18 @@ void set_ambient_light(s32 red, s32 green, s32 blue)
 // Emits a point light with the given parameters
 void emit_light(Vec3f pos, s32 red, s32 green, s32 blue, u32 quadraticFalloff, u32 linearFalloff, u32 constantFalloff, f32 yOffset)
 {
-    gPointLights[gPointLightCount].l.pl.colc[0] = gPointLights[gPointLightCount].l.pl.col[0] = red;
-    gPointLights[gPointLightCount].l.pl.colc[1] = gPointLights[gPointLightCount].l.pl.col[1] = green;
-    gPointLights[gPointLightCount].l.pl.colc[2] = gPointLights[gPointLightCount].l.pl.col[2] = blue;
-    gPointLights[gPointLightCount].l.pl.constant_attenuation = MAX(constantFalloff, 8U);
-    gPointLights[gPointLightCount].l.pl.linear_attenuation = linearFalloff;
-    gPointLights[gPointLightCount].l.pl.quadratic_attenuation = quadraticFalloff;
-    gPointLights[gPointLightCount].worldPos[0] = pos[0];
-    gPointLights[gPointLightCount].worldPos[1] = pos[1] + yOffset;
-    gPointLights[gPointLightCount].worldPos[2] = pos[2];
-    gPointLightCount++;
+    if (gPointLightCount < MAX_POINT_LIGHTS) {
+        gPointLights[gPointLightCount].l.pl.colc[0] = gPointLights[gPointLightCount].l.pl.col[0] = red;
+        gPointLights[gPointLightCount].l.pl.colc[1] = gPointLights[gPointLightCount].l.pl.col[1] = green;
+        gPointLights[gPointLightCount].l.pl.colc[2] = gPointLights[gPointLightCount].l.pl.col[2] = blue;
+        gPointLights[gPointLightCount].l.pl.constant_attenuation = MAX(constantFalloff, 8U);
+        gPointLights[gPointLightCount].l.pl.linear_attenuation = linearFalloff;
+        gPointLights[gPointLightCount].l.pl.quadratic_attenuation = quadraticFalloff;
+        gPointLights[gPointLightCount].worldPos[0] = pos[0];
+        gPointLights[gPointLightCount].worldPos[1] = pos[1] + yOffset;
+        gPointLights[gPointLightCount].worldPos[2] = pos[2];
+        gPointLightCount++;
+    }
 }
 
 Mat4 gCameraTransform;
