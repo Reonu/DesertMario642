@@ -52,5 +52,6 @@
     "31_field": ["0C_extended_bank"],
     "32_ray_of_hope": ["0C_extended_bank"],
     "33_savannah_desert": ["0C_extended_bank"],
-    "34_arid_sands": ["0C_extended_bank"]
+    "34_arid_sands": ["0C_extended_bank"],
+    "35_rain": ["28_rain"]
 }

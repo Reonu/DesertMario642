@@ -63,6 +63,7 @@ enum SeqId {
     SEQ_RAY_OF_HOPE,                  // 0x32  
     SEQ_SAVANNAH_DESERT,              // 0x33
     SEQ_ARID_SANDS,                   // 0x34
+    SEQ_RAIN_FORMERLY_KNOWN_AS_PURPLE,// 0x35,
 
     SEQ_COUNT,
 };
