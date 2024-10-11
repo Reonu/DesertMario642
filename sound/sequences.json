@@ -39,5 +39,18 @@
     "24_crossing_those_hills": ["0C_extended_bank"],
     "25_route_203": ["0C_extended_bank"],
     "26_smo_sand_kingdom": ["26_smo_sand_kingdom"],
-    "27_redc_mansion_basement": ["27_redc_mansion_basement"]
+    "27_redc_mansion_basement": ["27_redc_mansion_basement"],
+    "28_cascade_capers_waterfall": ["0C_extended_bank"],
+    "29_sky_high_grand_nuage": ["0C_extended_bank"],
+    "2A_beat_the_heat": ["0C_extended_bank"],
+    "2B_living_waterway": ["0C_extended_bank"],
+    "2C_costa_del_sol": ["0C_extended_bank"],
+    "2D_confronting_myself": ["0C_extended_bank"],
+    "2E_draculas_tears": ["0C_extended_bank"],
+    "2F_egyptian_duel": ["0C_extended_bank"],
+    "30_fire_island_volcano": ["0C_extended_bank"],
+    "31_field": ["0C_extended_bank"],
+    "32_ray_of_hope": ["0C_extended_bank"],
+    "33_savannah_desert": ["0C_extended_bank"],
+    "34_arid_sands": ["0C_extended_bank"]
 }

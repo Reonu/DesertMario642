@@ -50,6 +50,19 @@ enum SeqId {
     SEQ_ROUTE_203,                    // 0x25
     SEQ_SMO_SAND_KINGDOM,             // 0x26
     SEQ_REDC_MANSION_BASEMENT,        // 0x27
+    SEQ_CASCADE_CAPERS_WATERFALL,     // 0x28   
+    SEQ_SKY_HIGH_GRAND_NUAGE,         // 0x29
+    SEQ_BEAT_THE_HEAT,                // 0x2A
+    SEQ_LIVING_WATERWAY,              // 0x2B
+    SEQ_COSTA_DEL_SOL,                // 0x2C
+    SEQ_CONFRONTING_MYSELF,           // 0x2D
+    SEQ_DRACULAS_TEARS,               // 0x2E
+    SEQ_EGYPTIAN_DUEL,                // 0x2F
+    SEQ_FIRE_ISLAND_VOLCANO,          // 0x30
+    SEQ_FIELD,                        // 0x31
+    SEQ_RAY_OF_HOPE,                  // 0x32  
+    SEQ_SAVANNAH_DESERT,              // 0x33
+    SEQ_ARID_SANDS,                   // 0x34
 
     SEQ_COUNT,
 };

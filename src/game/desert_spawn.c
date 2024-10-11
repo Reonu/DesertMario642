@@ -729,12 +729,25 @@ struct DesertSeqs {
 };
 
 const struct DesertSeqs seqsToRandomize[] = {
-    {.seqId = SEQ_KALIMARI_DESERT,       .isPort = TRUE,  .seqAuthor = "ShrooboidBrat",   .seqName = "Mario Kart 64: Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
-    {.seqId = SEQ_LEVEL_HOT,             .isPort = FALSE, .seqAuthor = "Nintendo",        .seqName = "Super Mario 64: Shifting Sand Land"},
-    {.seqId = SEQ_CROSSING_THOSE_HILLS,  .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Final Fantasy IX: Crossing Those Hills"},
-    {.seqId = SEQ_ROUTE_203,             .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Pokemon Legends Arceus: Route 203"},
-    {.seqId = SEQ_SMO_SAND_KINGDOM,      .isPort = TRUE,  .seqAuthor = "ArcticJaguar725", .seqName = "Super Mario Odyssey: Sand Kingdom"},
-    {.seqId = SEQ_REDC_MANSION_BASEMENT, .isPort = FALSE, .seqAuthor = "Capcom",          .seqName = "Resident Evil (DC): Mansion Basement"},
+    {.seqId = SEQ_KALIMARI_DESERT,          .isPort = TRUE,  .seqAuthor = "ShrooboidBrat",   .seqName = "Mario Kart 64: Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
+    {.seqId = SEQ_LEVEL_HOT,                .isPort = FALSE, .seqAuthor = "Nintendo",        .seqName = "Super Mario 64: Shifting Sand Land"},
+    {.seqId = SEQ_CROSSING_THOSE_HILLS,     .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Final Fantasy IX: Crossing Those Hills"},
+    {.seqId = SEQ_ROUTE_203,                .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Pokemon Legends Arceus: Route 203"},
+    {.seqId = SEQ_SMO_SAND_KINGDOM,         .isPort = TRUE,  .seqAuthor = "ArcticJaguar725", .seqName = "Super Mario Odyssey: Sand Kingdom"},
+    {.seqId = SEQ_REDC_MANSION_BASEMENT,    .isPort = FALSE, .seqAuthor = "Capcom",          .seqName = "Resident Evil (DC): Mansion Basement"},
+    {.seqId = SEQ_CASCADE_CAPERS_WATERFALL, .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "DKC3: Cascade Capers Waterfall"},
+    {.seqId = SEQ_SKY_HIGH_GRAND_NUAGE,     .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "MMZX: Sky High - Grand Nuage"},
+    {.seqId = SEQ_BEAT_THE_HEAT,            .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "A Hat in Time: Beat the Heat"},
+    {.seqId = SEQ_LIVING_WATERWAY,          .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Cave Story: Living Waterway"},
+    {.seqId = SEQ_COSTA_DEL_SOL,            .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "FFVII: Costa del Sol"},
+    {.seqId = SEQ_CONFRONTING_MYSELF,       .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Celeste: Confronting Myself"},
+    {.seqId = SEQ_DRACULAS_TEARS,           .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Castlevania DoS: Dracula's Tears"},
+    {.seqId = SEQ_EGYPTIAN_DUEL,            .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Yu-Gi-Oh! FM: Egyptian Duel"},
+    {.seqId = SEQ_FIRE_ISLAND_VOLCANO,      .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Pokemon SMD: Fire Island Volcano"},
+    {.seqId = SEQ_FIELD,                    .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "YSIV: Field"},
+    {.seqId = SEQ_RAY_OF_HOPE,              .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Corpse Party: Ray of Hope"},
+    {.seqId = SEQ_SAVANNAH_DESERT,          .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Sonic Unleashed: Savannah Desert"},
+    {.seqId = SEQ_ARID_SANDS,               .isPort = TRUE,  .seqAuthor = "scutte",          .seqName = "Sonic Unleashed: Arid Sands"}
 };
 
 #define RANDOMIZED_SEQ_COUNT (ARRAY_COUNT(seqsToRandomize))
