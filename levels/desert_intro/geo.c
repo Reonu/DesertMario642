@@ -15,3 +15,4 @@
 
 
 #include "levels/desert_intro/geo.inc.c"
+#include "levels/desert_intro/DesertMarioLogo/geo.inc.c"
