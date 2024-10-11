@@ -464,6 +464,7 @@ struct MarioState {
              u8 hydrationLowFirstTime;
              u8 inRangeOfWaterSeller;
              u8 flashlightOn;
+             u8 caramelldansen;
              s32 hydrationMeter;
              s32 batteryMeter;
 };

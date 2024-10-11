@@ -138,6 +138,8 @@ s32 act_idle(struct MarioState *m) {
 
     if (m->actionArg & 1) {
         set_mario_animation(m, MARIO_ANIM_STAND_AGAINST_WALL);
+    } else if (gMarioState->caramelldansen) {
+            set_custom_mario_animation(m, 2);
     } else {
         switch (m->actionState) {
             case ACT_STATE_IDLE_HEAD_LEFT:

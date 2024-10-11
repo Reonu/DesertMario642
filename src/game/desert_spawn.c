@@ -389,7 +389,12 @@ void bhv_desert_decor_loop(void) {
         
         modulate_rgb_color(&o->oPrimRGB);
         emit_light(pos, (o->oPrimRGB >> 16) & 0xff, (o->oPrimRGB >> 8) & 0xff, o->oPrimRGB & 0xff, 4, 50, 8, 0);
-        print_text_fmt_int(20, 20, "warp %d", o->oInstantWarpSpawn);
+        
+        if (o->oDistanceToMario < 3000.f) {
+            gMarioState->caramelldansen = TRUE;
+        } else {
+            gMarioState->caramelldansen = FALSE;
+        }
         
         if (gCurrentObject->header.gfx.node.flags & GRAPH_RENDER_ACTIVE) {
             play_sound(SOUND_BG1_CARAMELLDANSEN, gCurrentObject->header.gfx.cameraToObject);
