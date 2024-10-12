@@ -411,7 +411,6 @@ const BehaviorScript bhvGasStation[] = {
     SET_FLOAT(oCollisionDistance, 6000),
 	BEGIN_LOOP(),
 		CALL_NATIVE(bhv_desert_decor_loop),
-		CALL_NATIVE(load_object_collision_model),
 	END_LOOP(),
 };
 

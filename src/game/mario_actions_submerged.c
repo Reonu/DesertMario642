@@ -222,6 +222,9 @@ static void stationary_slow_down(struct MarioState *m) {
 
     m->vel[0] = m->forwardVel * coss(m->faceAngle[0]) * sins(m->faceAngle[1]);
     m->vel[2] = m->forwardVel * coss(m->faceAngle[0]) * coss(m->faceAngle[1]);
+
+    m->vel[0] = HYDRATION(m->vel[0]);
+    m->vel[2] = HYDRATION(m->vel[2]);
 }
 
 static void update_swimming_speed(struct MarioState *m, f32 decelThreshold) {
@@ -247,6 +250,10 @@ static void update_swimming_speed(struct MarioState *m, f32 decelThreshold) {
     m->vel[0] = m->forwardVel * coss(m->faceAngle[0]) * sins(m->faceAngle[1]);
     m->vel[1] = m->forwardVel * sins(m->faceAngle[0]) + buoyancy;
     m->vel[2] = m->forwardVel * coss(m->faceAngle[0]) * coss(m->faceAngle[1]);
+
+    m->vel[0] = HYDRATION(m->vel[0]);
+    m->vel[1] = HYDRATION(m->vel[1]);
+    m->vel[2] = HYDRATION(m->vel[2]);
 }
 
 static void update_swimming_yaw(struct MarioState *m) {
@@ -1129,9 +1136,9 @@ static void update_metal_water_walking_speed(struct MarioState *m) {
     m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
     m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
 
-    m->vel[0] = m->slideVelX;
+    m->vel[0] = HYDRATION(m->slideVelX);
     m->vel[1] = 0.0f;
-    m->vel[2] = m->slideVelZ;
+    m->vel[2] = HYDRATION(m->slideVelZ);
 }
 
 static s32 update_metal_water_jump_speed(struct MarioState *m) {
@@ -1157,8 +1164,12 @@ static s32 update_metal_water_jump_speed(struct MarioState *m) {
         m->forwardVel += 2.0f;
     }
 
-    m->vel[0] = m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
-    m->vel[2] = m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+    m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
+    m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+
+    m->vel[0] = HYDRATION(m->slideVelX);
+    m->vel[2] = HYDRATION(m->slideVelZ);
+
     return FALSE;
 }
 

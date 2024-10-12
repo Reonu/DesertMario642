@@ -38,6 +38,8 @@
 #include "game/desert_spawn.h"
 u8 status;
 
+f32 gDehydrationMult = 1.0f;
+
 /**************************************************
  *                    ANIMATIONS                  *
  **************************************************/
@@ -1753,14 +1755,30 @@ void queue_rumble_particles(struct MarioState *m) {
 }
 #endif
 
+    
+#define SPEED_DRAIN_START 0.3f
+#define MIN_DEHYDRATED_SPEED 0.5f
+
 void deplete_hydration(s32 amt) {
     gMarioState->hydrationMeter -= amt;
-    if (gMarioState->hydrationMeter < 0) gMarioState->hydrationMeter = 0;
+    if (gMarioState->hydrationMeter < 0) {
+        gMarioState->hydrationMeter = 0;
+    }
+
+    f32 hydration = (f32) gMarioState->hydrationMeter / (f32) MAX_HYDRATION;
+    gDehydrationMult = MIN_DEHYDRATED_SPEED + ((hydration / SPEED_DRAIN_START) * (1.0f - MIN_DEHYDRATED_SPEED));
+    gDehydrationMult = MIN(gDehydrationMult, 1.0f);
 }
 
 void recover_hydration(s32 amt) {
     gMarioState->hydrationMeter += amt;
-    if (gMarioState->hydrationMeter > MAX_HYDRATION) gMarioState->hydrationMeter = MAX_HYDRATION;
+    if (gMarioState->hydrationMeter >= MAX_HYDRATION) {
+        gMarioState->hydrationMeter = MAX_HYDRATION - 1;
+    }
+
+    f32 hydration = (f32) gMarioState->hydrationMeter / (f32) MAX_HYDRATION;
+    gDehydrationMult = MIN_DEHYDRATED_SPEED + ((hydration / SPEED_DRAIN_START) * (1.0f - MIN_DEHYDRATED_SPEED));
+    gDehydrationMult = MIN(gDehydrationMult, 1.0f);
 }
 
 void deplete_battery(s32 amt) {
@@ -1996,9 +2014,9 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #endif
 
     s32 room = get_room_at_pos(
-        gMarioObject->oPosX,
-        gMarioObject->oPosY,
-        gMarioObject->oPosZ
+        gMarioState->pos[0],
+        gMarioState->pos[1],
+        gMarioState->pos[2]
     );
 
     if (room > 0) {

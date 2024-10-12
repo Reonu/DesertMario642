@@ -11,6 +11,7 @@
 #include "main.h"
 #include "engine/math_util.h"
 #include "engine/graph_node.h"
+#include "engine/surface_load.h"
 #include "area.h"
 #include "save_file.h"
 #include "sound_init.h"
@@ -416,6 +417,10 @@ void bhv_desert_decor_loop(void) {
             }
         }
         emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
+    } else if (o->behavior == segmented_to_virtual(bhvGasStation)) {
+        if (gMarioState->action != ACT_SPECIAL_KB_BUS) {
+		    load_object_collision_model();
+        }
     } else if (obj_has_model(o, MODEL_DESERT_HOUSE_RGB)) {
         Vec3f pos = {0,0,0};
         pos[1] = o->oPosY + 500;

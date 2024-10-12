@@ -182,9 +182,9 @@ void update_sliding_angle(struct MarioState *m, f32 accel, f32 lossFactor) {
 
     m->faceAngle[1] = m->slideYaw + newFacingDYaw;
 
-    m->vel[0] = m->slideVelX;
+    m->vel[0] = HYDRATION(m->slideVelX);
     m->vel[1] = 0.0f;
-    m->vel[2] = m->slideVelZ;
+    m->vel[2] = HYDRATION(m->slideVelZ);
 
     mario_update_moving_sand(m);
     mario_update_windy_ground(m);
@@ -307,9 +307,9 @@ void apply_slope_accel(struct MarioState *m) {
     m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
     m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
 
-    m->vel[0] = m->slideVelX;
+    m->vel[0] = HYDRATION(m->slideVelX);
     m->vel[1] = 0.0f;
-    m->vel[2] = m->slideVelZ;
+    m->vel[2] = HYDRATION(m->slideVelZ);
 
     mario_update_moving_sand(m);
     mario_update_windy_ground(m);
@@ -341,7 +341,7 @@ void update_shell_speed(struct MarioState *m) {
         // m->floor->originOffset = m->waterLevel; //! (Original code) Negative origin offset
     }
 
-    if (m->floor != NULL && (m->floor->type == SURFACE_SLOW || m->hydrationMeter <= 0.1f)) {
+    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
         maxTargetSpeed = 48.0f;
     } else {
         maxTargetSpeed = 64.0f;
@@ -419,7 +419,7 @@ void update_walking_speed(struct MarioState *m) {
     f32 maxTargetSpeed;
     f32 targetSpeed;
 
-    if (m->floor != NULL && (m->floor->type == SURFACE_SLOW || m->hydrationMeter <= 0.1f)) {
+    if (m->floor != NULL && m->floor->type == SURFACE_SLOW) {
         maxTargetSpeed = 20.0f;
     } else {
         maxTargetSpeed = 32.0f;
@@ -1395,8 +1395,11 @@ void common_slide_action(struct MarioState *m, u32 endAction, u32 airAction, s32
 
                 m->slideYaw = wallAngle - (s16)(m->slideYaw - wallAngle) + 0x8000;
 
-                m->vel[0] = m->slideVelX = slideSpeed * sins(m->slideYaw);
-                m->vel[2] = m->slideVelZ = slideSpeed * coss(m->slideYaw);
+                m->slideVelX = slideSpeed * sins(m->slideYaw);
+                m->slideVelZ = slideSpeed * coss(m->slideYaw);
+
+                m->vel[0] = HYDRATION(m->slideVelX);
+                m->vel[2] = HYDRATION(m->slideVelZ);
             }
 
             align_with_floor(m);

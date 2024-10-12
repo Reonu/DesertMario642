@@ -197,8 +197,8 @@ u32 mario_update_moving_sand(struct MarioState *m) {
         s16 pushAngle = floor->force << 8;
         f32 pushSpeed = sMovingSandSpeeds[floor->force >> 8];
 
-        m->vel[0] += pushSpeed * sins(pushAngle);
-        m->vel[2] += pushSpeed * coss(pushAngle);
+        m->vel[0] += HYDRATION(pushSpeed * sins(pushAngle));
+        m->vel[2] += HYDRATION(pushSpeed * coss(pushAngle));
 
         return TRUE;
     }
@@ -227,8 +227,8 @@ u32 mario_update_windy_ground(struct MarioState *m) {
             pushSpeed = 3.2f + (gGlobalTimer % 4);
         }
 
-        m->vel[0] += pushSpeed * sins(pushAngle);
-        m->vel[2] += pushSpeed * coss(pushAngle);
+        m->vel[0] += HYDRATION(pushSpeed * sins(pushAngle));
+        m->vel[2] += HYDRATION(pushSpeed * coss(pushAngle));
 
         return TRUE;
     }
@@ -720,18 +720,4 @@ s32 perform_air_step(struct MarioState *m, u32 stepArg) {
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 
     return stepResult;
-}
-
-// They had these functions the whole time and never used them? Lol
-
-void set_vel_from_pitch_and_yaw(struct MarioState *m) {
-    m->vel[0] = m->forwardVel * coss(m->faceAngle[0]) * sins(m->faceAngle[1]);
-    m->vel[1] = m->forwardVel * sins(m->faceAngle[0]);
-    m->vel[2] = m->forwardVel * coss(m->faceAngle[0]) * coss(m->faceAngle[1]);
-}
-
-void set_vel_from_yaw(struct MarioState *m) {
-    m->vel[0] = m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
-    m->vel[1] = 0.0f;
-    m->vel[2] = m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
 }

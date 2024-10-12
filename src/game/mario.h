@@ -2,6 +2,11 @@
 #define MARIO_H
 
 #include <PR/ultratypes.h>
+#include "level_update.h"
+
+extern f32 gDehydrationMult;
+
+#define HYDRATION(x) (gMarioState->action != ACT_SPECIAL_KB_BUS ? (x) * gDehydrationMult : (x))
 
 #include "macros.h"
 #include "types.h"

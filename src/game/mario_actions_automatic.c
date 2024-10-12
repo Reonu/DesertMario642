@@ -327,9 +327,9 @@ s32 update_hang_moving(struct MarioState *m) {
     m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
     m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
 
-    m->vel[0] = m->slideVelX;
+    m->vel[0] = HYDRATION(m->slideVelX);
     m->vel[1] = 0.0f;
-    m->vel[2] = m->slideVelZ;
+    m->vel[2] = HYDRATION(m->slideVelZ);
 
     nextPos[0] = m->pos[0] - m->ceil->normal.y * m->vel[0];
     nextPos[2] = m->pos[2] - m->ceil->normal.y * m->vel[2];

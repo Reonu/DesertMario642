@@ -87,10 +87,8 @@ void spawn_mist_particles_variable(s32 count, s32 offsetY, f32 size) {
 
     if (count == 0) {
         sMistParticles.count = 20;
-    } else if (count > 20) {
-        sMistParticles.count = count;
     } else {
-        sMistParticles.count = 4;
+        sMistParticles.count = count;
     }
 
     cur_obj_spawn_particles(&sMistParticles);

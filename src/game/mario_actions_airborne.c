@@ -158,8 +158,8 @@ s32 check_horizontal_wind(struct MarioState *m) {
             speed = 32.0f;
         }
 
-        m->vel[0] = m->slideVelX;
-        m->vel[2] = m->slideVelZ;
+        m->vel[0] = HYDRATION(m->slideVelX);
+        m->vel[2] = HYDRATION(m->slideVelZ);
         m->slideYaw = atan2s(m->slideVelZ, m->slideVelX);
         m->forwardVel = speed * coss(m->faceAngle[1] - m->slideYaw);
         return TRUE;
@@ -193,8 +193,11 @@ void update_air_with_turn(struct MarioState *m) {
             m->forwardVel += 2.0f;
         }
 
-        m->vel[0] = m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
-        m->vel[2] = m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+        m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
+        m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+
+        m->vel[0] = HYDRATION(m->slideVelX);
+        m->vel[2] = HYDRATION(m->slideVelZ);
     }
 }
 
@@ -230,8 +233,8 @@ void update_air_without_turn(struct MarioState *m) {
         m->slideVelX += sidewaysSpeed * sins(m->faceAngle[1] + 0x4000);
         m->slideVelZ += sidewaysSpeed * coss(m->faceAngle[1] + 0x4000);
 
-        m->vel[0] = m->slideVelX;
-        m->vel[2] = m->slideVelZ;
+        m->vel[0] = HYDRATION(m->slideVelX);
+        m->vel[2] = HYDRATION(m->slideVelZ);
     }
 }
 
@@ -256,8 +259,11 @@ void update_lava_boost_or_twirling(struct MarioState *m) {
         }
     }
 
-    m->vel[0] = m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
-    m->vel[2] = m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+    m->slideVelX = m->forwardVel * sins(m->faceAngle[1]);
+    m->slideVelZ = m->forwardVel * coss(m->faceAngle[1]);
+
+    m->vel[0] = HYDRATION(m->slideVelX);
+    m->vel[2] = HYDRATION(m->slideVelZ);
 }
 
 void update_flying_yaw(struct MarioState *m) {
@@ -349,6 +355,10 @@ void update_flying(struct MarioState *m) {
 
     m->slideVelX = m->vel[0];
     m->slideVelZ = m->vel[2];
+
+    m->vel[0] = HYDRATION(m->slideVelX);
+    m->vel[1] = HYDRATION(m->vel[1]);
+    m->vel[2] = HYDRATION(m->slideVelZ);
 }
 
 u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, u32 stepArg) {
@@ -1140,7 +1150,7 @@ s32 act_backward_air_kb(struct MarioState *m) {
     return FALSE;
 }
 
-#define BUS_FLYBACK_FRAMES 420
+#define BUS_FLYBACK_FRAMES 360
 s32 act_special_kb_bus(struct MarioState *m) {
     gCameraMovementFlags &= ~CAM_MOVE_ZOOMED_OUT;
 
@@ -1149,14 +1159,46 @@ s32 act_special_kb_bus(struct MarioState *m) {
         play_sound(SOUND_ACTION_BOUNCE_OFF_OBJECT, m->marioObj->header.gfx.cameraToObject);
     }
     
-    if (m->actionTimer++ < BUS_FLYBACK_FRAMES) {
-        m->vel[1] = MAX(25.0f - ((f32) m->actionTimer / 3.0f), 0.0f);
+    if (m->actionArg == 0) {
+        if (m->actionTimer == 0) {
+            m->faceAngle[1] = DEGREES(180);
+            m->vel[0] = 0;
+            m->vel[2] = 350.0f;
+        }
+
+        if (m->actionTimer++ < BUS_FLYBACK_FRAMES) {
+            m->vel[1] = MAX(25.0f - ((f32) m->actionTimer / 3.0f), 0.0f);
+        } else {
+            m->vel[1] = (BUS_FLYBACK_FRAMES - (f32) m->actionTimer) / 3.0f;
+        }
     } else {
-        m->vel[1] = (BUS_FLYBACK_FRAMES - (f32) m->actionTimer) / 3.0f;
+        m->vel[1] -= 0.5f;
     }
 
-    m->faceAngle[1] = DEGREES(180);
-    common_air_knockback_step(m, ACT_BACKWARD_GROUND_KB, ACT_HARD_BACKWARD_GROUND_KB, MARIO_ANIM_BACKWARD_AIR_KB, -350.0f);
+    set_mario_animation(m, MARIO_ANIM_BACKWARD_AIR_KB);
+    if (m->pos[1] + m->vel[1] <= 0.0f) {
+        m->actionArg++;
+        if (m->actionArg < 8) {
+            m->vel[1] = 20.0f - (m->actionArg * 2.0f);
+            m->vel[2] *= 0.8f;
+            set_mario_animation(m, MARIO_ANIM_SLIDE);
+            spawn_mist_particles_variable(8, 0, 20.0f);
+            play_sound(SOUND_ACTION_BONK, m->marioObj->header.gfx.cameraToObject);
+        } else {
+            set_mario_action(m, ACT_THROWN_BACKWARD, 0);
+            m->forwardVel = -m->vel[2];
+        }
+
+        m->pos[1] = 0.0f;
+    } else {
+        m->pos[1] += m->vel[1];
+    }
+
+    m->pos[0] += m->vel[0];
+    m->pos[2] += m->vel[2];
+
+    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 
     return FALSE;
 }

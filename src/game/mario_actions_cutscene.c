@@ -1563,8 +1563,8 @@ s32 act_squished(struct MarioState *m) {
     }
 
     if (underSteepSurf) {
-        m->vel[0] = sins(surfAngle) * 10.0f;
-        m->vel[2] = coss(surfAngle) * 10.0f;
+        m->vel[0] = HYDRATION(sins(surfAngle) * 10.0f);
+        m->vel[2] = HYDRATION(coss(surfAngle) * 10.0f);
         m->vel[1] = 0;
 
         // check if there's no floor 10 units away from the surface
