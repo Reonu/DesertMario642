@@ -133,6 +133,21 @@ ALIGNED16 const Texture _img_cryptlys[] = {
 ALIGNED16 const Texture _img_sticker_star[] = {
 #include "dma_data/_img_sticker_star.rgba16.yay0.c.in"
 };
+ALIGNED16 const Texture _img_hyena_art[] = {
+#include "dma_data/_img_hyena_art.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_moth_smoking[] = {
+#include "dma_data/_img_moth_smoking.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_sexycowboy[] = {
+#include "dma_data/_img_sexycowboy.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_axo_scs[] = {
+#include "dma_data/_img_axo_scs.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_time_draws_near[] = {
+#include "dma_data/_img_time_draws_near.rgba16.yay0.c.in"
+};
 
 ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_AMOGUS]             = {.address = _img_amogus,            .compressedSize = 0x5A60},
@@ -180,4 +195,9 @@ ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_ANONYMOUS_MOOSE]    = {.address = _img_injuredGood,       .compressedSize = 0x8DD0},
     [BB_IMAGE_CRYPTLYS]           = {.address = _img_cryptlys,          .compressedSize = 0x83F0},
     [BB_IMAGE_STICKER_STAR]       = {.address = _img_sticker_star,      .compressedSize = 0x7D00},
+    [BB_IMAGE_HYENA_ART]          = {.address = _img_hyena_art,         .compressedSize = 0x4DA0},
+    [BB_IMAGE_MOTH_SMOKING]       = {.address = _img_moth_smoking,      .compressedSize = 0x1880},
+    [BB_IMAGE_SEXY_COWBOY]        = {.address = _img_sexycowboy,        .compressedSize = 0x7DD0},
+    [BB_IMAGE_AXOLLYON]           = {.address = _img_axo_scs,           .compressedSize = 0x1970},
+    [BB_IMAGE_FURYIOUSFIGHT]      = {.address = _img_time_draws_near,   .compressedSize = 0x0D10},
 };

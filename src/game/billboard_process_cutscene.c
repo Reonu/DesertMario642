@@ -111,6 +111,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_HYENA_CHAN]         = (u32) BB_IMAGE_HYENA_CHAN,
     [BB_SIGN_ANONYMOUS_MOOSE]    = (u32) BB_IMAGE_ANONYMOUS_MOOSE,
     [BB_SIGN_CRYPTLYS]           = (u32) BB_IMAGE_CRYPTLYS,
+    [BB_SIGN_AXOLLYON]           = (u32) BB_IMAGE_AXOLLYON,
 
     // TIER 2
     [BB_SIGN_YOUTUBE]            = (u32) BB_IMAGE_YOUTUBE,
@@ -118,6 +119,9 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_JOEL]               = (u32) BB_IMAGE_JOEL,
     [BB_SIGN_TCS]                = (u32) BB_IMAGE_TCS,
     [BB_SIGN_STICKER_STAR]       = (u32) BB_IMAGE_STICKER_STAR,
+    [BB_SIGN_HYENA_ART]          = (u32) BB_IMAGE_HYENA_ART,
+    [BB_SIGN_MOTH_SMOKING]       = (u32) BB_IMAGE_MOTH_SMOKING,
+    [BB_SIGN_FURYIOUSFIGHT]      = (u32) BB_IMAGE_FURYIOUSFIGHT,
     [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
     [BB_SIGN_FELIZ_JEUVES]       = (u32) BB_VIDEO_FELIZ_JEUVES,
 
@@ -127,6 +131,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MVC]                = (u32) BB_IMAGE_MVC,
     [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
     [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
+    [BB_SIGN_SEXY_COWBOY]        = (u32) BB_IMAGE_SEXY_COWBOY,
     [BB_SIGN_DESERT_MARIO]       = (u32) BB_IMAGE_DESERT_MARIO,
     [BB_SIGN_GBJ_PAINTING]       = (u32) BB_VIDEO_GBJ_PAINTING,
     [BB_SIGN_CHIPS]              = (u32) BB_VIDEO_BILLWURTZ,
@@ -632,10 +637,14 @@ Gfx *geo_billboard_image_scene(s32 callContext, struct GraphNode *node, UNUSED v
 
         Gfx *dlHead;
         if (currentGraphNode->parameter == LAYER_OPAQUE) {
-            dlStart = alloc_display_list(5 * sizeof(Gfx));
+            dlStart = alloc_display_list(6 * sizeof(Gfx));
             dlHead = dlStart;
 
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_first);
+            if (obj->oBehParams2ndByte == BB_SIGN_AXOLLYON) {
+                // Point filter this one
+	            gSPSetOtherMode(dlHead++, G_SETOTHERMODE_H, 4, 20, G_AD_NOISE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_1PRIMITIVE);
+            }
             gDPSetTextureImage(dlHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, IMAGE_TEXTURE_WIDTH, dmaImageTextureAddrs[GET_BPARAM3(obj->oBehParams)]);
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_second);
             gSPDisplayList(dlHead++, sign_normal_sign_normal_mesh_layer_1_end);
