@@ -724,72 +724,78 @@ void bhv_angry_sun_loop(void) {
 struct DesertSeqs {
     const u16 seqId;
     const u8 isPort;
+    u8 hasRandomized;
     const char *seqAuthor;
     const char *seqName;
 };
 
-const struct DesertSeqs seqsToRandomize[] = {
-    {.seqId = SEQ_KALIMARI_DESERT,                  .isPort = TRUE,  .seqAuthor = "ShrooboidBrat",      .seqName = "Mario Kart 64: Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
-    {.seqId = SEQ_LEVEL_HOT,                        .isPort = FALSE, .seqAuthor = "Nintendo",           .seqName = "Super Mario 64: Shifting Sand Land"},
-    {.seqId = SEQ_CROSSING_THOSE_HILLS,             .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Final Fantasy IX: Crossing Those Hills"},
-    {.seqId = SEQ_ROUTE_203,                        .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Pokemon Legends Arceus: Route 203"},
-    {.seqId = SEQ_SMO_SAND_KINGDOM,                 .isPort = TRUE,  .seqAuthor = "ArcticJaguar725",    .seqName = "Super Mario Odyssey: Sand Kingdom"},
-    {.seqId = SEQ_REDC_MANSION_BASEMENT,            .isPort = FALSE, .seqAuthor = "Capcom",             .seqName = "Resident Evil (DC): Mansion Basement"},
-    {.seqId = SEQ_CASCADE_CAPERS_WATERFALL,         .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "DKC3: Cascade Capers Waterfall"},
-    {.seqId = SEQ_SKY_HIGH_GRAND_NUAGE,             .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "MMZX: Sky High - Grand Nuage"},
-    {.seqId = SEQ_BEAT_THE_HEAT,                    .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "A Hat in Time: Beat the Heat"},
-    {.seqId = SEQ_LIVING_WATERWAY,                  .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Cave Story: Living Waterway"},
-    {.seqId = SEQ_COSTA_DEL_SOL,                    .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "FFVII: Costa del Sol"},
-    {.seqId = SEQ_CONFRONTING_MYSELF,               .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Celeste: Confronting Myself"},
-    {.seqId = SEQ_DRACULAS_TEARS,                   .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Castlevania DoS: Dracula's Tears"},
-    {.seqId = SEQ_EGYPTIAN_DUEL,                    .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Yu-Gi-Oh! FM: Egyptian Duel"},
-    {.seqId = SEQ_FIRE_ISLAND_VOLCANO,              .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Pokemon SMD: Fire Island Volcano"},
-    {.seqId = SEQ_FIELD,                            .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "YSIV: Field"},
-    {.seqId = SEQ_RAY_OF_HOPE,                      .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Corpse Party: Ray of Hope"},
-    {.seqId = SEQ_SAVANNAH_DESERT,                  .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Sonic Unleashed: Savannah Desert"},
-    {.seqId = SEQ_ARID_SANDS,                       .isPort = TRUE,  .seqAuthor = "scutte",             .seqName = "Sonic Unleashed: Arid Sands"},
-    {.seqId = SEQ_RAIN_FORMERLY_KNOWN_AS_PURPLE,    .isPort = FALSE, .seqAuthor = "Chris Christodoulou",.seqName = "RoR2: The Rain Formerly Known as Purple"}
+struct DesertSeqs seqsToRandomize[] = {
+    {.seqId = SEQ_KALIMARI_DESERT,                  .isPort = TRUE,  .hasRandomized = TRUE,  .seqAuthor = "ShrooboidBrat",       .seqName = "Mario Kart 64: Kalimari Desert"}, // NOTE: Kalimari Desert must be first here!
+    {.seqId = SEQ_LEVEL_HOT,                        .isPort = FALSE, .hasRandomized = TRUE,  .seqAuthor = "Nintendo",            .seqName = "Super Mario 64: Shifting Sand Land"},
+    {.seqId = SEQ_CROSSING_THOSE_HILLS,             .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Final Fantasy IX: Crossing Those Hills"},
+    {.seqId = SEQ_ROUTE_203,                        .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Pokemon Legends Arceus: Route 203"},
+    {.seqId = SEQ_SMO_SAND_KINGDOM,                 .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "ArcticJaguar725",     .seqName = "Super Mario Odyssey: Sand Kingdom"},
+    {.seqId = SEQ_REDC_MANSION_BASEMENT,            .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Capcom",              .seqName = "Resident Evil (DC): Mansion Basement"},
+    {.seqId = SEQ_CASCADE_CAPERS_WATERFALL,         .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "DKC3: Cascade Capers Waterfall"},
+    {.seqId = SEQ_SKY_HIGH_GRAND_NUAGE,             .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "MMZX: Sky High - Grand Nuage"},
+    {.seqId = SEQ_BEAT_THE_HEAT,                    .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "A Hat in Time: Beat the Heat"},
+    {.seqId = SEQ_LIVING_WATERWAY,                  .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Cave Story: Living Waterway"},
+    {.seqId = SEQ_COSTA_DEL_SOL,                    .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "FFVII: Costa del Sol"},
+    {.seqId = SEQ_CONFRONTING_MYSELF,               .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Celeste: Confronting Myself"},
+    {.seqId = SEQ_DRACULAS_TEARS,                   .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Castlevania DoS: Dracula's Tears"},
+    {.seqId = SEQ_EGYPTIAN_DUEL,                    .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Yu-Gi-Oh! FM: Egyptian Duel"},
+    {.seqId = SEQ_FIRE_ISLAND_VOLCANO,              .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Pokemon SMD: Fire Island Volcano"},
+    {.seqId = SEQ_FIELD,                            .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "YSIV: Field"},
+    {.seqId = SEQ_RAY_OF_HOPE,                      .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Corpse Party: Ray of Hope"},
+    {.seqId = SEQ_SAVANNAH_DESERT,                  .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Sonic Unleashed: Savannah Desert"},
+    {.seqId = SEQ_ARID_SANDS,                       .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Sonic Unleashed: Arid Sands"},
+    {.seqId = SEQ_RAIN_FORMERLY_KNOWN_AS_PURPLE,    .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Chris Christodoulou", .seqName = "RoR2: The Rain Formerly Known as Purple"}
 };
+u8 lastSeqRandomizedIndex = 0;
 
-#define RANDOMIZED_SEQ_COUNT (ARRAY_COUNT(seqsToRandomize))
-#define SEQ_WEIGHT_INCREASE (1.0f / (f32) RANDOMIZED_SEQ_COUNT)
-static f32 jukeboxSeqWeights[RANDOMIZED_SEQ_COUNT] = {
-    [0] = -(SEQ_WEIGHT_INCREASE * 2), // Start with first sequence here (Kalimari Desert)
-    [1 ... RANDOMIZED_SEQ_COUNT - 1] = 0.5f,
-}; // Weighting array for scenes so that repeated scenes are less likely to immediately show up
-static s32 jukebox_generate_new_weighted_track(void) {
-    s32 index;
-
-    f32 weightTotal = 0.0f;
-    f32 currentWeight = 0.0f;
-    f32 generatedWeight = random_float();
-
-    for (index = 0; index < RANDOMIZED_SEQ_COUNT; index++) {
-        // Increase the probability selection window for each scene; offers future benefit against more recently selected indexes
-        jukeboxSeqWeights[index] += SEQ_WEIGHT_INCREASE;
-
-        // If weight is below 0, effectively exclude it from the possible selection pool
-        if (jukeboxSeqWeights[index] > 0.0f)
-            weightTotal += jukeboxSeqWeights[index];
+static u32 jukebox_generate_randomized_track(void) {
+    u32 randomizedIndex;
+    u32 numSeqsToRandomize = 0;
+    for (s32 i = 0; i < ARRAY_COUNT(seqsToRandomize); i++) {
+        if (seqsToRandomize[i].hasRandomized == FALSE) {
+            numSeqsToRandomize++;
+        }
     }
 
-    generatedWeight *= weightTotal;
+    if (numSeqsToRandomize == 0) {
+        // Out of new sequences, reset pool
+        for (u32 i = 0; i < ARRAY_COUNT(seqsToRandomize); i++) {
+            seqsToRandomize[i].hasRandomized = FALSE;
+        }
 
-    for (index = 0; index < RANDOMIZED_SEQ_COUNT - 1; index++) { // RANDOMIZED_SEQ_COUNT - 1 not an accident
-        // If weight is below 0, skip the index. This in theory should never favor the last unprocessed index if that falls below 0.
-        if (jukeboxSeqWeights[index] <= 0.0f)
-            continue;
+        randomizedIndex = (u32) (random_float() * (ARRAY_COUNT(seqsToRandomize) - 1));
 
-        currentWeight += jukeboxSeqWeights[index];
-        if (currentWeight >= generatedWeight)
-            break;
+        // Do not repeat the last sequence!
+        if (randomizedIndex >= lastSeqRandomizedIndex) {
+            randomizedIndex++;
+        }
+
+        seqsToRandomize[randomizedIndex].hasRandomized = TRUE;
+        lastSeqRandomizedIndex = randomizedIndex;
+        return randomizedIndex;
     }
 
-    // Index should be guaranteed to not show up for 2 more sequences, then will later become possible at low but increasing probability
-    // NOTE: This system fails completely if there are less than 3 sequences in the pool 
-    jukeboxSeqWeights[index] = -(SEQ_WEIGHT_INCREASE * 2);
+    randomizedIndex = (u32) (random_float() * numSeqsToRandomize);
+    for (u32 i = 0; i < ARRAY_COUNT(seqsToRandomize); i++) {
+        if (seqsToRandomize[i].hasRandomized == FALSE) {
+            if (randomizedIndex == 0) {
+                // Found match, return here!
+                seqsToRandomize[i].hasRandomized = TRUE;
+                lastSeqRandomizedIndex = i;
+                return i;
+            }
 
-    return index;
+            randomizedIndex--;
+        }
+    }
+
+    assert(FALSE, "Theoretically impossible randomized sequence!");
+    return 0;
 }
 
 enum JukeboxActions {
@@ -809,6 +815,30 @@ void bhv_jukebox_init(void) {
 extern u8 sCurrentBackgroundMusicSeqId;
 void bhv_jukebox_loop(void) {
     static char str[128];
+    s32 seqIndex;
+
+#ifdef DESERT_DEBUG
+    static s32 debugPlayerIndex = 0;
+    if (gPlayer1Controller->buttonPressed & L_JPAD) {
+        debugPlayerIndex--;
+        if (debugPlayerIndex < 0) {
+            debugPlayerIndex = ARRAY_COUNT(seqsToRandomize) - 1;
+        }
+        set_background_music(0, seqsToRandomize[debugPlayerIndex].seqId, 0);
+        o->oAction = JUKEBOX_ACT_SUCCESS;
+        o->oSubAction = 1;
+        o->oTimer = 0;
+    } else if (gPlayer1Controller->buttonPressed & R_JPAD) {
+        debugPlayerIndex++;
+        if (debugPlayerIndex >= ARRAY_COUNT(seqsToRandomize)) {
+            debugPlayerIndex = 0;
+        }
+        set_background_music(0, seqsToRandomize[debugPlayerIndex].seqId, 0);
+        o->oAction = JUKEBOX_ACT_SUCCESS;
+        o->oSubAction = 1;
+        o->oTimer = 0;
+    }
+#endif
 
     switch (o->oAction) {
         case JUKEBOX_ACT_IDLE:
@@ -842,7 +872,7 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_CHANGE_SONG:
-            o->oDesertSequenceIndex = jukebox_generate_new_weighted_track();
+            o->oDesertSequenceIndex = jukebox_generate_randomized_track();
             set_background_music(0, seqsToRandomize[o->oDesertSequenceIndex].seqId, 0);
             o->oAction = JUKEBOX_ACT_SUCCESS;
             break;
@@ -850,21 +880,33 @@ void bhv_jukebox_loop(void) {
             if ((o->oTimer > 120)) {
                 o->oAction = JUKEBOX_ACT_IDLE;
             }
+
+            seqIndex = o->oDesertSequenceIndex;
+#ifdef DESERT_DEBUG
+            if (o->oSubAction == 1) {
+                seqIndex = debugPlayerIndex;
+            }
+#endif
             print_small_text_at_slot(20, 3, "Song changed!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            sprintf(str, "<COL_3FFF3F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqName);
+            sprintf(str, "<COL_3FFF3F-->%s<COL_-------->", seqsToRandomize[seqIndex].seqName);
             print_small_text_at_slot(20, 1, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            if (seqsToRandomize[o->oDesertSequenceIndex].seqAuthor) {
-                if (seqsToRandomize[o->oDesertSequenceIndex].isPort) {
-                    sprintf(str, "Music port by: <COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqAuthor);
+            if (seqsToRandomize[seqIndex].seqAuthor) {
+                if (seqsToRandomize[seqIndex].isPort) {
+                    sprintf(str, "Music port by: <COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[seqIndex].seqAuthor);
                 } else {
-                    sprintf(str, "<COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[o->oDesertSequenceIndex].seqAuthor);
+                    sprintf(str, "<COL_FF1F6F-->%s<COL_-------->", seqsToRandomize[seqIndex].seqAuthor);
                 }
                 print_small_text_at_slot(20, 0, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             }
             lock_remaining_text_slots();
             break;
     }
+
+#ifdef DESERT_DEBUG
+    if (gMarioCurrentRoom == 2 || o->oAction == JUKEBOX_ACT_SUCCESS) {
+#else
     if (gMarioCurrentRoom == 2) {
+#endif
         cur_obj_unhide();
     } else {
         o->oAction = JUKEBOX_ACT_IDLE;
