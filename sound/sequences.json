@@ -57,9 +57,8 @@
     "36_pizza_time": ["0C_extended_bank"],
     "37_sea_me_now": ["0C_extended_bank"],
     "38_pepperman_strikes": ["0C_extended_bank"],
-    "39_funky_board": ["0C_extended_bank"],
-    "3A_jellyfish_fields": ["0C_extended_bank"],
-    "3B_chinatown": ["0C_extended_bank"],
-    "3C_from_russia_with_love": ["0C_extended_bank"],
-    "3D_nsanity_island": ["0C_extended_bank"]
+    "39_jellyfish_fields": ["0C_extended_bank"],
+    "3A_chinatown": ["0C_extended_bank"],
+    "3B_from_russia_with_love": ["0C_extended_bank"],
+    "3C_nsanity_island": ["0C_extended_bank"]
 }

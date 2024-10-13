@@ -758,7 +758,6 @@ struct DesertSeqs seqsToRandomize[] = {
     {.seqId = SEQ_PIZZA_TIME,                       .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Pizza Tower: Pizza Time"},
     {.seqId = SEQ_SEA_ME_NOW,                       .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Splatoon 3: Sea me now"},
     {.seqId = SEQ_PEPPERMAN_STRIKES,                .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "sm64pie",             .seqName = "Pizza Tower: Pepperman Strikes"},
-    {.seqId = SEQ_FUNKY_BOARD,                      .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Rayman 3: Funky Board"},
     {.seqId = SEQ_JELLYFISH_FIELDS,                 .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "JoshTheBosh",         .seqName = "BfBB: Jellyfish Fields"},
     {.seqId = SEQ_CHINATOWN,                        .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Katana Zero: Chinatown"},
     {.seqId = SEQ_FROM_RUSSIA_WITH_LOVE,            .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "From Russia With love"},
