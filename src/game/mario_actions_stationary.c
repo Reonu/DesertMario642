@@ -110,6 +110,7 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
 
 //! TODO: actionArg names
 s32 act_idle(struct MarioState *m) {
+    static u8 cutsceneCounter;
     if (m->quicksandDepth > 30.0f) {
         return set_mario_action(m, ACT_IN_QUICKSAND, 0);
     }
@@ -124,6 +125,15 @@ s32 act_idle(struct MarioState *m) {
 
     if (check_common_idle_cancels(m)) {
         return TRUE;
+    }
+
+    if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
+        if (cutsceneCounter >= 1) {
+            return set_mario_action(m, ACT_VEGAS_CUTSCENE, 0);
+        } else {
+            cutsceneCounter++;
+        }
+        return set_mario_action(m, ACT_VEGAS_CUTSCENE, 0);
     }
 
     if (m->actionState == ACT_STATE_IDLE_RESET_OR_SLEEP) {

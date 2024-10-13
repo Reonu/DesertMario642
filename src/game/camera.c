@@ -2846,6 +2846,15 @@ void update_lakitu(struct Camera *c) {
  * The main camera update function.
  * Gets controller input, checks for cutscenes, handles mode changes, and moves the camera
  */
+void vegas_cutscene(struct Camera *c) {
+    c->pos[0] = 7869;
+    c->pos[1] = -9629;
+    c->pos[2] = 27692;
+    c->focus[0] = 2921;
+    c->focus[1] = -7261;
+    c->focus[2] = 15229;
+}
+
 void update_camera(struct Camera *c) {
     PROFILER_GET_SNAPSHOT_TYPE(PROFILER_DELTA_COLLISION);
     gCamera = c;
@@ -3001,6 +3010,10 @@ void update_camera(struct Camera *c) {
                     break;
             }
         }
+    }
+
+    if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
+        vegas_cutscene(c);
     }
 #ifdef PUPPYCAM
     }

@@ -590,7 +590,9 @@ void render_hud(void) {
     if (gMarioState->action == ACT_UNPROCESSED) {
         hudDisplayFlags = HUD_DISPLAY_NONE;
     }
-
+    if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
+        hudDisplayFlags = HUD_DISPLAY_NONE;
+    }
     if (hudDisplayFlags == HUD_DISPLAY_NONE) {
         sPowerMeterHUD.animation = POWER_METER_HIDDEN;
         sPowerMeterStoredHealth = 8;

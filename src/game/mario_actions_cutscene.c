@@ -1610,6 +1610,39 @@ s32 act_putting_on_cap(struct MarioState *m) {
     return FALSE;
 }
 
+extern void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags);
+s32 act_vegas_cutscene(struct MarioState *m) {
+    struct Surface *surf;
+    if (m->actionTimer == 0) {
+        m->pos[2] = 27271;
+    }
+    if (m->actionTimer++ < 90) {
+        m->pos[2] -= 20.0f;   
+        set_mario_anim_with_accel(m, MARIO_ANIM_RUNNING, 0x00080000);
+        play_step_sound(m, 9, 45);
+        m->faceAngle[1] = DEGREES(180);
+    } else if (m->actionTimer < 150) {
+        set_mario_animation(m, MARIO_ANIM_IDLE_HEAD_LEFT);
+        m->faceAngle[1] = DEGREES(200);
+    } else if (m->actionTimer < 220) {
+        m->pos[2] -= 20.0f;   
+        set_mario_anim_with_accel(m, MARIO_ANIM_RUNNING, 0x00080000);
+        play_step_sound(m, 9, 45); 
+        m->faceAngle[1] = DEGREES(180);       
+    } else {
+        initiate_warp(LEVEL_ENDING, 1, 0x0A, 0);
+    }
+
+    m->pos[0] = 7500;
+    m->pos[1] = find_floor(m->pos[0], m->pos[1], m->pos[2], &surf);
+    
+    m->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
+    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
+    vec3s_set(m->marioBodyState->headAngle, m->actionTimer, 0, 0);
+    return FALSE;
+}
+
 void stuck_in_ground_handler(struct MarioState *m, s32 animation, s32 unstuckFrame, s32 target2,
                              s32 target3, s32 endAction) {
     s32 animFrame = set_mario_animation(m, animation);
@@ -2684,6 +2717,8 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_BUTT_STUCK_IN_GROUND:       cancel = act_butt_stuck_in_ground(m);       break;
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
+        case ACT_VEGAS_CUTSCENE:             cancel = act_vegas_cutscene(m);             break;
+
     }
     /* clang-format on */
 
