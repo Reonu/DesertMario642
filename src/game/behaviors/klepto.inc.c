@@ -186,6 +186,12 @@ static void klepto_act_move_forward(void) {
         o->oAction = KLEPTO_ACT_DIVE_AT_MARIO;
         o->oPrimRGB = 1;
     }
+
+    if (o->oPosZ > gMarioState->pos[2]) {
+        o->oFaceAngleYaw = 0;
+        o->oFaceAnglePitch = 0;
+        o->oFaceAngleRoll = 0;
+    }
 }
 
 static void klepto_act_turn_toward_mario(void) {
