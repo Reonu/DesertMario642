@@ -1800,6 +1800,8 @@ void recover_battery(s32 amt) {
 #define WORLD_EDGE_PLUS_X 4690
 #define THRESHOLD_MINUS_Z -2000
 #define WORLD_EDGE_MINUS_Z -3000
+#define WORLD_EDGE_PLUS_Z 3000
+#define THRESHOLD_PLUS_Z 2000
 #define MAX_PUSHING_FORCE 90
 extern void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags);
 s32 execute_mario_action(UNUSED struct Object *obj) {
@@ -1944,7 +1946,26 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 print_small_text_at_slot(WATER_TEXT_X_POS, 3, "Drink water before proceeding.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
                 // Do not lock slots, message is part of tutorial!
             }
-        } 
+        }
+        static u8 text;
+        if (gInstantWarpCounter == 0) {
+            if (gMarioState->pos[2] > THRESHOLD_PLUS_Z) {
+                f32 diff = WORLD_EDGE_PLUS_Z - THRESHOLD_PLUS_Z;
+                f32 diff2 = gMarioState->pos[2] - THRESHOLD_PLUS_Z;
+                f32 push = diff2/diff;
+                gMarioState->pos[2] -= push * MAX_PUSHING_FORCE;
+                if (text == 0) {
+                    text = (random_u16() % 2) + 1;
+                }   
+                if (text == 1) {
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 3, "Where are you going, dude!?", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                } else if (text == 2) {
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 3, "Hey, come back!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                }
+            } else {
+                text = 0;
+            }
+        }
     }
     #ifdef DESERT_DEBUG
     static u8 warpCounter;
