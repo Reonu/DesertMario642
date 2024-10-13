@@ -298,7 +298,7 @@ static void klepto_act_struck_by_mario(void) {
         waterBottle->oKleptoStoleWaterBottle = o->oKleptoStoleWaterBottle;
         waterBottle->oInstantWarpSpawn = gInstantWarpCounter;
     }
-    
+    give_coins_to_player_and_heal(2);
     obj_die_if_health_non_positive();
     return; 
     obj_face_pitch_approach(0, 800);

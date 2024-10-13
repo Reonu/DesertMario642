@@ -2675,3 +2675,8 @@ u8 bhv_flip_desert_object(struct Object *obj, s16 offset) {
         return FALSE;
     }
 }
+
+void give_coins_to_player_and_heal(u8 numCoins) {
+    gMarioState->numCoins += numCoins;
+    gMarioState->healCounter += 4 * numCoins;
+}

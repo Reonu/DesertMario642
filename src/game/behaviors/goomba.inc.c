@@ -1,6 +1,7 @@
 
 #include "src/game/game_init.h"
 #include "game/print.h"
+#include "src/game/level_update.h"
 /**
  * Behavior for bhvGoomba and bhvGoombaTripletSpawner,
  * Goombas can either be spawned individually, or spawned by a triplet spawner.
@@ -160,6 +161,7 @@ static void mark_goomba_as_dead(void) {
         o->parentObj->oBehParams =
             o->parentObj->oBehParams | (o->oBehParams2ndByte & GOOMBA_BP_TRIPLET_FLAG_MASK) << 6;
     }
+    give_coins_to_player_and_heal(1);
 }
 
 /**
@@ -250,7 +252,8 @@ static void goomba_act_attacked_mario(void) {
         mark_goomba_as_dead();
 #ifndef TINY_GOOMBA_ALWAYS_DROPS_COIN
         o->oNumLootCoins = 0;
-#endif
+#endif  
+        give_coins_to_player_and_heal(1);
         obj_die_if_health_non_positive();
     } else {
         //! This can happen even when the goomba is already in the air. It's

@@ -106,6 +106,7 @@ void bhv_pokey_body_part_update(void) {
                 o->parentObj->oPokeyNumAliveBodyParts--;
                 if (o->oBehParams2ndByte == POKEY_PART_BP_HEAD) {
                     o->parentObj->oPokeyHeadWasKilled = TRUE;
+                    give_coins_to_player_and_heal(5);
                     // Last minute change to blue coins - not sure why they didn't
                     // just set it to -1 above
                     o->oNumLootCoins = -1;
