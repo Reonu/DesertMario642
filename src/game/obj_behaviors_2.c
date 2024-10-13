@@ -474,12 +474,21 @@ static void obj_die_if_health_non_positive(void) {
         }
 
         if ((s32)o->oNumLootCoins < 0) {
-            spawn_object(o, MODEL_BLUE_COIN, bhvMrIBlueCoin);
+            gMarioState->numCoins += 5;
+            gMarioState->healCounter += 4 * o->oNumLootCoins;
+            //print_small_text_at_slot(20, 1, "You got 5 coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            //spawn_object(o, MODEL_BLUE_COIN, bhvMrIBlueCoin);
         } else {
-            obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
+            //obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
+            //Print the same message as above, but append oNumLootCoins instead of 5.
+            //char str[32];
+            //sprintf(str, "You got %d coins!", o->oNumLootCoins);
+            //print_small_text_at_slot(20, 1, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            gMarioState->numCoins += o->oNumLootCoins;
+            gMarioState->healCounter += 4 * o->oNumLootCoins;
         }
         // This doesn't do anything
-        obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
+        //obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
 
         if (o->oHealth < 0) {
             cur_obj_hide();
