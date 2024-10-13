@@ -13,3 +13,4 @@
 
 #include "levels/desert_intro/leveldata.inc.c"
 #include "levels/desert_intro/DesertMarioLogo/model.inc.c"
+#include "levels/desert_intro/logoMesh/model.inc.c"
