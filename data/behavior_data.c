@@ -6293,3 +6293,11 @@ const BehaviorScript bhvLakituNuhUh[] = {
         CALL_NATIVE(bhv_lakitu_nuh_uh_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvLightEmitter[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_light_emitter_loop),
+    END_LOOP(),
+};

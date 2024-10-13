@@ -72,6 +72,15 @@ struct GlobalFog sDuskFog = {
     .high = 995,
 };
 
+struct GlobalFog sNightFogEnding = {
+    .r = 3,
+    .g = 3,
+    .b = 20,
+    .a = 255,
+    .low = 990,
+    .high = 995,
+};
+
 #define NIGHT_DIR_R_VALUE 10
 #define NIGHT_DIR_G_VALUE 10
 #define NIGHT_DIR_B_VALUE 40
@@ -144,6 +153,16 @@ struct DayConfig gDayConfigs[] = {
 
 };
 
+struct DayConfig gDayConfigSpecial[] = {
+    {
+        .timeStart = DAY_END,
+        .fog = &sNightFogEnding,
+        .dirR = NIGHT_DIR_R_VALUE,
+        .dirG = NIGHT_DIR_G_VALUE,
+        .dirB = NIGHT_DIR_B_VALUE,
+    }
+};
+
 void set_light_direction(void) {
     s32 angle;
     if ((gUnpausedTimer < DAY_START) || (gUnpausedTimer > DAY_END)) {
@@ -192,7 +211,7 @@ void set_light_color(void) {
     static u16 fogHigh;
     static u16 fogLow;
     static u8 fogOverride;
-
+    
     curDayConfig = find_day_config();
 
     nextDayConfig = get_next_day_index(curDayConfig);
@@ -247,13 +266,20 @@ void set_light_color(void) {
 
 
     } else {
+        if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
+            update_global_fog_override(gAmbientR, gAmbientG, gAmbientB, 255, 990, 995);
+        } else {
         update_global_fog_override(gAmbientR, gAmbientG, gAmbientB, 255, gLow, gHigh);
+        }
     }
 
 }
 
 void update_lighting(void) {
     // int twentyfourhr = (gUnpausedTimer / HOUR);
+    if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
+        gUnpausedTimer = DAY_END + (HOUR * 4);
+    }
     set_light_direction();
     set_light_color();
     //print_text_fmt_int(20,20, "TIME %d", twentyfourhr);  

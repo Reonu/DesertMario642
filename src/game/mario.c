@@ -1801,7 +1801,7 @@ void recover_battery(s32 amt) {
 #define THRESHOLD_MINUS_Z -2000
 #define WORLD_EDGE_MINUS_Z -3000
 #define MAX_PUSHING_FORCE 90
-
+extern void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags);
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
 
@@ -1889,7 +1889,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     }
 #endif
     
-
+    if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
+        gMarioState->flashlightOn = TRUE;
+        gMarioState->batteryMeter = MAX_BATTERIES;
+        gMarioState->hydrationMeter = MAX_HYDRATION;
+    }
     if (gMarioState->flashlightOn) {
         f32 angleX = sins(gMarioState->faceAngle[1]);
         f32 angleZ = coss(gMarioState->faceAngle[1]);
@@ -1911,7 +1915,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         emit_light(flashLightPos2, lightIntensity * 0.8f, lightIntensity * 0.8f, lightIntensity * 0.8f, 1, 25, 8, 0);
     }
 
-    if (gMarioCurrentRoom != 2) {
+    if (gMarioCurrentRoom != 2 && gCurrLevelNum != LEVEL_VEGAS_ENDING) {
         if (gMarioState->pos[0] < THRESHOLD_MINUS_X) {
             f32 diff = WORLD_EDGE_MINUS_X - THRESHOLD_MINUS_X;
             f32 diff2 = gMarioState->pos[0] - THRESHOLD_MINUS_X;
@@ -1924,7 +1928,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             f32 push = diff2/diff;
             gMarioState->pos[0] -= push * MAX_PUSHING_FORCE;
         } 
-        if (gWaterTutorialProgress == 0) {
+        if ((gWaterTutorialProgress == 0) && (gCurrLevelNum != LEVEL_VEGAS_ENDING)) {
             if (gMarioState->pos[2] < THRESHOLD_MINUS_Z) {
                 f32 diff = WORLD_EDGE_MINUS_Z - THRESHOLD_MINUS_Z;
                 f32 diff2 = gMarioState->pos[2] - THRESHOLD_MINUS_Z;
@@ -1936,7 +1940,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         } 
     }
 
-    run_tutorial();
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
+    }
+
+    if (gCurrLevelNum != LEVEL_VEGAS_ENDING) {
+        run_tutorial(); 
+    }
+    
     
 
     gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;

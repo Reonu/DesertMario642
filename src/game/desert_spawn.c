@@ -1330,3 +1330,20 @@ void render_title_logo(void) {
         print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4, "Press <COL_BFBF00-->START<COL_--------> To Begin!", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
     }
 }
+
+void bhv_light_emitter_loop(void) {
+    Vec3f pos = {o->oPosX, o->oPosY, o->oPosZ};
+
+    u16 r = BPARAM1;
+    u16 g = BPARAM2;
+    u16 b = BPARAM3;
+
+    // Apply a random modifier between -10 and +10 (capped at 255 and 0) to the color values to have a flickering effect
+    r = CLAMP((random_u16() % 20 - 10 + r), 0, 255);
+    g = CLAMP((random_u16() % 20 - 10 + g), 0, 255);
+    b = CLAMP((random_u16() % 20 - 10 + b), 0, 255);
+
+
+    emit_light(pos, (u8)r, (u8)b, (u8)b, 1, 10, 8, 0);
+
+}
