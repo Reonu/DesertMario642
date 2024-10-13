@@ -875,6 +875,11 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 sDelayedWarpTimer = 45;
                 play_transition(WARP_TRANSITION_FADE_INTO_COLOR, sDelayedWarpTimer, 0x00, 0x00, 0x00);
                 break;
+
+            case WARP_OP_DESERT_ENDING:
+                sDelayedWarpTimer = 25;
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, sDelayedWarpTimer, 0x00, 0x00, 0x00);
+                break;
         }
 
         if (fadeMusic && gCurrDemoInput == NULL) {
@@ -928,6 +933,10 @@ void initiate_delayed_warp(void) {
                 case WARP_OP_DESERT_SPAWN:
                     save_file_reload();
                     warp_special(WARP_SPECIAL_DESERT_WARP);
+                    break;
+
+                case WARP_OP_DESERT_ENDING:
+                    initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
                     break;
 
                 case WARP_OP_CREDITS_START:

@@ -5,6 +5,7 @@
 #include "data.h"
 #include "external.h"
 #include "seqplayer.h"
+#include "game/area.h"
 #include "game/game_init.h"
 #include "game/level_update.h"
 #include "game/main.h"
@@ -73,7 +74,7 @@ static void sequence_channel_process_sound(struct SequenceChannel *seqChannel) {
                 }
 
                 if (seqChannel->seqPlayer == &gSequencePlayers[SEQ_PLAYER_LEVEL]) {
-                    if (gBGMusicActive) {
+                    if (gBGMusicActive || gCurrLevelNum != LEVEL_DESERT) {
                         channelVolume *= seqPlayerVolumeMult;
                     } else {
                         channelVolume = 0.0f;

@@ -1621,10 +1621,13 @@ s32 act_vegas_cutscene(struct MarioState *m) {
         set_mario_anim_with_accel(m, MARIO_ANIM_RUNNING, 0x00080000);
         play_step_sound(m, 9, 45);
         m->faceAngle[1] = DEGREES(180);
-    } else if (m->actionTimer < 150) {
+    } else if (m->actionTimer < 160) {
         set_mario_animation(m, MARIO_ANIM_IDLE_HEAD_LEFT);
         m->faceAngle[1] = DEGREES(200);
-    } else if (m->actionTimer < 220) {
+        if (m->actionTimer == 95) {
+            play_sound(SOUND_MARIO_GAMBLING, m->marioObj->header.gfx.cameraToObject);
+        }
+    } else if (m->actionTimer < 230) {
         m->pos[2] -= 20.0f;   
         set_mario_anim_with_accel(m, MARIO_ANIM_RUNNING, 0x00080000);
         play_step_sound(m, 9, 45); 

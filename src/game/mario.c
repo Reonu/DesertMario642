@@ -1971,18 +1971,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     static u8 warpCounter;
     if (gPlayer1Controller->buttonDown & L_TRIG) {
         if (warpCounter++ >= 30) {
-            initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
+            level_trigger_warp(gMarioState, WARP_OP_DESERT_ENDING);
         }
     } else {
         warpCounter = 0;
     }
     #endif
 
-    if (gCurrLevelNum != LEVEL_VEGAS_ENDING) {
+    if (gCurrLevelNum == LEVEL_DESERT) {
         run_tutorial(); 
     }
-    
-    
 
     gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
     mario_reset_bodystate(gMarioState);

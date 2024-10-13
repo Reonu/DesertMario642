@@ -2102,6 +2102,7 @@ sound_ref .sound_peach_something_special
 sound_ref .sound_peach_bake_a_cake
 sound_ref .sound_peach_for_mario
 sound_ref .sound_peach_mario2
+sound_ref .sound_mario_gambling
 
 .sound_mario_jump_hoo:
 chan_setbank 8
@@ -2747,6 +2748,18 @@ layer_end
   layer_delay 0x5
   layer_end
 #endif
+
+.sound_mario_gambling:
+chan_setbank 8
+chan_setinstr 27
+chan_setval 4
+chan_call .set_reverb
+chan_setlayer 0, .layer_mario_gambling
+chan_end
+
+.layer_mario_gambling:
+layer_note1 39, 0xf6, 111
+layer_end
 
 .channel38_table:
 sound_ref .sound_general_activate_cap_switch
