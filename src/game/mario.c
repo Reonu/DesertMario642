@@ -1883,6 +1883,13 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         lock_remaining_text_slots();
     }
 
+    if (gInstantWarpCounter >= INSTANT_WARPS_GOAL) {
+        gMarioState->health = 0x880;
+        gMarioState->batteryMeter = MAX_BATTERIES;
+        gMarioState->hydrationMeter = MAX_HYDRATION;
+        initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
+    }
+
 #ifdef DESERT_DEBUG
     if (gPlayer1Controller->buttonPressed & D_JPAD) {
         gMarioState->numCoins += 50;

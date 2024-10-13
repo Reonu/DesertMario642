@@ -174,12 +174,12 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *beh
 
 #define GOOMBA_CHANCE 0.10f
 #define POKEY_CHANCE 0.07f
-#define KLEPTO_CHANCE 0.40f
+#define KLEPTO_CHANCE 0.03f
 #define SUN_CHANCE 0.02f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 #define BUSH_CHANCE 0.25f
-#define BILLBOARD_CHANCE 0.50f
+#define BILLBOARD_CHANCE 0.08f
 #define UFO_CHANCE 0.01f
 #define HOUSE_CHANCE 0.01f
 #define CACTUS_CHANCE 0.07f
@@ -271,6 +271,7 @@ void bhv_desert_spawner_init(void) {
 
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
 #define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.75f)
+#define GAS_STATION_SPAWN_INTERVAL 25
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
@@ -295,7 +296,7 @@ void bhv_desert_spawner_loop(void) {
 
         if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
             spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, bhvDesertDecor, NORMAL_ROTATION, 0); 
-        } else if (gInstantWarpSpawnIndex % 20 == 0) {
+        } else if (gInstantWarpSpawnIndex % GAS_STATION_SPAWN_INTERVAL == 0) {
             spawn_gas_station(&newSeed);
         } else {
             for (u32 i = 0; i < numSmall; i++) {
