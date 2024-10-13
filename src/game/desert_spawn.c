@@ -754,8 +754,16 @@ struct DesertSeqs seqsToRandomize[] = {
     {.seqId = SEQ_RAY_OF_HOPE,                      .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Corpse Party: Ray of Hope"},
     {.seqId = SEQ_SAVANNAH_DESERT,                  .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Sonic Unleashed: Savannah Desert"},
     {.seqId = SEQ_ARID_SANDS,                       .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "scutte",              .seqName = "Sonic Unleashed: Arid Sands"},
-    {.seqId = SEQ_RAIN_FORMERLY_KNOWN_AS_PURPLE,    .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Chris Christodoulou", .seqName = "RoR2: The Rain Formerly Known as Purple"}
-};
+    {.seqId = SEQ_RAIN_FORMERLY_KNOWN_AS_PURPLE,    .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Chris Christodoulou", .seqName = "RoR2: The Rain Formerly Known as Purple"},
+    {.seqId = SEQ_PIZZA_TIME,                       .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Pizza Tower: Pizza Time"},
+    {.seqId = SEQ_SEA_ME_NOW,                       .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Splatoon 3: Sea me now"},
+    {.seqId = SEQ_PEPPERMAN_STRIKES,                .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "sm64pie",             .seqName = "Pizza Tower: Pepperman Strikes"},
+    {.seqId = SEQ_FUNKY_BOARD,                      .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Rayman 3: Funky Board"},
+    {.seqId = SEQ_JELLYFISH_FIELDS,                 .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "JoshTheBosh",         .seqName = "BfBB: Jellyfish Fields"},
+    {.seqId = SEQ_CHINATOWN,                        .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Katana Zero: Chinatown"},
+    {.seqId = SEQ_FROM_RUSSIA_WITH_LOVE,            .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "From Russia With love"},
+    {.seqId = SEQ_NSANITY_ISLAND,                   .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Crash Twinsanity: N. Sanity Island"},
+};  
 u8 lastSeqRandomizedIndex = 0;
 
 static u32 jukebox_generate_randomized_track(void) {
