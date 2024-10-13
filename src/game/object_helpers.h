@@ -208,6 +208,7 @@ void cur_obj_set_pos_via_transform(void);
 void cur_obj_spawn_particles(struct SpawnParticlesInfo *info);
 s32 cur_obj_reflect_move_angle_off_wall(void);
 Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]);
+void render_title_logo(void);
 
 #define WAYPOINT_FLAGS_END -1
 #define WAYPOINT_FLAGS_NONE 0

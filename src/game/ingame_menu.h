@@ -267,6 +267,7 @@ extern s8  gRedCoinsCollected;
 void create_dl_identity_matrix(void);
 void create_dl_translation_matrix(s8 pushOp, f32 x, f32 y, f32 z);
 void create_dl_ortho_matrix(void);
+void create_dl_rotation_matrix(s8 pushOp, f32 a, f32 x, f32 y, f32 z);
 void create_dl_scale_matrix(s8 pushOp, f32 x, f32 y, f32 z);
 
 void set_text_color(u32 r, u32 g, u32 b);

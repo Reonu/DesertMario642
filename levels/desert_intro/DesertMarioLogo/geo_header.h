@@ -1,4 +1,3 @@
-extern const GeoLayout DesertMarioLogo_geo[];
 extern u8 DesertMarioLogo_DesertMarioLogoIngame_rgba16[];
 extern Vtx DesertMarioLogo_DesertMarioLogo_mesh_layer_5_vtx_cull[8];
 extern Vtx DesertMarioLogo_DesertMarioLogo_mesh_layer_5_vtx_0[120];

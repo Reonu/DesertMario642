@@ -40,6 +40,7 @@
 #include "types.h"
 #include "include/n64/PR/os_libc.h"
 #include "actors/sign_normal/geo_header.h"
+#include "levels/desert_intro/header.h"
 #include "game/emutest.h"
 
 struct DesertSpawnCoords LeftSide = {
@@ -340,10 +341,9 @@ void bhv_desert_spawn_intro_init(void) {
     gInstantWarpDisplacement = 0;
 }
 
+
 void bhv_desert_spawn_intro_loop(void) {
-    if (o->oTimer > 45 && (gPlayer1Controller->buttonPressed & (A_BUTTON | B_BUTTON | START_BUTTON))) {
-        level_trigger_warp(gMarioState, WARP_OP_DESERT_SPAWN);
-    }
+
 }
 
 void modulate_rgb_color(u32 *color) {
@@ -1246,4 +1246,87 @@ void bhv_lakitu_nuh_uh_loop(void) {
     }
 
     o->oHomeY = 300;
+}
+
+#define WAIT_FRAMES 15
+#define FADE_IN_FRAMES (WAIT_FRAMES + 20)
+#define FADE_OUT_FRAMES (FADE_IN_FRAMES + 45)
+#define ANIM_CYCLE_FRAMES 180
+#define PRESS_A_FRAMES_START 120
+void render_title_logo(void) {
+    static s32 timer = 0;
+
+    if (gCurrLevelNum != LEVEL_DESERT_INTRO) {
+        timer = 0;
+        return;
+    }
+
+    if (timer != __INT32_MAX__) {
+        timer++;
+    }
+
+    if (timer < WAIT_FRAMES) {
+        return;
+    }
+
+    f32 translateVal = (7.5f * sins(0x2C00 + 0x10000 * (timer - FADE_IN_FRAMES) / ANIM_CYCLE_FRAMES));
+    f32 rotVal = 1.0f * sins(0xE000 + 0x10000 * (timer - FADE_IN_FRAMES) / ANIM_CYCLE_FRAMES);
+
+    if (timer < (2.0f * ANIM_CYCLE_FRAMES) + FADE_IN_FRAMES) {
+        if (timer < FADE_IN_FRAMES) {
+            translateVal = 0.0f;
+            rotVal = 0.0f;
+        } else {
+            translateVal *= (f32) (timer - FADE_IN_FRAMES) / (2.0f * ANIM_CYCLE_FRAMES);
+            rotVal *= (f32) (timer - FADE_IN_FRAMES) / (2.0f * ANIM_CYCLE_FRAMES);
+        }
+    }
+
+    gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    create_dl_ortho_matrix();
+    create_dl_translation_matrix(MENU_MTX_NOPUSH, SCREEN_CENTER_X + 7, (SCREEN_HEIGHT + translateVal) * 0.667f, 0.0f);
+    create_dl_rotation_matrix(MENU_MTX_NOPUSH, rotVal, 0.0f, 0.0f, 1.0f);
+    create_dl_scale_matrix(MENU_MTX_NOPUSH, 0.06f, 0.06f, 1.0f);
+	gDPSetCombineLERP(gDisplayListHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+
+    if (timer < FADE_IN_FRAMES) {
+        f32 amount = 1.0f - coss(0x4000 * ((f32) (timer - WAIT_FRAMES) / (FADE_IN_FRAMES - WAIT_FRAMES)));
+        amount = sqr(amount);
+
+        create_dl_scale_matrix(MENU_MTX_NOPUSH, amount, amount, 1.0f);
+        gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, (u8) ((255 * amount) + 0.5f));
+        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+	    gDPSetCombineLERP(gDisplayListHead++, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, (u8) ((255 * sqr(amount)) + 0.5f));
+        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+    } else if (timer < FADE_OUT_FRAMES) {
+        f32 amount = 1.0f - ((f32) (timer - FADE_IN_FRAMES) / (FADE_OUT_FRAMES - FADE_IN_FRAMES));
+        f32 scale = ((f32) (timer - FADE_IN_FRAMES) / (FADE_OUT_FRAMES - FADE_IN_FRAMES)) * 0.15f;
+
+        gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, 255);
+        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+        create_dl_scale_matrix(MENU_MTX_NOPUSH, 1.0f + scale, 1.0f + scale, 1.0f);
+        gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, (u8) ((255 * amount) + 0.5f));
+	    gDPSetCombineLERP(gDisplayListHead++, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0);
+        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+    } else {
+        gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, 255);
+        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+    }
+
+    gDPSetRenderMode(gDisplayListHead++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+
+    if (o->oTimer > PRESS_A_FRAMES_START) {
+        if (gPlayer1Controller->buttonPressed & (A_BUTTON | B_BUTTON | START_BUTTON)) {
+            level_trigger_warp(gMarioState, WARP_OP_DESERT_SPAWN);
+        }
+
+        bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+        if (timer < PRESS_A_FRAMES_START + 45) {
+            print_set_envcolour(255, 255, 255, remap(sTutorialTimer, (timer - PRESS_A_FRAMES_START), (timer - PRESS_A_FRAMES_START) + 45, 255, 0));
+        } else {
+            print_set_envcolour(255, 255, 255, 255);
+        }
+        print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4, "Press <COL_BFBF00-->START<COL_--------> To Begin!", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+    }
 }
