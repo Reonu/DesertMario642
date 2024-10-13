@@ -8,7 +8,6 @@ extern const LevelScript level_desert_intro_entry[];
 
 
 #include "levels/desert_intro/header.inc.h"
-#include "levels/desert_intro/DesertMarioLogo/geo_header.h"
 
 #include "levels/desert_intro/logoMesh/geo_header.h"
 

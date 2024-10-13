@@ -12,8 +12,4 @@
 #include "make_const_nonconst.h"
 
 #include "levels/desert_intro/header.h"
-
-
 #include "levels/desert_intro/geo.inc.c"
-#include "levels/desert_intro/DesertMarioLogo/geo.inc.c"
-#include "levels/desert_intro/logoMesh/geo.inc.c"

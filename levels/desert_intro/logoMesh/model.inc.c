@@ -14734,10 +14734,8 @@ Gfx logoMesh_logoMesh_mesh_layer_5_tri_0[] = {
 Gfx mat_logoMesh_logo[] = {
 	gsSPGeometryMode(G_SHADE | G_LIGHTING, 0),
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsSPTexture(65535, 65535, 0, 0, 1),
-	gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
 	gsSPEndDisplayList(),
 };
 

@@ -269,8 +269,8 @@ void bhv_desert_spawner_init(void) {
     sBusAlreadySpawned = FALSE;
 }
 
-#define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL / 2)
-#define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.75f)
+#define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL * 0.5f)
+#define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.667f)
 #define GAS_STATION_SPAWN_INTERVAL 25
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
@@ -306,7 +306,7 @@ void bhv_desert_spawner_loop(void) {
             spawn_enemy(&newSeed);
         }
 
-        if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && !sBusAlreadySpawned && (gInstantWarpCounter % 20 != 0) && (gMarioCurrentRoom != 2) // No gas station
+        if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && !sBusAlreadySpawned && (gInstantWarpCounter % GAS_STATION_SPAWN_INTERVAL != 0) && (gMarioCurrentRoom != 2) // No gas station
                     && (gUnpausedTimer > (DAY_END + (HOUR * 2)) || gUnpausedTimer < (DAY_START - (HOUR * 2)))) { // Force nighttime spawn
             if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,NULL)) {
                 sBusAlreadySpawned = TRUE;
@@ -761,7 +761,7 @@ struct DesertSeqs seqsToRandomize[] = {
     {.seqId = SEQ_PEPPERMAN_STRIKES,                .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "sm64pie",             .seqName = "Pizza Tower: Pepperman Strikes"},
     {.seqId = SEQ_JELLYFISH_FIELDS,                 .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "JoshTheBosh",         .seqName = "BfBB: Jellyfish Fields"},
     {.seqId = SEQ_CHINATOWN,                        .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Katana Zero: Chinatown"},
-    {.seqId = SEQ_FROM_RUSSIA_WITH_LOVE,            .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "From Russia With love"},
+    {.seqId = SEQ_FROM_RUSSIA_WITH_LOVE,            .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "From Russia With Love"},
     {.seqId = SEQ_NSANITY_ISLAND,                   .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Crash Twinsanity: N. Sanity Island"},
 };  
 u8 lastSeqRandomizedIndex = 0;
@@ -1270,7 +1270,7 @@ void render_title_logo(void) {
         return;
     }
 
-    f32 translateVal = (7.5f * sins(0x2C00 + 0x10000 * (timer - FADE_IN_FRAMES) / ANIM_CYCLE_FRAMES));
+    f32 translateVal = (5.0f * sins(0x2C00 + 0x10000 * (timer - FADE_IN_FRAMES) / ANIM_CYCLE_FRAMES));
     f32 rotVal = 1.0f * sins(0xE000 + 0x10000 * (timer - FADE_IN_FRAMES) / ANIM_CYCLE_FRAMES);
 
     if (timer < (2.0f * ANIM_CYCLE_FRAMES) + FADE_IN_FRAMES) {
@@ -1285,9 +1285,8 @@ void render_title_logo(void) {
 
     gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     create_dl_ortho_matrix();
-    create_dl_translation_matrix(MENU_MTX_NOPUSH, SCREEN_CENTER_X + 7, (SCREEN_HEIGHT + translateVal) * 0.667f, 0.0f);
+    create_dl_translation_matrix(MENU_MTX_NOPUSH, SCREEN_CENTER_X, (SCREEN_HEIGHT * 0.667f) + translateVal, 0.0f);
     create_dl_rotation_matrix(MENU_MTX_NOPUSH, rotVal, 0.0f, 0.0f, 1.0f);
-    create_dl_scale_matrix(MENU_MTX_NOPUSH, 0.06f, 0.06f, 1.0f);
 	gDPSetCombineLERP(gDisplayListHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
 
     if (timer < FADE_IN_FRAMES) {
@@ -1296,23 +1295,23 @@ void render_title_logo(void) {
 
         create_dl_scale_matrix(MENU_MTX_NOPUSH, amount, amount, 1.0f);
         gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, (u8) ((255 * amount) + 0.5f));
-        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+        gSPDisplayList(gDisplayListHead++, logoMesh_logoMesh_mesh_layer_5);
 	    gDPSetCombineLERP(gDisplayListHead++, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, (u8) ((255 * sqr(amount)) + 0.5f));
-        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+        gSPDisplayList(gDisplayListHead++, logoMesh_logoMesh_mesh_layer_5);
     } else if (timer < FADE_OUT_FRAMES) {
         f32 amount = 1.0f - ((f32) (timer - FADE_IN_FRAMES) / (FADE_OUT_FRAMES - FADE_IN_FRAMES));
         f32 scale = ((f32) (timer - FADE_IN_FRAMES) / (FADE_OUT_FRAMES - FADE_IN_FRAMES)) * 0.15f;
 
         gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, 255);
-        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+        gSPDisplayList(gDisplayListHead++, logoMesh_logoMesh_mesh_layer_5);
         create_dl_scale_matrix(MENU_MTX_NOPUSH, 1.0f + scale, 1.0f + scale, 1.0f);
         gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, (u8) ((255 * amount) + 0.5f));
 	    gDPSetCombineLERP(gDisplayListHead++, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, 1, TEXEL0, 0, PRIMITIVE, 0);
-        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+        gSPDisplayList(gDisplayListHead++, logoMesh_logoMesh_mesh_layer_5);
     } else {
         gDPSetPrimColor(gDisplayListHead++, 0, 0, 255, 255, 255, 255);
-        gSPDisplayList(gDisplayListHead++, DesertMarioLogo_DesertMarioLogo_mesh_layer_5);
+        gSPDisplayList(gDisplayListHead++, logoMesh_logoMesh_mesh_layer_5);
     }
 
     gDPSetRenderMode(gDisplayListHead++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
