@@ -2858,7 +2858,7 @@ void vegas_cutscene(struct Camera *c) {
 void gas_station_camera(struct Camera *c) {
     c->pos[0] = -19006;
     c->pos[1] = 750;
-    c->pos[2] = -445;
+    c->pos[2] = 750;
 
     c->focus[0] = gMarioState->pos[0];
     c->focus[1] = gMarioState->pos[1];

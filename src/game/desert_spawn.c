@@ -944,7 +944,7 @@ void bhv_exclamation_mark_loop(void) {
     o->oPosY += sins(o->oPrimRGB) * 1.1f;
     o->oFaceAngleYaw += 100;
 
-    Vec3f pos = {o->oPosX, o->oPosY, o->oPosZ - 200};
+    Vec3f pos = {o->oPosX, o->oPosY, o->oPosZ + 200};
     if (gMarioCurrentRoom == 2) {
         cur_obj_unhide();
         emit_light(pos, 255, 0, 0, 4, 80, 4, 0);
