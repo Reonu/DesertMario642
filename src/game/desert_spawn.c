@@ -1091,8 +1091,6 @@ void bhv_bus_before_hitting_mario(void) {
     }
 
     o->oPosZ += 300.f * o->oFloat100;
-    Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
-    emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
 }
 
 void bhv_bus_after_hitting_mario(void) {
@@ -1100,8 +1098,7 @@ void bhv_bus_after_hitting_mario(void) {
     o->oFloat100 += 0.009f;
 
     o->oPosZ += 300.f * o->oFloat100;
-    Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
-    emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
+
 }
 
 void bhv_bus_loop(void) {
@@ -1136,6 +1133,11 @@ void bhv_bus_loop(void) {
             sBusAlreadySpawned = FALSE;
         }
         return;
+    }
+
+    if (o->oAction != BUS_ACT_EARLY_SPAWN){
+        Vec3f pos = {o->oPosX, o->oPosY + 800, o->oPosZ + 1500};
+        emit_light(pos, 255, 255, 255, 1, 10, 8, 0);
     }
 
     o->oDistanceToMario = dist_between_objects(o, gMarioObject); // Update with new distance
