@@ -1076,17 +1076,6 @@ s32 play_mode_normal(void) {
         }
     }
 
-    if (gMarioState->action != ACT_UNPROCESSED && gPlayer1Controller->buttonPressed & START_BUTTON) {
-        gBGMusicActive ^= TRUE;
-        musicDisplayCounter = 90;
-    }
-
-    if (musicDisplayCounter > 0) {
-        musicDisplayCounter--;
-        print_text(20, 40, "BACKGROUND MUSIC");
-        print_text(20, 20, gBGMusicActive ? "ENABLED" : "DISABLED");
-    }
-
     warp_area();
     check_instant_warp();
 
@@ -1143,7 +1132,30 @@ s32 play_mode_normal(void) {
     }
 
     update_lighting();
-      
+    
+    if (gMarioState->action != ACT_UNPROCESSED && gPlayer1Controller->buttonPressed & START_BUTTON) {
+        gBGMusicActive ^= TRUE;
+        musicDisplayCounter = 120;
+    }
+
+    if (musicDisplayCounter > 0) {
+        static u8 alpha;
+        if (musicDisplayCounter > 45) {
+            alpha = 255;
+        } else {
+            alpha = remap(musicDisplayCounter, 45, 0, 255, 0);
+        }
+        musicDisplayCounter--;
+        bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+        print_set_envcolour(255, 255, 255, alpha);
+        if (gBGMusicActive) {
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music enabled.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        } else {
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music disabled.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        }
+        lock_remaining_text_slots();
+    }
+
     return FALSE;
 }
 
