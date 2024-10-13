@@ -1939,10 +1939,16 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         } 
     }
-
-    if (gPlayer1Controller->buttonPressed & L_TRIG) {
-        initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
+    #ifdef DESERT_DEBUG
+    static u8 warpCounter;
+    if (gPlayer1Controller->buttonDown & L_TRIG) {
+        if (warpCounter++ >= 30) {
+            initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
+        }
+    } else {
+        warpCounter = 0;
     }
+    #endif
 
     if (gCurrLevelNum != LEVEL_VEGAS_ENDING) {
         run_tutorial(); 
