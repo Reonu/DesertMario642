@@ -72,7 +72,6 @@ extern u8 gWaterBottleStolen;
 extern u8 gWaterTutorialProgress;
 extern u8 gFlashlightTutorialProgress;
 extern u8 gNightFirstTime;
-extern u8 gTutorialDone;
 extern u16 gVisitedAreas;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;

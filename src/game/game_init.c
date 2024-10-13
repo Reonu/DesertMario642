@@ -95,7 +95,6 @@ u8 gWaterBottleStolen;
 u8 gWaterTutorialProgress;
 u8 gFlashlightTutorialProgress;
 u8 gNightFirstTime;
-u8 gTutorialDone;
 u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;
