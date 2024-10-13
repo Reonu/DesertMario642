@@ -2579,24 +2579,16 @@ Gfx *geo_flicker_env_color(s32 callContext, struct GraphNode *node, UNUSED void 
     Gfx *dlStart, *dlHead;
     struct Object *objectGraphNode;
     struct GraphNodeGenerated *currentGraphNode;
-    u8 layer;
-    u8 remap_alpha;
     dlStart = NULL;
+
     if (callContext == GEO_CONTEXT_RENDER) {
         currentGraphNode = (struct GraphNodeGenerated *) node;
         objectGraphNode = (struct Object *) gCurGraphNodeObject;
-        layer = currentGraphNode->parameter & 0xFF;
 
-        //if (layer != 0) {
-            currentGraphNode->fnNode.node.flags =
-                (layer << 8) | (currentGraphNode->fnNode.node.flags & 0xFF);
-        //}
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, currentGraphNode->parameter);
 
         dlStart = alloc_display_list(sizeof(Gfx) * 3);
         dlHead = dlStart;
-
-        remap_alpha = 255;
-        //print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
 
         // Flicker the lights between 230 and 255
         u8 intensity = random_u16() % 25 + 230;
@@ -2609,6 +2601,7 @@ Gfx *geo_flicker_env_color(s32 callContext, struct GraphNode *node, UNUSED void 
         gDPSetEnvColor(dlHead++, r, g, b, 255);
         gSPEndDisplayList(dlHead);
     }
+
     return dlStart;
 }
 
