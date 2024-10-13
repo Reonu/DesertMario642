@@ -3029,7 +3029,7 @@ void update_camera(struct Camera *c) {
         vegas_cutscene(c);
     }
 
-    if (gMarioCurrentRoom == 2) {
+    if (gMarioCurrentRoom == 2 && gMarioState->action != ACT_FIRST_PERSON) {
         gas_station_camera(c);
     }
 #ifdef PUPPYCAM
