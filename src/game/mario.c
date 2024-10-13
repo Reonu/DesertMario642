@@ -1962,6 +1962,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
                 } else if (text == 2) {
                     print_small_text_at_slot(WATER_TEXT_X_POS, 3, "Hey, come back!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
                 }
+                // Do not lock slots, message is (probably) part of tutorial!
             } else {
                 text = 0;
             }
