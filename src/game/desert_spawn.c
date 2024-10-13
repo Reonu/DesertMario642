@@ -270,7 +270,7 @@ void bhv_desert_spawner_init(void) {
 }
 
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL * 0.5f)
-#define FUNNY_BUS_WARPS  5 //(INSTANT_WARPS_GOAL * 0.667f)
+#define FUNNY_BUS_WARPS  (INSTANT_WARPS_GOAL * 0.667f)
 #define GAS_STATION_SPAWN_INTERVAL 25
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
