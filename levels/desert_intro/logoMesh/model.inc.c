@@ -14732,7 +14732,7 @@ Gfx logoMesh_logoMesh_mesh_layer_5_tri_0[] = {
 
 
 Gfx mat_logoMesh_logo[] = {
-	gsSPGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING, 0),
+	gsSPGeometryMode(G_SHADE | G_LIGHTING, 0),
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0),
 	gsDPSetAlphaDither(G_AD_NOISE),
@@ -14742,7 +14742,7 @@ Gfx mat_logoMesh_logo[] = {
 };
 
 Gfx mat_revert_logoMesh_logo[] = {
-	gsSPGeometryMode(0, G_SHADE | G_CULL_BACK | G_LIGHTING),
+	gsSPGeometryMode(0, G_SHADE | G_LIGHTING),
 	gsDPPipeSync(),
 	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsSPEndDisplayList(),
