@@ -1356,6 +1356,7 @@ os16112*/
 #define           oKleptoStoleWaterBottle     OBJECT_FIELD_S32(0x54)
 #define           oExclamationMarkObject      OBJECT_FIELD_OBJ(0x1C)
 #define           oDesertSequenceIndex        OBJECT_FIELD_S32(0x1D)
+#define           oAlreadyGaveCoin            OBJECT_FIELD_U32(0x1E)
 
 #define /*0x108*/ oLakituAppearTimer          OBJECT_FIELD_S32(0x20)
 #define /*0x108*/ oLakituDisappearTimer       OBJECT_FIELD_S32(0x20)

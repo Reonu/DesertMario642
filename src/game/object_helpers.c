@@ -2714,9 +2714,9 @@ u8 bhv_flip_desert_object(struct Object *obj, s16 offset) {
 }
 
 void give_coins_to_player_and_heal(struct Object *obj, u8 numCoins) {
-    if (o->oDistanceToMario < 1000.f) {
+    if (obj->oDistanceToMario < 1000.f && !obj->oAlreadyGaveCoin) {
         gMarioState->numCoins += numCoins;
         gMarioState->healCounter += 4 * numCoins;
+        obj->oAlreadyGaveCoin = TRUE;
     }
-
 }
