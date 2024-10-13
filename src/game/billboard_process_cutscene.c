@@ -510,7 +510,12 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     }
 
     // Index should be guaranteed to not show up again until at least 45% of the other billboards have been processed (at static quantity)
-    weights[index] = -0.45f;
+    // Also, do not allow videos to show up more than once
+    if (get_desert_sign_video_id(index) >= 0 || index == BB_SIGN_DESERT_MARIO) {
+        weights[index] = -INSTANT_WARPS_GOAL;
+    } else {
+        weights[index] = -0.45f;
+    }
 
     // Update history entry, as we have just generated a new one
     hist->billboardId = index;
