@@ -1885,11 +1885,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         lock_remaining_text_slots();
     }
 
-    if (gInstantWarpCounter >= INSTANT_WARPS_GOAL) {
+    if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= INSTANT_WARPS_GOAL) {
         gMarioState->health = 0x880;
         gMarioState->batteryMeter = MAX_BATTERIES;
         gMarioState->hydrationMeter = MAX_HYDRATION;
-        initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
+        level_trigger_warp(gMarioState, WARP_OP_DESERT_ENDING);
     }
 
 #ifdef DESERT_DEBUG
@@ -1967,8 +1967,8 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             }
         }
     }
-    #ifdef DESERT_DEBUG
-    static u8 warpCounter;
+#ifdef DESERT_DEBUG
+    static u8 warpCounter = 0;
     if (gPlayer1Controller->buttonDown & L_TRIG) {
         if (warpCounter++ >= 30) {
             level_trigger_warp(gMarioState, WARP_OP_DESERT_ENDING);
@@ -1976,7 +1976,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     } else {
         warpCounter = 0;
     }
-    #endif
+#endif
 
     if (gCurrLevelNum == LEVEL_DESERT) {
         run_tutorial(); 
