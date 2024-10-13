@@ -1066,6 +1066,7 @@ void run_tutorial(void) {
 
 // Epic bus
 
+#define BASE_BUS_SPEED 330.f
 enum BusActions {
     BUS_ACT_EARLY_SPAWN,
     BUS_ACT_BEFORE_HITTING_MARIO,
@@ -1083,21 +1084,21 @@ void bhv_bus_init(void) {
 void bhv_bus_before_hitting_mario(void) {
     cur_obj_unhide();
     if (o->oDistanceToMario > 1000.f) {
-        o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0], 0.07f);
+        o->oPosX = approach_f32_asymptotic(o->oPosX, gMarioState->pos[0], 0.071f);
     }
     o->oFloat100 = 1.f;
     if (gMarioState->action == ACT_SPECIAL_KB_BUS) {
         o->oAction = BUS_ACT_AFTER_HITTING_MARIO;
     }
 
-    o->oPosZ += 300.f * o->oFloat100;
+    o->oPosZ += BASE_BUS_SPEED * o->oFloat100;
 }
 
 void bhv_bus_after_hitting_mario(void) {
     cur_obj_unhide();
     o->oFloat100 += 0.009f;
 
-    o->oPosZ += 300.f * o->oFloat100;
+    o->oPosZ += BASE_BUS_SPEED * o->oFloat100;
 
 }
 
@@ -1110,7 +1111,7 @@ void bhv_bus_loop(void) {
                 play_sound(SOUND_FG1_VENGABEEP, gCurrentObject->header.gfx.cameraToObject);
             }
             cur_obj_hide();
-            o->oFloat108 += 300.0f;
+            o->oFloat108 += BASE_BUS_SPEED;
             break;
         case BUS_ACT_BEFORE_HITTING_MARIO:
             if (o->oTimer >= 25 && o->oTimer < 100) {
