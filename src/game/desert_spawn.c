@@ -1166,7 +1166,7 @@ void bhv_lakitu_act_invisible(void) {
     // Stay very high up, outside the screen
     o->oPosY = 1000;
 
-    if (gMarioState->vel[2] > 0) {
+    if (gMarioState->vel[2] > 0 && gMarioState->action != ACT_SPECIAL_KB_BUS) {
         o->oLakituAppearTimer++;
     } else {
         o->oLakituAppearTimer = 0;
