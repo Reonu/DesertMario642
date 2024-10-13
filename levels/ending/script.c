@@ -30,12 +30,14 @@ const LevelScript level_ending_entry[] = {
     END_AREA(),
 
     FREE_LEVEL_POOL(),
-    SLEEP(/*frames*/ 60),
+    SLEEP(/*frames*/ 15),
+    SET_MENU_MUSIC(SEQ_SM64DS_CASINO),
+    SLEEP(/*frames*/ 45),
     BLACKOUT(/*active*/ FALSE),
     LOAD_AREA(/*area*/ 1),
     TRANSITION(/*transType*/ WARP_TRANSITION_FADE_FROM_COLOR, /*time*/ 75, /*color*/ 0x00, 0x00, 0x00),
     SLEEP(/*frames*/ 120),
-    CALL(/*arg*/ 0, /*func*/ lvl_play_the_end_screen_sound),
+    // CALL(/*arg*/ 0, /*func*/ lvl_play_the_end_screen_sound),
 
     JUMP(level_ending_entry_loop), // (loop sleep 1 forever)
 };

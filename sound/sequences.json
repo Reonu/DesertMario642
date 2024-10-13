@@ -60,5 +60,7 @@
     "39_jellyfish_fields": ["0C_extended_bank"],
     "3A_chinatown": ["0C_extended_bank"],
     "3B_from_russia_with_love": ["0C_extended_bank"],
-    "3C_nsanity_island": ["0C_extended_bank"]
+    "3C_nsanity_island": ["0C_extended_bank"],
+    "3D_sonic_drowning": ["29_sonic_drowning"],
+    "3E_sm64ds_casino": ["2A_sm64ds_casino"]
 }
