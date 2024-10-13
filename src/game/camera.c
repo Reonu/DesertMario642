@@ -2855,6 +2855,19 @@ void vegas_cutscene(struct Camera *c) {
     c->focus[2] = 15229;
 }
 
+void gas_station_camera(struct Camera *c) {
+    c->pos[0] = -19006;
+    c->pos[1] = 750;
+    c->pos[2] = -445;
+
+    c->focus[0] = gMarioState->pos[0];
+    c->focus[1] = gMarioState->pos[1];
+    c->focus[2] = gMarioState->pos[2];
+
+    c->yaw = calculate_yaw(c->pos, c->focus) + 0x8000;
+    sFOVState.fov = 65;
+}
+
 void update_camera(struct Camera *c) {
     PROFILER_GET_SNAPSHOT_TYPE(PROFILER_DELTA_COLLISION);
     gCamera = c;
@@ -3014,6 +3027,10 @@ void update_camera(struct Camera *c) {
 
     if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
         vegas_cutscene(c);
+    }
+
+    if (gMarioCurrentRoom == 2) {
+        gas_station_camera(c);
     }
 #ifdef PUPPYCAM
     }

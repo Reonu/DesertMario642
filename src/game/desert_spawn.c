@@ -422,6 +422,11 @@ void bhv_desert_decor_loop(void) {
         if (gMarioState->action != ACT_SPECIAL_KB_BUS) {
 		    load_object_collision_model();
         }
+        Vec3f pos = {o->oPosX + 200, o->oPosY + 500, o->oPosZ};
+        Vec3f pos2 = {o->oPosX + 200, o->oPosY + 500, o->oPosZ + 2000};
+        // Emit a light with the first, second and third byte of oPrimRGB as the RGB values
+        emit_light(pos, (o->oPrimRGB >> 16) & 0xff, (o->oPrimRGB >> 8) & 0xff, o->oPrimRGB & 0xff, 3, 45, 8, 0);
+        emit_light(pos2, (o->oPrimRGB >> 16) & 0xff, (o->oPrimRGB >> 8) & 0xff, o->oPrimRGB & 0xff, 3, 45, 8, 0);
     } else if (obj_has_model(o, MODEL_DESERT_HOUSE_RGB)) {
         Vec3f pos = {0,0,0};
         pos[1] = o->oPosY + 500;

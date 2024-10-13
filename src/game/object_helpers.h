@@ -303,5 +303,6 @@ u8 bhv_flip_desert_object(struct Object *obj, s16 offset);
 Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 void delete_if_mario_in_gas_station(struct Object *obj);
 void give_coins_to_player_and_heal(struct Object *obj, u8 numCoins);
+Gfx *geo_flicker_env_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 #endif // OBJECT_HELPERS_H
