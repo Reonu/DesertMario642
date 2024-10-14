@@ -6228,11 +6228,14 @@ const BehaviorScript bhvJukebox[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     LOAD_COLLISION_DATA(jukebox_collision),
+    SET_INT(oIntangibleTimer, 0),
     SET_HOME(),
+    SET_INTERACT_TYPE(INTERACT_IGLOO_BARRIER),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 100, /*Height*/ 250, /*Downwards offset*/ 50),
     CALL_NATIVE(bhv_jukebox_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_jukebox_loop),
-        CALL_NATIVE(load_object_collision_model),
+        //CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
 
