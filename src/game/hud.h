@@ -16,6 +16,12 @@
 #define HUD_STARS_X 78 // This starts counting from the right edge
 #define HUD_CAMERA_X 54 // This starts counting from the right edge
 
+struct PowerMeterHUD {
+    s8 animation;
+    s16 x;
+    s16 y;
+};
+
 enum PowerMeterAnimation {
     POWER_METER_HIDDEN,
     POWER_METER_EMPHASIZED,
@@ -41,6 +47,8 @@ enum CameraHUDLUT {
     GLYPH_CAM_ARROW_UP,
     GLYPH_CAM_ARROW_DOWN
 };
+
+extern struct PowerMeterHUD sPowerMeterHUD;
 
 void set_hud_camera_status(s16 status);
 void render_hud(void);

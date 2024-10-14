@@ -87,6 +87,34 @@ static void triplet_butterfly_act_wander(void) {
 }
 
 static void triplet_butterfly_act_activate(void) {
+    if (cur_obj_has_behavior(bhvTripletButterflyDesert) && o->oTimer == 0) {
+        struct Surface *floor;
+
+        f32 dist = sqrtf(sqr(gMarioState->pos[0] - o->oPosX) + sqr(gMarioState->pos[2] - o->oPosZ));
+        for (s32 i = 0; i < 4; i++) {
+            // Rotate bomb 90 degrees
+            o->oPosX = gMarioState->pos[0] + (dist * sins((0x4000 * i) + o->oAngleToMario));
+            o->oPosZ = gMarioState->pos[2] + (dist * coss((0x4000 * i) + o->oAngleToMario));
+            find_floor(o->oPosX, o->oPosY, o->oPosZ, &floor);
+
+            if (floor) {
+                break;
+            }
+        }
+        
+        if (floor == NULL) {
+            // Inverting didn't work, just spawn on top of Mario
+            o->oPosX = gMarioState->pos[0];
+            o->oPosZ = gMarioState->pos[2];
+        } else if (gMarioObject) {
+            o->oAngleToMario = obj_angle_to_object(o, gMarioObject);
+        }
+
+        if (gMarioState->action == ACT_LEDGE_GRAB) {
+            o->oPosY -= 150.0f;
+        }
+    }
+
     if (o->oTimer > 20) {
         if (o->oTripletButterflyModel == 0) {
             spawn_object_relative_with_scale(0, 0, -40, 0, 1.5f, o, MODEL_SMOKE, bhvWhitePuffSmoke2);
@@ -119,7 +147,16 @@ static void triplet_butterfly_act_activate(void) {
 static void triplet_butterfly_act_explode(void) {
     obj_check_attacks(&sTripletButterflyExplodeHitbox, -1);
 
-    if (o->oAction == -1 || (o->oMoveFlags & OBJ_MOVE_HIT_WALL) || o->oTimer >= 158) {
+    if (cur_obj_has_behavior(bhvTripletButterflyDesert)) {
+        if (o->oTimer == 0) {
+            o->oFaceAngleYaw = o->oAngleToMario;
+            o->oMoveAngleYaw = o->oAngleToMario;
+        } else if (o->oDistanceToMario < 150.0f) {
+            o->oAction = -1;
+        }
+    }
+
+    if (o->oAction == -1 || (!cur_obj_has_behavior(bhvTripletButterflyDesert) && (o->oMoveFlags & OBJ_MOVE_HIT_WALL)) || o->oTimer >= 158) {
         o->oPosY += o->oGraphYOffset;
         spawn_object(o, MODEL_EXPLOSION, bhvExplosion);
         obj_mark_for_deletion(o);
@@ -143,7 +180,9 @@ static void triplet_butterfly_act_explode(void) {
 }
 
 void bhv_triplet_butterfly_update(void) {
-    cur_obj_update_floor_and_walls();
+    if (!cur_obj_has_behavior(bhvTripletButterflyDesert)) {
+        cur_obj_update_floor_and_walls();
+    }
 
     switch (o->oAction) {
         case TRIPLET_BUTTERFLY_ACT_INIT:

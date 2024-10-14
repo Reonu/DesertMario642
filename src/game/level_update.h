@@ -6,6 +6,9 @@
 #include "types.h"
 #include "mtwister.h"
 
+#define STATIONARY_FREAKOUT_TIME ((s32) (30 * 11.75f))
+#define STATIONARY_TIMER_START (STATIONARY_FREAKOUT_TIME + 360)
+
 enum TimerControl {
     TIMER_CONTROL_SHOW,
     TIMER_CONTROL_START,
@@ -129,6 +132,8 @@ extern struct HudDisplay gHudDisplay;
 extern s8 gNeverEnteredCastle;
 extern u8 g100CoinStarSpawned;
 extern u8 gBGMusicActive;
+extern s32 gMarioStationaryTimer;
+extern s32 gShouldResetStationaryTimer;
 
 enum HUDDisplayFlag {
     HUD_DISPLAY_FLAG_LIVES            = (1 <<  0), // 0x0001

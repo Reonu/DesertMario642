@@ -541,6 +541,7 @@ extern const BehaviorScript bhvDonutPlatform[];
 extern const BehaviorScript bhvDDDPole[];
 extern const BehaviorScript bhvRedCoinStarMarker[];
 extern const BehaviorScript bhvTripletButterfly[];
+extern const BehaviorScript bhvTripletButterflyDesert[];
 extern const BehaviorScript bhvBubba[];
 extern const BehaviorScript bhvBeginningLakitu[];
 extern const BehaviorScript bhvBeginningPeach[];
@@ -560,6 +561,7 @@ extern const BehaviorScript bhvBus[];
 extern const BehaviorScript bhvDesertDecorWithHitbox[];
 extern const BehaviorScript bhvLakituNuhUh[];
 extern const BehaviorScript bhvLightEmitter[];
+extern const BehaviorScript bhvStationaryNumber[];
 
 
 #endif // BEHAVIOR_DATA_H

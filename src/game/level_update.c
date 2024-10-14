@@ -5,6 +5,7 @@
 #include "dialog_ids.h"
 #include "audio/external.h"
 #include "audio/synthesis.h"
+#include "behavior_data.h"
 #include "level_update.h"
 #include "game_init.h"
 #include "level_update.h"
@@ -150,6 +151,9 @@ u8 g100CoinStarSpawned = FALSE;
 struct MarioState *gMarioState = &gMarioStates[0];
 s8 sWarpCheckpointActive = FALSE;
 u8 gBGMusicActive = TRUE;
+
+s32 gMarioStationaryTimer = STATIONARY_TIMER_START;
+s32 gShouldResetStationaryTimer = FALSE;
 
 u16 level_control_timer(s32 timerOp) {
     switch (timerOp) {
@@ -1058,6 +1062,8 @@ void basic_update(void) {
 
 s32 play_mode_normal(void) {
     static u8 musicDisplayCounter = 0;
+    Vec3f lastMarioPos;
+
 #ifndef DISABLE_DEMO
     if (gCurrDemoInput != NULL) {
         print_intro_text();
@@ -1079,6 +1085,8 @@ s32 play_mode_normal(void) {
     warp_area();
     check_instant_warp();
     warp_desert_objects();
+
+    vec3f_copy(lastMarioPos, gMarioState->pos);
 
 #ifdef PUPPYPRINT_DEBUG
 #ifdef BETTER_REVERB
@@ -1110,6 +1118,37 @@ s32 play_mode_normal(void) {
 #else
         update_camera(gCurrentArea->camera);
 #endif
+    }
+
+    if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= 2) {
+        f32 distance;
+        vec3f_get_dist(lastMarioPos, gMarioState->pos, &distance);
+
+        if (distance < HYDRATION(25.0f) && !gShouldResetStationaryTimer) {
+            gMarioStationaryTimer--;
+
+            if (gMarioStationaryTimer <= STATIONARY_FREAKOUT_TIME && gMarioStationaryTimer >= 0) {
+                gStationaryFirstTime = MAX(gStationaryFirstTime, 1);
+                play_secondary_music(SEQ_SONIC_DROWNING, 0, 127, 1);
+                if (gMarioState->marioObj && gMarioStationaryTimer == STATIONARY_FREAKOUT_TIME) {
+                    struct Object *obj = spawn_object(gMarioState->marioObj, MODEL_NUMBER, bhvStationaryNumber);
+                    if (obj) {
+                        obj->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
+                    }
+                }
+            }
+
+            if (gMarioStationaryTimer < -1) {
+                gMarioStationaryTimer = -1;
+            }
+        } else {
+            if (gMarioStationaryTimer <= STATIONARY_FREAKOUT_TIME) {
+                stop_secondary_music(75);
+            }
+            gMarioStationaryTimer = STATIONARY_TIMER_START;
+        }
+
+        gShouldResetStationaryTimer = FALSE;
     }
 
     initiate_painting_warp();

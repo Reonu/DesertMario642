@@ -13,6 +13,7 @@
 #include "engine/graph_node.h"
 #include "engine/surface_load.h"
 #include "area.h"
+#include "hud.h"
 #include "save_file.h"
 #include "sound_init.h"
 #include "mario.h"
@@ -73,6 +74,30 @@ struct DesertSpawnCoords decide_left_or_right(MTRand *rand) {
 void spawn_electrical_poles(MTRand *rand) {
     spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0,rand);
     spawn_object_desert(gCurrentObject, 0, MODEL_ELECTRICAL_POLE, bhvElectricalPole, RightSide.x,RightSide.y,RightSide.z,0,0,0,rand);
+}
+
+void spawn_butterfly_bombs(void) {
+    if (gCurrLevelNum == LEVEL_DESERT && gMarioStationaryTimer < 0) {
+        if (find_first_object_with_behavior_and_bparams(bhvTripletButterflyDesert, 0, 0) == NULL) {
+            gInstantWarpType = INSTANT_WARP_FORWARDS;
+            s32 bombAngle = random_u16();
+            Vec3f pos;
+            vec3f_copy(pos, gMarioState->pos);
+            f32 bombDist = 300.0f + (random_float() * 300.0f);
+
+            pos[0] += bombDist * sins(bombAngle);
+            pos[2] += bombDist * coss(bombAngle);
+
+            MTRand rand = seedRand(0x12345678);
+            struct Object *obj = spawn_object_desert(gCurrentObject, 0, MODEL_BUTTERFLY, bhvTripletButterflyDesert, pos[0], pos[1], pos[2], 0, 0, 0, &rand);
+            if (obj) {
+                obj->oAction = TRIPLET_BUTTERFLY_ACT_ACTIVATE;
+                if (gMarioObject) {
+                    obj->oAngleToMario = obj_angle_to_object(obj, gMarioObject);
+                }
+            }
+        }
+    }
 }
 
 #define TIER_2_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.25f))
@@ -317,6 +342,8 @@ void bhv_desert_spawner_loop(void) {
             }
         }
     }
+
+    spawn_butterfly_bombs();
 }
 
 void bhv_desert_spawn_intro_init(void) {
@@ -520,6 +547,7 @@ void bhv_koopa_water_seller_offer_water(void) {
         print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            gShouldResetStationaryTimer = TRUE;
             if (gMarioState->numCoins >= WATER_PRICE) {
                 if (o->oExclamationMarkObject != NULL) {
                     mark_obj_for_deletion(o->oExclamationMarkObject);
@@ -543,6 +571,7 @@ void bhv_koopa_water_seller_offer_battery(void) {
         print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+            gShouldResetStationaryTimer = TRUE;
             if (gMarioState->numCoins >= BATTERY_PRICE) {
                 if (o->oExclamationMarkObject != NULL) {
                     mark_obj_for_deletion(o->oExclamationMarkObject);
@@ -867,6 +896,7 @@ void bhv_jukebox_loop(void) {
             print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+                gShouldResetStationaryTimer = TRUE;
                 if (gMarioState->numCoins >= 25) {
                     if (o->oExclamationMarkObject != NULL) {
                         mark_obj_for_deletion(o->oExclamationMarkObject);
@@ -975,12 +1005,14 @@ void bhv_water_bottle_loop(void) {
 // Cringe tutorial code that I didn't want to write
 
 u8 sCurrentTutorial;
-u16 sTutorialTimer;
+u32 uTutorialTimer;
 
 enum TutorialSteps {
     TUTORIAL_WATER_START,
     TUTORIAL_WATER_END,
     TUTORIAL_MUSIC,
+    TUTORIAL_STATIONARY_START,
+    TUTORIAL_STATIONARY_END,
     TUTORIAL_FLASHLIGHT_START,
     TUTORIAL_FLASHLIGHT_END,
     TUTORIAL_DONE,
@@ -993,6 +1025,10 @@ void choose_tutorial(void) {
         sCurrentTutorial = TUTORIAL_WATER_END;
     } else if (gWaterTutorialProgress == 2) {
         sCurrentTutorial = TUTORIAL_MUSIC;
+    } else if (gStationaryFirstTime == 1) {
+        sCurrentTutorial = TUTORIAL_STATIONARY_START;
+    } else if (gStationaryFirstTime == 2) {
+        sCurrentTutorial = TUTORIAL_STATIONARY_END;
     } else if (gNightFirstTime == 1) {
         sCurrentTutorial = TUTORIAL_FLASHLIGHT_START;
     } else if (gNightFirstTime == 2) {
@@ -1011,38 +1047,71 @@ void run_tutorial(void) {
     switch (sCurrentTutorial) {
         case TUTORIAL_WATER_START:
             alpha = 255;
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "You're dehydrated, so you run slowly.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Press <COL_FF1F1F-->R<COL_--------> to drink water.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gMarioState->action == ACT_DRINKING_WATER) {
                 gWaterTutorialProgress++;
-                sTutorialTimer = 0;
+                uTutorialTimer = 0;
             }
             break;
         case TUTORIAL_WATER_END:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "If you run out of water, you can", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "buy more at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
-            if (sTutorialTimer++ >= 180) {
+            if (uTutorialTimer++ >= 180) {
                 gWaterTutorialProgress++;
-                sTutorialTimer = 0;
+                uTutorialTimer = 0;
             } else {
                 alpha = 255;
             }
             break;
         case TUTORIAL_MUSIC:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 2, "If you ever find yourself tired of the", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "game's background music, it may be muted", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "by pressing the <COL_BFBF00-->START<COL_--------> button.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
-            if (sTutorialTimer++ >= 120) {
-                alpha = remap(sTutorialTimer, 120, 180, 255, 0);
-                if (sTutorialTimer >= 180) {
+            if (uTutorialTimer++ >= 120) {
+                alpha = remap(uTutorialTimer, 120, 180, 255, 0);
+                if (uTutorialTimer >= 180) {
                     gWaterTutorialProgress++;
-                    sTutorialTimer = 0;
+                    uTutorialTimer = 0;
+                }
+            } else {
+                alpha = 255;
+            }
+            break;
+        case TUTORIAL_STATIONARY_START:
+            alpha = 255;
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+            print_set_envcolour(255, 191, 191, alpha);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 2, "Uh oh!  It looks like Mario isn't trying", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "hard enough.  Get moving, before Mario", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "starts taking damage!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
+            uTutorialTimer++;
+            if (uTutorialTimer > 120 && gMarioStationaryTimer > STATIONARY_FREAKOUT_TIME) {
+                gStationaryFirstTime++;
+                uTutorialTimer = 0;
+            }           
+            break;
+        case TUTORIAL_STATIONARY_END:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "You will perish if you're caught lounging", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "around.  Do not lose sight of the end goal!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
+            if (uTutorialTimer++ >= 120) {
+                alpha = remap(uTutorialTimer, 120, 180, 255, 0);
+                if (uTutorialTimer >= 180) {
+                    gStationaryFirstTime++;
+                    uTutorialTimer = 0;
                 }
             } else {
                 alpha = 255;
@@ -1050,25 +1119,27 @@ void run_tutorial(void) {
             break;
         case TUTORIAL_FLASHLIGHT_START:
             alpha = 255;
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "It's getting dark.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Press <COL_7F9FFF-->L<COL_--------> to turn on your flashlight.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT); 
             lock_remaining_text_slots();
             if (gMarioState->flashlightOn) {
                 gNightFirstTime++;
-                sTutorialTimer = 0;
+                uTutorialTimer = 0;
             }           
             break;
         case TUTORIAL_FLASHLIGHT_END:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your flashlight needs batteries.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "You can buy batteries at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
-            if (sTutorialTimer++ >= 120) {
-                alpha = remap(sTutorialTimer, 120, 180, 255, 0);
-                if (sTutorialTimer >= 180) {
+            if (uTutorialTimer++ >= 120) {
+                alpha = remap(uTutorialTimer, 120, 180, 255, 0);
+                if (uTutorialTimer >= 180) {
                     gNightFirstTime++;
-                    sTutorialTimer = 0;
+                    uTutorialTimer = 0;
                 }
             } else {
                 alpha = 255;
@@ -1340,7 +1411,7 @@ void render_title_logo(void) {
 
         bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
         if (timer < PRESS_A_FRAMES_START + 45) {
-            print_set_envcolour(255, 255, 255, remap(sTutorialTimer, (timer - PRESS_A_FRAMES_START), (timer - PRESS_A_FRAMES_START) + 45, 255, 0));
+            print_set_envcolour(255, 255, 255, remap(uTutorialTimer, (timer - PRESS_A_FRAMES_START), (timer - PRESS_A_FRAMES_START) + 45, 255, 0));
         } else {
             print_set_envcolour(255, 255, 255, 255);
         }
