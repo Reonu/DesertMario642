@@ -892,6 +892,7 @@ void bhv_jukebox_loop(void) {
         case JUKEBOX_ACT_CHANGE_SONG:
             o->oDesertSequenceIndex = jukebox_generate_randomized_track();
             set_background_music(0, seqsToRandomize[o->oDesertSequenceIndex].seqId, 0);
+            gBGMusicActive = TRUE;
             o->oAction = JUKEBOX_ACT_SUCCESS;
             break;
         case JUKEBOX_ACT_SUCCESS:

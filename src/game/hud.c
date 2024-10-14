@@ -491,10 +491,36 @@ void render_hud_hydration_meter(void) {
 }
 
 void render_hud_battery_meter(s8 alpha) {
-    char batteryStr[20];
+    const ColorRGB fullBattery = {0x3F, 0xFF, 0x3F};
+    const ColorRGB halfBattery = {0xFF, 0xFF, 0x1F};
+    const ColorRGB quarterBattery = {0xFF, 0x1F, 0x1F};
+    const ColorRGB emptyBattery = {0x1F, 0x1F, 0x1F};
+
+    char batteryStr[64];
     s32 batteryPercent = (gMarioState->batteryMeter * 100) / MAX_BATTERIES;
-    print_set_envcolour(255, 255, 255, alpha);
-    sprintf(batteryStr, "BATTERY: %d%%", batteryPercent);
+    ColorRGB rgb;
+
+    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 0);
+    bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+
+    if (batteryPercent > 50) {
+        f32 mult = (100 - batteryPercent) / 50.0f;
+        rgb[0] = (fullBattery[0] * (1.0f - mult)) + (halfBattery[0] * mult);
+        rgb[1] = (fullBattery[1] * (1.0f - mult)) + (halfBattery[1] * mult);
+        rgb[2] = (fullBattery[2] * (1.0f - mult)) + (halfBattery[2] * mult);
+    } else if (batteryPercent > 25) {
+        f32 mult = (50 - batteryPercent) / 25.0f;
+        rgb[0] = (halfBattery[0] * (1.0f - mult)) + (quarterBattery[0] * mult);
+        rgb[1] = (halfBattery[1] * (1.0f - mult)) + (quarterBattery[1] * mult);
+        rgb[2] = (halfBattery[2] * (1.0f - mult)) + (quarterBattery[2] * mult);
+    } else {
+        f32 mult = (25 - batteryPercent) / 25.0f;
+        rgb[0] = (quarterBattery[0] * (1.0f - mult)) + (emptyBattery[0] * mult);
+        rgb[1] = (quarterBattery[1] * (1.0f - mult)) + (emptyBattery[1] * mult);
+        rgb[2] = (quarterBattery[2] * (1.0f - mult)) + (emptyBattery[2] * mult);
+    }
+    print_set_envcolour(rgb[0], rgb[1], rgb[2], alpha);
+    sprintf(batteryStr, "<COL_BFBFBF-->BATTERY:<COL_--------> %d%%", batteryPercent);
     print_small_text_buffered(11, 194, batteryStr, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
 }
 

@@ -1149,9 +1149,9 @@ s32 play_mode_normal(void) {
         bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
         print_set_envcolour(255, 255, 255, alpha);
         if (gBGMusicActive) {
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music enabled.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music: <COL_FF3F3F-->UNMUTED<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         } else {
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music disabled.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music: <COL_FF3F3F-->MUTED<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         }
         lock_remaining_text_slots();
     }
