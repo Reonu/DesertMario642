@@ -1079,23 +1079,23 @@ void mode_8_directions_camera(struct Camera *c) {
     if (gMarioState->action != ACT_UNPROCESSED) {
         radial_camera_input(c);
 
-        if (gPlayer1Controller->buttonPressed & R_CBUTTONS) {
+        if (gPlayer1Controller->buttonPressed & R_JPAD) {
             s8DirModeYawOffset += DEGREES(45);
             if (gMarioCurrentRoom == 2) {
                 snap_to_45_degrees(s8DirModeYawOffset);
             }
             play_sound_cbutton_side();
         }
-        if (gPlayer1Controller->buttonPressed & L_CBUTTONS) {
+        if (gPlayer1Controller->buttonPressed & L_JPAD) {
             s8DirModeYawOffset -= DEGREES(45);
             if (gMarioCurrentRoom == 2) {
                 snap_to_45_degrees(s8DirModeYawOffset);
             }
             play_sound_cbutton_side();
-        } else if (gPlayer1Controller->buttonDown & L_JPAD) {
+        } else if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
             s8DirModeYawOffset -= DEGREES(2);
         }
-        else if (gPlayer1Controller->buttonDown & R_JPAD) {
+        else if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
             s8DirModeYawOffset += DEGREES(2);
         }
 #ifdef PARALLEL_LAKITU_CAM
@@ -4551,15 +4551,15 @@ void play_camera_buzz_if_c_sideways(void) {
 }
 
 void play_sound_cbutton_up(void) {
-    play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
+    //play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
 }
 
 void play_sound_cbutton_down(void) {
-    play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
+    //play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
 }
 
 void play_sound_cbutton_side(void) {
-    play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
+    //play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
 }
 
 void play_sound_button_change_blocked(void) {
