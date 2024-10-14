@@ -8,6 +8,7 @@
 #include "behavior_actions.h"
 #include "behavior_data.h"
 #include "camera.h"
+#include "debug.h"
 #include "dialog_ids.h"
 #include "engine/behavior_script.h"
 #include "engine/math_util.h"
@@ -473,20 +474,16 @@ static void obj_die_if_health_non_positive(void) {
             spawn_mist_particles();
         }
 
-        if ((s32)o->oNumLootCoins < 0) {
-            //gMarioState->numCoins += 5;
-            //gMarioState->healCounter += 4 * o->oNumLootCoins;
-            //print_small_text_at_slot(20, 1, "You got 5 coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            //spawn_object(o, MODEL_BLUE_COIN, bhvMrIBlueCoin);
-        } else {
+        if (o->oDesertObjValidator != 0) {
+            if (o->oNumLootCoins < 0) {
+                o->oNumLootCoins = 5; // Blue coin
+            }
             give_coins_to_player_and_heal((u8) o->oNumLootCoins);
-            //obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
-            //Print the same message as above, but append oNumLootCoins instead of 5.
-            //char str[32];
-            //sprintf(str, "You got %d coins!", o->oNumLootCoins);
-            //print_small_text_at_slot(20, 1, str, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            //gMarioState->numCoins += o->oNumLootCoins;
-            //gMarioState->healCounter += 4 * o->oNumLootCoins;
+            o->oNumLootCoins = 0;
+        } else if ((s32)o->oNumLootCoins < 0) {
+            spawn_object(o, MODEL_BLUE_COIN, bhvMrIBlueCoin);
+        } else {
+            obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
         }
         // This doesn't do anything
         //obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
@@ -498,11 +495,6 @@ static void obj_die_if_health_non_positive(void) {
             obj_mark_for_deletion(o);
         }
     }
-}
-
-UNUSED static void obj_unused_die(void) {
-    o->oHealth = 0;
-    obj_die_if_health_non_positive();
 }
 
 static void obj_set_knockback_action(s32 attackType) {
@@ -536,6 +528,9 @@ static s32 obj_die_if_above_lava_and_health_non_positive(void) {
             || find_water_level(o->oPosX, o->oPosZ) - o->oPosY < 10.0f) {
             return FALSE;
         }
+        char pr[16];
+        sprintf(pr, "0x%08x", 1);
+        assert(FALSE, pr);
         obj_die_if_health_non_positive();
         return TRUE;
 

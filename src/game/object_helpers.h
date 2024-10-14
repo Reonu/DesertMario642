@@ -294,10 +294,8 @@ Gfx *geo_set_background_alpha(s32 callContext, struct GraphNode *node, UNUSED vo
 Gfx *geo_set_background_color(s32 callContext, struct GraphNode *node, UNUSED void *context);
 
 s32 check_if_desert_object_exists(const BehaviorScript *behavior, u32 objValidator);
-void warp_all_if_desert_spawn(void);
-void warp_desert_object(struct Object *obj);
+void warp_desert_objects(void);
 u8 copy_mario_x_position(struct Object *obj, f32 approachMult, f32 minDist);
-void bhv_call_warp_desert_object(void);
 u16 calculate_z_pos_difference(struct Object *obj);
 u8 bhv_flip_desert_object(struct Object *obj, s16 offset);
 Gfx *geo_set_prim_color(s32 callContext, struct GraphNode *node, UNUSED void *context);

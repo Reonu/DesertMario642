@@ -425,6 +425,7 @@ struct Object *spawn_object_at_origin(struct Object *parent, UNUSED s32 unusedAr
 
     obj->parentObj = parent;
     obj->oInstantWarpSpawn = parent->oInstantWarpSpawn;
+    obj->oDesertObjValidator = parent->oDesertObjValidator;
     obj->header.gfx.areaIndex = parent->header.gfx.areaIndex;
     obj->header.gfx.activeAreaIndex = parent->header.gfx.areaIndex;
 
@@ -2623,36 +2624,36 @@ s32 check_if_desert_object_exists(const BehaviorScript *behavior, u32 objValidat
     return FALSE;
 }
 
-void warp_all_if_desert_spawn(void) {    
-    for (u32 i = 0; i < OBJECT_POOL_CAPACITY; i++) {
+void warp_desert_objects(void) {
+    if (gCurrLevelNum != LEVEL_DESERT && gCurrLevelNum != LEVEL_DESERT_INTRO) {
+        return;
+    }
+
+    for (s32 i = 0; i < OBJECT_POOL_CAPACITY; i++) {
         struct Object *obj = &gObjectPool[i];
-        if (obj->activeFlags == ACTIVE_FLAG_DEACTIVATED || obj->oDesertObjValidator == 0) {
+
+        if (obj->activeFlags == ACTIVE_FLAG_DEACTIVATED) {
+            continue;
+        }
+            
+        if (ABS(obj->oPosZ) >= 40000.0f || obj->oPosY < (FLOOR_LOWER_LIMIT + 2000)) {
+            obj_mark_for_deletion(obj);
             continue;
         }
 
-        u32 tmp = obj->oDesertTimer;
-        obj->oDesertTimer = 1;
-        warp_desert_object(obj);
-        obj->oDesertTimer = tmp;
-    }
-}
+        if (!gInstantWarpDisplacement || obj->oDesertObjValidator == 0 || obj->oInstantWarpSpawn == 0
+                    || (obj->oDesertTimer == 0 && gCurrLevelNum != LEVEL_DESERT_INTRO)) {
+            continue;
+        }
 
-void warp_desert_object(struct Object *obj) {
-    if (obj->oDesertTimer != 0) {
-        if (gInstantWarpDisplacement) {
-            if (obj->behavior != segmented_to_virtual(bhvPokeyBodyPart)) {
-                obj->oPosZ += gInstantWarpDisplacement;
-                obj_update_gfx_pos_and_angle(obj);
-            }
+        if (obj->behavior != segmented_to_virtual(bhvPokeyBodyPart)) {
+            obj->oPosZ += gInstantWarpDisplacement;
+            obj_update_gfx_pos_and_angle(obj);
+        }
 
-            if ((ABS(gMarioState->pos[2] - obj->oPosZ) > ABS((TILES_IN_FRONT_OR_BEHIND + 1) * gInstantWarpDisplacement))
-                        || ABS(gInstantWarpCounter - obj->oInstantWarpSpawn) > MAX_TILES_FROM_SPAWN_TILE) {
-                mark_obj_for_deletion(obj);
-            }
-        } 
-        
-        if (ABS(obj->oPosZ) >= 40000.0f) {
-            mark_obj_for_deletion(obj);
+        if ((ABS(gMarioState->pos[2] - obj->oPosZ) > ABS((TILES_IN_FRONT_OR_BEHIND + 1) * gInstantWarpDisplacement))
+                    || ABS(gInstantWarpCounter - obj->oInstantWarpSpawn) > MAX_TILES_FROM_SPAWN_TILE) {
+            obj_mark_for_deletion(obj);
         }
     }
 }
@@ -2690,10 +2691,6 @@ u16 calculate_z_pos_difference(struct Object *obj) {
         //print_text_fmt_int(20,20, "Z POS %d",gMarioObject->oPosZ - obj->oPosZ);
         return gMarioObject->oPosZ - obj->oPosZ;
     }
-}
-
-void bhv_call_warp_desert_object(void) {
-    warp_desert_object(o);
 }
 
 u8 bhv_flip_desert_object(struct Object *obj, s16 offset) {

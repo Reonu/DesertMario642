@@ -551,7 +551,6 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 extern const BehaviorScript bhvDesertSpawner[];
 extern const BehaviorScript bhvDesertIntroSpawner[];
 extern const BehaviorScript bhvDesertSign[];
-extern const BehaviorScript bhvPointLightPreview[];
 extern const BehaviorScript bhvKoopaCustom[];
 extern const BehaviorScript bhvAngrySun[];
 extern const BehaviorScript bhvJukebox[];

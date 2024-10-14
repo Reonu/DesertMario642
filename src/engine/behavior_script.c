@@ -846,6 +846,10 @@ static BhvCommandProc BehaviorCmdTable[] = {
 
 // Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
 void cur_obj_update(void) {
+    if (!(o->activeFlags & ACTIVE_FLAG_ACTIVE)) {
+        return;
+    }
+
     u32 objFlags = o->oFlags;
     f32 distanceFromMario;
     BhvCommandProc bhvCmdProc;

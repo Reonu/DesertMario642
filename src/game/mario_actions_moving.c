@@ -485,7 +485,7 @@ s32 should_begin_sliding(struct MarioState *m) {
 #define analog_stick_held_back(m) (abs_angle_diff((m)->intendedYaw, (m)->faceAngle[1]) > 0x471C)
 
 s32 check_ground_dive_or_punch(struct MarioState *m) {
-    if (m->input & INPUT_B_PRESSED && !gMarioState->inRangeOfWaterSeller) {
+    if (m->input & INPUT_B_PRESSED) {
         //! Speed kick (shoutouts to SimpleFlips)
         if (m->forwardVel >= 29.0f && m->controller->stickMag > 48.0f) {
             m->vel[1] = 20.0f;
@@ -1046,7 +1046,7 @@ s32 act_braking(struct MarioState *m) {
         return set_mario_action(m, ACT_BRAKING_STOP, 0);
     }
 
-    if (m->input & INPUT_B_PRESSED && !gMarioState->inRangeOfWaterSeller) {
+    if (m->input & INPUT_B_PRESSED) {
         return set_mario_action(m, ACT_MOVE_PUNCHING, 0);
     }
 

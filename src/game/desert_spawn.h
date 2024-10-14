@@ -12,7 +12,6 @@ extern void bhv_desert_spawn_intro_loop(void);
 extern void bhv_desert_sign_init(void);
 extern void bhv_desert_sign_loop(void);
 extern void bhv_desert_decor_loop(void);
-extern void bhv_point_light_preview_loop(void);
 extern void bhv_koopa_water_seller_set_exclamation_mark(void);
 extern void bhv_koopa_water_seller_loop(void);
 extern void bhv_angry_sun_init(void);

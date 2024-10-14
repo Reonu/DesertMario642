@@ -429,7 +429,6 @@ void bhv_klepto_update(void) {
     }
     
     cur_obj_move_standard(78);
-    warp_desert_object(o);
     copy_mario_x_position(o, 0.055f, 800.0f);
     delete_if_mario_in_gas_station(o);
 }

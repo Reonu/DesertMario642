@@ -1078,6 +1078,7 @@ s32 play_mode_normal(void) {
 
     warp_area();
     check_instant_warp();
+    warp_desert_objects();
 
 #ifdef PUPPYPRINT_DEBUG
 #ifdef BETTER_REVERB

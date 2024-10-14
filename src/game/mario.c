@@ -1285,6 +1285,12 @@ void update_mario_button_inputs(struct MarioState *m) {
         if (m->controller->buttonPressed & Z_TRIG  ) m->input |= INPUT_Z_PRESSED;
     }
 
+    if (gMarioState->inRangeOfWaterSeller) {
+        m->input &= ~INPUT_B_PRESSED;
+    }
+
+    gMarioState->inRangeOfWaterSeller = FALSE;
+
     if (m->input & INPUT_A_PRESSED) {
         m->framesSinceA = 0;
     } else if (m->framesSinceA < 0xFF) {
@@ -1859,12 +1865,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
     }
 
-    if (gMarioCurrentRoom == 2) {
-        gMarioState->inRangeOfWaterSeller = TRUE;
-    } else {
-        gMarioState->inRangeOfWaterSeller = FALSE;
-    }
-
     if (gWaterBottleStolen) {
         u8 alpha = 0;
         if (gWaterBottleStolen < 60) {
@@ -2022,10 +2022,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     update_mario_health(gMarioState);
 
     deplete_hydration(HYDRATION_DRAIN_RATE);
-
-    if (gMarioCurrentRoom != 2) {
-        gMarioState->inRangeOfWaterSeller = FALSE;
-    }
 
 #ifdef BREATH_METER
     update_mario_breath(gMarioState);

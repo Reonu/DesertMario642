@@ -17,7 +17,7 @@ static struct ObjectHitbox sPokeyBodyPartHitbox = {
     /* downOffset:        */ 10,
     /* damageOrCoinValue: */ 2,
     /* health:            */ 0,
-    /* numLootCoins:      */ 5,
+    /* numLootCoins:      */ -1,
     /* radius:            */ 40,
     /* height:            */ 20,
     /* hurtboxRadius:     */ 20,
@@ -131,7 +131,6 @@ void bhv_pokey_body_part_update(void) {
     } else {
         o->oAnimState = 1;
     }
-    warp_desert_object(o);
     delete_if_mario_in_gas_station(o);
     o->oGraphYOffset = o->header.gfx.scale[1] * 22.0f;
 }
@@ -298,7 +297,6 @@ void bhv_pokey_update(void) {
     }
     o->oDrawingDistance = 999999.0f;
     copy_mario_x_position(o, 0.036f, 500.0f);
-    warp_desert_object(o);
     delete_if_mario_in_gas_station(o);
 }
 

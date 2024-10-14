@@ -259,14 +259,14 @@ void spawn_enemy(MTRand *rand) {
     }
 }
 
-u8 sBusAlreadySpawned = FALSE;
+u8 sBusAlreadySpawned = 0;
 void bhv_desert_spawner_init(void) {
     gUnpausedTimer = DAY_START;
     gInstantWarpDisplacement = 0;
     gInstantWarpCounter = 0;
     gInstantWarpType = INSTANT_WARP_FORWARDS;
     gInstantWarpSpawnIndex = TILES_IN_FRONT_OR_BEHIND;
-    sBusAlreadySpawned = FALSE;
+    sBusAlreadySpawned = 0;
 }
 
 #define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL * 0.5f)
@@ -306,10 +306,14 @@ void bhv_desert_spawner_loop(void) {
             spawn_enemy(&newSeed);
         }
 
-        if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && !sBusAlreadySpawned && (gInstantWarpCounter % GAS_STATION_SPAWN_INTERVAL != 0) && (gMarioCurrentRoom != 2) // No gas station
+        if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && sBusAlreadySpawned < 2 && (gInstantWarpCounter % GAS_STATION_SPAWN_INTERVAL != 0) && (gMarioCurrentRoom != 2) // No gas station
                     && (gUnpausedTimer > (DAY_END + (HOUR * 2)) || gUnpausedTimer < (DAY_START - (HOUR * 2)))) { // Force nighttime spawn
-            if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,NULL)) {
-                sBusAlreadySpawned = TRUE;
+            if (sBusAlreadySpawned == 1) {
+                if (find_first_object_with_behavior_and_bparams(bhvBus, 0, 0) == NULL) {
+                    sBusAlreadySpawned = 0;
+                }
+            } else if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,NULL)) {
+                sBusAlreadySpawned = 1;
             }
         }
     }
@@ -321,7 +325,7 @@ void bhv_desert_spawn_intro_init(void) {
     gInstantWarpType = INSTANT_WARP_FORWARDS;
     for (gInstantWarpCounter = (-TILES_IN_FRONT_OR_BEHIND * 2); gInstantWarpCounter <= 0; gInstantWarpCounter++) {
         gInstantWarpSpawnIndex = gInstantWarpCounter + TILES_IN_FRONT_OR_BEHIND;
-        warp_all_if_desert_spawn();
+        warp_desert_objects();
 
         MTRand firstRand = seedRand((u32) gInstantWarpSpawnIndex + 0x80000000);
         u32 actualSeed = genRandLong(&firstRand);
@@ -393,8 +397,6 @@ void bhv_desert_decor_loop(void) {
         offset = DEGREES(45);
     }
 
-    warp_desert_object(o);
-
     if (o->behavior == segmented_to_virtual(bhvDesertSign)) {
         MTRand newSeed = seedRand(gUnpausedTimer);
         u8 intensity = random_in_range(&newSeed, 16) + 240;
@@ -452,11 +454,6 @@ void bhv_desert_decor_loop(void) {
             play_sound(SOUND_BG1_CARAMELLDANSEN, gCurrentObject->header.gfx.cameraToObject);
         }
     }
-}
-
-
-void bhv_point_light_preview_loop(void) {
-    warp_desert_object(o);
 }
 
 // Koopa water/battery seller
@@ -519,6 +516,7 @@ void bhv_koopa_water_seller_idle(void) {
 
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
+        gMarioState->inRangeOfWaterSeller = TRUE;
         print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
@@ -541,6 +539,7 @@ void bhv_koopa_water_seller_offer_water(void) {
 
 void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
+        gMarioState->inRangeOfWaterSeller = TRUE;
         print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
@@ -622,7 +621,6 @@ void bhv_koopa_water_seller_loop(void) {
             break;
     }
 
-    //gMarioState->inRangeOfWaterSeller = bhv_koopa_water_seller_update_range();
     if (gMarioCurrentRoom == 2) {
         cur_obj_unhide();
     } else {
@@ -865,6 +863,7 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
+            gMarioState->inRangeOfWaterSeller = TRUE;
             print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
@@ -971,8 +970,6 @@ void bhv_water_bottle_loop(void) {
         }
         mark_obj_for_deletion(o);
     }
-
-    warp_desert_object(o);
 }
 
 // Cringe tutorial code that I didn't want to write
@@ -1137,21 +1134,22 @@ void bhv_bus_loop(void) {
             if (o->oTimer >= 25 && o->oTimer < 100) {
                 play_sound(SOUND_FG1_VENGABEEP, gCurrentObject->header.gfx.cameraToObject);
             }
+            sBusAlreadySpawned = 2;
             bhv_bus_before_hitting_mario();
             break;
         case BUS_ACT_AFTER_HITTING_MARIO:
             if (o->oTimer < 30) {
                 play_sound(SOUND_FG1_VENGABEEP, gCurrentObject->header.gfx.cameraToObject);
             }
+            sBusAlreadySpawned = 2;
             bhv_bus_after_hitting_mario();
             break;
     }
 
     delete_if_mario_in_gas_station(o);
-    warp_desert_object(o);
     if (o->activeFlags == ACTIVE_FLAG_DEACTIVATED) {
         if (o->oAction == BUS_ACT_EARLY_SPAWN) {
-            sBusAlreadySpawned = FALSE;
+            sBusAlreadySpawned = 0;
         }
         return;
     }

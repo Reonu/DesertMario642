@@ -1,5 +1,5 @@
-
 #include "src/game/game_init.h"
+#include "game/debug.h"
 #include "game/print.h"
 #include "src/game/level_update.h"
 /**
@@ -154,7 +154,7 @@ static void goomba_begin_jump(void) {
  * comes back.
  */
 static void mark_goomba_as_dead(void) {
-    if (o->parentObj != o) {
+    if (o->parentObj && o->parentObj != o && !obj_has_behavior(o->parentObj, bhvDesertSpawner)) {
         set_object_respawn_info_bits(
             o->parentObj, (o->oBehParams2ndByte & GOOMBA_BP_TRIPLET_FLAG_MASK) >> 2);
 
@@ -390,12 +390,12 @@ void bhv_goomba_update(void) {
 #endif
 
     }
-    if (obj_handle_attacks(&sGoombaHitbox, GOOMBA_ACT_ATTACKED_MARIO,
+    s32 thing = obj_handle_attacks(&sGoombaHitbox, GOOMBA_ACT_ATTACKED_MARIO,
                             sGoombaAttackHandlers[o->oGoombaSize & 0x1])
-                            && (o->oAction != GOOMBA_ACT_ATTACKED_MARIO)) {
+                            && (o->oAction != GOOMBA_ACT_ATTACKED_MARIO);
+    if (thing) {
         mark_goomba_as_dead();
     }
     copy_mario_x_position(o, 0.075f, 400.0f);
-    warp_desert_object(o);
     delete_if_mario_in_gas_station(o);
 }
