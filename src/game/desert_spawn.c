@@ -519,7 +519,7 @@ void bhv_koopa_water_seller_idle(void) {
 
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press B to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             if (gMarioState->numCoins >= WATER_PRICE) {
@@ -541,7 +541,7 @@ void bhv_koopa_water_seller_offer_water(void) {
 
 void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press B to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             if (gMarioState->numCoins >= BATTERY_PRICE) {
@@ -865,7 +865,7 @@ void bhv_jukebox_loop(void) {
             }
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
-            print_small_text_at_slot(20, 0, "Press B to play a random song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 if (gMarioState->numCoins >= 25) {
@@ -1016,7 +1016,7 @@ void run_tutorial(void) {
             alpha = 255;
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "You're dehydrated, so you run slowly.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Press R to drink water.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Press <COL_FF1F1F-->R<COL_--------> to drink water.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gMarioState->action == ACT_DRINKING_WATER) {
                 gWaterTutorialProgress++;
