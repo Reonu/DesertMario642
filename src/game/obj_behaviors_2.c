@@ -479,6 +479,7 @@ static void obj_die_if_health_non_positive(void) {
             //print_small_text_at_slot(20, 1, "You got 5 coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             //spawn_object(o, MODEL_BLUE_COIN, bhvMrIBlueCoin);
         } else {
+            give_coins_to_player_and_heal(o, (u8) o->oNumLootCoins);
             //obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
             //Print the same message as above, but append oNumLootCoins instead of 5.
             //char str[32];

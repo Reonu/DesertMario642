@@ -17,7 +17,7 @@ static struct ObjectHitbox sPokeyBodyPartHitbox = {
     /* downOffset:        */ 10,
     /* damageOrCoinValue: */ 2,
     /* health:            */ 0,
-    /* numLootCoins:      */ 0,
+    /* numLootCoins:      */ 5,
     /* radius:            */ 40,
     /* height:            */ 20,
     /* hurtboxRadius:     */ 20,
@@ -97,7 +97,9 @@ void bhv_pokey_body_part_update(void) {
             }
 
             // Only the head has loot coins
-            o->oNumLootCoins = o->oBehParams2ndByte == POKEY_PART_BP_HEAD;
+            if (o->oBehParams2ndByte != POKEY_PART_BP_HEAD) {
+                o->oNumLootCoins = 0;
+            }
 
             // If the body part was attacked, then die. If the head was killed,
             // then die after a delay.
@@ -106,10 +108,6 @@ void bhv_pokey_body_part_update(void) {
                 o->parentObj->oPokeyNumAliveBodyParts--;
                 if (o->oBehParams2ndByte == POKEY_PART_BP_HEAD) {
                     o->parentObj->oPokeyHeadWasKilled = TRUE;
-                    give_coins_to_player_and_heal(o, 5);
-                    // Last minute change to blue coins - not sure why they didn't
-                    // just set it to -1 above
-                    o->oNumLootCoins = -1;
                 }
 
                 o->parentObj->oPokeyAliveBodyPartFlags =

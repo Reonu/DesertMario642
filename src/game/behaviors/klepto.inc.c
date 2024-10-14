@@ -9,7 +9,7 @@ static struct ObjectHitbox sKleptoHitbox = {
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 0,
     /* health:            */ 1,
-    /* numLootCoins:      */ 0,
+    /* numLootCoins:      */ 2,
     /* radius:            */ 160,
     /* height:            */ 250,
     /* hurtboxRadius:     */ 80,
@@ -298,23 +298,22 @@ static void klepto_act_struck_by_mario(void) {
         waterBottle->oKleptoStoleWaterBottle = o->oKleptoStoleWaterBottle;
         waterBottle->oInstantWarpSpawn = gInstantWarpCounter;
     }
-    give_coins_to_player_and_heal(o, 2);
     obj_die_if_health_non_positive();
-    return; 
-    obj_face_pitch_approach(0, 800);
-    obj_face_yaw_approach(o->oMoveAngleYaw + 0x8000, 800);
-    obj_face_roll_approach(0, 800);
 
-    if (cur_obj_check_if_near_animation_end()) {
-        return;
-        o->oAction = KLEPTO_ACT_RETREAT;
-        o->oGravity = 0.0f;
+    // obj_face_pitch_approach(0, 800);
+    // obj_face_yaw_approach(o->oMoveAngleYaw + 0x8000, 800);
+    // obj_face_roll_approach(0, 800);
 
-        o->oMoveAnglePitch = -obj_get_pitch_from_vel();
-        o->oKleptoSpeed = sqrtf(sqr(o->oForwardVel) + sqr(o->oVelY));
+    // if (cur_obj_check_if_near_animation_end()) {
+    //     return;
+    //     o->oAction = KLEPTO_ACT_RETREAT;
+    //     o->oGravity = 0.0f;
 
-        vec3f_copy_y_off(&o->oHomeVec, &o->oPosVec, 500.0f);
-    }
+    //     o->oMoveAnglePitch = -obj_get_pitch_from_vel();
+    //     o->oKleptoSpeed = sqrtf(sqr(o->oForwardVel) + sqr(o->oVelY));
+
+    //     vec3f_copy_y_off(&o->oHomeVec, &o->oPosVec, 500.0f);
+    // }
 }
 
 static void klepto_act_retreat(void) {
