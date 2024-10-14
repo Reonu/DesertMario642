@@ -1093,10 +1093,10 @@ void mode_8_directions_camera(struct Camera *c) {
             }
             play_sound_cbutton_side();
         } else if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
-            s8DirModeYawOffset -= DEGREES(2);
+            s8DirModeYawOffset -= DEGREES(8);
         }
         else if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
-            s8DirModeYawOffset += DEGREES(2);
+            s8DirModeYawOffset += DEGREES(8);
         }
 #ifdef PARALLEL_LAKITU_CAM
         // extra functionality
