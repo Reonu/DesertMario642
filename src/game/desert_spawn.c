@@ -1400,8 +1400,10 @@ void bhv_lakitu_nuh_uh_loop(void) {
 #define FADE_OUT_FRAMES (FADE_IN_FRAMES + 45)
 #define ANIM_CYCLE_FRAMES 180
 #define PRESS_A_FRAMES_START 120
+#define CREDIT_FRAMES_START 140
 void render_title_logo(void) {
     static s32 timer = 0;
+    static u8 currentText;
 
     if (gCurrLevelNum != LEVEL_DESERT_INTRO) {
         timer = 0;
@@ -1473,7 +1475,37 @@ void render_title_logo(void) {
         } else {
             print_set_envcolour(255, 255, 255, 255);
         }
-        print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4, "Press <COL_BFBF00-->START<COL_--------> To Begin!", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+        print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 - 30, "Press <COL_BFBF00-->START<COL_--------> To Begin!", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+        static s32 textFrame;
+        textFrame = timer % 90;
+        f32 textAlphaPrev = sins((textFrame * 0x8000) / 89);
+        s32 textAlpha = (s32) (textAlphaPrev * 255);
+        currentText = (timer / 90) % 3;
+        print_set_envcolour(255, 255, 255, textAlpha);
+        switch (currentText) {
+            case 0x00:
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 - 13, "Hack by", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 31, 111, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4, "Reonu", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                break;
+            case 0x01:
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 - 13, "Logo by", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 31, 111, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4, "Shiru", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                break;
+            case 0x02:
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 - 13, "Special thanks to:", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 31, 111, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4, "ArcticJaguar725", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 31, 111, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 + 13, "thecozies", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 31, 111, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 + 26, "Wiseguy", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 31, 111, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 + 38, "Simpleflips", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                break;
+        }
+
     }
 }
 
