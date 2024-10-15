@@ -1529,4 +1529,9 @@ void bhv_globe_loop(void) {
             bhv_globe_not_enough_coins();
             break;
     }
+    if (gMarioCurrentRoom == 2) {
+        cur_obj_unhide();
+    } else {
+        cur_obj_hide();
+    }
 }
