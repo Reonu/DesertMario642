@@ -294,9 +294,9 @@ void bhv_desert_spawner_init(void) {
     sBusAlreadySpawned = 0;
 }
 
-#define RGB_HOUSE_WARPS (INSTANT_WARPS_GOAL * 0.5f)
-#define FUNNY_BUS_WARPS  (INSTANT_WARPS_GOAL * 0.667f)
 #define GAS_STATION_SPAWN_INTERVAL 25
+#define RGB_HOUSE_WARPS ((s32) (INSTANT_WARPS_GOAL * 0.5f))
+#define FUNNY_BUS_WARPS  ((s32) (INSTANT_WARPS_GOAL * 0.667f))
 void bhv_desert_spawner_loop(void) {
     //print_text_fmt_int(20,20, "Chance: %.2f", chancePrint);
     if (gInstantWarpDisplacement) {
@@ -318,8 +318,16 @@ void bhv_desert_spawner_loop(void) {
         u32 actualSeed = genRandLong(&firstRand);
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
+        
+        if (gInstantWarpSpawnIndex >= INSTANT_WARPS_GOAL) {
+            // Only spawn small decorations past the goal
+            for (u32 i = 0; i < numSmall; i++) {
+                spawn_small_decoration(&newSeed);
+            }
+            return;
+        }
 
-        if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS) {
+        if (gInstantWarpSpawnIndex == RGB_HOUSE_WARPS - (RGB_HOUSE_WARPS % GAS_STATION_SPAWN_INTERVAL) + (s32) (GAS_STATION_SPAWN_INTERVAL / 2)) {
             spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE_RGB, bhvDesertDecor, NORMAL_ROTATION, 0); 
         } else if (gInstantWarpSpawnIndex % GAS_STATION_SPAWN_INTERVAL == 0) {
             spawn_gas_station(&newSeed);
@@ -333,11 +341,12 @@ void bhv_desert_spawner_loop(void) {
 
         if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && sBusAlreadySpawned < 2 && (gInstantWarpCounter % GAS_STATION_SPAWN_INTERVAL != 0) && (gMarioCurrentRoom != 2) // No gas station
                     && (gUnpausedTimer > (DAY_END + (HOUR * 2)) || gUnpausedTimer < (DAY_START - (HOUR * 2)))) { // Force nighttime spawn
+        MTRand newSeed2 = seedRand(genRandLong(&newSeed));
             if (sBusAlreadySpawned == 1) {
                 if (find_first_object_with_behavior_and_bparams(bhvBus, 0, 0) == NULL) {
                     sBusAlreadySpawned = 0;
                 }
-            } else if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,NULL)) {
+            } else if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,&newSeed2)) {
                 sBusAlreadySpawned = 1;
             }
         }

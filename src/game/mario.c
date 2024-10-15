@@ -1886,9 +1886,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     }
 
     if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= INSTANT_WARPS_GOAL) {
-        gMarioState->health = 0x880;
-        gMarioState->batteryMeter = MAX_BATTERIES;
-        gMarioState->hydrationMeter = MAX_HYDRATION;
         level_trigger_warp(gMarioState, WARP_OP_DESERT_ENDING);
     }
 

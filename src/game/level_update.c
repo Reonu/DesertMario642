@@ -941,6 +941,9 @@ void initiate_delayed_warp(void) {
 
                 case WARP_OP_DESERT_ENDING:
                     gInstantWarpCounter = 0;
+                    gMarioState->health = 0x880;
+                    gMarioState->batteryMeter = MAX_BATTERIES;
+                    gMarioState->hydrationMeter = MAX_HYDRATION;
                     initiate_warp(LEVEL_VEGAS_ENDING, 1, 0x0A, 0);
                     break;
 

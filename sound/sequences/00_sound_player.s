@@ -7999,12 +7999,13 @@ chan_setenvelope .envelope_stream
 chan_setval 47
 chan_call .set_reverb
 chan_setlayer 0, .layer_bus_vengabeep
+chan_setlayer 1, .layer_bus_vengabeep
 chan_end
 
 .layer_bus_vengabeep:
 layer_somethingon
 .layer_bus_vengabeep_loop:
-layer_note1 39, 0x153, 127
+layer_note1 39, 0x153, 95
 layer_jump .layer_bus_vengabeep_loop
 
 
@@ -8042,6 +8043,7 @@ chan_setenvelope .envelope_vengamusic
 chan_setval 18
 chan_call .set_reverb
 chan_setlayer 0, .layer_vengamusic
+chan_setlayer 1, .layer_vengamusic
 chan_end
 
 .layer_vengamusic:
