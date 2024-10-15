@@ -1360,4 +1360,6 @@ os16112*/
 #define /*0x108*/ oLakituAppearTimer          OBJECT_FIELD_S32(0x20)
 #define /*0x108*/ oLakituDisappearTimer       OBJECT_FIELD_S32(0x20)
 
+#define           oGlobePrice                 OBJECT_FIELD_S16(0x20, 0)
+
 #endif // OBJECT_FIELDS_H

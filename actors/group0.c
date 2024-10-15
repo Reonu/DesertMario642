@@ -75,3 +75,6 @@
 #include "lakitu_custom/model.inc.c"
 #include "lakitu_custom/anims/data.inc.c"
 #include "lakitu_custom/anims/table.inc.c"
+#include "globe/model.inc.c"
+#include "globe/anims/data.inc.c"
+#include "globe/anims/table.inc.c"

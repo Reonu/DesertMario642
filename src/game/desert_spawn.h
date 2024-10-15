@@ -27,3 +27,6 @@ extern void bhv_bus_init(void);
 extern void bhv_bus_loop(void);
 extern void bhv_lakitu_nuh_uh_loop(void);
 extern void bhv_light_emitter_loop(void);
+extern void bhv_globe_init(void);
+extern void bhv_globe_loop(void);
+extern void bhv_globe_set_exclamation_mark(void);

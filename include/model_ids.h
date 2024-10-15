@@ -29,6 +29,7 @@ enum GlobalModelIDs {
     MODEL_BUS,
     MODEL_CACTUS,
     MODEL_LAKITU_CUSTOM,
+    MODEL_GLOBE,
 
     MODEL_ID_COUNT,
 };

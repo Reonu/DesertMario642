@@ -41,3 +41,4 @@
 #include "bus/geo.inc.c"
 #include "cactus/geo.inc.c"
 #include "lakitu_custom/geo.inc.c"
+#include "globe/geo.inc.c"

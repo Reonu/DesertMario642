@@ -562,6 +562,7 @@ extern const BehaviorScript bhvDesertDecorWithHitbox[];
 extern const BehaviorScript bhvLakituNuhUh[];
 extern const BehaviorScript bhvLightEmitter[];
 extern const BehaviorScript bhvStationaryNumber[];
+extern const BehaviorScript bhvGlobe[];
 
 
 #endif // BEHAVIOR_DATA_H

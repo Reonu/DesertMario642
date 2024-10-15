@@ -1435,3 +1435,98 @@ void bhv_light_emitter_loop(void) {
     emit_light(pos, (u8)r, (u8)b, (u8)b, 1, 10, 8, 0);
 
 }
+
+enum GlobeActions {
+    GLOBE_ACT_IDLE,
+    GLOBE_ACT_SHOW_PROMPT,
+    GLOBE_ACT_SPIN,
+    GLOBE_ACT_NOT_ENOUGH_COINS,
+    GLOBE_ACT_SUCCESS,
+};
+
+void bhv_globe_init(void) {
+    o->oAction = GLOBE_ACT_IDLE;
+    o->oGlobePrice = 10;
+}
+
+void bhv_globe_set_exclamation_mark(void) {
+    o->oExclamationMarkObject = spawn_object(o, MODEL_EXCLAMATION_MARK, bhvExclamationMark);
+}
+
+void bhv_globe_idle(void) {
+    if (o->oDistanceToMario < TRIGGER_DIST) {
+        o->oAction = GLOBE_ACT_SHOW_PROMPT;
+    }
+    cur_obj_init_animation(0);
+}
+
+void bhv_globe_show_prompt(void) {
+    gMarioState->inRangeOfWaterSeller = TRUE;
+    char priceText[64];
+    sprintf(priceText, "where you are for %d coins", o->oGlobePrice);
+    print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to find out ", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    print_small_text_at_slot(WATER_TEXT_X_POS, 0, priceText, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    lock_remaining_text_slots();
+    cur_obj_init_animation(0);
+    if (gPlayer1Controller->buttonPressed & B_BUTTON) {
+        gShouldResetStationaryTimer = TRUE;
+        if (gMarioState->numCoins >= o->oGlobePrice) {
+            gMarioState->numCoins -= o->oGlobePrice;
+            o->oGlobePrice = (u16) (o->oGlobePrice * 1.5f);
+            o->oAction = GLOBE_ACT_SPIN;
+        } else {
+            o->oAction = GLOBE_ACT_NOT_ENOUGH_COINS;
+        }
+    }
+    if (o->oDistanceToMario > TRIGGER_DIST) {
+        o->oAction = GLOBE_ACT_IDLE;
+    }
+}
+
+void bhv_globe_spin(void) {
+    cur_obj_init_animation(1);
+    if (cur_obj_check_if_at_animation_end()) {
+        o->oAction = GLOBE_ACT_SUCCESS;
+    }
+    if (o->oExclamationMarkObject != NULL) {
+        mark_obj_for_deletion(o->oExclamationMarkObject);
+    }
+}
+
+void bhv_globe_success(void) {
+    char text[64];
+    u16 progress = (u16) ((gInstantWarpCounter / (f32) INSTANT_WARPS_GOAL) * 100);
+    sprintf(text, "You are %d%% of the way there!", progress);
+    print_small_text_at_slot(20, 0, text, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    if (o->oTimer > 120) {
+        o->oAction = GLOBE_ACT_IDLE;
+    }
+}
+
+void bhv_globe_not_enough_coins(void) {
+    print_small_text_at_slot(20, 0, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    lock_remaining_text_slots();
+    if ((o->oDistanceToMario > TRIGGER_DIST) || (o->oTimer > 45)) {
+        o->oAction = GLOBE_ACT_IDLE;
+    }
+}
+
+void bhv_globe_loop(void) {
+    switch (o->oAction) {
+        case GLOBE_ACT_IDLE:
+            bhv_globe_idle();
+            break;
+        case GLOBE_ACT_SHOW_PROMPT:
+            bhv_globe_show_prompt();
+            break;
+        case GLOBE_ACT_SPIN:
+            bhv_globe_spin();
+            break;
+        case GLOBE_ACT_SUCCESS:
+            bhv_globe_success();
+            break;
+        case GLOBE_ACT_NOT_ENOUGH_COINS:
+            bhv_globe_not_enough_coins();
+            break;
+    }
+}

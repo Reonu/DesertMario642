@@ -6315,3 +6315,18 @@ const BehaviorScript bhvStationaryNumber[] = {
         CALL_NATIVE(bhv_stationary_number_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvGlobe[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, globe_anims),
+    SET_INTERACT_TYPE(INTERACT_TEXT),
+    SET_HITBOX(/*Radius*/ 170, /*Height*/ 200),
+    SET_INT(oIntangibleTimer, 0),
+    CALL_NATIVE(bhv_globe_init),
+    CALL_NATIVE(bhv_globe_set_exclamation_mark),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_globe_loop),
+    END_LOOP(),
+};
+
