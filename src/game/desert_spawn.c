@@ -1435,6 +1435,10 @@ void bhv_light_emitter_loop(void) {
     emit_light(pos, (u8)r, (u8)b, (u8)b, 1, 10, 8, 0);
 
 }
+enum GlobeAnims {
+    GLOBE_ANIM_IDLE,
+    GLOBE_ANIM_SPIN,
+};
 
 enum GlobeActions {
     GLOBE_ACT_IDLE,
@@ -1457,7 +1461,7 @@ void bhv_globe_idle(void) {
     if (o->oDistanceToMario < TRIGGER_DIST) {
         o->oAction = GLOBE_ACT_SHOW_PROMPT;
     }
-    cur_obj_init_animation(0);
+    cur_obj_init_animation(GLOBE_ANIM_IDLE);
 }
 
 void bhv_globe_show_prompt(void) {
@@ -1467,7 +1471,7 @@ void bhv_globe_show_prompt(void) {
     print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to find out ", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
     print_small_text_at_slot(WATER_TEXT_X_POS, 0, priceText, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
     lock_remaining_text_slots();
-    cur_obj_init_animation(0);
+    cur_obj_init_animation(GLOBE_ANIM_IDLE);
     if (gPlayer1Controller->buttonPressed & B_BUTTON) {
         gShouldResetStationaryTimer = TRUE;
         if (gMarioState->numCoins >= o->oGlobePrice) {
@@ -1484,7 +1488,7 @@ void bhv_globe_show_prompt(void) {
 }
 
 void bhv_globe_spin(void) {
-    cur_obj_init_animation(1);
+    cur_obj_init_animation(GLOBE_ANIM_SPIN);
     if (cur_obj_check_if_at_animation_end()) {
         o->oAction = GLOBE_ACT_SUCCESS;
     }
@@ -1499,6 +1503,7 @@ void bhv_globe_success(void) {
     u16 progress = (u16) ((gInstantWarpCounter / (f32) INSTANT_WARPS_GOAL) * 100);
     sprintf(text, "You are %d%% of the way there!", progress);
     print_small_text_at_slot(20, 0, text, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    cur_obj_init_animation(GLOBE_ANIM_IDLE);
     if (o->oTimer > 120) {
         o->oAction = GLOBE_ACT_IDLE;
     }
@@ -1507,6 +1512,7 @@ void bhv_globe_success(void) {
 void bhv_globe_not_enough_coins(void) {
     print_small_text_at_slot(20, 0, "You don't have enough coins!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
     lock_remaining_text_slots();
+    cur_obj_init_animation(GLOBE_ANIM_IDLE);
     if ((o->oDistanceToMario > TRIGGER_DIST) || (o->oTimer > 45)) {
         o->oAction = GLOBE_ACT_IDLE;
     }
