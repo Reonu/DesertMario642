@@ -44,6 +44,7 @@
 #include "actors/sign_normal/geo_header.h"
 #include "levels/desert_intro/header.h"
 #include "game/emutest.h"
+#include "game/obj_behaviors_2.h"
 
 struct DesertSpawnCoords LeftSide = {
     .x = -3000,
@@ -712,6 +713,8 @@ void bhv_angry_sun_init(void) {
     o->oPosX = o->oHomeX;
     
     o->oPosZ = gMarioState->pos[2];
+
+    o->oNumLootCoins = NUM_SUN_CYCLES;
 }
 
 void bhv_angry_sun_loop(void) {
@@ -762,13 +765,16 @@ void bhv_angry_sun_loop(void) {
 
             if (o->oTimer > 30) {
                 gAngrySunPresent = 0;
-                mark_obj_for_deletion(o);
+                o->oHealth = 0;
+                obj_die_if_health_non_positive();
             }
     }
 
     if (o->oDesertTimer > 7) {
         cur_obj_become_tangible();
-        cur_obj_check_interacted();
+        if (cur_obj_check_interacted()) {
+            o->oNumLootCoins--;
+        }
     } else {
         cur_obj_become_intangible();
     }
