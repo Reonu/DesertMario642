@@ -544,7 +544,7 @@ void bhv_koopa_water_seller_idle(void) {
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00-->10<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
@@ -568,7 +568,7 @@ void bhv_koopa_water_seller_offer_water(void) {
 void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for 10 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for <COL_FFFF00-->10<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
@@ -871,6 +871,7 @@ void bhv_jukebox_loop(void) {
         }
         set_background_music(0, seqsToRandomize[debugPlayerIndex].seqId, 0);
         o->oAction = JUKEBOX_ACT_SUCCESS;
+        o->oPrevAction = JUKEBOX_ACT_SUCCESS;
         o->oSubAction = 1;
         o->oTimer = 0;
     } else if (gPlayer1Controller->buttonPressed & R_JPAD) {
@@ -880,6 +881,7 @@ void bhv_jukebox_loop(void) {
         }
         set_background_music(0, seqsToRandomize[debugPlayerIndex].seqId, 0);
         o->oAction = JUKEBOX_ACT_SUCCESS;
+        o->oPrevAction = JUKEBOX_ACT_SUCCESS;
         o->oSubAction = 1;
         o->oTimer = 0;
     }
@@ -893,7 +895,7 @@ void bhv_jukebox_loop(void) {
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
             gMarioState->inRangeOfWaterSeller = TRUE;
-            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for 25 coins", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00-->25<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 gShouldResetStationaryTimer = TRUE;
@@ -925,7 +927,7 @@ void bhv_jukebox_loop(void) {
             o->oAction = JUKEBOX_ACT_SUCCESS;
             break;
         case JUKEBOX_ACT_SUCCESS:
-            if ((o->oTimer > 120)) {
+            if ((o->oTimer >= 120)) {
                 o->oAction = JUKEBOX_ACT_IDLE;
             }
 
@@ -1466,16 +1468,16 @@ void bhv_globe_idle(void) {
 
 void bhv_globe_show_prompt(void) {
     gMarioState->inRangeOfWaterSeller = TRUE;
-    char priceText[64];
-    sprintf(priceText, "where you are for %d coins", o->oGlobePrice);
-    print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to find out ", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    char priceText[48];
+    sprintf(priceText, "for <COL_FFFF00-->%u<COL_--------> coins.", (u16) o->oGlobePrice);
+    print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to find out where you are", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
     print_small_text_at_slot(WATER_TEXT_X_POS, 0, priceText, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
     lock_remaining_text_slots();
     cur_obj_init_animation(GLOBE_ANIM_IDLE);
     if (gPlayer1Controller->buttonPressed & B_BUTTON) {
         gShouldResetStationaryTimer = TRUE;
-        if (gMarioState->numCoins >= o->oGlobePrice) {
-            gMarioState->numCoins -= o->oGlobePrice;
+        if (gMarioState->numCoins >= (u16) o->oGlobePrice) {
+            gMarioState->numCoins -= (u16) o->oGlobePrice;
             o->oGlobePrice = (u16) (o->oGlobePrice * 1.5f);
             o->oAction = GLOBE_ACT_SPIN;
         } else {
@@ -1501,10 +1503,10 @@ void bhv_globe_spin(void) {
 void bhv_globe_success(void) {
     char text[64];
     u16 progress = (u16) ((gInstantWarpCounter / (f32) INSTANT_WARPS_GOAL) * 100);
-    sprintf(text, "You are %d%% of the way there!", progress);
+    sprintf(text, "You are <COL_BF7FDF-->%d%%<COL_--------> of the way there!", progress);
     print_small_text_at_slot(20, 0, text, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
     cur_obj_init_animation(GLOBE_ANIM_IDLE);
-    if (o->oTimer > 120) {
+    if (o->oTimer >= 120) {
         o->oAction = GLOBE_ACT_IDLE;
     }
 }

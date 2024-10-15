@@ -1129,7 +1129,7 @@ s32 play_mode_normal(void) {
 
             if (gMarioStationaryTimer <= STATIONARY_FREAKOUT_TIME && gMarioStationaryTimer >= 0) {
                 gStationaryFirstTime = MAX(gStationaryFirstTime, 1);
-                play_secondary_music(SEQ_SONIC_DROWNING, 0, 127, 1);
+                play_secondary_music(SEQ_SONIC_DROWNING, 0, 0x4E, 1);
                 if (gMarioState->marioObj && gMarioStationaryTimer == STATIONARY_FREAKOUT_TIME) {
                     struct Object *obj = spawn_object(gMarioState->marioObj, MODEL_NUMBER, bhvStationaryNumber);
                     if (obj) {
