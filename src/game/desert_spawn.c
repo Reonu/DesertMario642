@@ -104,9 +104,14 @@ void spawn_butterfly_bombs(void) {
 #define TIER_2_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.25f))
 #define TIER_3_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.40f))
 #define TIER_4_THRESHOLD ((s32)(INSTANT_WARPS_GOAL * 0.55f))
-
+#define FORCE_CREDIT_BILLBOARD 254
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
+
+    if (gInstantWarpCounter == 2) {
+        return FORCE_CREDIT_BILLBOARD;
+    }
+
     if (gInstantWarpSpawnIndex >= TIER_4_THRESHOLD) {
         maxTier = BB_BILLBOARD_END_TIER4;
     } else if (gInstantWarpSpawnIndex >= TIER_3_THRESHOLD) {
@@ -140,7 +145,17 @@ void spawn_billboard(MTRand *rand) {
         model = MODEL_BILLBOARD_VIDEO;
     }
 
-    struct Object *obj = spawn_object_desert(gCurrentObject, 0, model, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0,rand);
+
+    struct Object *obj; 
+
+    if (bparam2 == FORCE_CREDIT_BILLBOARD) {
+        obj = spawn_object_desert(gCurrentObject, 0, MODEL_BILLBOARD_CREDIT, bhvDesertSign, RightSide.x,RightSide.y,RightSide.z,0,rot,0,rand);
+        spawn_object_desert(gCurrentObject, 0, MODEL_BILLBOARD_INSPIRED, bhvDesertSign, LeftSide.x,LeftSide.y,LeftSide.z,0,rot,0,rand);
+    } else {
+        obj = spawn_object_desert(gCurrentObject, 0, model, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0,rand);
+    }
+
+    
     if (obj) {
         obj->oBehParams2ndByte = bparam2;
         SET_BPARAM2(obj->oBehParams, bparam2);

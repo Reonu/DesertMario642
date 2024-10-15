@@ -42,3 +42,5 @@
 #include "cactus/geo.inc.c"
 #include "lakitu_custom/geo.inc.c"
 #include "globe/geo.inc.c"
+#include "billboard_credit/geo.inc.c"
+#include "billboard_inspired_by/geo.inc.c"

@@ -445,4 +445,8 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 
 #include "globe/anim_header.h"
+#include "billboard_credit/geo_header.h"
+
+#include "billboard_inspired_by/geo_header.h"
+
 #endif

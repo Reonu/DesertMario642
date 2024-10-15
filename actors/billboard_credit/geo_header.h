@@ -1,0 +1,14 @@
+extern const GeoLayout billboard_credit_geo[];
+extern u8 billboard_credit_billboard_credits_rgba16[];
+extern u8 billboard_credit_metal_i8_i8[];
+extern u8 billboard_credit_fence_ci4_ci4[];
+extern u8 billboard_credit_fence_ci4_pal_rgba16[];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_1_vtx_cull[8];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_1_vtx_0[86];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_1_vtx_1[44];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_1_vtx_2[229];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_1_vtx_3[12];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_4_vtx_cull[8];
+extern Vtx billboard_credit_sign_billboard_credit_mesh_layer_4_vtx_0[16];
+extern Gfx billboard_credit_sign_billboard_credit_mesh_layer_1[];
+extern Gfx billboard_credit_sign_billboard_credit_mesh_layer_4[];

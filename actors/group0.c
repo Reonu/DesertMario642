@@ -78,3 +78,5 @@
 #include "globe/model.inc.c"
 #include "globe/anims/data.inc.c"
 #include "globe/anims/table.inc.c"
+#include "billboard_credit/model.inc.c"
+#include "billboard_inspired_by/model.inc.c"

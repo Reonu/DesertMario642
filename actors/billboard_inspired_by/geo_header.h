@@ -1,0 +1,14 @@
+extern const GeoLayout billboard_inspired_by_geo[];
+extern u8 billboard_inspired_by_metal_i8_i8[];
+extern u8 billboard_inspired_by_fence_ci4_ci4[];
+extern u8 billboard_inspired_by_fence_ci4_pal_rgba16[];
+extern u8 billboard_inspired_by_inspired_by_rgba16[];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_1_vtx_cull[8];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_1_vtx_0[44];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_1_vtx_1[199];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_1_vtx_2[12];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_1_vtx_3[116];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_4_vtx_cull[8];
+extern Vtx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_4_vtx_0[16];
+extern Gfx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_1[];
+extern Gfx billboard_inspired_by_sign_billboard_credit_001_mesh_layer_4[];

@@ -524,6 +524,9 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
 }
 
 void bhv_desert_sign_init(void) {
+    if (cur_obj_has_model(MODEL_BILLBOARD_CREDIT)) {
+        return;
+    }
     for (s32 i = 0; i < ARRAY_COUNT(videoDMAProps); i++) {
         if (o->oBehParams2ndByte == videoDMAProps[i].billboardId) {
             // bparam4 lets us know video data is active
