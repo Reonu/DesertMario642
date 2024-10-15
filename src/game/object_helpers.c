@@ -426,6 +426,10 @@ struct Object *spawn_object_at_origin(struct Object *parent, UNUSED s32 unusedAr
     obj->parentObj = parent;
     obj->oInstantWarpSpawn = parent->oInstantWarpSpawn;
     obj->oDesertObjValidator = parent->oDesertObjValidator;
+    if (obj_has_behavior(parent, bhvMario)) {
+        obj->oDesertObjValidator = 0x00000001;
+    }
+
     obj->header.gfx.areaIndex = parent->header.gfx.areaIndex;
     obj->header.gfx.activeAreaIndex = parent->header.gfx.areaIndex;
 
