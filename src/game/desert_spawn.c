@@ -1480,7 +1480,7 @@ void render_title_logo(void) {
         textFrame = timer % 90;
         f32 textAlphaPrev = sins((textFrame * 0x8000) / 89);
         s32 textAlpha = (s32) (textAlphaPrev * 255);
-        currentText = (timer / 90) % 3;
+        currentText = ((timer - 90) / 90) % 3;
         print_set_envcolour(255, 255, 255, textAlpha);
         switch (currentText) {
             case 0x00:
