@@ -6294,6 +6294,8 @@ const BehaviorScript bhvLakituNuhUh[] = {
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_ANIMATIONS(oAnimations, lakitu_custom_anims),
     ANIMATE(0),
+    SET_FLOAT(oHomeY, 300),
+    OR_LONG(oDesertObjValidator, 0x00000001),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_lakitu_nuh_uh_loop),
     END_LOOP(),

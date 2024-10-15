@@ -6,6 +6,7 @@
 #include "audio/external.h"
 #include "audio/synthesis.h"
 #include "level_update.h"
+#include "camera.h"
 #include "game_init.h"
 #include "level_update.h"
 #include "main.h"
@@ -1258,62 +1259,92 @@ enum LakituActions {
     LAKITU_ACT_LEAVE,
 };
 
-#define LAKITU_APPEAR_THRESHOLD 150 
+#define LAKITU_APPEAR_THRESHOLD 120 
 #define LAKITU_DISAPPEAR_THRESHOLD 5
 #define LAKITU_ANIMATION_SPEED 0.1f // Speed at which Lakitu moves up and down
 
 void bhv_lakitu_act_invisible(void) {
+    cur_obj_hide();
+
     // Stay very high up, outside the screen
-    o->oPosY = 1000;
+    o->oPosY = 2000.0f;
 
     if (gMarioState->vel[2] > 0 && gMarioState->action != ACT_SPECIAL_KB_BUS) {
-        o->oLakituAppearTimer++;
+        if (o->oLakituStatusTimer == 0) {
+            o->oLakituLastZPos = gMarioState->pos[2];
+            o->oLakituStatusTimer++;
+        } else {
+            if (gInstantWarpDisplacement) {
+                o->oLakituLastZPos += gInstantWarpDisplacement;
+            }
+
+            if (ABS(gMarioState->pos[2] - o->oLakituLastZPos) >= 2000.0f) {
+                o->oAction = LAKITU_ACT_APPEAR;
+                o->oLakituStatusTimer = 0;
+                o->oLakituLastZPos = 0.0f;
+            }
+        }
     } else {
-        o->oLakituAppearTimer = 0;
+        o->oLakituStatusTimer = 0;
     }
-
-    if (o->oLakituAppearTimer > LAKITU_APPEAR_THRESHOLD) {
-        o->oAction = LAKITU_ACT_APPEAR;
-    }
-
-    cur_obj_hide();
-}
-
-void bhv_lakitu_act_appear(void) {
-    // Swoop down from the top of the screen
-    o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, LAKITU_ANIMATION_SPEED);
-    if (absf(o->oPosY - o->oHomeY) < 1.0f) {
-        o->oPosY = o->oHomeY;
-        o->oAction = LAKITU_ACT_STAY;
-    }
-    cur_obj_unhide();
 }
 
 void bhv_lakitu_act_stay(void) {
     // Bop up and down
-    o->oPosY = o->oHomeY + sins(gGlobalTimer * 0x800) * 50.0f;
-    if ((gMarioState->vel[2] < 0) && (gMarioCurrentRoom != 2) && (gMarioState->action != ACT_SPECIAL_KB_BUS)) {
-        o->oLakituDisappearTimer++;
+    o->oPosY = o->oHomeY - sins(o->oTimer * 0x800) * 50.0f;
+    if (gMarioState->vel[2] > 0 || o->oTimer == 0) {
+        o->oLakituLastZPos = gMarioState->pos[2];
     } else {
-        o->oLakituDisappearTimer = 0;
+        if (gInstantWarpDisplacement) {
+            o->oLakituLastZPos += gInstantWarpDisplacement;
+        } 
+        
+        if (ABS(gMarioState->pos[2] - o->oLakituLastZPos) >= 200.0f) {
+            o->oAction = LAKITU_ACT_LEAVE;
+            o->oLakituStatusTimer++;
+        }
     }
 
-    if (o->oLakituDisappearTimer > LAKITU_DISAPPEAR_THRESHOLD) {
+    if (o->oLakituStatusTimer > LAKITU_DISAPPEAR_THRESHOLD) {
         o->oAction = LAKITU_ACT_LEAVE;
+        o->oLakituStatusTimer = 0;
+        o->oLakituLastZPos = 0.0f;
+    }
+}
+
+void bhv_lakitu_act_appear(void) {
+    // Swoop down from the top of the screen
+    o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY - 150.0f, LAKITU_ANIMATION_SPEED);
+    if (o->oPosY < o->oHomeY) {
+        o->oAction = LAKITU_ACT_STAY;
+        o->oPrevAction = LAKITU_ACT_STAY;
+        o->oTimer = 0;
+        bhv_lakitu_act_stay(); // Update on the same frame
     }
 }
 
 void bhv_lakitu_act_disappear(void) {
-    // Swoop up to the top of the screen
-    o->oPosY = approach_f32_asymptotic(o->oPosY, 1000, LAKITU_ANIMATION_SPEED);
-    if (o->oPosY > 999.0f) {
-        o->oPosY = 1000.0f;
+    if (o->oTimer == 0) {
+        o->oVelY = 0;
+    }
+
+    if (o->oTimer < 3) {
+        o->oVelY -= 3;
+    } else {
+        o->oVelY += 5;
+    }
+
+    o->oPosY += o->oVelY;
+    if (o->oPosY >= 2000.0f) {
+        o->oPosY = 2000.0f;
+        o->oVelY = 0;
         o->oAction = LAKITU_ACT_INVISIBLE;
     }
-    cur_obj_unhide();
 }
 
-void bhv_lakitu_nuh_uh_loop(void) {
+void bhv_lakitu_nuh_uh_loop(void) {    
+    cur_obj_unhide();
+
     switch (o->oAction) {
         case LAKITU_ACT_INVISIBLE:
             bhv_lakitu_act_invisible();
@@ -1329,23 +1360,24 @@ void bhv_lakitu_nuh_uh_loop(void) {
             break;
     }
 
-    // face mario
-    o->oFaceAngleYaw = obj_angle_to_object(o, gMarioObject) + 0x8000;
+    s16 angle = atan2s(gLakituState.curPos[2] - o->oPosZ, gLakituState.curPos[0] - o->oPosX) + 0x8000;
+    o->oFaceAngleYaw = approach_s16_asymptotic(o->oFaceAngleYaw, angle, 0.125f);
+    o->oPosX = approach_f32_asymptotic(o->oPosX, gLakituState.curPos[0] - (2500.0f * sins(gLakituState.yaw)), 0.125f);
+    o->oPosZ = approach_f32_asymptotic(o->oPosZ, gLakituState.curPos[2] - (2500.0f * coss(gLakituState.yaw)), 0.125f);
 
     // stay in front of mario
     if (o->oAction != LAKITU_ACT_INVISIBLE) {
-        o->oPosX = gMarioObject->oPosX + sins(gMarioObject->oMoveAngleYaw) * 200.0f;
-        o->oPosZ = gMarioObject->oPosZ + coss(gMarioObject->oMoveAngleYaw) * 200.0f;
-        Vec3f pos = {o->oPosX - sins(o->oMoveAngleYaw) * 100, o->oPosY + 800, o->oPosZ - coss(o->oMoveAngleYaw) * 100};
-        emit_light(pos, 255, 0, 0, 4, 50, 8, 0);
-        
+        f32 intensity = 1.0f - ((o->oPosY - o->oHomeY) / (2000.0f - o->oHomeY));
+        intensity = MIN(intensity, 1.0f);
+        intensity = MAX(intensity, 0.0f);
+        Vec3f pos = {o->oPosX - sins(o->oFaceAngleYaw) * 350, o->oPosY + 800, o->oPosZ - coss(o->oFaceAngleYaw) * 350};
+        emit_light(pos, (255.0f * intensity) + 0.5f, 0, 0, 4, 50, 8, 0);
     }
 
     if (gMarioCurrentRoom == 2 || gMarioState->action == ACT_SPECIAL_KB_BUS) {
         o->oAction = LAKITU_ACT_INVISIBLE;
+        o->oLakituStatusTimer = 0;
     }
-
-    o->oHomeY = 300;
 }
 
 #define WAIT_FRAMES 15

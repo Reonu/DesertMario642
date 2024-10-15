@@ -322,7 +322,7 @@ struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelI
                                          s16 x, s16 y, s16 z, s16 pitch, s16 yaw, s16 roll, MTRand *rand) {
     u32 objectValidator = 0;
     if (rand) {
-        while (objectValidator == 0) {
+        while (objectValidator == 0 || objectValidator == 0x00000001) {
             objectValidator = genRandLong(rand);
         }
 
@@ -2641,8 +2641,9 @@ void warp_desert_objects(void) {
             continue;
         }
 
-        if (!gInstantWarpDisplacement || obj->oDesertObjValidator == 0 || obj->oInstantWarpSpawn == 0
-                    || (obj->oDesertTimer == 0 && gCurrLevelNum != LEVEL_DESERT_INTRO)) {
+        if (!gInstantWarpDisplacement || obj->oDesertObjValidator == 0
+                || (obj->oInstantWarpSpawn == 0 && obj->oDesertObjValidator != 0x00000001)
+                || (obj->oDesertTimer == 0 && gCurrLevelNum != LEVEL_DESERT_INTRO)) {
             continue;
         }
 
@@ -2653,7 +2654,9 @@ void warp_desert_objects(void) {
 
         if ((ABS(gMarioState->pos[2] - obj->oPosZ) > ABS((TILES_IN_FRONT_OR_BEHIND + 1) * gInstantWarpDisplacement))
                     || ABS(gInstantWarpCounter - obj->oInstantWarpSpawn) > MAX_TILES_FROM_SPAWN_TILE) {
-            obj_mark_for_deletion(obj);
+            if (obj->oDesertObjValidator != 0x00000001) {
+                obj_mark_for_deletion(obj);
+            }
         }
     }
 }
