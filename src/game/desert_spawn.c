@@ -1491,6 +1491,7 @@ void bhv_globe_spin(void) {
     if (o->oExclamationMarkObject != NULL) {
         mark_obj_for_deletion(o->oExclamationMarkObject);
     }
+    gShouldResetStationaryTimer = TRUE;
 }
 
 void bhv_globe_success(void) {
