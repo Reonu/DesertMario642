@@ -2434,6 +2434,8 @@ extern s16 gMatStackIndex;
 extern Mat4 gMatStack[32];
 extern Mtx *gMatStackFixed[32];
 #define DISTANCE .95f // the closer to 1 the further away
+#define DAY_MESH 0
+#define NIGHT_MESH 1
 Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) {
     Mat4 mat;
     Mtx *mtx = alloc_display_list(sizeof(*mtx));
@@ -2445,16 +2447,34 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
     objectGraphNode = (struct Object *) gCurGraphNodeObject; 
     u8 mesh = currentGraphNode->parameter;
     static Vec3s rotation = { 0, 0, 0 };
-    if (mesh != 1) {
+    u8 remap_alpha;
+    if (mesh != NIGHT_MESH) {
         rotation[1] += DEGREES(0.01f);
     }
+    if (gUnpausedTimer > (DAY_END - (MINUTE * 30)) && gUnpausedTimer < (DAY_END + (MINUTE * 30))) {
+        remap_alpha = remap(gUnpausedTimer,(DAY_END - (MINUTE * 30)),(DAY_END + (MINUTE * 30)),0,255);
+    } else if (gUnpausedTimer > DAY_END || gUnpausedTimer < DAY_START) {
+        remap_alpha = 255;
+    } else if ((gUnpausedTimer >= DAY_START) && (gUnpausedTimer < (DAY_START + (MINUTE * 30)))) {
+        remap_alpha = remap(gUnpausedTimer,(DAY_START),(DAY_START + (MINUTE * 30)),255,0);
+    } else {
+        remap_alpha = 0;
+    }
+
+    if (remap_alpha == 255 && mesh == DAY_MESH) {
+        return NULL;
+    } else if (remap_alpha == 0 && mesh == NIGHT_MESH) {
+        return NULL;
+    }
+
+    print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
     
     if (callContext == GEO_CONTEXT_RENDER) {
 
         for (i = 0; i < 3; i++) {
             pos[i] = gCurGraphNodeCamera->pos[i]; //* DISTANCE;
         }
-        if (mesh == 1) {
+        if (mesh == NIGHT_MESH) {
             mtxf_translate(mat,pos);
         } else {
             mtxf_rotate_zxy_and_translate(mat, pos, rotation);
@@ -2465,7 +2485,7 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
         gMatStackIndex++;
         mtxf_to_mtx(mtx, gMatStack[gMatStackIndex]);
         gMatStackFixed[gMatStackIndex] = mtx;
-        if (mesh == 1) {
+        if (mesh == NIGHT_MESH) {
             geo_append_display_list(night_bg_a_night_old_mesh, 0); // DL pointer
         } else {
             geo_append_display_list(day_bg_b_clouds_mesh, 0); // DL pointer
