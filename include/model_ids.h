@@ -35,6 +35,7 @@ enum GlobalModelIDs {
     MODEL_ROCK_A,
     MODEL_ROCK_B,
     MODEL_ROCK_C,
+    MODEL_FLYGUY,
 
     MODEL_ID_COUNT,
 };
@@ -572,7 +573,7 @@ enum GlobalModelIDs {
 #define MODEL_METAL_BOX                   0xD9        // metal_box_geo
 #define MODEL_METAL_BOX_DL                0xDA        // metal_box_dl
 #define MODEL_NUMBER                      0xDB        // number_geo
-#define MODEL_FLYGUY                      0xDC        // shyguy_geo
+//#define MODEL_FLYGUY                      0xDC        // shyguy_geo
 #define MODEL_TOAD                        0xDD        // toad_geo
 #define MODEL_PEACH                       0xDE        // peach_geo
 #define MODEL_CHUCKYA                     0xDF        // chuckya_geo

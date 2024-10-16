@@ -1,0 +1,16 @@
+extern const GeoLayout flyguy_geo[];
+extern u8 flyguy_flyguy_face_custom_rgba16_ci8[];
+extern u8 flyguy_flyguy_face_custom_rgba16_pal_rgba16[];
+extern u8 flyguy_leather_ci4_ci4[];
+extern u8 flyguy_leather_ci4_pal_rgba16[];
+extern u8 flyguy_flyguy_propeller_ia16_ia8[];
+extern Vtx flyguy_000_offset_001_mesh_layer_1_vtx_0[88];
+extern Vtx flyguy_000_offset_001_mesh_layer_1_vtx_1[12];
+extern Vtx flyguy_000_offset_001_mesh_layer_1_vtx_2[32];
+extern Vtx flyguy_000_offset_003_mesh_layer_1_vtx_0[17];
+extern Vtx flyguy_000_offset_004_mesh_layer_1_vtx_0[17];
+extern Vtx flyguy_000_offset_005_mesh_layer_4_vtx_0[4];
+extern Gfx flyguy_000_offset_001_mesh_layer_1[];
+extern Gfx flyguy_000_offset_003_mesh_layer_1[];
+extern Gfx flyguy_000_offset_004_mesh_layer_1[];
+extern Gfx flyguy_000_offset_005_mesh_layer_4[];

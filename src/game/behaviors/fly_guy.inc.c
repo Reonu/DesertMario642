@@ -1,4 +1,5 @@
 
+#include "game/level_update.h"
 /**
  * Behavior for bhvFlyGuy.
  */
@@ -71,7 +72,7 @@ static void fly_guy_act_approach_mario(void) {
         if (abs_angle_diff(o->oAngleToMario, o->oFaceAngleYaw) < 0x2000
             && (o->oPosY - gMarioObject->oPosY > 400.0f || o->oDistanceToMario < 400.0f)) {
             // Either shoot fire or lunge
-            if (o->oBehParams2ndByte != FLY_GUY_BP_LUNGES && random_u16() % 2) {
+            if (FALSE) {
                 o->oAction = FLY_GUY_ACT_SHOOT_FIRE;
                 o->oFlyGuyScaleVel = 0.06f;
             } else {
@@ -178,7 +179,6 @@ static void fly_guy_act_shoot_fire(void) {
  */
 void bhv_fly_guy_update(void) {
     // PARTIAL_UPDATE (appears in non-roomed levels)
-
     if (!(o->activeFlags & ACTIVE_FLAG_IN_DIFFERENT_ROOM)) {
         o->oDeathSound = SOUND_OBJ_KOOPA_FLYGUY_DEATH;
 
@@ -213,5 +213,15 @@ void bhv_fly_guy_update(void) {
 
         cur_obj_move_standard(78);
         obj_check_attacks(&sFlyGuyHitbox, o->oAction);
+        o->oHomeX = o->oPosX;
+        o->oHomeY = 300;
+        o->oHomeZ = o->oPosZ;
+
+        if (o->oDistanceToMario > 800.f && (o->oPosZ < gMarioState->pos[2])) {
+            o->oPosY = 300.f;
+            o->oPosZ += 20.f;
+        }
+        copy_mario_x_position(o, 0.055, 800.f);
+        o->oNumLootCoins = 2;
     }
 }

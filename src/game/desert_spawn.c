@@ -237,6 +237,7 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *beh
 #define POKEY_CHANCE 0.07f
 #define KLEPTO_CHANCE 0.045f
 #define SUN_CHANCE 0.02f
+#define FLYGUY_CHANCE 0.025f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 
@@ -320,6 +321,11 @@ void spawn_enemy(MTRand *rand) {
     chanceStorage -= KLEPTO_CHANCE;
     if (chanceStorage < 0) {
         spawn_object_desert(gCurrentObject, 0, MODEL_KLEPTO, bhvKlepto, Road.x,Road.y,Road.z,0,0,0,rand);
+        return;
+    }
+    chanceStorage -= FLYGUY_CHANCE;
+    if (chanceStorage < 0) {
+        spawn_object_desert(gCurrentObject, 0, MODEL_FLYGUY, bhvFlyGuy, Road.x,Road.y,Road.z,0,0,0,rand);
         return;
     }
     chanceStorage -= SUN_CHANCE;
