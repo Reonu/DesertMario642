@@ -458,7 +458,7 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     f32 *weights = gBillboardWeights;
     s32 instantWarpIndex = ((gInstantWarpSpawnIndex % INSTANT_WARPS_GOAL) + INSTANT_WARPS_GOAL) % INSTANT_WARPS_GOAL; // handles negative numbers
     struct BBHistory *hist = &gBillboardHistory[instantWarpIndex];
-    u32 newSeed = genRandLong(rand);
+    MTRand newRand = *rand;
 
     if (gInstantWarpSpawnIndex <= 0) {
         weights = gBillboardWeightsBackwards;
@@ -471,7 +471,6 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
         }
     }
 
-    MTRand newRand = seedRand(newSeed);
     f32 weightTotal = 0.0f;
     f32 currentWeight = 0.0f;
     f32 generatedWeight = genRand(&newRand);
@@ -482,8 +481,9 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
 
         // If weight is below 0, effectively exclude it from the possible selection pool
         // Also skip if video is already active and video is selected.
-        if (weights[index] > 0.0f && (gVideoIndex < 0 || get_desert_sign_video_id(index) < 0))
+        if (weights[index] > 0.0f && (gVideoIndex < 0 || get_desert_sign_video_id(index) < 0)) {
             weightTotal += weights[index];
+        }
     }
 
     if (weightTotal > 0.0f) {
@@ -492,12 +492,14 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
         for (index = 0; index < lastBillboard - 1; index++) { // lastBillboard - 1 not an accident
             // If weight is below 0, skip the index. This in theory should never favor the last unprocessed index if that falls below 0.
             // Also skip if video is already active and video is selected.
-            if (weights[index] <= 0.0f || !(gVideoIndex < 0 || get_desert_sign_video_id(index) < 0))
+            if (weights[index] <= 0.0f || !(gVideoIndex < 0 || get_desert_sign_video_id(index) < 0)) {
                 continue;
+            }
 
             currentWeight += weights[index];
-            if (currentWeight >= generatedWeight)
+            if (currentWeight >= generatedWeight) {
                 break;
+            }
         }
 
         // This in theory should never happen!
@@ -524,7 +526,7 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
 }
 
 void bhv_desert_sign_init(void) {
-    if (cur_obj_has_model(MODEL_BILLBOARD_CREDIT)) {
+    if (cur_obj_has_model(MODEL_BILLBOARD_INSPIRED) || cur_obj_has_model(MODEL_BILLBOARD_CREDIT)) {
         return;
     }
     for (s32 i = 0; i < ARRAY_COUNT(videoDMAProps); i++) {
@@ -580,6 +582,10 @@ void bhv_desert_sign_init(void) {
 }
 
 void bhv_desert_sign_loop(void) {
+    if (cur_obj_has_model(MODEL_BILLBOARD_INSPIRED) || cur_obj_has_model(MODEL_BILLBOARD_CREDIT)) {
+        return;
+    }
+
     if (BPARAM4 != BB_TYPE_VIDEO || gSafeToLoadVideo != VIDEO_SAFETY_SAFE) {
         return;
     }

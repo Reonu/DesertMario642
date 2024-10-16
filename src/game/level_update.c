@@ -1123,7 +1123,7 @@ s32 play_mode_normal(void) {
 #endif
     }
 
-    if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= 2) {
+    if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= TILES_IN_FRONT_OR_BEHIND + 2) {
         f32 distance;
         vec3f_get_dist(lastMarioPos, gMarioState->pos, &distance);
 
