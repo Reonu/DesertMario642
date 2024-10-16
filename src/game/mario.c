@@ -1812,6 +1812,7 @@ void recover_battery(s32 amt) {
 extern void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags);
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
+    static u16 healingTimer;
 
     // Updates once per frame:
     vec3f_get_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
@@ -1888,6 +1889,15 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
     if (gMarioState->isDead) {
         print_small_text_at_slot(WATER_TEXT_X_POS, 0, "You have died. Restart the game.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
+    }
+
+    if (gMarioState->health < 0x800 && gMarioState->hydrationMeter > 0) {
+        healingTimer++;
+        if ((healingTimer % 900) == 0) {
+            gMarioState->healCounter = 4;
+        }
+    } else {
+        healingTimer = 0;
     }
 
     if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= INSTANT_WARPS_GOAL) {
