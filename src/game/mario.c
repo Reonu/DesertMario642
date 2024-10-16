@@ -1851,11 +1851,16 @@ void render_fallback_menu(void) {
 #define WORLD_EDGE_PLUS_Z 3000
 #define THRESHOLD_PLUS_Z 2000
 #define MAX_PUSHING_FORCE 90
+#ifdef DESERT_DEBUG
+extern void update_bb_count(void);
+#endif
 extern void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags);
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
     static u16 healingTimer;
-
+    #ifdef DESERT_DEBUG
+    update_bb_count();
+    #endif
     // Updates once per frame:
     vec3f_get_dist_and_angle(gMarioState->prevPos, gMarioState->pos, &gMarioState->moveSpeed, &gMarioState->movePitch, &gMarioState->moveYaw);
     vec3f_get_lateral_dist(gMarioState->prevPos, gMarioState->pos, &gMarioState->lateralSpeed);

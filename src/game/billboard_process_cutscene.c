@@ -456,7 +456,7 @@ void framebuffer_copy(RGBA16 *fbAddr) {
     #undef y1
 }
 
-/*
+#ifdef DESERT_DEBUG
 static u8 billboardsSeen[BB_BILLBOARD_END];
 static u8 videosSeen[BB_VIDEO_COUNT] = {[0] = TRUE, [1 ... BB_VIDEO_COUNT - 1] = FALSE};
 
@@ -479,7 +479,7 @@ void update_bb_count(void) {
     print_text_fmt_int(16, 32, "%d", bbs);
     print_text_fmt_int(16, 16, "%d", videos);
 }
-*/
+#endif
 
 struct BBHistory {
     s32 instantWarpId;
@@ -558,12 +558,12 @@ s32 generate_weighted_billboard(MTRand *rand, s32 lastBillboard) {
     // Update history entry, as we have just generated a new one
     hist->billboardId = index;
     hist->instantWarpId = gInstantWarpSpawnIndex;
-/*
+#ifdef DESERT_DEBUG
     billboardsSeen[index] = TRUE;
     if (get_desert_sign_video_id(index) >= 0) {
         videosSeen[get_desert_sign_video_id(index)] = TRUE;
     }
-*/
+#endif
     return index;
 }
 

@@ -233,15 +233,15 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *beh
 }
 
 
-#define GOOMBA_CHANCE 0.10f
+#define GOOMBA_CHANCE 0.11f
 #define POKEY_CHANCE 0.07f
-#define KLEPTO_CHANCE 0.03f
+#define KLEPTO_CHANCE 0.045f
 #define SUN_CHANCE 0.02f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 
 #define BILLBOARD_CHANCE 0.05f
-#define UFO_CHANCE 0.01f
+#define UFO_CHANCE 0.003f
 #define HOUSE_CHANCE 0.01f
 
 #define BUSH_CHANCE 0.25f
