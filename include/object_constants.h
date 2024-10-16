@@ -2736,5 +2736,8 @@ enum gCutsceneObjSpawns {
 
 #define INSTANT_WARPS_GOAL 2950
 
+#define TILES_IN_FRONT_OR_BEHIND 2
+#define MAX_TILES_FROM_SPAWN_TILE 6
+
 #define WATER_TEXT_X_POS 20
 #endif // OBJECT_CONSTANTS_H

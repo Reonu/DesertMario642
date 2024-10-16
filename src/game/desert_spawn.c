@@ -109,10 +109,6 @@ void spawn_butterfly_bombs(void) {
 u16 decide_billboard_model_id(MTRand *rand) {
     u16 maxTier;
 
-    if (gInstantWarpCounter == 2) {
-        return FORCE_CREDIT_BILLBOARD;
-    }
-
     if (gInstantWarpSpawnIndex >= TIER_4_THRESHOLD) {
         maxTier = BB_BILLBOARD_END_TIER4;
     } else if (gInstantWarpSpawnIndex >= TIER_3_THRESHOLD) {
@@ -128,7 +124,6 @@ u16 decide_billboard_model_id(MTRand *rand) {
 
 void spawn_billboard(MTRand *rand) {
     u8 isRight;
-    u8 bparam2;
     u16 rot;
     ModelID32 model = MODEL_BILLBOARD_IMAGE;
     struct DesertSpawnCoords spawnCoords = decide_left_or_right(rand);
@@ -140,23 +135,24 @@ void spawn_billboard(MTRand *rand) {
         rot = DEGREES(45);
     }
 
-    bparam2 = decide_billboard_model_id(rand);
+    if (gInstantWarpSpawnIndex == TILES_IN_FRONT_OR_BEHIND + 1) {
+        spawn_object_desert(gCurrentObject, 0, MODEL_BILLBOARD_CREDIT, bhvDesertSign, RightSide.x,RightSide.y,RightSide.z,0,rot,0,rand);
+        spawn_object_desert(gCurrentObject, 0, MODEL_BILLBOARD_INSPIRED, bhvDesertSign, LeftSide.x,LeftSide.y,LeftSide.z,0,rot,0,rand);
+
+        return;
+    } else if (ABS(gInstantWarpSpawnIndex) < (TILES_IN_FRONT_OR_BEHIND + 1) + (TILES_IN_FRONT_OR_BEHIND + 1)) {
+        return;
+    }
+    
+    u8 bparam2 = decide_billboard_model_id(rand);
 
     if (get_desert_sign_video_id(bparam2) >= 0) {
         model = MODEL_BILLBOARD_VIDEO;
     }
 
+    struct Object *obj;
+    obj = spawn_object_desert(gCurrentObject, 0, model, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0,rand);
 
-    struct Object *obj; 
-
-    if (bparam2 == FORCE_CREDIT_BILLBOARD) {
-        obj = spawn_object_desert(gCurrentObject, 0, MODEL_BILLBOARD_CREDIT, bhvDesertSign, RightSide.x,RightSide.y,RightSide.z,0,rot,0,rand);
-        spawn_object_desert(gCurrentObject, 0, MODEL_BILLBOARD_INSPIRED, bhvDesertSign, LeftSide.x,LeftSide.y,LeftSide.z,0,rot,0,rand);
-    } else {
-        obj = spawn_object_desert(gCurrentObject, 0, model, bhvDesertSign, spawnCoords.x,spawnCoords.y,spawnCoords.z,0,rot,0,rand);
-    }
-
-    
     if (obj) {
         obj->oBehParams2ndByte = bparam2;
         SET_BPARAM2(obj->oBehParams, bparam2);
@@ -375,13 +371,18 @@ void bhv_desert_spawner_loop(void) {
             for (u32 i = 0; i < numSmall; i++) {
                 spawn_small_decoration(&newSeed);
             }
-            spawn_big_decoration(&newSeed);
+            if (gInstantWarpSpawnIndex == TILES_IN_FRONT_OR_BEHIND + 1) {
+                spawn_billboard(&newSeed);
+            } else {
+                spawn_big_decoration(&newSeed);
+            }
             spawn_enemy(&newSeed);
         }
 
         if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && sBusAlreadySpawned < 2 && (gInstantWarpCounter % GAS_STATION_SPAWN_INTERVAL != 0) && (gMarioCurrentRoom != 2) // No gas station
                     && (gUnpausedTimer > (DAY_END + (HOUR * 2)) || gUnpausedTimer < (DAY_START - (HOUR * 2)))) { // Force nighttime spawn
-        MTRand newSeed2 = seedRand(genRandLong(&newSeed));
+            
+            MTRand newSeed2 = newSeed;
             if (sBusAlreadySpawned == 1) {
                 if (find_first_object_with_behavior_and_bparams(bhvBus, 0, 0) == NULL) {
                     sBusAlreadySpawned = 0;

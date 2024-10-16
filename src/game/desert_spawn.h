@@ -2,9 +2,6 @@
 
 #include "types.h"
 
-#define TILES_IN_FRONT_OR_BEHIND 2
-#define MAX_TILES_FROM_SPAWN_TILE 6
-
 extern void bhv_desert_spawner_init(void);
 extern void bhv_desert_spawner_loop(void);
 extern void bhv_desert_spawn_intro_init(void);
