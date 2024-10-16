@@ -1079,24 +1079,41 @@ void mode_8_directions_camera(struct Camera *c) {
     if (gMarioState->action != ACT_UNPROCESSED) {
         radial_camera_input(c);
 
+        if (gPlayer1Controller->buttonPressed & U_JPAD) {
+            gStatusDisplayCounter = 120;
+            gMusicLastUpdated = FALSE;
+            gCameraSpeed++;
+            if (gCameraSpeed > 5) {
+                gCameraSpeed = 5;
+            }
+        } else if (gPlayer1Controller->buttonPressed & D_JPAD) {
+            gStatusDisplayCounter = 120;
+            gMusicLastUpdated = FALSE;
+            gCameraSpeed--;
+            if (gCameraSpeed < 1) {
+                gCameraSpeed = 1;
+            }
+        }
+
         if (gPlayer1Controller->buttonPressed & R_JPAD) {
             s8DirModeYawOffset += DEGREES(45);
             if (gMarioCurrentRoom == 2) {
                 snap_to_45_degrees(s8DirModeYawOffset);
             }
             play_sound_cbutton_side();
-        }
-        if (gPlayer1Controller->buttonPressed & L_JPAD) {
+        } else if (gPlayer1Controller->buttonPressed & L_JPAD) {
             s8DirModeYawOffset -= DEGREES(45);
             if (gMarioCurrentRoom == 2) {
                 snap_to_45_degrees(s8DirModeYawOffset);
             }
             play_sound_cbutton_side();
-        } else if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
-            s8DirModeYawOffset -= DEGREES(8);
+        }
+        
+        if (gPlayer1Controller->buttonDown & L_CBUTTONS) {
+            s8DirModeYawOffset -= DEGREES(gCameraSpeed * 2);
         }
         else if (gPlayer1Controller->buttonDown & R_CBUTTONS) {
-            s8DirModeYawOffset += DEGREES(8);
+            s8DirModeYawOffset += DEGREES(gCameraSpeed * 2);
         }
 #ifdef PARALLEL_LAKITU_CAM
         // extra functionality

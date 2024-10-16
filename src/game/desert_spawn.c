@@ -1107,6 +1107,8 @@ enum TutorialSteps {
     TUTORIAL_WATER_START,
     TUTORIAL_WATER_END,
     TUTORIAL_MUSIC,
+    TUTORIAL_CAMERA_1,
+    TUTORIAL_CAMERA_2,
     TUTORIAL_STATIONARY_START,
     TUTORIAL_STATIONARY_END,
     TUTORIAL_FLASHLIGHT_START,
@@ -1120,6 +1122,10 @@ void choose_tutorial(void) {
     } else if (gWaterTutorialProgress == 1) {
         sCurrentTutorial = TUTORIAL_WATER_END;
     } else if (gWaterTutorialProgress == 2) {
+        sCurrentTutorial = TUTORIAL_CAMERA_1;
+    } else if (gWaterTutorialProgress == 3) {
+        sCurrentTutorial = TUTORIAL_CAMERA_2;
+    } else if (gWaterTutorialProgress == 4) {
         sCurrentTutorial = TUTORIAL_MUSIC;
     } else if (gStationaryFirstTime == 1) {
         sCurrentTutorial = TUTORIAL_STATIONARY_START;
@@ -1159,7 +1165,33 @@ void run_tutorial(void) {
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "If you run out of water, you can", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "buy more at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
-            if (uTutorialTimer++ >= 180) {
+            if (uTutorialTimer++ >= 210) {
+                gWaterTutorialProgress++;
+                uTutorialTimer = 0;
+            } else {
+                alpha = 255;
+            }
+            break;
+        case TUTORIAL_CAMERA_1:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "The game's camera may be maneuvered", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "and adjusted using the <COL_3FFFFF-->D-Pad<COL_-------->.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
+            if (uTutorialTimer++ >= 210) {
+                gWaterTutorialProgress++;
+                uTutorialTimer = 0;
+            } else {
+                alpha = 255;
+            }
+            break;
+        case TUTORIAL_CAMERA_2:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "<COL_3FFFFF-->D-Pad Up/Down<COL_--------> adjusts the sensitivity.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "<COL_3FFFFF-->D-Pad Left/Right<COL_--------> rotates by 90 degrees.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
+            if (uTutorialTimer++ >= 210) {
                 gWaterTutorialProgress++;
                 uTutorialTimer = 0;
             } else {
@@ -1173,9 +1205,9 @@ void run_tutorial(void) {
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "game's background music, it may be muted", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "by pressing the <COL_BFBF00-->START<COL_--------> button.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
-            if (uTutorialTimer++ >= 120) {
-                alpha = remap(uTutorialTimer, 120, 180, 255, 0);
-                if (uTutorialTimer >= 180) {
+            if (uTutorialTimer++ >= 150) {
+                alpha = remap(uTutorialTimer, 150, 210, 255, 0);
+                if (uTutorialTimer >= 210) {
                     gWaterTutorialProgress++;
                     uTutorialTimer = 0;
                 }
@@ -1209,9 +1241,9 @@ void run_tutorial(void) {
                 print_small_text_at_slot(WATER_TEXT_X_POS, 0 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "around.  Do not lose sight of the end goal!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
                 lock_remaining_text_slots();
             }
-            if (uTutorialTimer++ >= 120) {
-                alpha = remap(uTutorialTimer, 120, 180, 255, 0);
-                if (uTutorialTimer >= 180) {
+            if (uTutorialTimer++ >= 150) {
+                alpha = remap(uTutorialTimer, 150, 210, 255, 0);
+                if (uTutorialTimer >= 210) {
                     gStationaryFirstTime++;
                     uTutorialTimer = 0;
                 }
@@ -1237,9 +1269,9 @@ void run_tutorial(void) {
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Your flashlight needs batteries.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             print_small_text_at_slot(WATER_TEXT_X_POS, 0, "You can buy batteries at a gas station.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
-            if (uTutorialTimer++ >= 120) {
-                alpha = remap(uTutorialTimer, 120, 180, 255, 0);
-                if (uTutorialTimer >= 180) {
+            if (uTutorialTimer++ >= 150) {
+                alpha = remap(uTutorialTimer, 150, 210, 255, 0);
+                if (uTutorialTimer >= 210) {
                     gNightFirstTime++;
                     uTutorialTimer = 0;
                 }

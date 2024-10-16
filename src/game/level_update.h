@@ -114,6 +114,9 @@ extern s16 sDelayedWarpTimer;
 extern s16 sSourceWarpNodeId;
 extern s32 sDelayedWarpArg;
 extern s8 sTimerRunning;
+extern u32 gStatusDisplayCounter;
+extern u32 gMusicLastUpdated;
+extern s32 gCameraSpeed;
 
 struct HudDisplay {
     /*0x00*/ s16 lives;

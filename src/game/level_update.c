@@ -147,6 +147,9 @@ s8 sTimerRunning;
 s8 gNeverEnteredCastle;
 // Prevent multiple 100 coin stars from spawning
 u8 g100CoinStarSpawned = FALSE;
+u32 gStatusDisplayCounter = 0;
+u32 gMusicLastUpdated = FALSE;
+s32 gCameraSpeed = 3;
 
 struct MarioState *gMarioState = &gMarioStates[0];
 s8 sWarpCheckpointActive = FALSE;
@@ -1064,7 +1067,6 @@ void basic_update(void) {
 }
 
 s32 play_mode_normal(void) {
-    static u8 musicDisplayCounter = 0;
     Vec3f lastMarioPos;
 
 #ifndef DISABLE_DEMO
@@ -1178,25 +1180,47 @@ s32 play_mode_normal(void) {
     
     if (gMarioState->action != ACT_UNPROCESSED && gPlayer1Controller->buttonPressed & START_BUTTON) {
         gBGMusicActive ^= TRUE;
-        musicDisplayCounter = 120;
+        gStatusDisplayCounter = 120;
+        gMusicLastUpdated = TRUE;
     }
 
-    if (musicDisplayCounter > 0) {
+    if (gStatusDisplayCounter > 0) {
         static u8 alpha;
-        if (musicDisplayCounter > 45) {
+        if (gStatusDisplayCounter > 45) {
             alpha = 255;
         } else {
-            alpha = remap(musicDisplayCounter, 45, 0, 255, 0);
+            alpha = remap(gStatusDisplayCounter, 45, 0, 255, 0);
         }
-        musicDisplayCounter--;
+        gStatusDisplayCounter--;
         bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
         print_set_envcolour(255, 255, 255, alpha);
-        if (gBGMusicActive) {
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music: <COL_FF3F3F-->UNMUTED<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        if (gMusicLastUpdated) {
+            if (gBGMusicActive) {
+                print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music: <COL_FF3F3F-->UNMUTED<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            } else {
+                print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music: <COL_FF3F3F-->MUTED<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            }
+            lock_remaining_text_slots();
         } else {
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Background music: <COL_FF3F3F-->MUTED<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            switch (gCameraSpeed) {
+                case 1:
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Camera Speed: <COL_FFFF1F-->VERY SLOW<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                    break;
+                case 2:
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Camera Speed: <COL_FFFF1F-->SLOW<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                    break;
+                case 3:
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Camera Speed: <COL_FFFF1F-->NORMAL<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                    break;
+                case 4:
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Camera Speed: <COL_FFFF1F-->FAST<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                    break;
+                case 5:
+                    print_small_text_at_slot(WATER_TEXT_X_POS, 0, "Camera Speed: <COL_FFFF1F-->VERY FAST<COL_-------->", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                    break;
+            }
+            lock_remaining_text_slots();
         }
-        lock_remaining_text_slots();
     }
 
     return FALSE;
