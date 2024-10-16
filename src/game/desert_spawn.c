@@ -240,7 +240,7 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *beh
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 
-#define BILLBOARD_CHANCE 0.075f
+#define BILLBOARD_CHANCE 0.05f
 #define UFO_CHANCE 0.01f
 #define HOUSE_CHANCE 0.01f
 
@@ -361,7 +361,7 @@ void bhv_desert_spawner_loop(void) {
             return; // Do not generate anything at the start of the run, as it doesn't when you're initially spawned either
         }
 
-        MTRand firstRand = seedRand(gInstantWarpSpawnIndex);
+        MTRand firstRand = seedRand(gInstantWarpSpawnIndex + 0x80000000);
         u32 actualSeed = genRandLong(&firstRand);
         MTRand newSeed = seedRand(actualSeed);
         u32 numSmall = random_in_range(&newSeed, 5);
