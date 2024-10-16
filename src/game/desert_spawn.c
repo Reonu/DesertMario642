@@ -1189,7 +1189,7 @@ void run_tutorial(void) {
             bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
             print_set_envcolour(255, 255, 255, alpha);
             print_small_text_at_slot(WATER_TEXT_X_POS, 1, "<COL_3FFFFF-->D-Pad Up/Down<COL_--------> adjusts the sensitivity.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "<COL_3FFFFF-->D-Pad Left/Right<COL_--------> rotates by 90 degrees.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "<COL_3FFFFF-->D-Pad Left/Right<COL_--------> rotates by 45 degrees.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (uTutorialTimer++ >= 210) {
                 gWaterTutorialProgress++;
