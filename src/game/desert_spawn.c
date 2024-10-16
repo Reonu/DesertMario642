@@ -46,6 +46,9 @@
 #include "game/emutest.h"
 #include "game/obj_behaviors_2.h"
 
+u8 sRockSpawned = 0;
+u8 sCactusSpawned = 0;
+
 struct DesertSpawnCoords LeftSide = {
     .x = -3000,
     .y = 0,
@@ -274,14 +277,16 @@ void spawn_small_decoration(MTRand *rand) {
         return;
     }    
     chanceStorage -= CACTUS_CHANCE;
-    if (chanceStorage < 0) {
+    if (chanceStorage < 0 && !sCactusSpawned) {
         spawn_decor_and_rotate(rand, MODEL_CACTUS, bhvDesertDecorWithHitbox, RANDOM_ROTATION, -1800);
+        sCactusSpawned = 1;
         return;
     }
     chanceStorage -= ROCK_CHANCE;
-    if (chanceStorage < 0) {
+    if (chanceStorage < 0 && !sRockSpawned) {
         u16 model = decide_rock_modeL_id(rand);
         spawn_decor_and_rotate(rand, model, bhvDesertDecorWithBigHitbox, RANDOM_ROTATION, -1800);
+        sRockSpawned = 1;
         return;
     }
 }
@@ -359,6 +364,8 @@ void bhv_desert_spawner_loop(void) {
             // Only spawn small decorations past the goal
             for (u32 i = 0; i < numSmall; i++) {
                 spawn_small_decoration(&newSeed);
+                sRockSpawned = 0;
+                sCactusSpawned = 0;
             }
             return;
         }
@@ -370,6 +377,8 @@ void bhv_desert_spawner_loop(void) {
         } else {
             for (u32 i = 0; i < numSmall; i++) {
                 spawn_small_decoration(&newSeed);
+                sRockSpawned = 0;
+                sCactusSpawned = 0;
             }
             if (gInstantWarpSpawnIndex == TILES_IN_FRONT_OR_BEHIND + 1) {
                 spawn_billboard(&newSeed);
