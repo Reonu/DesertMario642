@@ -1796,7 +1796,43 @@ void recover_battery(s32 amt) {
     gMarioState->batteryMeter += amt;
     if (gMarioState->batteryMeter > MAX_BATTERIES) gMarioState->batteryMeter = MAX_BATTERIES;
 }
+#ifdef SIMPLEFLIPS_FALLBACK
+u8 sPercentage = 0;
+void warp_mario_to_destination(u16 destination) {
+    if (gInstantWarpCounter < (destination * INSTANT_WARPS_GOAL / 100)) {
+            gMarioState->pos[2] = -20000.0f;
+    }
+}
 
+void render_fallback_menu(void) {
+    static u8 active;
+    print_text_fmt_int(20, 20, "ENTER PERCENTAGE: %d", sPercentage);
+    if (gPlayer1Controller->buttonDown & L_JPAD) {
+        sPercentage -= 1;
+    } else if (gPlayer1Controller->buttonDown & R_JPAD) {
+        sPercentage += 1;
+    }
+    if (!active) {
+        print_text(20, 40, "START TO CONFIRM");
+    } else {
+        print_text(20, 40, "START TO CANCEL");
+    }
+    u16 progress = (u16) ((gInstantWarpCounter / (f32) INSTANT_WARPS_GOAL) * 100);
+    print_text(20,60, "DPAD DOWN TO CLOSE");
+    print_text_fmt_int(20, 100, "CURRENT PROGRESS: %d",progress );
+    
+    if (gPlayer1Controller->buttonPressed & START_BUTTON) {
+        active ^= 1;
+    }
+
+    if (active) {
+        warp_mario_to_destination(sPercentage);
+        gSimpleflipsFallbackHappening = 1;
+    } else {
+        gSimpleflipsFallbackHappening = 0;
+    }
+}
+#endif
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1850,7 +1886,22 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             set_mario_action(gMarioState, ACT_DRINKING_WATER_FAIL, 1);
         }
     }
+#ifdef SIMPLEFLIPS_FALLBACK
+    static u16 fallbackCounter;
+    if (gPlayer1Controller->buttonDown & R_TRIG && gPlayer1Controller->buttonDown & L_TRIG && gPlayer1Controller->buttonDown & A_BUTTON && gPlayer1Controller->buttonDown & U_JPAD) {
+        fallbackCounter++;
+    } else if (fallbackCounter < 60){
+        fallbackCounter = 0;
+    }
 
+    if (fallbackCounter > 60) {
+        render_fallback_menu();
+        if (gPlayer1Controller->buttonPressed & D_JPAD) {
+            fallbackCounter = 0;
+            gSimpleflipsFallbackHappening = 0;
+        }
+    }
+#endif
     if ((gPlayer1Controller-> buttonPressed & L_TRIG) && (gMarioState->action != ACT_DRINKING_WATER) && (gMarioState->action != ACT_DRINKING_WATER_FAIL)) {
         if ((gMarioState->batteryMeter > 0) && (gNightFirstTime > 0)) {
             gMarioState->flashlightOn ^= 1;
@@ -1985,14 +2036,14 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
     }
 #ifdef DESERT_DEBUG
-    static u8 warpCounter = 0;
+    /*static u8 warpCounter = 0;
     if (gPlayer1Controller->buttonDown & L_TRIG) {
         if (warpCounter++ >= 30) {
             level_trigger_warp(gMarioState, WARP_OP_DESERT_ENDING);
         }
     } else {
         warpCounter = 0;
-    }
+    }*/
 #endif
 
     if (gCurrLevelNum == LEVEL_DESERT) {

@@ -97,6 +97,9 @@ u8 gFlashlightTutorialProgress;
 u8 gNightFirstTime;
 u8 gStationaryFirstTime;
 u8 gEnteredGasStationOnce;
+#ifdef SIMPLEFLIPS_FALLBACK
+u8 gSimpleflipsFallbackHappening;
+#endif
 u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;

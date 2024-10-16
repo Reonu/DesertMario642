@@ -324,7 +324,11 @@ void spawn_enemy(MTRand *rand) {
     }
     chanceStorage -= SUN_CHANCE;
     if (chanceStorage < 0) {
+    #ifdef SIMPLEFLIPS_FALLBACK
+        if (!gAngrySunPresent && !gSimpleflipsFallbackHappening) {
+    #else
         if (!gAngrySunPresent) {
+    #endif
             spawn_object_desert(gCurrentObject, 0, MODEL_ANGRY_SUN, bhvAngrySun, Road.x,Road.y,Road.z,0,0,0,rand);
         }
         return;

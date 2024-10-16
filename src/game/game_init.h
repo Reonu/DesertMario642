@@ -74,6 +74,7 @@ extern u8 gFlashlightTutorialProgress;
 extern u8 gNightFirstTime;
 extern u8 gStationaryFirstTime;
 extern u8 gEnteredGasStationOnce;
+extern u8 gSimpleflipsFallbackHappening;
 extern u16 gVisitedAreas;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;

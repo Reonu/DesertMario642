@@ -95,3 +95,5 @@
  * The levelscript needs to have a MARIO_POS command for this to work.
  */
 #define START_LEVEL LEVEL_CASTLE_GROUNDS
+
+#define SIMPLEFLIPS_FALLBACK
