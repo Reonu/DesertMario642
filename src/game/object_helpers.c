@@ -2466,8 +2466,6 @@ Gfx *geo_render_bg(s32 callContext, struct GraphNode *node, UNUSED f32 b[4][4]) 
     } else if (remap_alpha == 0 && mesh == NIGHT_MESH) {
         return NULL;
     }
-
-    print_text_fmt_int(20,80, "ALPHA %d",remap_alpha);
     
     if (callContext == GEO_CONTEXT_RENDER) {
 
