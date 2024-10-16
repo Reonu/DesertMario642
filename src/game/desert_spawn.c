@@ -234,7 +234,7 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *beh
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
 
-#define BILLBOARD_CHANCE 0.08f
+#define BILLBOARD_CHANCE 0.075f
 #define UFO_CHANCE 0.01f
 #define HOUSE_CHANCE 0.01f
 
