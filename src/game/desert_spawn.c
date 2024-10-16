@@ -1486,7 +1486,18 @@ void bhv_lakitu_act_disappear(void) {
     }
 }
 
-void bhv_lakitu_nuh_uh_loop(void) {    
+void bhv_lakitu_nuh_uh_loop(void) {
+#ifdef SIMPLEFLIPS_FALLBACK
+    if (gSimpleflipsFallbackHappening) {
+        o->oPosX = 0.0f;
+        o->oPosY = 2000.0f;
+        o->oPosZ = 0.0f;
+        o->oAction = LAKITU_ACT_INVISIBLE;
+        cur_obj_hide();
+        return;
+    }
+#endif
+
     cur_obj_unhide();
 
     switch (o->oAction) {
