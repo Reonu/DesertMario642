@@ -1922,6 +1922,15 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
             gMarioState->flashlightOn = FALSE;
         }
     }
+    static u16 angrySunTimer;
+    if (gAngrySunPresent) {
+        angrySunTimer++;
+        if (angrySunTimer > (30 * 20)) {
+            gAngrySunPresent = 0;
+        }
+    } else {
+        angrySunTimer = 0;
+    }
 
     if (gWaterBottleStolen) {
         u8 alpha = 0;
