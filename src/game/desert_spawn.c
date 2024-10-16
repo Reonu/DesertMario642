@@ -46,6 +46,8 @@
 #include "game/emutest.h"
 #include "game/obj_behaviors_2.h"
 
+extern void obj_die_if_health_non_positive(void);
+
 u8 sRockSpawned = 0;
 u8 sCactusSpawned = 0;
 
@@ -82,7 +84,11 @@ void spawn_electrical_poles(MTRand *rand) {
 }
 
 void spawn_butterfly_bombs(void) {
-    if (gCurrLevelNum == LEVEL_DESERT && gMarioStationaryTimer < 0) {
+    if (gMarioStationaryTimer >= 0 && gMarioState->health < 0x100) {
+        gShouldResetStationaryTimer = TRUE;
+    }
+
+    if (gCurrLevelNum == LEVEL_DESERT && gMarioStationaryTimer < 0 && gMarioState->health >= 0x100) {
         if (find_first_object_with_behavior_and_bparams(bhvTripletButterflyDesert, 0, 0) == NULL) {
             gInstantWarpType = INSTANT_WARP_FORWARDS;
             s32 bombAngle = random_u16();

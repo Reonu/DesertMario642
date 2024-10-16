@@ -57,6 +57,10 @@ enum ImageDMAIDs {
     BB_IMAGE_SEXY_COWBOY,
     BB_IMAGE_AXOLLYON,
     BB_IMAGE_FURYIOUSFIGHT,
+    BB_IMAGE_BANJO,
+    BB_IMAGE_FAZANA,
+    BB_IMAGE_KAZECOM,
+    BB_IMAGE_SOMEONE,
 
     BB_IMAGE_COUNT,
 };
@@ -70,6 +74,9 @@ enum VideoDMAIDs {
     BB_VIDEO_THE_HORSE,
     BB_VIDEO_BILLWURTZ,
     BB_VIDEO_KAZE_ENDCARD,
+    BB_VIDEO_DACHI,
+    BB_VIDEO_THEISON,
+    BB_VIDEO_ANOLIAH,
 
     BB_VIDEO_COUNT,
 };
@@ -83,3 +90,6 @@ extern const struct DMAImageProps feliz_jeuves_video_data[33];
 extern const struct DMAImageProps the_horse_video_data[28];
 extern const struct DMAImageProps chips_video_data[125];
 extern const struct DMAImageProps kaze_endcard_video_data[324];
+extern const struct DMAImageProps dachi_video_data[140];
+extern const struct DMAImageProps glorpdriveresize_video_data[21];
+extern const struct DMAImageProps BallassBillboard_video_data[68];

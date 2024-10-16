@@ -9,3 +9,6 @@
 #include "the_horse.c.in"
 #include "chips.c.in"
 #include "kaze_endcard.c.in"
+#include "dachi.c.in"
+#include "glorpdriveresize.c.in"
+#include "BallassBillboard.c.in"

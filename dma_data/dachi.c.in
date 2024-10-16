@@ -1,0 +1,563 @@
+ALIGNED16 const Texture dachi_video_data_0001[] = {
+#include "dma_data/dachi_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0002[] = {
+#include "dma_data/dachi_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0003[] = {
+#include "dma_data/dachi_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0004[] = {
+#include "dma_data/dachi_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0005[] = {
+#include "dma_data/dachi_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0006[] = {
+#include "dma_data/dachi_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0007[] = {
+#include "dma_data/dachi_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0008[] = {
+#include "dma_data/dachi_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0009[] = {
+#include "dma_data/dachi_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0010[] = {
+#include "dma_data/dachi_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0011[] = {
+#include "dma_data/dachi_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0012[] = {
+#include "dma_data/dachi_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0013[] = {
+#include "dma_data/dachi_0013.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0014[] = {
+#include "dma_data/dachi_0014.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0015[] = {
+#include "dma_data/dachi_0015.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0016[] = {
+#include "dma_data/dachi_0016.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0017[] = {
+#include "dma_data/dachi_0017.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0018[] = {
+#include "dma_data/dachi_0018.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0019[] = {
+#include "dma_data/dachi_0019.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0020[] = {
+#include "dma_data/dachi_0020.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0021[] = {
+#include "dma_data/dachi_0021.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0022[] = {
+#include "dma_data/dachi_0022.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0023[] = {
+#include "dma_data/dachi_0023.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0024[] = {
+#include "dma_data/dachi_0024.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0025[] = {
+#include "dma_data/dachi_0025.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0026[] = {
+#include "dma_data/dachi_0026.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0027[] = {
+#include "dma_data/dachi_0027.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0028[] = {
+#include "dma_data/dachi_0028.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0029[] = {
+#include "dma_data/dachi_0029.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0030[] = {
+#include "dma_data/dachi_0030.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0031[] = {
+#include "dma_data/dachi_0031.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0032[] = {
+#include "dma_data/dachi_0032.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0033[] = {
+#include "dma_data/dachi_0033.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0034[] = {
+#include "dma_data/dachi_0034.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0035[] = {
+#include "dma_data/dachi_0035.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0036[] = {
+#include "dma_data/dachi_0036.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0037[] = {
+#include "dma_data/dachi_0037.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0038[] = {
+#include "dma_data/dachi_0038.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0039[] = {
+#include "dma_data/dachi_0039.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0040[] = {
+#include "dma_data/dachi_0040.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0041[] = {
+#include "dma_data/dachi_0041.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0042[] = {
+#include "dma_data/dachi_0042.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0043[] = {
+#include "dma_data/dachi_0043.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0044[] = {
+#include "dma_data/dachi_0044.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0045[] = {
+#include "dma_data/dachi_0045.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0046[] = {
+#include "dma_data/dachi_0046.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0047[] = {
+#include "dma_data/dachi_0047.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0048[] = {
+#include "dma_data/dachi_0048.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0049[] = {
+#include "dma_data/dachi_0049.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0050[] = {
+#include "dma_data/dachi_0050.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0051[] = {
+#include "dma_data/dachi_0051.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0052[] = {
+#include "dma_data/dachi_0052.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0053[] = {
+#include "dma_data/dachi_0053.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0054[] = {
+#include "dma_data/dachi_0054.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0055[] = {
+#include "dma_data/dachi_0055.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0056[] = {
+#include "dma_data/dachi_0056.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0057[] = {
+#include "dma_data/dachi_0057.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0058[] = {
+#include "dma_data/dachi_0058.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0059[] = {
+#include "dma_data/dachi_0059.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0060[] = {
+#include "dma_data/dachi_0060.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0061[] = {
+#include "dma_data/dachi_0061.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0062[] = {
+#include "dma_data/dachi_0062.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0063[] = {
+#include "dma_data/dachi_0063.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0064[] = {
+#include "dma_data/dachi_0064.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0065[] = {
+#include "dma_data/dachi_0065.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0066[] = {
+#include "dma_data/dachi_0066.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0067[] = {
+#include "dma_data/dachi_0067.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0068[] = {
+#include "dma_data/dachi_0068.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0069[] = {
+#include "dma_data/dachi_0069.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0070[] = {
+#include "dma_data/dachi_0070.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0071[] = {
+#include "dma_data/dachi_0071.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0072[] = {
+#include "dma_data/dachi_0072.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0073[] = {
+#include "dma_data/dachi_0073.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0074[] = {
+#include "dma_data/dachi_0074.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0075[] = {
+#include "dma_data/dachi_0075.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0076[] = {
+#include "dma_data/dachi_0076.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0077[] = {
+#include "dma_data/dachi_0077.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0078[] = {
+#include "dma_data/dachi_0078.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0079[] = {
+#include "dma_data/dachi_0079.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0080[] = {
+#include "dma_data/dachi_0080.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0081[] = {
+#include "dma_data/dachi_0081.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0082[] = {
+#include "dma_data/dachi_0082.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0083[] = {
+#include "dma_data/dachi_0083.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0084[] = {
+#include "dma_data/dachi_0084.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0085[] = {
+#include "dma_data/dachi_0085.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0086[] = {
+#include "dma_data/dachi_0086.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0087[] = {
+#include "dma_data/dachi_0087.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0088[] = {
+#include "dma_data/dachi_0088.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0089[] = {
+#include "dma_data/dachi_0089.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0090[] = {
+#include "dma_data/dachi_0090.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0091[] = {
+#include "dma_data/dachi_0091.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0092[] = {
+#include "dma_data/dachi_0092.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0093[] = {
+#include "dma_data/dachi_0093.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0094[] = {
+#include "dma_data/dachi_0094.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0095[] = {
+#include "dma_data/dachi_0095.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0096[] = {
+#include "dma_data/dachi_0096.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0097[] = {
+#include "dma_data/dachi_0097.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0098[] = {
+#include "dma_data/dachi_0098.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0099[] = {
+#include "dma_data/dachi_0099.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0100[] = {
+#include "dma_data/dachi_0100.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0101[] = {
+#include "dma_data/dachi_0101.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0102[] = {
+#include "dma_data/dachi_0102.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0103[] = {
+#include "dma_data/dachi_0103.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0104[] = {
+#include "dma_data/dachi_0104.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0105[] = {
+#include "dma_data/dachi_0105.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0106[] = {
+#include "dma_data/dachi_0106.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0107[] = {
+#include "dma_data/dachi_0107.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0108[] = {
+#include "dma_data/dachi_0108.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0109[] = {
+#include "dma_data/dachi_0109.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0110[] = {
+#include "dma_data/dachi_0110.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0111[] = {
+#include "dma_data/dachi_0111.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0112[] = {
+#include "dma_data/dachi_0112.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0113[] = {
+#include "dma_data/dachi_0113.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0114[] = {
+#include "dma_data/dachi_0114.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0115[] = {
+#include "dma_data/dachi_0115.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0116[] = {
+#include "dma_data/dachi_0116.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0117[] = {
+#include "dma_data/dachi_0117.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0118[] = {
+#include "dma_data/dachi_0118.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0119[] = {
+#include "dma_data/dachi_0119.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0120[] = {
+#include "dma_data/dachi_0120.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0121[] = {
+#include "dma_data/dachi_0121.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0122[] = {
+#include "dma_data/dachi_0122.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0123[] = {
+#include "dma_data/dachi_0123.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0124[] = {
+#include "dma_data/dachi_0124.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0125[] = {
+#include "dma_data/dachi_0125.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0126[] = {
+#include "dma_data/dachi_0126.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0127[] = {
+#include "dma_data/dachi_0127.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0128[] = {
+#include "dma_data/dachi_0128.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0129[] = {
+#include "dma_data/dachi_0129.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0130[] = {
+#include "dma_data/dachi_0130.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0131[] = {
+#include "dma_data/dachi_0131.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0132[] = {
+#include "dma_data/dachi_0132.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0133[] = {
+#include "dma_data/dachi_0133.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0134[] = {
+#include "dma_data/dachi_0134.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0135[] = {
+#include "dma_data/dachi_0135.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0136[] = {
+#include "dma_data/dachi_0136.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0137[] = {
+#include "dma_data/dachi_0137.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0138[] = {
+#include "dma_data/dachi_0138.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0139[] = {
+#include "dma_data/dachi_0139.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture dachi_video_data_0140[] = {
+#include "dma_data/dachi_0140.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps dachi_video_data[140] = {
+    {.address = dachi_video_data_0001, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0002, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0003, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0004, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0005, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0006, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0007, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0008, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0009, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0010, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0011, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0012, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0013, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0014, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0015, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0016, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0017, .compressedSize = 0x25F0},
+    {.address = dachi_video_data_0018, .compressedSize = 0x2280},
+    {.address = dachi_video_data_0019, .compressedSize = 0x22B0},
+    {.address = dachi_video_data_0020, .compressedSize = 0x22F0},
+    {.address = dachi_video_data_0021, .compressedSize = 0x2360},
+    {.address = dachi_video_data_0022, .compressedSize = 0x2880},
+    {.address = dachi_video_data_0023, .compressedSize = 0x2660},
+    {.address = dachi_video_data_0024, .compressedSize = 0x2570},
+    {.address = dachi_video_data_0025, .compressedSize = 0x23A0},
+    {.address = dachi_video_data_0026, .compressedSize = 0x21E0},
+    {.address = dachi_video_data_0027, .compressedSize = 0x1F10},
+    {.address = dachi_video_data_0028, .compressedSize = 0x1C70},
+    {.address = dachi_video_data_0029, .compressedSize = 0x17D0},
+    {.address = dachi_video_data_0030, .compressedSize = 0x1470},
+    {.address = dachi_video_data_0031, .compressedSize = 0xF10},
+    {.address = dachi_video_data_0032, .compressedSize = 0x9C0},
+    {.address = dachi_video_data_0033, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0034, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0035, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0036, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0037, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0038, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0039, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0040, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0041, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0042, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0043, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0044, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0045, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0046, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0047, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0048, .compressedSize = 0x2710},
+    {.address = dachi_video_data_0049, .compressedSize = 0x2750},
+    {.address = dachi_video_data_0050, .compressedSize = 0x2770},
+    {.address = dachi_video_data_0051, .compressedSize = 0x27E0},
+    {.address = dachi_video_data_0052, .compressedSize = 0x28C0},
+    {.address = dachi_video_data_0053, .compressedSize = 0x2990},
+    {.address = dachi_video_data_0054, .compressedSize = 0x2C80},
+    {.address = dachi_video_data_0055, .compressedSize = 0x2B70},
+    {.address = dachi_video_data_0056, .compressedSize = 0x2930},
+    {.address = dachi_video_data_0057, .compressedSize = 0x2790},
+    {.address = dachi_video_data_0058, .compressedSize = 0x2490},
+    {.address = dachi_video_data_0059, .compressedSize = 0x2270},
+    {.address = dachi_video_data_0060, .compressedSize = 0x1E80},
+    {.address = dachi_video_data_0061, .compressedSize = 0x1AF0},
+    {.address = dachi_video_data_0062, .compressedSize = 0x1530},
+    {.address = dachi_video_data_0063, .compressedSize = 0xFD0},
+    {.address = dachi_video_data_0064, .compressedSize = 0x860},
+    {.address = dachi_video_data_0065, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0066, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0067, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0068, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0069, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0070, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0071, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0072, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0073, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0074, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0075, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0076, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0077, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0078, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0079, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0080, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0081, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0082, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0083, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0084, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0085, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0086, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0087, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0088, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0089, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0090, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0091, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0092, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0093, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0094, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0095, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0096, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0097, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0098, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0099, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0100, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0101, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0102, .compressedSize = 0x1BE0},
+    {.address = dachi_video_data_0103, .compressedSize = 0x29B0},
+    {.address = dachi_video_data_0104, .compressedSize = 0x29A0},
+    {.address = dachi_video_data_0105, .compressedSize = 0x29A0},
+    {.address = dachi_video_data_0106, .compressedSize = 0x29A0},
+    {.address = dachi_video_data_0107, .compressedSize = 0x29A0},
+    {.address = dachi_video_data_0108, .compressedSize = 0x29B0},
+    {.address = dachi_video_data_0109, .compressedSize = 0x2A10},
+    {.address = dachi_video_data_0110, .compressedSize = 0x2A50},
+    {.address = dachi_video_data_0111, .compressedSize = 0x2A80},
+    {.address = dachi_video_data_0112, .compressedSize = 0x2B30},
+    {.address = dachi_video_data_0113, .compressedSize = 0x2C10},
+    {.address = dachi_video_data_0114, .compressedSize = 0x2C70},
+    {.address = dachi_video_data_0115, .compressedSize = 0x3040},
+    {.address = dachi_video_data_0116, .compressedSize = 0x2FA0},
+    {.address = dachi_video_data_0117, .compressedSize = 0x2EA0},
+    {.address = dachi_video_data_0118, .compressedSize = 0x2DD0},
+    {.address = dachi_video_data_0119, .compressedSize = 0x2C10},
+    {.address = dachi_video_data_0120, .compressedSize = 0x2810},
+    {.address = dachi_video_data_0121, .compressedSize = 0x2760},
+    {.address = dachi_video_data_0122, .compressedSize = 0x2520},
+    {.address = dachi_video_data_0123, .compressedSize = 0x2440},
+    {.address = dachi_video_data_0124, .compressedSize = 0x2240},
+    {.address = dachi_video_data_0125, .compressedSize = 0x2090},
+    {.address = dachi_video_data_0126, .compressedSize = 0x1E50},
+    {.address = dachi_video_data_0127, .compressedSize = 0x1C00},
+    {.address = dachi_video_data_0128, .compressedSize = 0x1990},
+    {.address = dachi_video_data_0129, .compressedSize = 0x1790},
+    {.address = dachi_video_data_0130, .compressedSize = 0x12C0},
+    {.address = dachi_video_data_0131, .compressedSize = 0x1070},
+    {.address = dachi_video_data_0132, .compressedSize = 0xBA0},
+    {.address = dachi_video_data_0133, .compressedSize = 0x7C0},
+    {.address = dachi_video_data_0134, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0135, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0136, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0137, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0138, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0139, .compressedSize = 0x1C0},
+    {.address = dachi_video_data_0140, .compressedSize = 0x1C0},
+};

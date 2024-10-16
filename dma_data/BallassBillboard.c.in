@@ -1,0 +1,275 @@
+ALIGNED16 const Texture BallassBillboard_video_data_0001[] = {
+#include "dma_data/BallassBillboard_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0002[] = {
+#include "dma_data/BallassBillboard_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0003[] = {
+#include "dma_data/BallassBillboard_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0004[] = {
+#include "dma_data/BallassBillboard_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0005[] = {
+#include "dma_data/BallassBillboard_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0006[] = {
+#include "dma_data/BallassBillboard_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0007[] = {
+#include "dma_data/BallassBillboard_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0008[] = {
+#include "dma_data/BallassBillboard_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0009[] = {
+#include "dma_data/BallassBillboard_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0010[] = {
+#include "dma_data/BallassBillboard_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0011[] = {
+#include "dma_data/BallassBillboard_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0012[] = {
+#include "dma_data/BallassBillboard_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0013[] = {
+#include "dma_data/BallassBillboard_0013.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0014[] = {
+#include "dma_data/BallassBillboard_0014.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0015[] = {
+#include "dma_data/BallassBillboard_0015.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0016[] = {
+#include "dma_data/BallassBillboard_0016.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0017[] = {
+#include "dma_data/BallassBillboard_0017.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0018[] = {
+#include "dma_data/BallassBillboard_0018.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0019[] = {
+#include "dma_data/BallassBillboard_0019.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0020[] = {
+#include "dma_data/BallassBillboard_0020.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0021[] = {
+#include "dma_data/BallassBillboard_0021.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0022[] = {
+#include "dma_data/BallassBillboard_0022.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0023[] = {
+#include "dma_data/BallassBillboard_0023.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0024[] = {
+#include "dma_data/BallassBillboard_0024.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0025[] = {
+#include "dma_data/BallassBillboard_0025.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0026[] = {
+#include "dma_data/BallassBillboard_0026.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0027[] = {
+#include "dma_data/BallassBillboard_0027.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0028[] = {
+#include "dma_data/BallassBillboard_0028.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0029[] = {
+#include "dma_data/BallassBillboard_0029.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0030[] = {
+#include "dma_data/BallassBillboard_0030.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0031[] = {
+#include "dma_data/BallassBillboard_0031.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0032[] = {
+#include "dma_data/BallassBillboard_0032.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0033[] = {
+#include "dma_data/BallassBillboard_0033.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0034[] = {
+#include "dma_data/BallassBillboard_0034.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0035[] = {
+#include "dma_data/BallassBillboard_0035.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0036[] = {
+#include "dma_data/BallassBillboard_0036.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0037[] = {
+#include "dma_data/BallassBillboard_0037.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0038[] = {
+#include "dma_data/BallassBillboard_0038.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0039[] = {
+#include "dma_data/BallassBillboard_0039.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0040[] = {
+#include "dma_data/BallassBillboard_0040.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0041[] = {
+#include "dma_data/BallassBillboard_0041.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0042[] = {
+#include "dma_data/BallassBillboard_0042.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0043[] = {
+#include "dma_data/BallassBillboard_0043.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0044[] = {
+#include "dma_data/BallassBillboard_0044.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0045[] = {
+#include "dma_data/BallassBillboard_0045.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0046[] = {
+#include "dma_data/BallassBillboard_0046.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0047[] = {
+#include "dma_data/BallassBillboard_0047.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0048[] = {
+#include "dma_data/BallassBillboard_0048.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0049[] = {
+#include "dma_data/BallassBillboard_0049.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0050[] = {
+#include "dma_data/BallassBillboard_0050.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0051[] = {
+#include "dma_data/BallassBillboard_0051.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0052[] = {
+#include "dma_data/BallassBillboard_0052.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0053[] = {
+#include "dma_data/BallassBillboard_0053.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0054[] = {
+#include "dma_data/BallassBillboard_0054.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0055[] = {
+#include "dma_data/BallassBillboard_0055.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0056[] = {
+#include "dma_data/BallassBillboard_0056.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0057[] = {
+#include "dma_data/BallassBillboard_0057.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0058[] = {
+#include "dma_data/BallassBillboard_0058.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0059[] = {
+#include "dma_data/BallassBillboard_0059.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0060[] = {
+#include "dma_data/BallassBillboard_0060.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0061[] = {
+#include "dma_data/BallassBillboard_0061.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0062[] = {
+#include "dma_data/BallassBillboard_0062.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0063[] = {
+#include "dma_data/BallassBillboard_0063.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0064[] = {
+#include "dma_data/BallassBillboard_0064.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0065[] = {
+#include "dma_data/BallassBillboard_0065.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0066[] = {
+#include "dma_data/BallassBillboard_0066.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0067[] = {
+#include "dma_data/BallassBillboard_0067.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture BallassBillboard_video_data_0068[] = {
+#include "dma_data/BallassBillboard_0068.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps BallassBillboard_video_data[68] = {
+    {.address = BallassBillboard_video_data_0001, .compressedSize = 0x57D0},
+    {.address = BallassBillboard_video_data_0002, .compressedSize = 0x57D0},
+    {.address = BallassBillboard_video_data_0003, .compressedSize = 0x57D0},
+    {.address = BallassBillboard_video_data_0004, .compressedSize = 0x57F0},
+    {.address = BallassBillboard_video_data_0005, .compressedSize = 0x5750},
+    {.address = BallassBillboard_video_data_0006, .compressedSize = 0x5750},
+    {.address = BallassBillboard_video_data_0007, .compressedSize = 0x57A0},
+    {.address = BallassBillboard_video_data_0008, .compressedSize = 0x56A0},
+    {.address = BallassBillboard_video_data_0009, .compressedSize = 0x55F0},
+    {.address = BallassBillboard_video_data_0010, .compressedSize = 0x55F0},
+    {.address = BallassBillboard_video_data_0011, .compressedSize = 0x5550},
+    {.address = BallassBillboard_video_data_0012, .compressedSize = 0x5600},
+    {.address = BallassBillboard_video_data_0013, .compressedSize = 0x56D0},
+    {.address = BallassBillboard_video_data_0014, .compressedSize = 0x5680},
+    {.address = BallassBillboard_video_data_0015, .compressedSize = 0x5610},
+    {.address = BallassBillboard_video_data_0016, .compressedSize = 0x55A0},
+    {.address = BallassBillboard_video_data_0017, .compressedSize = 0x55A0},
+    {.address = BallassBillboard_video_data_0018, .compressedSize = 0x55D0},
+    {.address = BallassBillboard_video_data_0019, .compressedSize = 0x5510},
+    {.address = BallassBillboard_video_data_0020, .compressedSize = 0x5430},
+    {.address = BallassBillboard_video_data_0021, .compressedSize = 0x5430},
+    {.address = BallassBillboard_video_data_0022, .compressedSize = 0x54A0},
+    {.address = BallassBillboard_video_data_0023, .compressedSize = 0x5290},
+    {.address = BallassBillboard_video_data_0024, .compressedSize = 0x5290},
+    {.address = BallassBillboard_video_data_0025, .compressedSize = 0x52E0},
+    {.address = BallassBillboard_video_data_0026, .compressedSize = 0x5280},
+    {.address = BallassBillboard_video_data_0027, .compressedSize = 0x5280},
+    {.address = BallassBillboard_video_data_0028, .compressedSize = 0x5330},
+    {.address = BallassBillboard_video_data_0029, .compressedSize = 0x5230},
+    {.address = BallassBillboard_video_data_0030, .compressedSize = 0x5230},
+    {.address = BallassBillboard_video_data_0031, .compressedSize = 0x52E0},
+    {.address = BallassBillboard_video_data_0032, .compressedSize = 0x5240},
+    {.address = BallassBillboard_video_data_0033, .compressedSize = 0x5270},
+    {.address = BallassBillboard_video_data_0034, .compressedSize = 0x5270},
+    {.address = BallassBillboard_video_data_0035, .compressedSize = 0x5250},
+    {.address = BallassBillboard_video_data_0036, .compressedSize = 0x5240},
+    {.address = BallassBillboard_video_data_0037, .compressedSize = 0x5240},
+    {.address = BallassBillboard_video_data_0038, .compressedSize = 0x51E0},
+    {.address = BallassBillboard_video_data_0039, .compressedSize = 0x51E0},
+    {.address = BallassBillboard_video_data_0040, .compressedSize = 0x52B0},
+    {.address = BallassBillboard_video_data_0041, .compressedSize = 0x52B0},
+    {.address = BallassBillboard_video_data_0042, .compressedSize = 0x5250},
+    {.address = BallassBillboard_video_data_0043, .compressedSize = 0x5290},
+    {.address = BallassBillboard_video_data_0044, .compressedSize = 0x5280},
+    {.address = BallassBillboard_video_data_0045, .compressedSize = 0x5280},
+    {.address = BallassBillboard_video_data_0046, .compressedSize = 0x5350},
+    {.address = BallassBillboard_video_data_0047, .compressedSize = 0x53B0},
+    {.address = BallassBillboard_video_data_0048, .compressedSize = 0x53B0},
+    {.address = BallassBillboard_video_data_0049, .compressedSize = 0x5410},
+    {.address = BallassBillboard_video_data_0050, .compressedSize = 0x5410},
+    {.address = BallassBillboard_video_data_0051, .compressedSize = 0x5410},
+    {.address = BallassBillboard_video_data_0052, .compressedSize = 0x5460},
+    {.address = BallassBillboard_video_data_0053, .compressedSize = 0x5580},
+    {.address = BallassBillboard_video_data_0054, .compressedSize = 0x5580},
+    {.address = BallassBillboard_video_data_0055, .compressedSize = 0x5530},
+    {.address = BallassBillboard_video_data_0056, .compressedSize = 0x5630},
+    {.address = BallassBillboard_video_data_0057, .compressedSize = 0x5690},
+    {.address = BallassBillboard_video_data_0058, .compressedSize = 0x5690},
+    {.address = BallassBillboard_video_data_0059, .compressedSize = 0x5670},
+    {.address = BallassBillboard_video_data_0060, .compressedSize = 0x56E0},
+    {.address = BallassBillboard_video_data_0061, .compressedSize = 0x56E0},
+    {.address = BallassBillboard_video_data_0062, .compressedSize = 0x5750},
+    {.address = BallassBillboard_video_data_0063, .compressedSize = 0x5870},
+    {.address = BallassBillboard_video_data_0064, .compressedSize = 0x57B0},
+    {.address = BallassBillboard_video_data_0065, .compressedSize = 0x57B0},
+    {.address = BallassBillboard_video_data_0066, .compressedSize = 0x57D0},
+    {.address = BallassBillboard_video_data_0067, .compressedSize = 0x5770},
+    {.address = BallassBillboard_video_data_0068, .compressedSize = 0x5770},
+};

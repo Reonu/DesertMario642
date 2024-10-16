@@ -1,0 +1,87 @@
+ALIGNED16 const Texture glorpdriveresize_video_data_0001[] = {
+#include "dma_data/glorpdriveresize_0001.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0002[] = {
+#include "dma_data/glorpdriveresize_0002.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0003[] = {
+#include "dma_data/glorpdriveresize_0003.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0004[] = {
+#include "dma_data/glorpdriveresize_0004.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0005[] = {
+#include "dma_data/glorpdriveresize_0005.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0006[] = {
+#include "dma_data/glorpdriveresize_0006.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0007[] = {
+#include "dma_data/glorpdriveresize_0007.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0008[] = {
+#include "dma_data/glorpdriveresize_0008.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0009[] = {
+#include "dma_data/glorpdriveresize_0009.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0010[] = {
+#include "dma_data/glorpdriveresize_0010.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0011[] = {
+#include "dma_data/glorpdriveresize_0011.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0012[] = {
+#include "dma_data/glorpdriveresize_0012.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0013[] = {
+#include "dma_data/glorpdriveresize_0013.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0014[] = {
+#include "dma_data/glorpdriveresize_0014.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0015[] = {
+#include "dma_data/glorpdriveresize_0015.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0016[] = {
+#include "dma_data/glorpdriveresize_0016.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0017[] = {
+#include "dma_data/glorpdriveresize_0017.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0018[] = {
+#include "dma_data/glorpdriveresize_0018.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0019[] = {
+#include "dma_data/glorpdriveresize_0019.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0020[] = {
+#include "dma_data/glorpdriveresize_0020.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture glorpdriveresize_video_data_0021[] = {
+#include "dma_data/glorpdriveresize_0021.rgba16.yay0.c.in"
+};
+
+ALIGNED16 const struct DMAImageProps glorpdriveresize_video_data[21] = {
+    {.address = glorpdriveresize_video_data_0001, .compressedSize = 0x39A0},
+    {.address = glorpdriveresize_video_data_0002, .compressedSize = 0x3AB0},
+    {.address = glorpdriveresize_video_data_0003, .compressedSize = 0x3C20},
+    {.address = glorpdriveresize_video_data_0004, .compressedSize = 0x3CC0},
+    {.address = glorpdriveresize_video_data_0005, .compressedSize = 0x4030},
+    {.address = glorpdriveresize_video_data_0006, .compressedSize = 0x42C0},
+    {.address = glorpdriveresize_video_data_0007, .compressedSize = 0x4340},
+    {.address = glorpdriveresize_video_data_0008, .compressedSize = 0x40F0},
+    {.address = glorpdriveresize_video_data_0009, .compressedSize = 0x3EF0},
+    {.address = glorpdriveresize_video_data_0010, .compressedSize = 0x3F00},
+    {.address = glorpdriveresize_video_data_0011, .compressedSize = 0x3D40},
+    {.address = glorpdriveresize_video_data_0012, .compressedSize = 0x3D70},
+    {.address = glorpdriveresize_video_data_0013, .compressedSize = 0x39A0},
+    {.address = glorpdriveresize_video_data_0014, .compressedSize = 0x3A60},
+    {.address = glorpdriveresize_video_data_0015, .compressedSize = 0x3A50},
+    {.address = glorpdriveresize_video_data_0016, .compressedSize = 0x39E0},
+    {.address = glorpdriveresize_video_data_0017, .compressedSize = 0x3970},
+    {.address = glorpdriveresize_video_data_0018, .compressedSize = 0x38C0},
+    {.address = glorpdriveresize_video_data_0019, .compressedSize = 0x38D0},
+    {.address = glorpdriveresize_video_data_0020, .compressedSize = 0x3920},
+    {.address = glorpdriveresize_video_data_0021, .compressedSize = 0x39A0},
+};

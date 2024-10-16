@@ -148,6 +148,18 @@ ALIGNED16 const Texture _img_axo_scs[] = {
 ALIGNED16 const Texture _img_time_draws_near[] = {
 #include "dma_data/_img_time_draws_near.rgba16.yay0.c.in"
 };
+ALIGNED16 const Texture _img_banjo[] = {
+#include "dma_data/_img_banjo.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_fazana[] = {
+#include "dma_data/_img_fazana.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_kazecom[] = {
+#include "dma_data/_img_kazecom.rgba16.yay0.c.in"
+};
+ALIGNED16 const Texture _img_someone[] = {
+#include "dma_data/_img_someone.rgba16.yay0.c.in"
+};
 
 ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_AMOGUS]             = {.address = _img_amogus,            .compressedSize = 0x5A60},
@@ -200,4 +212,8 @@ ALIGNED16 const struct DMAImageProps dma_image_data[BB_IMAGE_COUNT] = {
     [BB_IMAGE_SEXY_COWBOY]        = {.address = _img_sexycowboy,        .compressedSize = 0x7DD0},
     [BB_IMAGE_AXOLLYON]           = {.address = _img_axo_scs,           .compressedSize = 0x1970},
     [BB_IMAGE_FURYIOUSFIGHT]      = {.address = _img_time_draws_near,   .compressedSize = 0x0D10},
+    {.address = _img_banjo, .compressedSize = 0xB370},
+    {.address = _img_fazana, .compressedSize = 0x6230},
+    {.address = _img_kazecom, .compressedSize = 0xAEC0},
+    {.address = _img_someone, .compressedSize = 0x3650},
 };

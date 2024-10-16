@@ -112,6 +112,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_ANONYMOUS_MOOSE]    = (u32) BB_IMAGE_ANONYMOUS_MOOSE,
     [BB_SIGN_CRYPTLYS]           = (u32) BB_IMAGE_CRYPTLYS,
     [BB_SIGN_AXOLLYON]           = (u32) BB_IMAGE_AXOLLYON,
+    [BB_SIGN_BANJO]              = (u32) BB_IMAGE_BANJO,
 
     // TIER 2
     [BB_SIGN_YOUTUBE]            = (u32) BB_IMAGE_YOUTUBE,
@@ -122,6 +123,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_HYENA_ART]          = (u32) BB_IMAGE_HYENA_ART,
     [BB_SIGN_MOTH_SMOKING]       = (u32) BB_IMAGE_MOTH_SMOKING,
     [BB_SIGN_FURYIOUSFIGHT]      = (u32) BB_IMAGE_FURYIOUSFIGHT,
+    [BB_SIGN_SOMEONE]            = (u32) BB_IMAGE_SOMEONE,
     [BB_SIGN_FREE_PSP]           = (u32) BB_VIDEO_FREE_PSP,
     [BB_SIGN_FELIZ_JEUVES]       = (u32) BB_VIDEO_FELIZ_JEUVES,
 
@@ -132,8 +134,11 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MVH]                = (u32) BB_IMAGE_MVH,
     [BB_SIGN_IDIOT]              = (u32) BB_IMAGE_IDIOT,
     [BB_SIGN_SEXY_COWBOY]        = (u32) BB_IMAGE_SEXY_COWBOY,
+    [BB_SIGN_FAZANA]             = (u32) BB_IMAGE_FAZANA,
     [BB_SIGN_DESERT_MARIO]       = (u32) BB_IMAGE_DESERT_MARIO,
     [BB_SIGN_GBJ_PAINTING]       = (u32) BB_VIDEO_GBJ_PAINTING,
+    [BB_SIGN_THEISON]            = (u32) BB_VIDEO_THEISON,
+    [BB_SIGN_ANOLIAH]            = (u32) BB_VIDEO_ANOLIAH,
     [BB_SIGN_CHIPS]              = (u32) BB_VIDEO_BILLWURTZ,
 
     // TIER 4
@@ -142,20 +147,25 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_MAKE_CLEAN]         = (u32) BB_IMAGE_MAKE_CLEAN,
     [BB_SIGN_XENOBLADE]          = (u32) BB_IMAGE_XENOBLADE,
     [BB_SIGN_XENOGEARS]          = (u32) BB_IMAGE_XENOGEARS,
+    [BB_SIGN_KAZECOM]            = (u32) BB_IMAGE_KAZECOM,
     [BB_SIGN_THE_HORSE]          = (u32) BB_VIDEO_THE_HORSE,
     [BB_SIGN_KAZE_ENDCARD]       = (u32) BB_VIDEO_KAZE_ENDCARD,
     [BB_SIGN_LEON]               = (u32) BB_VIDEO_LEON,
+    [BB_SIGN_DACHI]              = (u32) BB_VIDEO_DACHI,
 };
 
 struct DMAVideoProperties videoDMAProps[BB_VIDEO_COUNT] = {
-    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,          .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),          .startFrame = 0, .framerate = 1,  .sound = NO_SOUND             },
-    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,     .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),     .startFrame = 0, .framerate = 10, .sound = NO_SOUND             },
-    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data, .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data), .startFrame = 0, .framerate = 30, .sound = NO_SOUND             },
-    [BB_VIDEO_LEON]         = {.addr = leon_video_data,         .billboardId = BB_SIGN_LEON,         .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(leon_video_data),         .startFrame = 0, .framerate = 24, .sound = SOUND_BB_LEON        },
-    [BB_VIDEO_FELIZ_JEUVES] = {.addr = feliz_jeuves_video_data, .billboardId = BB_SIGN_FELIZ_JEUVES, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(feliz_jeuves_video_data), .startFrame = 0, .framerate = 20, .sound = NO_SOUND             },
-    [BB_VIDEO_THE_HORSE]    = {.addr = the_horse_video_data,    .billboardId = BB_SIGN_THE_HORSE,    .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(the_horse_video_data),    .startFrame = 0, .framerate = 25, .sound = NO_SOUND             },
-    [BB_VIDEO_BILLWURTZ]    = {.addr = chips_video_data,        .billboardId = BB_SIGN_CHIPS,        .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(chips_video_data),        .startFrame = 0, .framerate = 25, .sound = SOUND_BB_CHIPS       },
-    [BB_VIDEO_KAZE_ENDCARD] = {.addr = kaze_endcard_video_data, .billboardId = BB_SIGN_KAZE_ENDCARD, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(kaze_endcard_video_data), .startFrame = 0, .framerate = 15, .sound = SOUND_BB_KAZE_ENDCARD},
+    [BB_VIDEO_IMAGES]       = {.addr = dma_image_data,              .billboardId = -1,                   .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dma_image_data),              .startFrame = 0, .framerate = 1,  .sound = NO_SOUND             },
+    [BB_VIDEO_FREE_PSP]     = {.addr = free_psp_video_data,         .billboardId = BB_SIGN_FREE_PSP,     .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(free_psp_video_data),         .startFrame = 0, .framerate = 10, .sound = NO_SOUND             },
+    [BB_VIDEO_GBJ_PAINTING] = {.addr = gbj_painting_video_data,     .billboardId = BB_SIGN_GBJ_PAINTING, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(gbj_painting_video_data),     .startFrame = 0, .framerate = 30, .sound = NO_SOUND             },
+    [BB_VIDEO_LEON]         = {.addr = leon_video_data,             .billboardId = BB_SIGN_LEON,         .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(leon_video_data),             .startFrame = 0, .framerate = 24, .sound = SOUND_BB_LEON        },
+    [BB_VIDEO_FELIZ_JEUVES] = {.addr = feliz_jeuves_video_data,     .billboardId = BB_SIGN_FELIZ_JEUVES, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(feliz_jeuves_video_data),     .startFrame = 0, .framerate = 20, .sound = NO_SOUND             },
+    [BB_VIDEO_THE_HORSE]    = {.addr = the_horse_video_data,        .billboardId = BB_SIGN_THE_HORSE,    .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(the_horse_video_data),        .startFrame = 0, .framerate = 25, .sound = NO_SOUND             },
+    [BB_VIDEO_BILLWURTZ]    = {.addr = chips_video_data,            .billboardId = BB_SIGN_CHIPS,        .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(chips_video_data),            .startFrame = 0, .framerate = 25, .sound = SOUND_BB_CHIPS       },
+    [BB_VIDEO_KAZE_ENDCARD] = {.addr = kaze_endcard_video_data,     .billboardId = BB_SIGN_KAZE_ENDCARD, .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(kaze_endcard_video_data),     .startFrame = 0, .framerate = 15, .sound = SOUND_BB_KAZE_ENDCARD},
+    [BB_VIDEO_DACHI]        = {.addr = dachi_video_data,            .billboardId = BB_SIGN_DACHI,        .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(dachi_video_data),            .startFrame = 0, .framerate = 15, .sound = NO_SOUND             },
+    [BB_VIDEO_THEISON]      = {.addr = glorpdriveresize_video_data, .billboardId = BB_SIGN_THEISON,      .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(glorpdriveresize_video_data), .startFrame = 0, .framerate = 10, .sound = NO_SOUND             },
+    [BB_VIDEO_ANOLIAH]      = {.addr = BallassBillboard_video_data, .billboardId = BB_SIGN_ANOLIAH,      .relativeLoopStart = 0, .frameTotal = ARRAY_COUNT(BallassBillboard_video_data), .startFrame = 0, .framerate = 24, .sound = NO_SOUND             },
 };
 
 OSIoMesg videoImageDMAIoMesg[MAX_DMA_COUNT];

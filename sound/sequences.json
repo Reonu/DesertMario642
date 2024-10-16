@@ -62,5 +62,11 @@
     "3B_from_russia_with_love": ["0C_extended_bank"],
     "3C_nsanity_island": ["0C_extended_bank"],
     "3D_sonic_drowning": ["29_sonic_drowning"],
-    "3E_sm64ds_casino": ["2A_sm64ds_casino"]
+    "3E_sm64ds_casino": ["2A_sm64ds_casino"],
+    "3F_grass_n_seas": ["2B_grass_n_seas"],
+    "40_pop_n_bubble_inc": ["2C_pop_n_bubble_inc"],
+    "41_select_your_level": ["2D_select_your_level"],
+    "42_shop_theme": ["2E_shop_theme"],
+    "43_the_meat_grinder": ["2F_the_meat_grinder"],
+    "44_xbc_mechonis_field": ["30_xbc_mechonis_field"]
 }
