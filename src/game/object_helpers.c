@@ -316,6 +316,16 @@ struct Object *spawn_object_abs_with_rot(struct Object *parent, s16 uselessArg, 
     return newObj;
 }
 
+void iterate_rand(MTRand *rand) {
+    s32 objectValidator = 0;
+
+    if (rand) { 
+        while (objectValidator == 0 || objectValidator == 0x00000001) {
+            objectValidator = genRandLong(rand);
+        }
+    }
+}
+
 // WARNING: Can return NULL!
 struct Object *spawn_object_desert(struct Object *parent, s16 uselessArg, ModelID32 model,
                                          const BehaviorScript *behavior,

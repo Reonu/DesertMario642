@@ -197,7 +197,7 @@ void spawn_gas_station(MTRand *rand) {
     spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0,rand);
 }
 
-u16 decide_rock_modeL_id(MTRand *rand) {
+u16 decide_rock_model_id(MTRand *rand) {
     //Randomly decide between MODEL_ROCK_A, MODEL_ROCK_B and MODEL_ROCK_C
     u16 rockModel;
     f32 randValue = genRand(rand);
@@ -290,7 +290,7 @@ void spawn_small_decoration(MTRand *rand) {
     }
     chanceStorage -= ROCK_CHANCE;
     if (chanceStorage < 0 && !sRockSpawned) {
-        u16 model = decide_rock_modeL_id(rand);
+        u16 model = decide_rock_model_id(rand);
         spawn_decor_and_rotate(rand, model, bhvDesertDecorWithBigHitbox, RANDOM_ROTATION, -1800);
         sRockSpawned = 1;
         return;
@@ -330,6 +330,8 @@ void spawn_enemy(MTRand *rand) {
         if (!gAngrySunPresent) {
     #endif
             spawn_object_desert(gCurrentObject, 0, MODEL_ANGRY_SUN, bhvAngrySun, Road.x,Road.y,Road.z,0,0,0,rand);
+        } else {
+            iterate_rand(rand);
         }
         return;
     }
@@ -400,15 +402,19 @@ void bhv_desert_spawner_loop(void) {
 
         if (gInstantWarpSpawnIndex >= FUNNY_BUS_WARPS && sBusAlreadySpawned < 2 && (gInstantWarpCounter % GAS_STATION_SPAWN_INTERVAL != 0) && (gMarioCurrentRoom != 2) // No gas station
                     && (gUnpausedTimer > (DAY_END + (HOUR * 2)) || gUnpausedTimer < (DAY_START - (HOUR * 2)))) { // Force nighttime spawn
-            
-            MTRand newSeed2 = newSeed;
             if (sBusAlreadySpawned == 1) {
                 if (find_first_object_with_behavior_and_bparams(bhvBus, 0, 0) == NULL) {
                     sBusAlreadySpawned = 0;
                 }
-            } else if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,&newSeed2)) {
-                sBusAlreadySpawned = 1;
+
+                iterate_rand(&newSeed);
+            } else {
+                if (spawn_object_desert(gCurrentObject, 0, MODEL_BUS, bhvBus, Road.x,Road.y,Road.z,0,0,0,&newSeed)) {
+                    sBusAlreadySpawned = 1;
+                }
             }
+        } else {
+            iterate_rand(&newSeed);
         }
     }
 
