@@ -96,6 +96,7 @@ u8 gWaterTutorialProgress;
 u8 gFlashlightTutorialProgress;
 u8 gNightFirstTime;
 u8 gStationaryFirstTime;
+u8 gEnteredGasStationOnce;
 u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;

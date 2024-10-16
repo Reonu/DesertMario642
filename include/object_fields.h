@@ -1361,5 +1361,7 @@ os16112*/
 #define /*0x10C*/ oLakituLastZPos             OBJECT_FIELD_F32(0x21)
 
 #define           oGlobePrice                 OBJECT_FIELD_S16(0x20, 0)
+#define /*0x10C*/ oDesiredRoom                OBJECT_FIELD_F32(0x21)
+
 
 #endif // OBJECT_FIELDS_H

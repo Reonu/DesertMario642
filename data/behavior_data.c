@@ -408,6 +408,7 @@ const BehaviorScript bhvGasStation[] = {
 	BEGIN(OBJ_LIST_SURFACE),
 	OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     LOAD_COLLISION_DATA(gas_station_collision),
+    CALL_NATIVE(bhv_koopa_water_seller_set_exclamation_mark),
     SET_FLOAT(oCollisionDistance, 6000),
 	BEGIN_LOOP(),
 		CALL_NATIVE(bhv_desert_decor_loop),

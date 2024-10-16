@@ -568,7 +568,10 @@ enum KoopaWaterSellerAction {
 
 void bhv_koopa_water_seller_set_exclamation_mark(void) {
     o->oAction = KOOPA_WATER_SELLER_IDLE;
-    o->oExclamationMarkObject = spawn_object(o, MODEL_EXCLAMATION_MARK, bhvExclamationMark);
+    if (o->behavior != (segmented_to_virtual(bhvGasStation)) || (!gEnteredGasStationOnce)) {
+        o->oExclamationMarkObject = spawn_object(o, MODEL_EXCLAMATION_MARK, bhvExclamationMark);
+    }
+    
 }
 
 u8 bhv_koopa_water_seller_update_range(void) {
@@ -1034,6 +1037,13 @@ void bhv_jukebox_loop(void) {
 
 void bhv_exclamation_mark_init(void) {
     o->oPosY += 400;
+    if ((o->parentObj != NULL) && (o->parentObj->behavior == segmented_to_virtual(bhvGasStation))) {
+        o->oPosX = -3600;
+        o->oPosZ = o->parentObj->oPosZ + 1100;
+        o->oDesiredRoom = 1;
+    } else {
+        o->oDesiredRoom = 2;
+    }
 }
 
 void bhv_exclamation_mark_loop(void) {
@@ -1043,11 +1053,15 @@ void bhv_exclamation_mark_loop(void) {
     o->oFaceAngleYaw += 100;
 
     Vec3f pos = {o->oPosX, o->oPosY, o->oPosZ + 200};
-    if (gMarioCurrentRoom == 2) {
+    if (gMarioCurrentRoom == o->oDesiredRoom) {
         cur_obj_unhide();
         emit_light(pos, 255, 0, 0, 4, 80, 4, 0);
     } else {
         cur_obj_hide();
+    }
+
+    if (o->oDesiredRoom == 1 && gEnteredGasStationOnce) {
+        mark_obj_for_deletion(o);
     }
 }
 

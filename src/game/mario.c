@@ -1909,6 +1909,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         gMarioState->numCoins += 50;
     }
 #endif
+
+    if (gMarioCurrentRoom == 2) {
+        gEnteredGasStationOnce = 1;
+    }
     
     if (gCurrLevelNum == LEVEL_VEGAS_ENDING) {
         gMarioState->flashlightOn = TRUE;
