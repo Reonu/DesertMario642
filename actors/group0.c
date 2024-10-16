@@ -80,3 +80,6 @@
 #include "globe/anims/table.inc.c"
 #include "billboard_credit/model.inc.c"
 #include "billboard_inspired_by/model.inc.c"
+#include "Rock_A/model.inc.c"
+#include "Rock_B/model.inc.c"
+#include "Rock_C/model.inc.c"

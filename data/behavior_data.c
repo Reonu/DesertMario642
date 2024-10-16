@@ -6289,6 +6289,18 @@ const BehaviorScript bhvDesertDecorWithHitbox[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvDesertDecorWithBigHitbox[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_INTERACT_TYPE(INTERACT_IGLOO_BARRIER),
+    SET_HITBOX_WITH_OFFSET(/*Radius*/ 400, /*Height*/ 500, /*Downwards offset*/ 100),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        SET_INT(oInteractStatus, INT_STATUS_NONE),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvLakituNuhUh[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),

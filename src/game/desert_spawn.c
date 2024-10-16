@@ -192,6 +192,20 @@ void spawn_gas_station(MTRand *rand) {
     spawn_object_desert(gCurrentObject, 0, MODEL_GAS_STATION, bhvGasStation, LeftSide.x,LeftSide.y,LeftSide.z,0,0,0,rand);
 }
 
+u16 decide_rock_modeL_id(MTRand *rand) {
+    //Randomly decide between MODEL_ROCK_A, MODEL_ROCK_B and MODEL_ROCK_C
+    u16 rockModel;
+    f32 randValue = genRand(rand);
+    if (randValue < 0.33f) {
+        rockModel = MODEL_ROCK_A;
+    } else if (randValue < 0.66f) {
+        rockModel = MODEL_ROCK_B;
+    } else {
+        rockModel = MODEL_ROCK_C;
+    }
+    return rockModel;
+}
+
 #define NORMAL_ROTATION 1
 #define RANDOM_ROTATION 2
 
@@ -220,11 +234,14 @@ void spawn_decor_and_rotate(MTRand *rand, u16 modelID, const BehaviorScript *beh
 #define SUN_CHANCE 0.02f
 
 #define ELECTRICAL_POLE_CHANCE 0.05f
-#define BUSH_CHANCE 0.25f
+
 #define BILLBOARD_CHANCE 0.08f
 #define UFO_CHANCE 0.01f
 #define HOUSE_CHANCE 0.01f
+
+#define BUSH_CHANCE 0.25f
 #define CACTUS_CHANCE 0.07f
+#define ROCK_CHANCE 0.08f
 
 f32 chancePrint;
 void spawn_big_decoration(MTRand *rand) {
@@ -263,6 +280,12 @@ void spawn_small_decoration(MTRand *rand) {
     chanceStorage -= CACTUS_CHANCE;
     if (chanceStorage < 0) {
         spawn_decor_and_rotate(rand, MODEL_CACTUS, bhvDesertDecorWithHitbox, RANDOM_ROTATION, -1800);
+        return;
+    }
+    chanceStorage -= ROCK_CHANCE;
+    if (chanceStorage < 0) {
+        u16 model = decide_rock_modeL_id(rand);
+        spawn_decor_and_rotate(rand, model, bhvDesertDecorWithBigHitbox, RANDOM_ROTATION, -1800);
         return;
     }
 }

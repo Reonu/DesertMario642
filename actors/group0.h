@@ -449,4 +449,10 @@ extern const struct Animation *const klepto_seg5_anims_05008CFC[];
 
 #include "billboard_inspired_by/geo_header.h"
 
+#include "Rock_A/geo_header.h"
+
+#include "Rock_B/geo_header.h"
+
+#include "Rock_C/geo_header.h"
+
 #endif

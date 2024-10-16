@@ -44,3 +44,6 @@
 #include "globe/geo.inc.c"
 #include "billboard_credit/geo.inc.c"
 #include "billboard_inspired_by/geo.inc.c"
+#include "Rock_A/geo.inc.c"
+#include "Rock_B/geo.inc.c"
+#include "Rock_C/geo.inc.c"
