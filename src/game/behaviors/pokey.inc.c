@@ -44,9 +44,15 @@ static u8 sPokeyBodyPartAttackHandlers[] = {
 void bhv_pokey_body_part_update(void) {
     // PARTIAL_UPDATE
 
+    if (o->parentObj == NULL || o->parentObj->activeFlags == ACTIVE_FLAG_DEACTIVATED || !obj_has_behavior(o->parentObj, bhvPokey)) {
+        obj_mark_for_deletion(o);
+        return;
+    }
+
     if (obj_update_standard_actions(3.0f)) {
-        if (o->parentObj == NULL || o->parentObj->oAction == POKEY_ACT_UNLOAD_PARTS) {
+        if (o->parentObj->oAction == POKEY_ACT_UNLOAD_PARTS) {
             obj_mark_for_deletion(o);
+            return;
         } else {
             cur_obj_update_floor_and_walls();
             obj_update_blinking(&o->oPokeyBodyPartBlinkTimer, 30, 60, 4);
