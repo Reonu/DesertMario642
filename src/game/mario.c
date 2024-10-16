@@ -1885,6 +1885,11 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         lock_remaining_text_slots();
     }
 
+    if (gMarioState->isDead) {
+        print_small_text_at_slot(WATER_TEXT_X_POS, 0, "You have died. Restart the game.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        lock_remaining_text_slots();
+    }
+
     if (gCurrLevelNum == LEVEL_DESERT && gInstantWarpCounter >= INSTANT_WARPS_GOAL) {
         level_trigger_warp(gMarioState, WARP_OP_DESERT_ENDING);
     }

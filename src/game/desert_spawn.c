@@ -1157,12 +1157,16 @@ void run_tutorial(void) {
             break;
         case TUTORIAL_STATIONARY_START:
             alpha = 255;
-            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
-            print_set_envcolour(255, 191, 191, alpha);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 2, "Uh oh!  It looks like Mario isn't trying", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "hard enough.  Get moving, before Mario", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "starts taking damage!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            lock_remaining_text_slots();
+            
+            if (!gMarioState->isDead) {
+                bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+                print_set_envcolour(255, 191, 191, alpha);
+                print_small_text_at_slot(WATER_TEXT_X_POS, 2, "Uh oh!  It looks like Mario isn't trying", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                print_small_text_at_slot(WATER_TEXT_X_POS, 1, "hard enough.  Get moving, before Mario", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                print_small_text_at_slot(WATER_TEXT_X_POS, 0, "starts taking damage!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                lock_remaining_text_slots();
+            }
+
             uTutorialTimer++;
             if (uTutorialTimer > 120 && gMarioStationaryTimer > STATIONARY_FREAKOUT_TIME) {
                 gStationaryFirstTime++;
@@ -1170,11 +1174,13 @@ void run_tutorial(void) {
             }           
             break;
         case TUTORIAL_STATIONARY_END:
-            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
-            print_set_envcolour(255, 255, 255, alpha);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 1 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "You will perish if you're caught lounging", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            print_small_text_at_slot(WATER_TEXT_X_POS, 0 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "around.  Do not lose sight of the end goal!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
-            lock_remaining_text_slots();
+            if (!gMarioState->isDead) {
+                bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+                print_set_envcolour(255, 255, 255, alpha);
+                print_small_text_at_slot(WATER_TEXT_X_POS, 1 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "You will perish if you're caught lounging", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                print_small_text_at_slot(WATER_TEXT_X_POS, 0 + (sPowerMeterHUD.animation == POWER_METER_HIDDEN ? 0 : 2), "around.  Do not lose sight of the end goal!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+                lock_remaining_text_slots();
+            }
             if (uTutorialTimer++ >= 120) {
                 alpha = remap(uTutorialTimer, 120, 180, 255, 0);
                 if (uTutorialTimer >= 180) {
