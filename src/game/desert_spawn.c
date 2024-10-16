@@ -776,6 +776,14 @@ void bhv_angry_sun_loop(void) {
         case ANGRY_SUN_ACT_IDLE:
             o->oPosY = approach_f32_asymptotic(o->oPosY, o->oHomeY, 0.10f);
             o->oPosX = approach_f32_asymptotic(o->oPosX, o->oHomeX, 0.10f);
+            if (o->oTimer > 7) {
+                cur_obj_become_tangible();
+                if (cur_obj_check_interacted()) {
+                    o->oNumLootCoins--;
+                }
+            } else {
+                cur_obj_become_intangible();
+            }
 
             if (o->oTimer == 30) {
                 o->oAction = ANGRY_SUN_ACT_CIRCLE;
@@ -812,15 +820,6 @@ void bhv_angry_sun_loop(void) {
                 o->oHealth = 0;
                 obj_die_if_health_non_positive();
             }
-    }
-
-    if (o->oDesertTimer > 7) {
-        cur_obj_become_tangible();
-        if (cur_obj_check_interacted()) {
-            o->oNumLootCoins--;
-        }
-    } else {
-        cur_obj_become_intangible();
     }
     
     Vec3f pos = {o->oPosX, o->oPosY + 600, o->oPosZ};

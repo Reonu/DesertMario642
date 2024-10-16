@@ -1349,7 +1349,7 @@ os16112*/
 #define /*0x1A6*/ oLightLinearFalloff         OBJECT_FIELD_S16(0x47, 1)
 #define /*0x098*/ oLightConstantFalloff       OBJECT_FIELD_S16(0x04, 0)
 
-#define           oDesertTimer                OBJECT_FIELD_U32(0x50)
+#define           oDesertTimerUnused          OBJECT_FIELD_U32(0x50)
 #define           oInstantWarpSpawn           OBJECT_FIELD_S32(0x51)
 #define           oDesertObjValidator         OBJECT_FIELD_U32(0x52)
 #define           oPrimRGB                    OBJECT_FIELD_U32(0x53)

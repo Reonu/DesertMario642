@@ -2664,8 +2664,7 @@ void warp_desert_objects(void) {
         }
 
         if (!gInstantWarpDisplacement || obj->oDesertObjValidator == 0
-                || (obj->oInstantWarpSpawn == 0 && obj->oDesertObjValidator != 0x00000001)
-                || (obj->oDesertTimer == 0 && gCurrLevelNum != LEVEL_DESERT_INTRO)) {
+                || (obj->oInstantWarpSpawn == 0 && obj->oDesertObjValidator != 0x00000001)) {
             continue;
         }
 
