@@ -420,6 +420,8 @@ void bhv_desert_spawn_intro_init(void) {
 
         for (u32 i = 0; i < numSmall; i++) {
             spawn_small_decoration(&newSeed);
+            sRockSpawned = 0;
+            sCactusSpawned = 0;
         }
 
         if (gInstantWarpCounter == -TILES_IN_FRONT_OR_BEHIND - 1) {
