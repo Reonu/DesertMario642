@@ -1798,9 +1798,12 @@ void recover_battery(s32 amt) {
 }
 #ifdef SIMPLEFLIPS_FALLBACK
 u8 sPercentage = 0;
-void warp_mario_to_destination(u16 destination) {
+u8 warp_mario_to_destination(u16 destination) {
     if (gInstantWarpCounter < (destination * INSTANT_WARPS_GOAL / 100)) {
-            gMarioState->pos[2] = -20000.0f;
+        gMarioState->pos[2] = -20000.0f;
+        return FALSE;
+    } else {
+        return TRUE;
     }
 }
 
@@ -1827,7 +1830,9 @@ void render_fallback_menu(void) {
 
     if (active) {
         gWaterTutorialProgress = MAX(gWaterTutorialProgress, 1);
-        warp_mario_to_destination(sPercentage);
+        if (warp_mario_to_destination(sPercentage)) {
+            active = 0;
+        }
         gSimpleflipsFallbackHappening = 1;
     } else {
         gSimpleflipsFallbackHappening = 0;
