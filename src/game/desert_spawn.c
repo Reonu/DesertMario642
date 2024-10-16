@@ -389,9 +389,10 @@ void bhv_desert_spawner_loop(void) {
         } else {
             for (u32 i = 0; i < numSmall; i++) {
                 spawn_small_decoration(&newSeed);
-                sRockSpawned = 0;
-                sCactusSpawned = 0;
             }
+            sRockSpawned = 0;
+            sCactusSpawned = 0;
+
             if (gInstantWarpSpawnIndex == TILES_IN_FRONT_OR_BEHIND + 1) {
                 spawn_billboard(&newSeed);
             } else {
@@ -436,9 +437,9 @@ void bhv_desert_spawn_intro_init(void) {
 
         for (u32 i = 0; i < numSmall; i++) {
             spawn_small_decoration(&newSeed);
-            sRockSpawned = 0;
-            sCactusSpawned = 0;
         }
+        sRockSpawned = 0;
+        sCactusSpawned = 0;
 
         if (gInstantWarpCounter == -TILES_IN_FRONT_OR_BEHIND - 1) {
             spawn_decor_and_rotate(&newSeed, MODEL_DESERT_HOUSE, bhvDesertDecor, NORMAL_ROTATION, 0);
