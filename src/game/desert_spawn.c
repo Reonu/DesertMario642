@@ -759,6 +759,8 @@ void bhv_angry_sun_init(void) {
     o->oPosZ = gMarioState->pos[2];
 
     o->oNumLootCoins = NUM_SUN_CYCLES;
+
+    o->oFC = 0;
 }
 
 void bhv_angry_sun_loop(void) {
@@ -821,6 +823,15 @@ void bhv_angry_sun_loop(void) {
                 obj_die_if_health_non_positive();
             }
     }
+
+    if (o->oFC > 7) {
+        cur_obj_become_tangible();
+        if (cur_obj_check_interacted()) {
+            o->oNumLootCoins--;
+        }
+    } else {
+        cur_obj_become_intangible();
+    }
     
     Vec3f pos = {o->oPosX, o->oPosY + 600, o->oPosZ};
     emit_light(pos, 255, 220, 210, 4, 10, 4, 0);
@@ -829,6 +840,8 @@ void bhv_angry_sun_loop(void) {
         gAngrySunPresent = 0;
         mark_obj_for_deletion(o);
     }
+
+    o->oFC++;
 }
 
 // Jukebox
