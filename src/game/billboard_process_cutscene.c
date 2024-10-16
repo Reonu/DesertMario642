@@ -113,6 +113,7 @@ enum BillboardIDs billboardList[BB_BILLBOARD_END] = {
     [BB_SIGN_CRYPTLYS]           = (u32) BB_IMAGE_CRYPTLYS,
     [BB_SIGN_AXOLLYON]           = (u32) BB_IMAGE_AXOLLYON,
     [BB_SIGN_BANJO]              = (u32) BB_IMAGE_BANJO,
+    [BB_SIGN_MOVERANDO]          = (u32) BB_IMAGE_MOVERANDO,
 
     // TIER 2
     [BB_SIGN_YOUTUBE]            = (u32) BB_IMAGE_YOUTUBE,

@@ -377,6 +377,33 @@ void play_transition_after_delay(s16 transType, s16 time, u8 red, u8 green, u8 b
     play_transition(transType, time, red, green, blue);
 }
 
+static void calculate_play_time(void) {
+    static u32 frameCounter = 0;
+    static char str[64];
+
+    if (gCurrLevelNum == LEVEL_DESERT_INTRO) {
+        frameCounter = 0;
+        return;
+    }
+
+    if (gCurrLevelNum != LEVEL_ENDING) {
+        frameCounter++;
+        return;
+    }
+
+    s32 milliseconds = ((frameCounter % 30) * 100) / 30;
+    s32 seconds = (frameCounter / 30) % 60;
+    s32 minutes = (frameCounter / (30 * 60) % 60);
+    s32 hours = (frameCounter / (30 * 60 * 60));
+
+    print_set_envcolour(0, 0, 0, 255);
+    sprintf(str, "Play Time: %d:%02d:%02d.%02d", hours, minutes, seconds, milliseconds);
+    print_small_text(SCREEN_CENTER_X + 1, 16 + 1, str, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+    print_set_envcolour(255, 255, 255, 255);
+    sprintf(str, "Play Time: <COL_5FFF1F-->%d:%02d:%02d.%02d<COL_-------->", hours, minutes, seconds, milliseconds);
+    print_small_text(SCREEN_CENTER_X, 16, str, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+}
+
 void render_game(void) {
     PROFILER_GET_SNAPSHOT_TYPE(PROFILER_DELTA_COLLISION);
     if (gCurrentArea != NULL && !gWarpTransition.pauseRendering) {
@@ -393,6 +420,7 @@ void render_game(void) {
                       SCREEN_HEIGHT - gBorderHeight);
         render_hud();
         render_title_logo();
+        calculate_play_time();
 
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         render_text_labels();
