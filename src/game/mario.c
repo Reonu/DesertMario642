@@ -1808,9 +1808,9 @@ void render_fallback_menu(void) {
     static u8 active;
     print_text_fmt_int(20, 20, "ENTER PERCENTAGE: %d", sPercentage);
     if (gPlayer1Controller->buttonDown & L_JPAD) {
-        sPercentage -= 1;
+        sPercentage = CLAMP(sPercentage - 1, 0, 100);
     } else if (gPlayer1Controller->buttonDown & R_JPAD) {
-        sPercentage += 1;
+        sPercentage = CLAMP(sPercentage + 1, 0, 100);
     }
     if (!active) {
         print_text(20, 40, "START TO CONFIRM");
