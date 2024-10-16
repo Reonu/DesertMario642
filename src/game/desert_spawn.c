@@ -1600,6 +1600,8 @@ void render_title_logo(void) {
                 print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 - 14, "Logo by", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
                 print_set_envcolour(255, 48, 127, textAlpha);
                 print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 +  2, "Shiru", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(93, 102, 230, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 +  +16, "Discord: Shiruiro", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
                 break;
             case 0x02:
                 print_set_envcolour(191, 191, 191, textAlpha);
@@ -1612,6 +1614,8 @@ void render_title_logo(void) {
                 print_small_text(SCREEN_CENTER_X + (SCREEN_CENTER_X * 3 / 8), SCREEN_HEIGHT * 3 / 4 +  2, "Wiseguy", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
                 print_set_envcolour(255, 48, 127, textAlpha);
                 print_small_text(SCREEN_CENTER_X + (SCREEN_CENTER_X * 3 / 8), SCREEN_HEIGHT * 3 / 4 + 20, "Simpleflips", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+                print_set_envcolour(255, 48, 127, textAlpha);
+                print_small_text(SCREEN_CENTER_X, SCREEN_HEIGHT * 3 / 4 + 38, "CowQuack", TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
                 break;
         }
 
