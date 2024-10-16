@@ -79,6 +79,8 @@ enum SeqId {
     SEQ_SHOP_THEME,                    // 0x42
     SEQ_THE_MEAT_GRINDER,              // 0x43
     SEQ_XBC_MECHONIS_FIELD,            // 0x44
+    SEQ_PKMN_RSE_MT_CHIMNEY,           // 0x45
+    SEQ_MGTT_FOREST_STAR,              // 0x46
 
     SEQ_COUNT,
 };

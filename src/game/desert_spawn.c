@@ -876,6 +876,8 @@ struct DesertSeqs seqsToRandomize[] = {
     {.seqId = SEQ_SHOP_THEME,                       .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Luminator",           .seqName = "Shop Theme"},
     {.seqId = SEQ_THE_MEAT_GRINDER,                 .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "SpK",                 .seqName = "The Meat Grinder"},
     {.seqId = SEQ_XBC_MECHONIS_FIELD,               .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Monolith Soft",       .seqName = "Xenoblade Chronicles (DE): Mechonis Field"},
+    {.seqId = SEQ_PKMN_RSE_MT_CHIMNEY,              .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "ArcticJaguar725",     .seqName = "Pokemon Ruby & Sapphire: Mt. Chimney"},
+    {.seqId = SEQ_MGTT_FOREST_STAR,                 .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "ArcticJaguar725",     .seqName = "Mario Golf (TT): Lakitu Valley 2"},
 };
 u8 lastSeqRandomizedIndex = 0;
 
