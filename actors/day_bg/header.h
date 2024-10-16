@@ -1,11 +1,5 @@
 extern u8 day_bg_cloud_panorama_resized_test2_i8[];
 extern Vtx day_bg_b_clouds_mesh_vtx_cull[8];
-extern Vtx day_bg_b_clouds_mesh_vtx_0[192];
-extern Gfx day_bg_b_clouds_mesh_tri_0[];
-extern Vtx day_bg_b_clouds_mesh_vtx_1[32];
-extern Gfx day_bg_b_clouds_mesh_tri_1[];
-extern Gfx mat_day_bg_bigtexturemode2_layer0[];
-extern Gfx mat_revert_day_bg_bigtexturemode2_layer0[];
-extern Gfx mat_day_bg_solid_purple2_layer0[];
-extern Gfx mat_revert_day_bg_solid_purple2_layer0[];
+extern Vtx day_bg_b_clouds_mesh_vtx_0[144];
+extern Vtx day_bg_b_clouds_mesh_vtx_1[16];
 extern Gfx day_bg_b_clouds_mesh[];
