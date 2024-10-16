@@ -978,15 +978,15 @@ void bhv_jukebox_loop(void) {
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
             gMarioState->inRangeOfWaterSeller = TRUE;
-            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00-->25<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00-->20<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 gShouldResetStationaryTimer = TRUE;
-                if (gMarioState->numCoins >= 25) {
+                if (gMarioState->numCoins >= 20) {
                     if (o->oExclamationMarkObject != NULL) {
                         mark_obj_for_deletion(o->oExclamationMarkObject);
                     }
-                    gMarioState->numCoins -= 25;
+                    gMarioState->numCoins -= 20;
                     o->oAction = JUKEBOX_ACT_CHANGE_SONG;
                 } else {
                     o->oAction = JUKEBOX_ACT_NOT_ENOUGH_COINS;
