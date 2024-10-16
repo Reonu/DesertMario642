@@ -8076,6 +8076,7 @@ layer_jump .layer_env_vengaengine_loop
 sound_ref .sound_bb_chips
 sound_ref .sound_bb_leon
 sound_ref .sound_bb_kaze_endcard
+sound_ref .sound_bb_dachi
 
 .layer_bb_padding:
 layer_delay 0x120 # 3 seconds (in case game lags, don't force volume spike back up)
@@ -8117,6 +8118,19 @@ chan_end
 
 .layer_bb_kaze_endcard:
 layer_note1 39, 0x81a, 127
+layer_jump .layer_bb_padding
+
+.sound_bb_dachi:
+chan_setbank 0
+chan_setinstr 9
+chan_setenvelope .envelope_stream
+chan_setval 12
+chan_call .set_reverb
+chan_setlayer 0, .layer_bb_dachi
+chan_end
+
+.layer_bb_dachi:
+layer_note1 39, 0x379, 127
 layer_jump .layer_bb_padding
 
 

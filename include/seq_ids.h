@@ -73,6 +73,12 @@ enum SeqId {
     SEQ_NSANITY_ISLAND,                // 0x3C
     SEQ_SONIC_DROWNING,                // 0x3D
     SEQ_SM64DS_CASINO,                 // 0x3E
+    SEQ_GRASS_N_SEAS,                  // 0x3F
+    SEQ_POP_N_BUBBLE_INC,              // 0x40
+    SEQ_SELECT_YOUR_LEVEL,             // 0x41
+    SEQ_SHOP_THEME,                    // 0x42
+    SEQ_THE_MEAT_GRINDER,              // 0x43
+    SEQ_XBC_MECHONIS_FIELD,            // 0x44
 
     SEQ_COUNT,
 };

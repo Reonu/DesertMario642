@@ -870,7 +870,13 @@ struct DesertSeqs seqsToRandomize[] = {
     {.seqId = SEQ_CHINATOWN,                        .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Katana Zero: Chinatown"},
     {.seqId = SEQ_FROM_RUSSIA_WITH_LOVE,            .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "From Russia With Love"},
     {.seqId = SEQ_NSANITY_ISLAND,                   .isPort = TRUE,  .hasRandomized = FALSE, .seqAuthor = "Teraok",              .seqName = "Crash Twinsanity: N. Sanity Island"},
-};  
+    {.seqId = SEQ_GRASS_N_SEAS,                     .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Luminator",           .seqName = "Grass N Seas"},
+    {.seqId = SEQ_POP_N_BUBBLE_INC,                 .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Luminator",           .seqName = "Pop N Bubble Inc."},
+    {.seqId = SEQ_SELECT_YOUR_LEVEL,                .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "SpK",                 .seqName = "Select Your Level"},
+    {.seqId = SEQ_SHOP_THEME,                       .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Luminator",           .seqName = "Shop Theme"},
+    {.seqId = SEQ_THE_MEAT_GRINDER,                 .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "SpK",                 .seqName = "The Meat Grinder"},
+    {.seqId = SEQ_XBC_MECHONIS_FIELD,               .isPort = FALSE, .hasRandomized = FALSE, .seqAuthor = "Monolith Soft",       .seqName = "Xenoblade Chronicles (DE): Mechonis Field"},
+};
 u8 lastSeqRandomizedIndex = 0;
 
 static u32 jukebox_generate_randomized_track(void) {
