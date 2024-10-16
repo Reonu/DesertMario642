@@ -1826,6 +1826,7 @@ void render_fallback_menu(void) {
     }
 
     if (active) {
+        gWaterTutorialProgress = MAX(gWaterTutorialProgress, 1);
         warp_mario_to_destination(sPercentage);
         gSimpleflipsFallbackHappening = 1;
     } else {
@@ -1894,7 +1895,7 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         fallbackCounter = 0;
     }
 
-    if (fallbackCounter > 60) {
+    if (fallbackCounter >= 60) {
         render_fallback_menu();
         if (gPlayer1Controller->buttonPressed & D_JPAD) {
             fallbackCounter = 0;
