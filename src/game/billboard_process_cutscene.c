@@ -476,8 +476,8 @@ void update_bb_count(void) {
         }
     }
 
-    print_text_fmt_int(16, 32, "%d", bbs);
-    print_text_fmt_int(16, 16, "%d", videos);
+    print_text_fmt_int(16, 150, "%d", bbs);
+    print_text_fmt_int(16, 130, "%d", videos);
 }
 #endif
 
