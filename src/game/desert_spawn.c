@@ -353,7 +353,7 @@ void bhv_desert_spawner_init(void) {
     sBusAlreadySpawned = 0;
 }
 
-#define GAS_STATION_SPAWN_INTERVAL 25
+#define GAS_STATION_SPAWN_INTERVAL 45
 #define RGB_HOUSE_WARPS ((s32) (INSTANT_WARPS_GOAL * 0.5f))
 #define FUNNY_BUS_WARPS  ((s32) (INSTANT_WARPS_GOAL * 0.667f))
 void bhv_desert_spawner_loop(void) {
@@ -586,7 +586,7 @@ enum KoopaWaterSellerAction {
 
 #define SELLER_MAX_DISTANCE 400.f
 
-#define WATER_PRICE 10
+#define WATER_PRICE 3
 #define BATTERY_PRICE 10
 
 void bhv_koopa_water_seller_set_exclamation_mark(void) {
@@ -631,7 +631,7 @@ void bhv_koopa_water_seller_idle(void) {
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00-->10<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00-->3<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
@@ -640,7 +640,7 @@ void bhv_koopa_water_seller_offer_water(void) {
                     mark_obj_for_deletion(o->oExclamationMarkObject);
                 }
                 gMarioState->numCoins -= WATER_PRICE;
-                gMarioState->waterLeft = MAX_WATER;
+                gMarioState->waterLeft = MIN(gMarioState->waterLeft + 1, MAX_WATER);
                 o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
             } else {
                 o->oAction = KOOPA_SELLER_NOT_ENOUGH_COINS;
@@ -676,8 +676,8 @@ void bhv_koopa_water_seller_offer_battery(void) {
 }
 
 void bhv_koopa_water_seller_thank_you(void) {
-    if (o->oDistanceToMario < 500.f) {
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Thank you for your business!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+    if (o->oDistanceToMario < 500.f && (o->oTimer < 20)) {
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Thank you!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
     } else {
         o->oAction = KOOPA_WATER_SELLER_IDLE;
@@ -954,7 +954,10 @@ static u32 jukebox_generate_randomized_track(void) {
     assert(FALSE, "Theoretically impossible randomized sequence!");
     return 0;
 }
-
+#define xstr(a) str(a)
+#define str(a) #a
+#define JUKEBOX_PRICE 15
+#define JUKEBOX_PRICE_STR xstr(JUKEBOX_PRICE)
 enum JukeboxActions {
     JUKEBOX_ACT_IDLE,
     JUKEBOX_ACT_SHOW_PROMPT,
@@ -1007,15 +1010,15 @@ void bhv_jukebox_loop(void) {
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
             gMarioState->inRangeOfWaterSeller = TRUE;
-            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00-->20<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00--> "JUKEBOX_PRICE_STR" <COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 gShouldResetStationaryTimer = TRUE;
-                if (gMarioState->numCoins >= 20) {
+                if (gMarioState->numCoins >= JUKEBOX_PRICE) {
                     if (o->oExclamationMarkObject != NULL) {
                         mark_obj_for_deletion(o->oExclamationMarkObject);
                     }
-                    gMarioState->numCoins -= 20;
+                    gMarioState->numCoins -= JUKEBOX_PRICE;
                     o->oAction = JUKEBOX_ACT_CHANGE_SONG;
                 } else {
                     o->oAction = JUKEBOX_ACT_NOT_ENOUGH_COINS;

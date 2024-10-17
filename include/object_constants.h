@@ -2724,7 +2724,7 @@ enum gCutsceneObjSpawns {
 #define INSTANT_WARP_FORWARDS 1
 #define INSTANT_WARP_BACKWARDS 2
 
-#define MAX_WATER 3
+#define MAX_WATER 4
 
 #define MINUTES_TO_FRAMES(t) (s32)(60 * 30 * (t))
 

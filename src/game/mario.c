@@ -1913,6 +1913,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
     }
 #endif
+#ifdef DESERT_DEBUG
+    print_text_fmt_int(20,20,"%d", gInstantWarpCounter);
+#endif
+
     if ((gPlayer1Controller-> buttonPressed & L_TRIG) && (gMarioState->action != ACT_DRINKING_WATER) && (gMarioState->action != ACT_DRINKING_WATER_FAIL)) {
         if ((gMarioState->batteryMeter > 0) && (gNightFirstTime > 0)) {
             gMarioState->flashlightOn ^= 1;
@@ -2185,7 +2189,7 @@ void init_mario(void) {
     gMarioState->usedObj = NULL;
 
     gMarioState->hydrationMeter = 0;
-    gMarioState->waterLeft = 3;
+    gMarioState->waterLeft = MAX_WATER - 1;
     gMarioState->batteryMeter = MAX_BATTERIES;
 
     gMarioState->inRangeOfWaterSeller = FALSE;

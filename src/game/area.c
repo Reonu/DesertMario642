@@ -388,7 +388,9 @@ static void calculate_play_time(void) {
 
     if (gCurrLevelNum != LEVEL_ENDING) {
         frameCounter++;
+        #ifndef DESERT_DEBUG
         return;
+        #endif
     }
 
     s32 milliseconds = ((frameCounter % 30) * 100) / 30;
