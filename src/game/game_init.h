@@ -77,6 +77,7 @@ extern u8 gEnteredGasStationOnce;
 #ifdef SIMPLEFLIPS_FALLBACK
 extern u8 gSimpleflipsFallbackHappening;
 #endif
+extern u8 gInflation;
 extern u16 gVisitedAreas;
 extern s32 gInstantWarpDisplacement;
 extern u16 gLow;

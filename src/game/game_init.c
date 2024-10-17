@@ -100,6 +100,7 @@ u8 gEnteredGasStationOnce;
 #ifdef SIMPLEFLIPS_FALLBACK
 u8 gSimpleflipsFallbackHappening;
 #endif
+u8 gInflation = 0;;
 u16 gVisitedAreas;
 s32 gInstantWarpDisplacement;
 u16 gLow;

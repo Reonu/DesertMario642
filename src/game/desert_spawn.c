@@ -589,7 +589,7 @@ enum KoopaWaterSellerAction {
 
 #define SELLER_MAX_DISTANCE 400.f
 
-#define WATER_PRICE 3
+#define WATER_PRICE 5
 #define WATER_PRICE_STR xstr(WATER_PRICE)
 #define BATTERY_PRICE 15
 #define BATTERY_PRICE_STR xstr(BATTERY_PRICE)
@@ -636,15 +636,18 @@ void bhv_koopa_water_seller_idle(void) {
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00--> "WATER_PRICE_STR" <COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        u8 price = gInflation ? WATER_PRICE + 1 : WATER_PRICE;
+        char waterText[128];
+        sprintf(waterText, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00--> %d <COL_--------> coins.", price);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, waterText, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
-            if (gMarioState->numCoins >= WATER_PRICE) {
+            if (gMarioState->numCoins >= price) {
                 if (o->oExclamationMarkObject != NULL) {
                     mark_obj_for_deletion(o->oExclamationMarkObject);
                 }
-                gMarioState->numCoins -= WATER_PRICE;
+                gMarioState->numCoins -= price;
                 gMarioState->waterLeft = MIN(gMarioState->waterLeft + 1, MAX_WATER);
                 o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
             } else {
@@ -660,15 +663,18 @@ void bhv_koopa_water_seller_offer_water(void) {
 void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for <COL_FFFF00--> "BATTERY_PRICE_STR" <COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        u8 price = gInflation ? BATTERY_PRICE + 1 : BATTERY_PRICE;
+        char batteryText[128];
+        sprintf(batteryText, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for <COL_FFFF00--> %d <COL_--------> coins.", price);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, batteryText, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
-            if (gMarioState->numCoins >= BATTERY_PRICE) {
+            if (gMarioState->numCoins >= price) {
                 if (o->oExclamationMarkObject != NULL) {
                     mark_obj_for_deletion(o->oExclamationMarkObject);
                 }
-                gMarioState->numCoins -= BATTERY_PRICE;
+                gMarioState->numCoins -= price;
                 gMarioState->batteryMeter = MAX_BATTERIES;
                 o->oAction = KOOPA_WATER_SELLER_THANK_YOU;
             } else {
@@ -690,7 +696,7 @@ void bhv_koopa_water_seller_thank_you(void) {
 }
 
 void bhv_koopa_water_seller_water_full(void) {
-    if (o->oDistanceToMario < 500.f) {
+    if (o->oDistanceToMario < 500.f && gMarioState->waterLeft >= MAX_WATER) {
         print_small_text_at_slot(WATER_TEXT_X_POS, 1, "You can't carry any more water!", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
     } else {
@@ -1014,7 +1020,10 @@ void bhv_jukebox_loop(void) {
             break;
         case JUKEBOX_ACT_SHOW_PROMPT:
             gMarioState->inRangeOfWaterSeller = TRUE;
-            print_small_text_at_slot(20, 0, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00--> "JUKEBOX_PRICE_STR" <COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            u8 price = gInflation ? JUKEBOX_PRICE + 1 : JUKEBOX_PRICE;
+            char jukeboxMessage[128];
+            sprintf(jukeboxMessage, "Press <COL_1FFF1F-->B<COL_--------> to play a random song for <COL_FFFF00--> %d <COL_--------> coins.", price);
+            print_small_text_at_slot(20, 0, jukeboxMessage, TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 gShouldResetStationaryTimer = TRUE;
@@ -1149,6 +1158,7 @@ enum TutorialSteps {
     TUTORIAL_STATIONARY_END,
     TUTORIAL_FLASHLIGHT_START,
     TUTORIAL_FLASHLIGHT_END,
+    TUTORIAL_INFLATION,
     TUTORIAL_DONE,
 };
 
@@ -1171,6 +1181,9 @@ void choose_tutorial(void) {
         sCurrentTutorial = TUTORIAL_FLASHLIGHT_START;
     } else if (gNightFirstTime == 2) {
         sCurrentTutorial = TUTORIAL_FLASHLIGHT_END;
+    } else if (gInstantWarpCounter > (INSTANT_WARPS_GOAL / 2) && gMarioCurrentRoom == 2 && gInflation < 2 ){
+        gInflation = 1;
+        sCurrentTutorial = TUTORIAL_INFLATION;
     } else {
         sCurrentTutorial = TUTORIAL_DONE;
     }
@@ -1310,6 +1323,22 @@ void run_tutorial(void) {
                 if (uTutorialTimer >= 210) {
                     gNightFirstTime++;
                     uTutorialTimer = 0;
+                }
+            } else {
+                alpha = 255;
+            }
+            break;
+        case TUTORIAL_INFLATION:
+            bzero(gCurrEnvCol, sizeof(gCurrEnvCol));
+            print_set_envcolour(255, 255, 255, alpha);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Due to inflation, prices have risen", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            print_small_text_at_slot(WATER_TEXT_X_POS, 0, "by 1 coin since your last visit.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+            lock_remaining_text_slots();
+            if (uTutorialTimer++ >= 150) {
+                alpha = remap(uTutorialTimer, 150, 210, 255, 0);
+                if (uTutorialTimer >= 210) {
+                    gInflation = 2;
+                    sCurrentTutorial = TUTORIAL_DONE;
                 }
             } else {
                 alpha = 255;

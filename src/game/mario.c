@@ -2069,7 +2069,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         warpCounter = 0;
     }*/
 #endif
-
     if (gCurrLevelNum == LEVEL_DESERT) {
         run_tutorial(); 
     }
