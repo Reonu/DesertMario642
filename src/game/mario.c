@@ -2005,10 +2005,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         Vec3f flashLightPos2 = {flashLightPosX2, gMarioState->pos[1] + 700.0f, flashLightPosZ2};
         u8 lightIntensity;
 
-        if (gMarioState->batteryMeter >= (MAX_BATTERIES / 2)) {
+        if (gMarioState->batteryMeter >= (MAX_BATTERIES * 0.10f)) {
             lightIntensity = 255;
         } else {
-            lightIntensity = remap(gMarioState->batteryMeter, 0, (MAX_BATTERIES / 2), 0, 255);
+            lightIntensity = remap(gMarioState->batteryMeter, 0, (MAX_BATTERIES * 0.10f), 0, 255);
         }
 
         emit_light(flashLightPos, lightIntensity, lightIntensity, lightIntensity, 1, 25, 8, 0);
