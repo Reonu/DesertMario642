@@ -46,6 +46,9 @@
 #include "game/emutest.h"
 #include "game/obj_behaviors_2.h"
 
+#define xstr(a) str(a)
+#define str(a) #a
+
 extern void obj_die_if_health_non_positive(void);
 
 u8 sRockSpawned = 0;
@@ -513,7 +516,7 @@ void bhv_desert_decor_loop(void) {
         u8 intensity = random_in_range(&newSeed, 16) + 240;
         Vec3f pos = {0,0,0};
         if (o->os16F4) {
-            pos[0] = o->oPosX - 150;
+            pos[0] = o->oPosX - 200;
             pos[1] = o->oPosY + 800;
             if (bhv_flip_desert_object(o, offset) == TRUE) {
                 pos[2] = o->oPosZ - 400;
@@ -522,7 +525,7 @@ void bhv_desert_decor_loop(void) {
             }
             
         } else {
-            pos[0] = o->oPosX + 150;
+            pos[0] = o->oPosX + 200;
             pos[1] = o->oPosY + 800;
             if (bhv_flip_desert_object(o, offset) == TRUE) {
                 pos[2] = o->oPosZ - 400;
@@ -530,7 +533,7 @@ void bhv_desert_decor_loop(void) {
                 pos[2] = o->oPosZ + 400;
             }
         }
-        emit_light(pos, intensity, intensity, intensity, 4, 50, 8, 0);
+        emit_light(pos, intensity, intensity, intensity, 4, 41, 8, 0);
     } else if (o->behavior == segmented_to_virtual(bhvGasStation)) {
         if (gMarioState->action != ACT_SPECIAL_KB_BUS) {
 		    load_object_collision_model();
@@ -587,7 +590,9 @@ enum KoopaWaterSellerAction {
 #define SELLER_MAX_DISTANCE 400.f
 
 #define WATER_PRICE 3
-#define BATTERY_PRICE 10
+#define WATER_PRICE_STR xstr(WATER_PRICE)
+#define BATTERY_PRICE 15
+#define BATTERY_PRICE_STR xstr(BATTERY_PRICE)
 
 void bhv_koopa_water_seller_set_exclamation_mark(void) {
     o->oAction = KOOPA_WATER_SELLER_IDLE;
@@ -631,7 +636,7 @@ void bhv_koopa_water_seller_idle(void) {
 void bhv_koopa_water_seller_offer_water(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00-->3<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy water for <COL_FFFF00--> "WATER_PRICE_STR" <COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
@@ -655,7 +660,7 @@ void bhv_koopa_water_seller_offer_water(void) {
 void bhv_koopa_water_seller_offer_battery(void) {
     if (bhv_koopa_water_seller_update_range() == TRUE) {
         gMarioState->inRangeOfWaterSeller = TRUE;
-        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for <COL_FFFF00-->10<COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
+        print_small_text_at_slot(WATER_TEXT_X_POS, 1, "Press <COL_1FFF1F-->B<COL_--------> to buy batteries for <COL_FFFF00--> "BATTERY_PRICE_STR" <COL_--------> coins.", TEXT_ALIGN_LEFT, PRINT_ALL, FONT_DEFAULT);
         lock_remaining_text_slots();
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             gShouldResetStationaryTimer = TRUE;
@@ -954,9 +959,8 @@ static u32 jukebox_generate_randomized_track(void) {
     assert(FALSE, "Theoretically impossible randomized sequence!");
     return 0;
 }
-#define xstr(a) str(a)
-#define str(a) #a
-#define JUKEBOX_PRICE 15
+
+#define JUKEBOX_PRICE 18
 #define JUKEBOX_PRICE_STR xstr(JUKEBOX_PRICE)
 enum JukeboxActions {
     JUKEBOX_ACT_IDLE,
