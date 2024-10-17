@@ -45,6 +45,7 @@ void bhv_pokey_body_part_update(void) {
     // PARTIAL_UPDATE
 
     if (o->parentObj == NULL || o->parentObj->activeFlags == ACTIVE_FLAG_DEACTIVATED || !obj_has_behavior(o->parentObj, bhvPokey)) {
+        obj_die_if_health_non_positive();
         obj_mark_for_deletion(o);
         return;
     }
