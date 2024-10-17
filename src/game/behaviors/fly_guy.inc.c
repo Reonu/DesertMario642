@@ -1,5 +1,6 @@
 
 #include "game/level_update.h"
+#include "engine/math_util.h"
 /**
  * Behavior for bhvFlyGuy.
  */
@@ -70,16 +71,16 @@ static void fly_guy_act_approach_mario(void) {
         // If facing toward mario and we are either near mario laterally or
         // far above him
         if (abs_angle_diff(o->oAngleToMario, o->oFaceAngleYaw) < 0x2000
-            && (o->oPosY - gMarioObject->oPosY > 400.0f || o->oDistanceToMario < 400.0f)) {
+            && (o->oPosY - gMarioObject->oPosY > 400.0f || o->oDistanceToMario < 700.0f)) {
             // Either shoot fire or lunge
-            if (FALSE) {
+            if (random_u16() % 2) {
                 o->oAction = FLY_GUY_ACT_SHOOT_FIRE;
                 o->oFlyGuyScaleVel = 0.06f;
             } else {
                 o->oAction = FLY_GUY_ACT_LUNGE;
                 o->oFlyGuyLungeTargetPitch = obj_turn_pitch_toward_mario(-200.0f, 0);
 
-                o->oForwardVel = 25.0f * coss(o->oFlyGuyLungeTargetPitch);
+                o->oForwardVel = 30.0f * coss(o->oFlyGuyLungeTargetPitch);
                 o->oVelY = 25.0f * -sins(o->oFlyGuyLungeTargetPitch);
                 o->oFlyGuyLungeYDecel = -o->oVelY / 30.0f;
             }
@@ -217,8 +218,8 @@ void bhv_fly_guy_update(void) {
         o->oHomeY = 300;
         o->oHomeZ = o->oPosZ;
 
-        if (o->oDistanceToMario > 800.f && (o->oPosZ < gMarioState->pos[2])) {
-            o->oPosY = 300.f;
+        if (o->oDistanceToMario > 1400.f && (o->oPosZ < gMarioState->pos[2])) {
+            o->oPosY = approach_f32_asymptotic(o->oPosY, 300.f, 0.2f);
             o->oPosZ += 20.f;
         }
         copy_mario_x_position(o, 0.055, 800.f);
