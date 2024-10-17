@@ -223,5 +223,6 @@ void bhv_fly_guy_update(void) {
         }
         copy_mario_x_position(o, 0.055, 800.f);
         o->oNumLootCoins = 2;
+        delete_if_mario_in_gas_station(o);
     }
 }
