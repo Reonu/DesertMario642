@@ -9,7 +9,7 @@ static struct ObjectHitbox sKleptoHitbox = {
     /* downOffset:        */ 0,
     /* damageOrCoinValue: */ 0,
     /* health:            */ 1,
-    /* numLootCoins:      */ 2,
+    /* numLootCoins:      */ 3,
     /* radius:            */ 160,
     /* height:            */ 250,
     /* hurtboxRadius:     */ 80,
