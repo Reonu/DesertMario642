@@ -1081,7 +1081,7 @@ s32 play_mode_normal(void) {
     }
 #endif
     if (!(gTimeStopState & TIME_STOP_ENABLED)) {
-        gUnpausedTimer += SECOND * 5;
+        gUnpausedTimer += SECOND * 2;
         if (gUnpausedTimer >= DAY) {
             gUnpausedTimer = gUnpausedTimer - DAY;
         }
