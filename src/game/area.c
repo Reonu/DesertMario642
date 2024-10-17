@@ -380,6 +380,7 @@ void play_transition_after_delay(s16 transType, s16 time, u8 red, u8 green, u8 b
 static void calculate_play_time(void) {
     static u32 frameCounter = 0;
     static char str[64];
+    static u16 creditCounter = 0;
 
     if (gCurrLevelNum == LEVEL_DESERT_INTRO) {
         frameCounter = 0;
@@ -404,6 +405,29 @@ static void calculate_play_time(void) {
     print_set_envcolour(255, 255, 255, 255);
     sprintf(str, "Play Time: <COL_5FFF1F-->%d:%02d:%02d.%02d<COL_-------->", hours, minutes, seconds, milliseconds);
     print_small_text(SCREEN_CENTER_X, 16, str, PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+
+    if (creditCounter++ < 600) {
+        static u16 alpha;
+        if (creditCounter < 450) {
+            alpha = 255;
+        } else { 
+            if (alpha > 1) {
+                alpha -= 2;
+            } else {
+                alpha = 0;
+            }
+            
+        }
+        print_set_envcolour(0, 0, 0, alpha);
+        print_small_text(SCREEN_CENTER_X + 1, 200 + 1, "Mario voice: furyiousfight", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+        print_set_envcolour(255, 255, 255, alpha);
+        print_small_text(SCREEN_CENTER_X, 200, "Mario voice: <COL_5FFF1F-->furyiousfight<COL_-------->", PRINT_TEXT_ALIGN_CENTER, PRINT_ALL, FONT_DEFAULT);
+    }
+
+    if (creditCounter > 601) {
+        creditCounter = 601;
+    }
+
 }
 
 void render_game(void) {
