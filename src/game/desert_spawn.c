@@ -1027,11 +1027,11 @@ void bhv_jukebox_loop(void) {
             lock_remaining_text_slots();
             if (gPlayer1Controller->buttonPressed & B_BUTTON) {
                 gShouldResetStationaryTimer = TRUE;
-                if (gMarioState->numCoins >= JUKEBOX_PRICE) {
+                if (gMarioState->numCoins >= price) {
                     if (o->oExclamationMarkObject != NULL) {
                         mark_obj_for_deletion(o->oExclamationMarkObject);
                     }
-                    gMarioState->numCoins -= JUKEBOX_PRICE;
+                    gMarioState->numCoins -= price;
                     o->oAction = JUKEBOX_ACT_CHANGE_SONG;
                 } else {
                     o->oAction = JUKEBOX_ACT_NOT_ENOUGH_COINS;
