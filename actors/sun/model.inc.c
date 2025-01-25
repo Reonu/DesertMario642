@@ -546,7 +546,7 @@ Gfx mat_sun_sun_001_layer5[] = {
 	gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0),
 	gsDPSetAlphaDither(G_AD_NOISE),
 	gsDPSetDepthSource(G_ZS_PRIM),
-	gsDPSetPrimDepth(-1, 0),
+	gsDPSetPrimDepth(0x7FFE, 0),
 	gsDPSetRenderMode(G_RM_AA_ZB_XLU_SURF, G_RM_AA_ZB_XLU_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetPrimColor(0, 0, 255, 246, 186, 255),
